@@ -14,7 +14,7 @@ const nextConfig = {
     return [
       {
         source: '/backoffice/:path*',
-        destination: 'http://192.168.0.20:40005/:path*',
+        destination: 'http://cdbackoffice.gate26.co.kr/:path*',
       },
     ];
   },
