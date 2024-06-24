@@ -46,7 +46,7 @@ function MainHeader() {
           pl={'10px'}
           pr={'5px'}
         >
-          파트너사님 반갑습니다.
+          관리자님 반갑습니다.
         </Text>
         <Image
           src={'/images/header/icon_arrow_down.png'}
