@@ -24,6 +24,7 @@ import FilterBox from './FilterBox';
 
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
 
 interface Props {
   request: GoodsListParamGetType;
@@ -33,6 +34,11 @@ interface Props {
 function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
   const { setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [search, setSearch] = useState('');
+  const {
+    GoodsSettingFilterInfo,
+    setGoodsSettingFilterInfo,
+    deleteGoodsSettingFilterInfo,
+  } = useGoodsSettingFilterZuInfo((state) => state);
   return (
     <Flex
       bgColor={ColorGray50}
@@ -67,6 +73,7 @@ function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
               searchKeyword: '',
               searchType: '',
             });
+            deleteGoodsSettingFilterInfo();
             setOnSubmit(true);
           }}
           borderColor={ColorGrayBorder}
@@ -86,6 +93,19 @@ function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
           px="67px"
           onClick={() => {
             // setOnSubmit(true);
+            setGoodsSettingFilterInfo({
+              ...GoodsSettingFilterInfo,
+              pageNo: request.pageNo !== undefined ? request.pageNo : 0,
+              searchType:
+                request.searchType !== undefined ? request.searchType : '',
+              searchKeyword:
+                request.searchKeyword !== undefined
+                  ? request.searchKeyword
+                  : '',
+              status: request.status !== undefined ? request.status : 0,
+              level: request.level !== undefined ? request.level : 0,
+              forSale: request.forSale !== undefined ? request.forSale : 0,
+            });
             setGoodsInfo({
               goodState: true,
             });

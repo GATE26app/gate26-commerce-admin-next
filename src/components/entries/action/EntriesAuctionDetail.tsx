@@ -96,7 +96,6 @@ function EntriesAuctionDetail() {
     },
   );
 
-  console.log('detailData', detailData);
   useEffect(() => {
     if (detailData?.success == true) {
       setGetEntriesData(detailData.data);
@@ -144,7 +143,6 @@ function EntriesAuctionDetail() {
       entryId: Number(getEntryId),
     };
     optionModifyMutate(obj);
-    // console.log('title', getValues('title'));
   };
   useEffect(() => {
     setLoadingModal(isLoading);

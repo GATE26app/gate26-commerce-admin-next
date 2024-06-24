@@ -114,7 +114,6 @@ function GoodsCard({
     //       deleteMutate(body);
 
     //       // setOnSubmit(true);
-    //       // console.log('vvvvv');
     //       // setSelectState(type);
     //       // removeAdminInfo(row.userId as string);
     //     },

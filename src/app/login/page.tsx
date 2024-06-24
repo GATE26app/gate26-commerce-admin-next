@@ -18,7 +18,7 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
-import { setToken, setUserInfo } from '@/utils/localStorage/token';
+import { getToken, setToken, setUserInfo } from '@/utils/localStorage/token';
 import { usePostLoginMutation } from '../apis/auth/AuthApi.mutation';
 
 import { useUserZuInfo } from '@/_store/UserZuInfo';
@@ -40,7 +40,7 @@ function page() {
   const [checkbox, setCheckbox] = useState<boolean>(true);
   const [modal, setModal] = useState<boolean>(false);
   const toggleCheckbox = () => setCheckbox(!checkbox);
-  const { setUserZuInfo } = useUserZuInfo((state) => state);
+  const { setUserZuInfo, userZuInfo } = useUserZuInfo((state) => state);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   const { mutate: loginMutate, isLoading } = usePostLoginMutation({
@@ -52,14 +52,11 @@ function page() {
             access: data?.accessToken ? data?.accessToken : '',
             refresh: data?.refreshToken ? data?.refreshToken : '',
           };
-          console.log('data', data.accessToken);
           setToken(param);
           setUserZuInfo({
             accessToken: data?.accessToken ? data?.accessToken : '',
             refreshToken: data?.refreshToken ? data?.refreshToken : '',
           });
-
-          console.log('로그인');
           router.push('/');
           setErrorMsg('');
         } else {

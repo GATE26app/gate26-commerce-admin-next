@@ -22,7 +22,6 @@ interface Props {
 }
 
 function EntriesStateComponent({ data }: Props) {
-  console.log('data,', data);
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex

@@ -21,6 +21,7 @@ import GoodsDataTable from './list/GoodsDataTable';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
 
 // import { useCustomModalHandlerContext } from 'contexts/modal/useCustomModalHandler.context';
 
@@ -46,6 +47,8 @@ function GoodsListComponet({
   isLoading,
 }: Props) {
   const router = useRouter();
+  const { GoodsSettingFilterInfo, setGoodsSettingFilterInfo } =
+    useGoodsSettingFilterZuInfo((state) => state);
   const { setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const paginationProps = {
     currentPage: request.pageNo,
@@ -65,6 +68,10 @@ function GoodsListComponet({
       // setPage(value as number);
       newRequest.pageNo = Number(value);
       router.push(`/goodsSetting?page=${Number(value) + 1}`);
+      setGoodsSettingFilterInfo({
+        ...GoodsSettingFilterInfo,
+        pageNo: Number(value),
+      });
       // router.push(`/entries/first?page=${Number(value)}`);
     }
 

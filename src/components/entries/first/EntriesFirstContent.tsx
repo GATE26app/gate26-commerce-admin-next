@@ -96,8 +96,6 @@ function EntriesFirstContent() {
   const { mutate: refreshList, isLoading } = useGetListMutation({
     options: {
       onSuccess: (res) => {
-        console.log('res.', res);
-        console.log('data.', res.data);
         setList(res.data);
         setGoodsInfo({
           entryState: false,
@@ -112,7 +110,6 @@ function EntriesFirstContent() {
     if (goodsInfo.entryState) refreshList(request);
   }, [goodsInfo.entryState]);
 
-  console.log('search', search);
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
       // enter 했을 때의 코드 작성
@@ -131,7 +128,6 @@ function EntriesFirstContent() {
       // if(e.keyCode === 13) 도 사용가능하다.
     }
   };
-  console.log('search', search);
   return (
     <Box mt={'40px'}>
       <Flex flexDirection={'row'} justifyContent={'space-between'}>

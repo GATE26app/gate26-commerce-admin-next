@@ -10,12 +10,20 @@ import {
   ColorWhite,
 } from '@/utils/_Palette';
 import { useRouter } from 'next/navigation';
+import { useUserZuInfo } from '@/_store/UserZuInfo';
+import { deleteToken } from '@/utils/localStorage/token';
 
 function MainHeader() {
   const router = useRouter();
   const [alram, setAlram] = useState(false);
   const [chat, setChat] = useState(false);
   const [logout, setLogout] = useState(false);
+  const { deleteUserZuInfo } = useUserZuInfo((state) => state);
+  const onLogout = () => {
+    deleteUserZuInfo();
+    deleteToken();
+    router.push('/login');
+  };
   return (
     <Flex
       justifyContent={'flex-end'}
@@ -66,7 +74,7 @@ function MainHeader() {
             px={'20px'}
             py={'10px'}
             borderRadius={'8px'}
-            onClick={() => router.push('/login')}
+            onClick={() => onLogout()}
           >
             <Text>로그아웃</Text>
           </Flex>

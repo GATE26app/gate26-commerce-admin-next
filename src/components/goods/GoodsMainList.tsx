@@ -8,30 +8,31 @@ import { getToken } from '@/utils/localStorage/token';
 import { useSearchParams } from 'next/navigation';
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
 import { usePostListMutation } from '@/app/apis/goods/GoodsApi.mutation';
+import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
 function GoodsMainList() {
+  const { GoodsSettingFilterInfo, setGoodsSettingFilterInfo } =
+    useGoodsSettingFilterZuInfo((state) => state);
   const toast = useToast();
-  const searchParams = useSearchParams();
-  const getPage = searchParams.get('page');
+  // const searchParams = useSearchParams();
+  // const getPage = searchParams.get('page');
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [filter, setFilter] = useState(true);
   const [list, setList] = useState();
   const [onSubmit, setOnSubmit] = useState(true);
   const [request, setRequest] = useState<GoodsListParamGetType>({
-    pageNo: getPage !== null ? Number(getPage) - 1 : 0,
-    pageSize: 10,
-    status: null,
-    level: 0,
-    forSale: 0,
-    searchKeyword: '',
-    searchType: '',
+    pageNo: GoodsSettingFilterInfo.pageNo,
+    pageSize: GoodsSettingFilterInfo.pageSize,
+    status: GoodsSettingFilterInfo.status, //0=>오픈예정, 1=>진행중, 2=>종료
+    level: GoodsSettingFilterInfo.level, //1=>노출, 2=>미노출
+    forSale: GoodsSettingFilterInfo.forSale, //1=>선착순, 2=>추첨 , 0 =>당첨자조회
+    searchType: GoodsSettingFilterInfo.searchType,
+    searchKeyword: GoodsSettingFilterInfo.searchKeyword,
     partnerId: '',
     // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
   });
   const { mutate: refreshList, isLoading } = usePostListMutation({
     options: {
       onSuccess: (res) => {
-        console.log('res.', res);
-        console.log('data.', res.data);
         setList(res.data);
         setGoodsInfo({
           goodState: false,
@@ -52,7 +53,6 @@ function GoodsMainList() {
         ),
       });
     } else {
-      console.log('vvvv');
       refreshList(request);
     }
   };

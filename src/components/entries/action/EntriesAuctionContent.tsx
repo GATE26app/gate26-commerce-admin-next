@@ -86,8 +86,6 @@ function EntriesAuctionContent() {
   const { mutate: refreshList, isLoading } = useGetListMutation({
     options: {
       onSuccess: (res) => {
-        console.log('res.', res);
-        console.log('data.', res.data);
         setList(res.data);
         setGoodsInfo({
           entryState: false,

@@ -96,7 +96,6 @@ const Logout = async () => {
   } else if (common.checkUserAgent() === 'android') {
     (window as any).android?.logout();
   } else {
-    console.log('로그아웃');
     window.location.href = '/login';
   }
 };
@@ -165,7 +164,6 @@ instance.interceptors.response.use(
     if (isUnAuthError) {
       console.log(!getToken().refresh);
       if (!getToken().refresh) {
-        console.log('getToken().refresh', getToken().refresh);
         Sentry.captureMessage(
           `리프레쉬 토큰 발급 중 refresh Token ${getToken().refresh}`,
         );

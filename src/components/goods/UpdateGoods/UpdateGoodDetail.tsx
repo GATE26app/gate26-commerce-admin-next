@@ -151,7 +151,6 @@ function UpdateGoodDetail() {
     GoodsOptionStockModifyType[]
   >([]);
   const itemCode = getItemCode as string;
-  console.log('getItemCode', getItemCode);
 
   //상품상세
   const { data: detailData, isLoading } = useQuery(
@@ -206,7 +205,6 @@ function UpdateGoodDetail() {
     },
   );
 
-  console.log('detailData', detailData);
   // useEffect(() => {
   //   if (
   //     goodsInfo.LogItemDisable == true &&

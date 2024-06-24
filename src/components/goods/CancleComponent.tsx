@@ -179,7 +179,6 @@ function CancleComponent({ list, setList }: Props) {
   };
 
   const handelDelete = (index: number) => {
-    console.log('index', index);
     setList(
       list.filter(
         (item: GoodsPoliciesListProps, index: number) => index !== index,

@@ -18,7 +18,6 @@ const DateTimePicker = ({ date, onTimeClick }: DateTimePickerProps) => {
     const hour = curTime.clone().format('H');
     let newDay: dayjs.Dayjs = dayjs();
 
-    console.log('type', type);
     switch (type) {
       case 'am':
         newDay = date.hour(
@@ -41,7 +40,6 @@ const DateTimePicker = ({ date, onTimeClick }: DateTimePickerProps) => {
         }
         break;
     }
-    console.log('newDay', newDay);
     if (onTimeClick) {
       onTimeClick(newDay);
     }

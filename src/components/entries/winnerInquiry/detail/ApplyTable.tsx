@@ -133,7 +133,6 @@ function ApplyTable() {
   }
   const searchParams = useSearchParams();
   const getEntryId = searchParams.get('id');
-  console.log('getEntryId', getEntryId);
 
   const Obj = {
     pageNo: request.pageNo + 1,
@@ -144,8 +143,6 @@ function ApplyTable() {
   const { mutate: winnerList, isLoading } = useGetEntryWinnerListMutation({
     options: {
       onSuccess: (res) => {
-        console.log('res.', res);
-        console.log('data.', res.data);
         setList(res.data);
       },
     },

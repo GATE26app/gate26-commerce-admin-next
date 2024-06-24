@@ -51,7 +51,6 @@ function EntriesWinnerDetail() {
       staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
       refetchInterval: false, // 자동 새로 고침 비활성화
       onSuccess: ({ data }) => {
-        console.log('data', data);
         setGetEntriesData(data);
       },
     },

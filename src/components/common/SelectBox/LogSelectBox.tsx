@@ -32,9 +32,7 @@ function LogSelectBox({
   const [state, setState] = useState('');
 
   useEffect(() => {
-    console.log('list', list);
     if (list.length > 0) {
-      console.log('list*********');
       setSelect(list[0]?.version);
       setState(list[0]?.forSaleName);
     }

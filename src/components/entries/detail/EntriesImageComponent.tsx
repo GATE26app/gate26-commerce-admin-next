@@ -23,7 +23,6 @@ function EntriesImageComponent({ EntriesData, setEntriesData }: Props) {
     options: {
       onSuccess: (resImg) => {
         if (resImg.success == true) {
-          console.log('resImg', resImg);
           handleImageSave(
             resImg.data?.imagePath,
             resImg.data?.thumbnailImagePath,
@@ -57,8 +56,6 @@ function EntriesImageComponent({ EntriesData, setEntriesData }: Props) {
   const onDeleteImg = () => {
     setEntriesData({ ...EntriesData, images: [] });
   };
-
-  console.log('EntriesData', EntriesData);
 
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>

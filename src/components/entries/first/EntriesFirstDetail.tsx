@@ -92,16 +92,10 @@ function EntriesFirstDetail() {
     },
   );
 
-  console.log('상세', detailData);
-
-  console.log('상세EntriesData', EntriesData);
-  console.log('상세getEntriesData', getEntriesData);
-  console.log('상세detailData', detailData);
   const { mutate: optionModifyMutate, isLoading } = usePatchEntryModifyMutation(
     {
       options: {
         onSuccess: (res) => {
-          console.log('res', res);
           if (res.success == true) {
             setOpenAlertModal(true);
             setModalState({
@@ -140,12 +134,10 @@ function EntriesFirstDetail() {
       entryId: Number(getEntryId),
     };
     optionModifyMutate(obj);
-    // console.log('title', getValues('title'));
   };
   useEffect(() => {
     setLoadingModal(isLoading);
   }, [isLoading]);
-  console.log('EntriesData', EntriesData);
 
   //응모삭제
   const { mutate: deleteMutate } = useEntryDeleteMutation({
