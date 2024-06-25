@@ -80,40 +80,6 @@ function MainHeader() {
           </Flex>
         )}
       </Flex>
-      <Box pl={'25px'} pr={'20px'} cursor={'pointer'}>
-        {alram ? (
-          <Image
-            src={'/images/header/icon_chatting_on.png'}
-            width={49}
-            height={49}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/header/icon_chatting_off.png'}
-            width={49}
-            height={49}
-            alt="로고"
-          />
-        )}
-      </Box>
-      <Box cursor={'pointer'}>
-        {chat ? (
-          <Image
-            src={'/images/header/icon_alarm_on.png'}
-            width={49}
-            height={49}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/header/icon_alarm_off.png'}
-            width={49}
-            height={49}
-            alt="로고"
-          />
-        )}
-      </Box>
     </Flex>
   );
 }
