@@ -13,8 +13,8 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'GATE26 | 파트너 관리자',
-  description: 'GATE26 | 파트너관리자',
+  title: 'GATE26 | 최고 관리자',
+  description: 'GATE26 | 최고 관리자',
   icons: {
     icon: '/favicon.ico',
   },

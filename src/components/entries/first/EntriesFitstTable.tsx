@@ -157,7 +157,7 @@ function EntriesFitstTable({ data }: Props) {
         </>
       ) : (
         <>
-          {data && data?.totalCount == undefined ? (
+          {data && (data?.totalCount == undefined || data?.totalCount == 0) ? (
             <Flex
               bgColor={ColorGray100}
               mt={'20px'}
@@ -172,8 +172,13 @@ function EntriesFitstTable({ data }: Props) {
                 src={'/images/Page/no_data.png'}
                 alt="데이터 없음"
               />
-              <Text fontSize={'14px'} fontWeight={'400'} color={ColorBlack}>
-                조회한 내용이 없습니다.
+              <Text
+                fontSize={'14px'}
+                fontWeight={'400'}
+                color={ColorBlack}
+                mt={'10px'}
+              >
+                선착순 상품 응모가 없습니다.
               </Text>
             </Flex>
           ) : (

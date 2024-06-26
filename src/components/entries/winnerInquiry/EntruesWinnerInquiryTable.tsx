@@ -111,7 +111,7 @@ function EntruesWinnerInquiryTable({ data }: Props) {
   };
   return (
     <Box
-      overflowX={'scroll'}
+      overflowX={'auto'}
       ref={scrollRef}
       onMouseDown={handleMouseDownEvent}
       onMouseLeave={() => setDragging(false)}
@@ -159,7 +159,7 @@ function EntruesWinnerInquiryTable({ data }: Props) {
         </>
       ) : (
         <>
-          {data && data?.totalCount == undefined ? (
+          {data && (data?.totalCount == undefined || data?.totalCount == 0) ? (
             <Flex
               bgColor={ColorGray100}
               mt={'20px'}
@@ -174,8 +174,13 @@ function EntruesWinnerInquiryTable({ data }: Props) {
                 src={'/images/Page/no_data.png'}
                 alt="데이터 없음"
               />
-              <Text fontSize={'14px'} fontWeight={'400'} color={ColorBlack}>
-                조회한 내용이 없습니다.
+              <Text
+                fontSize={'14px'}
+                fontWeight={'400'}
+                color={ColorBlack}
+                mt={'10px'}
+              >
+                당첨자 조회 내역이 없습니다.
               </Text>
             </Flex>
           ) : (

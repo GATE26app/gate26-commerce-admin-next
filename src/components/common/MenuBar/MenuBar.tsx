@@ -82,14 +82,14 @@ function MenuBar() {
       >
         {menu == 1 ? (
           <Image
-            src={'/images/menu/leftmenu01_on.png'}
+            src={'/images/Menu/leftmenu01_on.png'}
             width={40}
             height={40}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/leftmenu01_off.png'}
+            src={'/images/Menu/leftmenu01_off.png'}
             width={40}
             height={40}
             alt="로고"
@@ -117,14 +117,14 @@ function MenuBar() {
         >
           {menu == 2 ? (
             <Image
-              src={'/images/menu/leftmenu02_on.png'}
+              src={'/images/Menu/leftmenu02_on.png'}
               width={40}
               height={40}
               alt="로고"
             />
           ) : (
             <Image
-              src={'/images/menu/leftmenu02_off.png'}
+              src={'/images/Menu/leftmenu02_off.png'}
               width={40}
               height={40}
               alt="로고"
@@ -157,14 +157,14 @@ function MenuBar() {
         <Flex alignItems={'center'}>
           {menu == 3 ? (
             <Image
-              src={'/images/menu/leftmenu03_on.png'}
+              src={'/images/Menu/leftmenu03_on.png'}
               width={40}
               height={40}
               alt="로고"
             />
           ) : (
             <Image
-              src={'/images/menu/leftmenu03_off.png'}
+              src={'/images/Menu/leftmenu03_off.png'}
               width={40}
               height={40}
               alt="로고"
@@ -181,14 +181,14 @@ function MenuBar() {
         </Flex>
         {menu == 3 ? (
           <Image
-            src={'/images/menu/icon_menu_up.png'}
+            src={'/images/Menu/icon_menu_up.png'}
             width={16}
             height={16}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/icon_menu_down.png'}
+            src={'/images/Menu/icon_menu_down.png'}
             width={16}
             height={16}
             alt="로고"
@@ -252,14 +252,14 @@ function MenuBar() {
         <Flex alignItems={'center'}>
           {menu == 4 ? (
             <Image
-              src={'/images/menu/leftmenu04_on.png'}
+              src={'/images/Menu/leftmenu04_on.png'}
               width={40}
               height={40}
               alt="로고"
             />
           ) : (
             <Image
-              src={'/images/menu/leftmenu04_off.png'}
+              src={'/images/Menu/leftmenu04_off.png'}
               width={40}
               height={40}
               alt="로고"
@@ -276,14 +276,14 @@ function MenuBar() {
         </Flex>
         {menu == 4 ? (
           <Image
-            src={'/images/menu/icon_menu_up.png'}
+            src={'/images/Menu/icon_menu_up.png'}
             width={16}
             height={16}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/icon_menu_down.png'}
+            src={'/images/Menu/icon_menu_down.png'}
             width={16}
             height={16}
             alt="로고"
@@ -347,14 +347,14 @@ function MenuBar() {
         <Flex alignItems={'center'}>
           {menu == 5 ? (
             <Image
-              src={'/images/menu/leftmenu05_on.png'}
+              src={'/images/Menu/leftmenu05_on.png'}
               width={40}
               height={40}
               alt="로고"
             />
           ) : (
             <Image
-              src={'/images/menu/leftmenu05_off.png'}
+              src={'/images/Menu/leftmenu05_off.png'}
               width={40}
               height={40}
               alt="로고"
@@ -371,14 +371,14 @@ function MenuBar() {
         </Flex>
         {menu == 5 ? (
           <Image
-            src={'/images/menu/icon_menu_up.png'}
+            src={'/images/Menu/icon_menu_up.png'}
             width={16}
             height={16}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/icon_menu_down.png'}
+            src={'/images/Menu/icon_menu_down.png'}
             width={16}
             height={16}
             alt="로고"
@@ -442,14 +442,14 @@ function MenuBar() {
         <Flex alignItems={'center'}>
           {menu == 6 ? (
             <Image
-              src={'/images/menu/leftmenu06_on.png'}
+              src={'/images/Menu/leftmenu06_on.png'}
               width={40}
               height={40}
               alt="로고"
             />
           ) : (
             <Image
-              src={'/images/menu/leftmenu06_off.png'}
+              src={'/images/Menu/leftmenu06_off.png'}
               width={40}
               height={40}
               alt="로고"
@@ -466,14 +466,14 @@ function MenuBar() {
         </Flex>
         {menu == 6 ? (
           <Image
-            src={'/images/menu/icon_menu_up.png'}
+            src={'/images/Menu/icon_menu_up.png'}
             width={16}
             height={16}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/icon_menu_down.png'}
+            src={'/images/Menu/icon_menu_down.png'}
             width={16}
             height={16}
             alt="로고"
@@ -521,14 +521,14 @@ function MenuBar() {
       >
         {menu == 7 ? (
           <Image
-            src={'/images/menu/leftmenu07_on.png'}
+            src={'/images/Menu/leftmenu07_on.png'}
             width={40}
             height={40}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/leftmenu07_off.png'}
+            src={'/images/Menu/leftmenu07_off.png'}
             width={40}
             height={40}
             alt="로고"
@@ -555,14 +555,14 @@ function MenuBar() {
       >
         {menu == 8 ? (
           <Image
-            src={'/images/menu/leftmenu08_on.png'}
+            src={'/images/Menu/leftmenu08_on.png'}
             width={40}
             height={40}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/leftmenu08_off.png'}
+            src={'/images/Menu/leftmenu08_off.png'}
             width={40}
             height={40}
             alt="로고"
@@ -589,14 +589,14 @@ function MenuBar() {
       >
         {menu == 9 ? (
           <Image
-            src={'/images/menu/leftmenu01_on.png'}
+            src={'/images/Menu/leftmenu01_on.png'}
             width={40}
             height={40}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/leftmenu01_off.png'}
+            src={'/images/Menu/leftmenu01_off.png'}
             width={40}
             height={40}
             alt="로고"
@@ -623,14 +623,14 @@ function MenuBar() {
       >
         {menu == 10 ? (
           <Image
-            src={'/images/menu/leftmenu10_on.png'}
+            src={'/images/Menu/leftmenu10_on.png'}
             width={40}
             height={40}
             alt="로고"
           />
         ) : (
           <Image
-            src={'/images/menu/leftmenu10_off.png'}
+            src={'/images/Menu/leftmenu10_off.png'}
             width={40}
             height={40}
             alt="로고"
