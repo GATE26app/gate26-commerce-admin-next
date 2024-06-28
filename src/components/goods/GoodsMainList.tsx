@@ -52,6 +52,9 @@ function GoodsMainList() {
           </Box>
         ),
       });
+      setGoodsInfo({
+        goodState: false,
+      });
     } else {
       refreshList(request);
     }
