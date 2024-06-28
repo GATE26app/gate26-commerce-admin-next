@@ -102,7 +102,7 @@ function LogSelectBox({
           top={'45px'}
           left={0}
           w={width}
-          zIndex={9999}
+          zIndex={9}
           display={'block'}
           maxHeight={'220px'}
           overflowY={'scroll'}
