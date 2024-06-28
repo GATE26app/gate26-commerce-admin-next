@@ -78,11 +78,7 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             curDate={startDay}
             width={'310px'}
             minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
-            maxDateTime={
-              EntriesData.endDate == ''
-                ? ''
-                : dayjs(EntriesData.endDate).format('YYYY-MM-DD')
-            }
+            maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
             onApply={(date) => {
               setStartDay(date);
               setSState(true);
