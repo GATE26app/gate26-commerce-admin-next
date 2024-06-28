@@ -159,6 +159,7 @@ function EntriesFitstTable({ data }: Props) {
         <>
           {data && (data?.totalCount == undefined || data?.totalCount == 0) ? (
             <Flex
+              minW={'1200px'}
               bgColor={ColorGray100}
               mt={'20px'}
               py={'42px'}

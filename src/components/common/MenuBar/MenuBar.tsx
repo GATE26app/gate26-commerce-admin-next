@@ -8,12 +8,22 @@ import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { ColorGrayMenu, ColorRed, ColorWhite } from '@/utils/_Palette';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
+import { useWinnerFilterZuInfo } from '@/_store/WinnerFIlterInfo';
+import { useFirstFilterZuInfo } from '@/_store/FirstFilterInfo';
+import { useAuctionFilterZuInfo } from '@/_store/AuctionFilterInfo';
 
 function MenuBar() {
   const pathname = usePathname();
   const [menu, setMenu] = useState(1);
   const [orderMenu, setOrdreMenu] = useState(1);
-
+  const { deleteGoodsSettingFilterInfo } = useGoodsSettingFilterZuInfo(
+    (state) => state,
+  );
+  const { deleteWinnerFilterInfo } = useWinnerFilterZuInfo((state) => state);
+  const { deleteFilterFilterInfo } = useFirstFilterZuInfo((state) => state);
+  const { deleteAuctionFilterInfo } = useAuctionFilterZuInfo((state) => state);
   useEffect(() => {
     if (pathname == '/goodsSetting' || pathname == '/updateGoods') {
       setMenu(2);
@@ -39,7 +49,31 @@ function MenuBar() {
       setOrdreMenu(3);
     }
   }, [pathname]);
-
+  //필터 초기화
+  useEffect(() => {
+    if (pathname !== '/goodsSetting' && pathname !== '/updateGoods') {
+      deleteGoodsSettingFilterInfo();
+    }
+    if (
+      pathname !== '/entries/first' &&
+      pathname !== '/entries/first/detail' &&
+      pathname !== '/entries/first/create'
+    ) {
+      deleteFilterFilterInfo();
+    }
+    if (
+      pathname !== '/entries/auction' &&
+      pathname !== '/entries/auction/detail'
+    ) {
+      deleteAuctionFilterInfo();
+    }
+    if (
+      pathname !== '/entries/winnerInquiry' &&
+      pathname !== '/entries/winnerInquiry/detail'
+    ) {
+      deleteWinnerFilterInfo();
+    }
+  }, [pathname]);
   return (
     <Box
       w={'340px'}

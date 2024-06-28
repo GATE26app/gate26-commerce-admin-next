@@ -55,7 +55,7 @@ function EntriesFirstContent() {
     status: firstFilterInfo.status, //0=>오픈예정, 1=>진행중, 2=>종료
     level: firstFilterInfo.level, //1=>노출, 2=>미노출
     type: 1, //1=>선착순, 2=>추첨 , 0 =>당첨자조회
-    searchType: firstFilterInfo.searchType,
+    searchType: 'title',
     searchKeyword: firstFilterInfo.searchKeyword,
     // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
   });
@@ -113,7 +113,7 @@ function EntriesFirstContent() {
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
       // enter 했을 때의 코드 작성
-      router.push(`/entries/first?search=${search}`);
+      // router.push(`/entries/first?search=${search}`);
       setFirstFilterInfo({
         ...firstFilterInfo,
         searchKeyword: search,
@@ -157,7 +157,7 @@ function EntriesFirstContent() {
                 ...request,
                 searchKeyword: search,
               });
-              router.push(`/entries/first?search=${search}`);
+              // router.push(`/entries/first?search=${search}`);
               setGoodsInfo({
                 entryState: true,
               });

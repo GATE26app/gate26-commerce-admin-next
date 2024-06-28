@@ -24,7 +24,7 @@ const defaultState = {
   status: null, //0=>오픈예정, 1=>진행중, 2=>종료
   level: 0, //1=>노출, 2=>미노출
   type: 1, //1=>선착순, 2=>추첨 , 0 =>당첨자조회
-  searchType: '',
+  searchType: 'title',
   searchKeyword: '',
 };
 

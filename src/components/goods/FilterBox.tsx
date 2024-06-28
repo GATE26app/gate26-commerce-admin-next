@@ -284,7 +284,7 @@ function FilterBox({ request, setRequest }: Props) {
             />
           </Box>
           <SearchInput
-            text={String(request.searchKeyword)}
+            value={request.searchKeyword}
             onChange={(e: any) => {
               console.log('e', e.target.value);
               setRequest({ ...request, searchKeyword: e.target.value });

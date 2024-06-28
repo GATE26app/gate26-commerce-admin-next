@@ -46,7 +46,7 @@ function EntriesAuctionContent() {
     status: auctionFilterInfo.status, //0=>오픈예정, 1=>진행중, 2=>종료
     level: auctionFilterInfo.level, //1=>노출, 2=>미노출
     type: 2, //1=>선착순, 2=>추첨 , 0 =>당첨자조회
-    searchType: auctionFilterInfo.searchType,
+    searchType: 'title',
     searchKeyword: auctionFilterInfo.searchKeyword,
     // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
   });
@@ -105,7 +105,7 @@ function EntriesAuctionContent() {
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
       // enter 했을 때의 코드 작성
-      router.push(`/entries/auction?search=${search}`);
+      // router.push(`/entries/auction?search=${search}`);
       setAuctionFilterInfo({
         ...auctionFilterInfo,
         searchKeyword: search,
@@ -141,7 +141,19 @@ function EntriesAuctionContent() {
             fontWeight={500}
             px="30px"
             onClick={() => {
-              router.push(`/entries/auction?search=${search}`);
+              setAuctionFilterInfo({
+                ...auctionFilterInfo,
+                searchKeyword: search,
+              });
+              setRequest({
+                ...request,
+                searchKeyword: search,
+              });
+              // router.push(`/entries/first?search=${search}`);
+              setGoodsInfo({
+                entryState: true,
+              });
+              // router.push(`/entries/auction?search=${search}`);
             }}
             // py="14px"
           />

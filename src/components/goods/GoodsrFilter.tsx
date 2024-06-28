@@ -75,6 +75,9 @@ function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
             });
             deleteGoodsSettingFilterInfo();
             setOnSubmit(true);
+            setGoodsInfo({
+              goodState: true,
+            });
           }}
           borderColor={ColorGrayBorder}
           TextColor={ColorGray600}
