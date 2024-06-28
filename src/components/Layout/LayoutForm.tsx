@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import BottomLayout from './BottomLayout';
 import MainLayout from './MainLayout';
 import { useUserZuInfo } from '@/_store/UserZuInfo';
+import { getToken } from '@/utils/localStorage/token';
 
 function LayoutForm({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -13,18 +14,20 @@ function LayoutForm({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (
-      userZuInfo.accessToken == null ||
-      userZuInfo.accessToken == '' ||
-      userZuInfo.accessToken == undefined
+      getToken().access == null ||
+      getToken().access == '' ||
+      getToken().access == undefined
     ) {
       router.replace('/login');
     }
-  }, [userZuInfo, pathname]);
+  }, [getToken(), pathname]);
 
   return (
     <>
       {pathname == '/login' ? (
         <BottomLayout>{children}</BottomLayout>
+      ) : pathname == '/' ? (
+        <>{children}</>
       ) : (
         <MainLayout>{children}</MainLayout>
       )}

@@ -132,7 +132,7 @@ function page() {
           pt={'60px'}
           pb={'15px'}
           position={'sticky'}
-          top={'89px'}
+          top={'72px'}
           bgColor={ColorWhite}
           zIndex={999}
         >
