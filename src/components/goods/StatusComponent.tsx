@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
@@ -29,6 +29,8 @@ interface Props {
 }
 function StatusComponent({ list, setList }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const getType = searchParams.get('type');
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
 
   const [startDay, setStartDay] = useState<dayjs.Dayjs>(() =>
@@ -84,7 +86,7 @@ function StatusComponent({ list, setList }: Props) {
         borderColor={ColorGray400}
         borderBottomRadius={'12px'}
       >
-        {router.query.type == '3' && (
+        {getType == '3' && (
           <>
             <Flex
               flexWrap={'wrap'}

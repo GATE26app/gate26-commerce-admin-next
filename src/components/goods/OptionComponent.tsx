@@ -8,9 +8,9 @@ import {
   GoodsBasicProps,
   OptionProps,
   optionInputsProps,
-} from '@apis/goods/GoodsApi.type';
+} from '@/app/apis/goods/GoodsApi.type';
 
-import { ColorBlack, ColorGray50, ColorGray400 } from '@utils/_Palette';
+import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 
 import OptionList from './OptionList';
 import OptionPlus from './OptionPlus';

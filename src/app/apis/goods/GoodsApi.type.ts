@@ -231,6 +231,7 @@ export type GoodsListItemProps = {
   priceDcPer: number;
   priceDc: number;
   price: number;
+  partnerTitle: string;
   locations: GoodsListItemLocationProps[];
   categories: GoodsListItemCategoryProps[];
   images: GoodsListItemImageProps[];
@@ -302,6 +303,8 @@ export type GoodsSchedulesListProps = {
   startTime: string;
   durationTime: string;
   location: string;
+  lat: number;
+  lng: number;
   info: string;
   images: ScheduleImageProps[];
 };
@@ -345,7 +348,7 @@ export type optionInputsProps = {
 
 //상품 등록시 basic body type
 export type GoodsBasicProps = {
-  itemId?: string;
+  itemId: string;
   title: string;
   basicInfo: string;
   detailInfo: string;

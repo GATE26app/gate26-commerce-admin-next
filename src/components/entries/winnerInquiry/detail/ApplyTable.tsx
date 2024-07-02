@@ -22,7 +22,10 @@ import {
   ParticipantListType,
 } from '@/app/apis/entries/EntriesApi.type';
 import { useSearchParams } from 'next/navigation';
-import { useGetEntryWinnerListMutation } from '@/app/apis/entries/EntriesApi.mutation';
+import {
+  useGetEntryParticipantListMutation,
+  useGetEntryWinnerListMutation,
+} from '@/app/apis/entries/EntriesApi.mutation';
 import Image from 'next/image';
 
 export const Applyrheader = [
@@ -110,7 +113,7 @@ function ApplyTable() {
   const paginationProps = {
     currentPage: request.pageNo,
     limit: request.pageSize,
-    total: 20,
+    total: list?.totalCount == undefined ? 0 : list?.totalCount,
     onPageNumberClicked: (page: number) => handleChangeInput('page', page),
     onPreviousPageClicked: (page: number) => handleChangeInput('page', page),
     onNextPageClicked: (page: number) => handleChangeInput('page', page),
@@ -140,17 +143,18 @@ function ApplyTable() {
     entryId: Number(getEntryId),
   };
 
-  const { mutate: winnerList, isLoading } = useGetEntryWinnerListMutation({
-    options: {
-      onSuccess: (res) => {
-        setList(res.data);
+  const { mutate: participantList, isLoading } =
+    useGetEntryParticipantListMutation({
+      options: {
+        onSuccess: (res) => {
+          setList(res.data);
+        },
       },
-    },
-  });
+    });
 
   useEffect(() => {
     if (getEntryId) {
-      winnerList(Obj);
+      participantList(Obj);
     }
   }, [getEntryId]);
   return (
@@ -173,7 +177,7 @@ function ApplyTable() {
               {list !== undefined && list.totalCount}
             </Text>
           </Flex>
-          {list !== undefined && list.totalCount !== 0 && (
+          {/* {list !== undefined && list.totalCount !== 0 && (
             <ImageButton
               img="/images/Page/excel_icon.png"
               backgroundColor={ColorWhite}
@@ -187,7 +191,7 @@ function ApplyTable() {
               py="10px"
               onClick={() => console.log('엑셀다운로드')}
             />
-          )}
+          )} */}
         </Flex>
         {list !== undefined && list.totalCount !== 0 ? (
           <Box mb={'20px'}>

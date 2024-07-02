@@ -4,11 +4,7 @@ import { useQuery } from 'react-query';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
 import goodsApi from '@/app/apis/goods/GoodsApi';
-import { useGetCategoryQuery } from '@/app/apis/goods/GoodsApi.query';
 import { CategoryResProps } from '@/app/apis/goods/GoodsApi.type';
-
-import { CategoryListProps } from '@/components/CreateGoodsPage/CreateGoodsPage';
-import SelectBox from '@/components/common/SelectBox/SelectBox';
 
 import {
   ColorBlack,
@@ -19,9 +15,9 @@ import {
   ColorWhite,
 } from '@/utils/_Palette';
 
-import CategorySelectBox from './SelectBox/CategorySelectBox';
-
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { CategoryListProps } from '@/app/saveGoods/page';
+import CategorySelectBox from '../common/SelectBox/CategorySelectBox';
 
 interface SelectListProps {
   categoryId: number;

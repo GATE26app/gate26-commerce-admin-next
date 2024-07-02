@@ -15,7 +15,10 @@ import {
 import WinnerCard from './WinnerCard';
 import ImageButton from '@/components/common/ImageButton';
 import Pagination from '@/components/common/Pagination';
-import { useGetEntryParticipantListMutation } from '@/app/apis/entries/EntriesApi.mutation';
+import {
+  useGetEntryParticipantListMutation,
+  useGetEntryWinnerListMutation,
+} from '@/app/apis/entries/EntriesApi.mutation';
 import { useSearchParams } from 'next/navigation';
 import {
   PartUserType,
@@ -129,21 +132,20 @@ function WinnerTable() {
     entryId: Number(getEntryId),
   };
 
-  const { mutate: participantList, isLoading } =
-    useGetEntryParticipantListMutation({
-      options: {
-        onSuccess: (res) => {
-          setList(res.data);
-          // setGoodsInfo({
-          //   goodState: false,
-          // });
-        },
+  const { mutate: winnerList, isLoading } = useGetEntryWinnerListMutation({
+    options: {
+      onSuccess: (res) => {
+        setList(res.data);
+        // setGoodsInfo({
+        //   goodState: false,
+        // });
       },
-    });
+    },
+  });
 
   useEffect(() => {
     if (getEntryId) {
-      participantList(Obj);
+      winnerList(Obj);
     }
   }, [getEntryId]);
 
@@ -166,7 +168,7 @@ function WinnerTable() {
             {list !== undefined && list.totalCount}
           </Text>
         </Flex>
-        {list !== undefined && list.totalCount !== 0 && (
+        {/* {list !== undefined && list.totalCount !== 0 && (
           <ImageButton
             img="/images/Page/excel_icon.png"
             backgroundColor={ColorWhite}
@@ -180,7 +182,7 @@ function WinnerTable() {
             py="10px"
             onClick={() => console.log('엑셀다운로드')}
           />
-        )}
+        )} */}
       </Flex>
       {list !== undefined && list.totalCount !== 0 ? (
         <Box>

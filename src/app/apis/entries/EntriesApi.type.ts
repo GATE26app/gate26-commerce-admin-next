@@ -43,7 +43,6 @@ export type EntriesListType = {
   title: string;
   winnerCnt: number;
   openDate: string;
-  startDate: string;
   endDate: string;
   totalParticipantCnt: number; //실제 참여자수
   totalWinnerCnt: number;
@@ -57,7 +56,6 @@ export type EntriesResType = {
   content: string;
   winnerCnt: number;
   openDate: string;
-  startDate: string;
   endDate: string;
   point: number;
   limitCnt: number;
@@ -89,7 +87,6 @@ export type EntriesDetailType = {
   content: string;
   winnerCnt: number;
   openDate: string;
-  startDate: string;
   endDate: string;
   point: number;
   limitCnt: number;

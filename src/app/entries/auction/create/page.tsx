@@ -56,7 +56,6 @@ function page() {
     winnerCnt: 0,
     limitCnt: 0,
     openDate: '',
-    startDate: '',
     endDate: '',
     point: 0,
     images: [],
@@ -83,12 +82,15 @@ function page() {
           console.log('error 경매 응모 등록 에러', res.code);
         }
       },
+      onError: (req) => {
+        console.log(req);
+      },
     },
   });
   const handleClick = () => {
     if (EntriesData.title == '') {
       ToastComponent('상품응모명을 입력해주세요.');
-    } else if (EntriesData.startDate == '') {
+    } else if (EntriesData.openDate == '') {
       ToastComponent('상품응모 시작일을 선택해주세요.');
     } else if (EntriesData.endDate == '') {
       ToastComponent('상품응모 종료일을 선택해주세요.');
@@ -96,8 +98,6 @@ function page() {
       ToastComponent('당첨자수를 선택해주세요.');
     } else if (EntriesData.winnerCnt == 0) {
       ToastComponent('응모시 차감 mile을 입력해주세요.');
-    } else if (EntriesData.openDate == '') {
-      ToastComponent('오픈일 선택해주세요.');
     } else if (EntriesData.content == '') {
       ToastComponent('상세설명을 입력해주세요.');
     } else {

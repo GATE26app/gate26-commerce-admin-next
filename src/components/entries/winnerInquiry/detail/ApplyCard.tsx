@@ -6,7 +6,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { ColorBlack, ColorGrayBorder } from '@/utils/_Palette';
 
 import { DataTableHeaderProps, ItemProps } from './ApplyTable';
-import { DashDate } from '@/utils/format';
+import { DashDate, formatPhone } from '@/utils/format';
 import { PartUserType } from '@/app/apis/entries/EntriesApi.type';
 
 interface Props {
@@ -45,7 +45,9 @@ function ApplyCard({ header, item, index, pageNo, totalCount }: Props) {
         justifyContent={'center'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.userId}
+          {item.emailAddress == '' || item.emailAddress == null
+            ? '-'
+            : item.emailAddress}
         </Text>
       </Flex>
       <Flex
@@ -55,7 +57,7 @@ function ApplyCard({ header, item, index, pageNo, totalCount }: Props) {
         flexDirection={'column'}
       >
         <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-          {item.name}
+          {item.name == '' || item.name == null ? '-' : item.name}
         </Text>
       </Flex>
       {/* 예약자정보 */}
@@ -66,7 +68,9 @@ function ApplyCard({ header, item, index, pageNo, totalCount }: Props) {
         flexDirection={'column'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.phone}
+          {item.phone == '' || item.phone == null
+            ? '-'
+            : formatPhone(item.phone)}
         </Text>
       </Flex>
       <Flex
@@ -76,7 +80,7 @@ function ApplyCard({ header, item, index, pageNo, totalCount }: Props) {
         flexDirection={'column'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {DashDate(item.createdDate)}
+          {item.createdDate !== null && DashDate(item.createdDate)}
         </Text>
       </Flex>
     </Flex>

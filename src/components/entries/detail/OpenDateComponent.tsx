@@ -66,7 +66,7 @@ function OpenDateComponent({ EntriesData, setEntriesData }: Props) {
           curDate={curDay}
           width={'310px'}
           minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
-          maxDateTime={EntriesData.startDate}
+          maxDateTime={EntriesData.openDate}
           onApply={(date) => {
             setOState(true);
             setCurDay(date);

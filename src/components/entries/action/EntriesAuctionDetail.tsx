@@ -62,7 +62,6 @@ function EntriesAuctionDetail() {
     content: '',
     winnerCnt: 0,
     openDate: '',
-    startDate: '',
     endDate: '',
     images: [],
     limitCnt: 0,
@@ -86,7 +85,6 @@ function EntriesAuctionDetail() {
           content: data.content,
           winnerCnt: data.winnerCnt,
           openDate: data.openDate,
-          startDate: data.startDate,
           endDate: data.endDate,
           images: data.images,
           limitCnt: data.limitCnt,
@@ -274,10 +272,10 @@ function EntriesAuctionDetail() {
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
             />
-            <OpenDateComponent
+            {/* <OpenDateComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
-            />
+            /> */}
             <EditorDetailComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}

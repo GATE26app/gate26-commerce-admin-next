@@ -31,11 +31,17 @@ const listheader = [
   {
     id: 'management',
     name: '관리',
-    width: 10,
+    width: 8,
   },
+
   {
     id: 'code',
     name: '상품코드',
+    width: 7,
+  },
+  {
+    id: 'management',
+    name: '파트너사',
     width: 7,
   },
   {
@@ -46,7 +52,7 @@ const listheader = [
   {
     id: 'catagory',
     name: '카테고리',
-    width: 8,
+    width: 7,
   },
   {
     id: 'goods',
@@ -56,7 +62,7 @@ const listheader = [
   {
     id: 'date',
     name: '등록일',
-    width: 8,
+    width: 7,
   },
   {
     id: 'req',
@@ -66,7 +72,7 @@ const listheader = [
   {
     id: 'reqDate',
     name: `승인요청\n 완료일`,
-    width: 8,
+    width: 7,
   },
   {
     id: 'state',
@@ -76,7 +82,7 @@ const listheader = [
   {
     id: 'goodsDate',
     name: '상품노출기간',
-    width: 9,
+    width: 7,
   },
   {
     id: 'saleStatus',

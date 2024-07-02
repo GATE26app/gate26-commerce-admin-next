@@ -116,7 +116,25 @@ export const getAge = (birth: any) => {
 
   return currYear - birthYear;
 };
-
+export const formatPhone = (num: string) => {
+  var formatNum = '';
+  try {
+    if (num.length == 11) {
+      formatNum = num.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    } else if (num.length == 8) {
+      formatNum = num.replace(/(\d{4})(\d{4})/, '$1-$2');
+    } else {
+      if (num.indexOf('02') == 0) {
+        formatNum = num.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
+      } else {
+        formatNum = num.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+      }
+    }
+  } catch (e) {
+    formatNum = num;
+  }
+  return formatNum;
+};
 export const formatTimer = (SECONDS: number) => {
   if (!SECONDS) return '';
   return new Date(SECONDS * 1000).toISOString().substr(14, 5);

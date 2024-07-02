@@ -35,7 +35,6 @@ function EntriesWinnerDetail() {
     content: '',
     winnerCnt: 0,
     openDate: '',
-    startDate: '',
     endDate: '',
     point: 0,
     limitCnt: 0,
@@ -68,7 +67,7 @@ function EntriesWinnerDetail() {
           pt={'60px'}
           pb={'15px'}
           position={'sticky'}
-          top={'89px'}
+          top={'70px'}
           bgColor={ColorWhite}
           zIndex={999}
         >

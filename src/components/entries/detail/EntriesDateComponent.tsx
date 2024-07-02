@@ -22,8 +22,8 @@ interface Props {
   setEntriesData: React.Dispatch<React.SetStateAction<EntriesResType>>;
 }
 function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
-  const [startDay, setStartDay] = useState<dayjs.Dayjs>(() =>
-    dayjs(EntriesData.startDate),
+  const [openDay, setOpenDay] = useState<dayjs.Dayjs>(() =>
+    dayjs(EntriesData.openDate),
   );
   const [endDay, setEndDay] = useState<dayjs.Dayjs>(() =>
     dayjs(EntriesData.endDate),
@@ -35,14 +35,14 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
     if (sState) {
       setEntriesData({
         ...EntriesData,
-        startDate: `${dayjs(startDay).format('YYYY-MM-DD')} 00:00:00`,
+        openDate: `${dayjs(openDay).format('YYYY-MM-DD HH:mm')}:00`,
       });
       setSState(false);
     }
     if (eState) {
       setEntriesData({
         ...EntriesData,
-        endDate: `${dayjs(endDay).format('YYYY-MM-DD')} 23:59:59`,
+        endDate: `${dayjs(endDay).format('YYYY-MM-DD HH:mm')}:00`,
       });
       setEState(false);
     }
@@ -74,13 +74,13 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
       >
         <Flex alignItems={'center'} gap={'5px'}>
           <DatePicker
-            type={'date'}
-            curDate={startDay}
+            type={'datetime'}
+            curDate={openDay}
             width={'310px'}
             minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
             maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
             onApply={(date) => {
-              setStartDay(date);
+              setOpenDay(date);
               setSState(true);
               console.log(date);
             }}
@@ -89,13 +89,13 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             ~
           </Text>
           <DatePicker
-            type={'date'}
+            type={'datetime'}
             curDate={endDay}
             width={'310px'}
             minDateTime={
-              EntriesData.startDate == ''
+              EntriesData.openDate == ''
                 ? ''
-                : dayjs(EntriesData.startDate).format('YYYY-MM-DD')
+                : dayjs(EntriesData.openDate).format('YYYY-MM-DD')
             }
             onApply={(date) => {
               setEndDay(date);

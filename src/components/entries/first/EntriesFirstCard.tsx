@@ -146,9 +146,6 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
         >
           <Flex mb={'5px'} flexDirection={'column'} flexShrink={0}>
             <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-              {DashDate(item.startDate)}~
-            </Text>
-            <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
               {DashDate(item.endDate)}
             </Text>
           </Flex>

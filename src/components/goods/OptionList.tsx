@@ -9,9 +9,9 @@ import {
   Text,
 } from '@chakra-ui/react';
 
-import { GoodsBasicProps } from '@apis/goods/GoodsApi.type';
+import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
 
-import CustomButton from '@components/common/CustomButton';
+import CustomButton from '@/components/common/CustomButton';
 
 import {
   ColorBlack,
@@ -21,11 +21,11 @@ import {
   ColorInputBorder,
   ColorMainBackBule,
   ColorWhite,
-} from '@utils/_Palette';
+} from '@/utils/_Palette';
 
 import { Option } from './OptionPlus';
 
-import { useGoodsStateZuInfo } from '_store/StateZuInfo';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   list: GoodsBasicProps;

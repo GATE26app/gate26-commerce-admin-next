@@ -182,6 +182,53 @@ const Picker = ({
                       _handleDayClick(current);
                       setNewSelected(true);
                     }
+                    // if (minDateTime != '' && minDateTime !== undefined) {
+                    //   if (dayjs(current).format('YYYY-MM-DD') < minDateTime) {
+                    //     toast({
+                    //       position: 'top',
+                    //       duration: 1000,
+                    //       render: () => (
+                    //         <Box
+                    //           style={{ borderRadius: 8 }}
+                    //           p={3}
+                    //           color="white"
+                    //           bg="#ff6955"
+                    //         >
+                    //           시작 날짜보다 이전 날짜는 선택할 수 없습니다.
+                    //         </Box>
+                    //       ),
+                    //     });
+                    //   } else {
+                    //     onDayClick && onDayClick(current);
+                    //     _handleDayClick(current);
+                    //     setNewSelected(true);
+                    //   }
+                    // } else if (maxDateTime != '' && maxDateTime !== undefined) {
+                    //   if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
+                    //     toast({
+                    //       position: 'top',
+                    //       duration: 1000,
+                    //       render: () => (
+                    //         <Box
+                    //           style={{ borderRadius: 8 }}
+                    //           p={3}
+                    //           color="white"
+                    //           bg="#ff6955"
+                    //         >
+                    //           종료 날짜 이후 날짜는 선택할 수 없습니다.
+                    //         </Box>
+                    //       ),
+                    //     });
+                    //   } else {
+                    //     onDayClick && onDayClick(current);
+                    //     _handleDayClick(current);
+                    //     setNewSelected(true);
+                    //   }
+                    // } else {
+                    //   onDayClick && onDayClick(current);
+                    //   _handleDayClick(current);
+                    //   setNewSelected(true);
+                    // }
                   }}
                   cursor="pointer"
                   background={ColorWhite}

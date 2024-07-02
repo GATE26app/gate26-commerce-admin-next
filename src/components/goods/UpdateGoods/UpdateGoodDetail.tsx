@@ -77,7 +77,7 @@ function UpdateGoodDetail() {
   });
   const searchParams = useSearchParams();
   const getType = searchParams.get('type');
-  const getItemCode = searchParams.get('itemCode');
+  const getItemCode = searchParams.get('itemcode');
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [selectMenu, setSelectMenu] = useState(1);
   const [optionList, setOptionList] = useState<OptionItemProps[]>([]);
@@ -139,6 +139,8 @@ function UpdateGoodDetail() {
       durationTime: '',
       location: '',
       info: '',
+      lat: 0,
+      lng: 0,
       images: [
         {
           imagePath: '',
@@ -152,6 +154,7 @@ function UpdateGoodDetail() {
   >([]);
   const itemCode = getItemCode as string;
 
+  console.log('itemCode', itemCode);
   //상품상세
   const { data: detailData, isLoading } = useQuery(
     ['GET_GOODSDETAIL', itemCode],
@@ -159,6 +162,7 @@ function UpdateGoodDetail() {
     {
       staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
       refetchInterval: false, // 자동 새로 고침 비활성화
+      enabled: !!itemCode,
       onSuccess: ({ data }) => {
         setOptionList(data.options);
         setStatusList({
@@ -204,6 +208,8 @@ function UpdateGoodDetail() {
       },
     },
   );
+
+  console.log('detailData', detailData);
 
   // useEffect(() => {
   //   if (
@@ -338,6 +344,7 @@ function UpdateGoodDetail() {
   //     optionModifyMutate(body);
   //   }
   // };
+  console.log('BasicInfo', BasicInfo);
   return (
     <>
       {/* {detailData !== undefined ? ( */}

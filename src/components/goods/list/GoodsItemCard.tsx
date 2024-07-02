@@ -27,6 +27,11 @@ function GoodsItemCard({ header, item }: Props) {
   };
   return (
     <>
+      <Flex w={`15%`} alignItems={'center'} justifyContent={'center'}>
+        <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
+          {item.partnerTitle}
+        </Text>
+      </Flex>
       <Flex
         w={`15%`}
         alignItems={'center'}
@@ -139,27 +144,7 @@ function GoodsItemCard({ header, item }: Props) {
           overflow={'hidden'}
           ml={'10px'}
         >
-          {/* <Image
-            width={80}
-            height={80}
-            src={
-              item.images.length == 0
-                ? '/images/Page/no_data.png'
-                : '/images/Page/ex_image_1.jpg'
-            }
-            // src={
-            //   item.images.length == 0
-            //     ? '/images/Page/no_data.png'
-            //     : `${imgPath()}${item.images[0].thumbnailImagePath}`
-            // }
-            // src={'/images/Page/ex_image_1.jpg'}
-            alt="상품이미지"
-            objectFit={'cover'}
-            // fill
-          /> */}
           <img
-            // width={'80px'}
-            // height={'80px'}
             style={{
               width: '80px',
               height: '80px',
@@ -171,10 +156,6 @@ function GoodsItemCard({ header, item }: Props) {
                 : `${imgPath()}${item?.images[0].thumbnailImagePath}`
             }
             onError={addDefaultImg}
-            // src={imagePath[]}
-            // src={`${imgPath()}${
-            //   data[imageIndex].images[0].thumbnailImagePath
-            // }`}
             alt="이미지 업로드"
           />
         </Box>

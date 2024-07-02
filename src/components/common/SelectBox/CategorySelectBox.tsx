@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
-import { ColorGray700, ColorInputBorder, ColorWhite } from '@utils/_Palette';
-
-import { CateProps } from '../CatagoryComponent';
+import { ColorGray700, ColorInputBorder, ColorWhite } from '@/utils/_Palette';
+import { CateProps } from '@/components/goods/CatagoryComponent';
 
 interface Props {
   placeholder: string;

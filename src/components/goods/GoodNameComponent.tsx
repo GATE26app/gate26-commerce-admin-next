@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Control,
-  UseFormRegister,
-  UseFormRegisterReturn,
-} from 'react-hook-form';
 
 import { Box, Flex, Image, Input, Text } from '@chakra-ui/react';
 
-import { GoodsBasicProps } from '@apis/goods/GoodsApi.type';
+import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
 
-import { FormDataType } from '@components/CreateGoodsPage/_hooks/useExampleForm';
-import InputBox from '@components/common/Input';
-import SelectBox from '@components/common/SelectBox';
+import InputBox from '@/components/common/Input';
 
 import {
   ColorBlack,
@@ -21,9 +14,9 @@ import {
   ColorGray700,
   ColorRed,
   ColorWhite,
-} from '@utils/_Palette';
+} from '@/utils/_Palette';
 
-import { useGoodsStateZuInfo } from '_store/StateZuInfo';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   list: GoodsBasicProps;

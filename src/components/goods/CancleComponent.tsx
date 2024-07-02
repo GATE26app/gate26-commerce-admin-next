@@ -10,10 +10,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import { GoodsPoliciesListProps } from '@apis/goods/GoodsApi.type';
+import { GoodsPoliciesListProps } from '@/app/apis/goods/GoodsApi.type';
 
-import CustomButton from '@components/common/CustomButton';
-import InputBox from '@components/common/Input';
+import CustomButton from '@/components/common/CustomButton';
+import InputBox from '@/components/common/Input';
 
 import {
   ColorBlack,
@@ -25,9 +25,9 @@ import {
   ColorMainBackBule,
   ColorRed,
   ColorWhite,
-} from '@utils/_Palette';
+} from '@/utils/_Palette';
 
-import { useGoodsStateZuInfo } from '_store/StateZuInfo';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   list: Array<GoodsPoliciesListProps>;

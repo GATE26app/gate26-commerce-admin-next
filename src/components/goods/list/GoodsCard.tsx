@@ -170,10 +170,10 @@ function GoodsCard({
             onClick={() =>
               item.items[0].status == 0
                 ? router.push(
-                    `/saveGoods?type=${item.items[0].type}&itemCode=${item.items[0].itemCode}`,
+                    `/saveGoods?type=${item.items[0].type}&itemcode=${item.items[0].itemCode}`,
                   )
                 : router.push(
-                    `/updateGoods?type=${item.items[0].type}&itemCode=${item.items[0].itemCode}`,
+                    `/updateGoods?type=${item.items[0].type}&itemcode=${item.items[0].itemCode}`,
                   )
             }
           />
@@ -197,7 +197,8 @@ function GoodsCard({
             {item.itemCode}
           </Text>
         </Flex>
-        <Flex flexDirection={'column'} w={'80%'}>
+
+        <Flex flexDirection={'column'} w={'83%'}>
           {item?.items.map((data, index) => {
             return (
               <Flex

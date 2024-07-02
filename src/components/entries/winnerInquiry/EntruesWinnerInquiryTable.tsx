@@ -50,7 +50,7 @@ export const cancellistheader = [
   },
   {
     id: 'reves',
-    name: '응모기간',
+    name: '종료일',
     width: '10%',
   },
   {
@@ -77,7 +77,6 @@ interface ItemProps {
   winnerCnt: number;
   division: string;
   openDate: string;
-  startDate: string;
   endDate: string;
   sDate: string;
   exposure: string;

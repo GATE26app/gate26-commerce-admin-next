@@ -120,10 +120,10 @@ function EntriesLeftComponent({ data }: Props) {
             fontSize={'15px'}
             color={ColorBlack}
           >
-            응모기간
+            응모 종료일
           </Text>
           <Text fontWeight={400} fontSize={'15px'} color={ColorBlack}>
-            {DashDate(data.startDate)} ~ {DashDate(data.endDate)}
+            {DashDate(data.endDate)}
           </Text>
         </Flex>
         <Flex alignItems={'center'} flexDirection={'row'}>

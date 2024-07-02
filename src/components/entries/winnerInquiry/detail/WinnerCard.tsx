@@ -7,6 +7,7 @@ import { ColorBlack, ColorGrayBorder } from '@/utils/_Palette';
 
 import { DataTableHeaderProps } from './WinnerTable';
 import { PartUserType } from '@/app/apis/entries/EntriesApi.type';
+import { formatPhone } from '@/utils/format';
 
 interface Props {
   header: Array<DataTableHeaderProps>;
@@ -44,7 +45,9 @@ function WinnerCard({ header, item, index, pageNo, totalCount }: Props) {
         justifyContent={'center'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.userId}
+          {item.emailAddress == '' || item.emailAddress == null
+            ? '-'
+            : item.emailAddress}
         </Text>
       </Flex>
       <Flex
@@ -54,7 +57,7 @@ function WinnerCard({ header, item, index, pageNo, totalCount }: Props) {
         flexDirection={'column'}
       >
         <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-          {item.name}
+          {item.name == '' || item.name == null ? '-' : item.name}
         </Text>
       </Flex>
       {/* 예약자정보 */}
@@ -65,7 +68,9 @@ function WinnerCard({ header, item, index, pageNo, totalCount }: Props) {
         flexDirection={'column'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.phone}
+          {item.phone == '' || item.phone == null
+            ? '-'
+            : formatPhone(item.phone)}
         </Text>
       </Flex>
     </Flex>

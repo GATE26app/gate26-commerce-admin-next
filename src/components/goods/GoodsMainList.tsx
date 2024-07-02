@@ -13,8 +13,6 @@ function GoodsMainList() {
   const { GoodsSettingFilterInfo, setGoodsSettingFilterInfo } =
     useGoodsSettingFilterZuInfo((state) => state);
   const toast = useToast();
-  // const searchParams = useSearchParams();
-  // const getPage = searchParams.get('page');
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [filter, setFilter] = useState(true);
   const [list, setList] = useState();

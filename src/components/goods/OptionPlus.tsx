@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
@@ -72,13 +72,14 @@ function OptionPlus({
   );
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const getType = searchParams.get('type');
   const [endDay, setEndDay] = useState<dayjs.Dayjs>(() =>
     dayjs(new Date()).add(7, 'day'),
   );
   const [DateList, setDateList] = useState<string[]>([]);
-  const [optionType, setOptionType] = useState<number>(
-    router.query.type == '3' ? 2 : 1,
-  ); //옵션형, 날짜지정형
+  const [optionType, setOptionType] = useState<number>(getType == '3' ? 2 : 1); //옵션형, 날짜지정형
   const [optionInputType, setOptionInputType] = useState<number>(0); //상품 옵션유형 단독형, 조합형
   const [optionCnt, setOptionCnt] = useState<string>('1');
   const [options, setOptions] = useState<Option[]>([]);
@@ -102,13 +103,13 @@ function OptionPlus({
   };
 
   useEffect(() => {
-    if (router.query.type == '3' || router.query.type == '2') {
+    if (getType == '3' || getType == '2') {
       setList({ ...list, optionType: 2 });
     }
-  }, [router.query.type]);
+  }, [getType]);
 
   useEffect(() => {
-    if (router.pathname == '/saveGoods' && optionInputList.length > 0) {
+    if (pathname == '/saveGoods' && optionInputList.length > 0) {
       // if()
       const nameList: string[] = [];
       const valueList: string[] = [];
@@ -476,7 +477,7 @@ function OptionPlus({
           </Text>
         </Flex>
         <Flex flexWrap={'wrap'}>
-          {router.query.type !== '3' && (
+          {getType !== '3' && (
             <Flex w={'200px'}>
               <RadioComponent
                 text="옵션형"
@@ -491,7 +492,7 @@ function OptionPlus({
             </Flex>
           )}
 
-          {(router.query.type == '3' || router.query.type == '2') && (
+          {(getType == '3' || getType == '2') && (
             <Flex w={'200px'}>
               <RadioComponent
                 text="날짜지정형"

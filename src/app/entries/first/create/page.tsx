@@ -55,7 +55,6 @@ function page() {
     winnerCnt: 0,
     limitCnt: 0,
     openDate: '',
-    startDate: '',
     endDate: '',
     point: 0,
     images: [],
@@ -87,7 +86,7 @@ function page() {
   const handleClick = () => {
     if (EntriesData.title == '') {
       ToastComponent('상품응모명을 입력해주세요.');
-    } else if (EntriesData.startDate == '') {
+    } else if (EntriesData.openDate == '') {
       ToastComponent('상품응모 시작일을 선택해주세요.');
     } else if (EntriesData.endDate == '') {
       ToastComponent('상품응모 종료일을 선택해주세요.');
@@ -97,9 +96,7 @@ function page() {
     // else if(EntriesData.winnerCnt == 0){
     //   ToastComponent('응모시 차감 mile을 입력해주세요.');
     // }
-    else if (EntriesData.openDate == '') {
-      ToastComponent('오픈일 선택해주세요.');
-    } else if (EntriesData.content == '') {
+    else if (EntriesData.content == '') {
       ToastComponent('상세설명을 입력해주세요.');
     } else {
       CreateItemMutate(EntriesData);

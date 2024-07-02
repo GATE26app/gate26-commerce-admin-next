@@ -217,8 +217,8 @@ function ImageComponent({ list, setList }: Props) {
                       <Image
                         src={'/images/Page/icon_delete_img.png'}
                         alt="이미지 삭제"
-                        width={'32px'}
-                        height={'32px'}
+                        width={32}
+                        height={32}
                       />
                     </Flex>
                   )}
@@ -265,8 +265,8 @@ function ImageComponent({ list, setList }: Props) {
                   >
                     <Image
                       src={'/images/Page/ico_plus.png'}
-                      width={'28px'}
-                      height={'28px'}
+                      width={28}
+                      height={28}
                       alt="이미지 추가"
                     />
                   </Flex>
@@ -340,8 +340,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -392,8 +392,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -420,8 +420,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -472,8 +472,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -500,8 +500,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -552,8 +552,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -580,8 +580,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -632,8 +632,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -660,8 +660,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -712,8 +712,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -740,8 +740,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -792,8 +792,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -820,8 +820,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -872,8 +872,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -900,8 +900,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -952,8 +952,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -980,8 +980,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -1033,8 +1033,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>
@@ -1061,8 +1061,8 @@ function ImageComponent({ list, setList }: Props) {
                           <Image
                             src={'/images/Page/icon_delete_img.png'}
                             alt="이미지 삭제"
-                            width={'32px'}
-                            height={'32px'}
+                            width={32}
+                            height={32}
                           />
                         </Flex>
                       )}
@@ -1114,8 +1114,8 @@ function ImageComponent({ list, setList }: Props) {
                       >
                         <Image
                           src={'/images/Page/ico_plus.png'}
-                          width={'28px'}
-                          height={'28px'}
+                          width={28}
+                          height={28}
                           alt="이미지 추가"
                         />
                       </Flex>

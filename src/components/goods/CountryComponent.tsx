@@ -3,11 +3,8 @@ import { useQuery } from 'react-query';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
-import goodsApi from '@apis/goods/GoodsApi';
-import { useGetLocationQuery } from '@apis/goods/GoodsApi.query';
-import { LocationResProps } from '@apis/goods/GoodsApi.type';
-
-import { LocationListProps } from '@components/CreateGoodsPage/CreateGoodsPage';
+import goodsApi from '@/app/apis/goods/GoodsApi';
+import { LocationResProps } from '@/app/apis/goods/GoodsApi.type';
 
 import {
   ColorBlack,
@@ -16,11 +13,11 @@ import {
   ColorGray400,
   ColorRed,
   ColorWhite,
-} from '@utils/_Palette';
+} from '@/utils/_Palette';
 
-import LocationSelectBox from './SelectBox/LocationSelectBox';
-
-import { useGoodsStateZuInfo } from '_store/StateZuInfo';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { LocationListProps } from '@/app/saveGoods/page';
+import LocationSelectBox from '../common/SelectBox/LocationSelectBox';
 
 interface LocationProps {
   locations: Array<LocationProps[]>;

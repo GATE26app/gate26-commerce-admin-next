@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 import { ColorGray700, ColorInputBorder, ColorWhite } from '@/utils/_Palette';
-\
-import { LocationProps } from '../CountryComponent';
+import { LocationProps } from '@/components/goods/CountryComponent';
 
 interface Props {
   placeholder: string;

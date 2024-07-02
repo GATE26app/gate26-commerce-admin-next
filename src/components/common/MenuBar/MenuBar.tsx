@@ -25,7 +25,11 @@ function MenuBar() {
   const { deleteFilterFilterInfo } = useFirstFilterZuInfo((state) => state);
   const { deleteAuctionFilterInfo } = useAuctionFilterZuInfo((state) => state);
   useEffect(() => {
-    if (pathname == '/goodsSetting' || pathname == '/updateGoods') {
+    if (
+      pathname == '/goodsSetting' ||
+      pathname == '/updateGoods' ||
+      pathname == '/saveGoods'
+    ) {
       setMenu(2);
       setOrdreMenu(1);
     } else if (
@@ -51,7 +55,11 @@ function MenuBar() {
   }, [pathname]);
   //필터 초기화
   useEffect(() => {
-    if (pathname !== '/goodsSetting' && pathname !== '/updateGoods') {
+    if (
+      pathname !== '/goodsSetting' &&
+      pathname !== '/updateGoods' &&
+      pathname == '/saveGoods'
+    ) {
       deleteGoodsSettingFilterInfo();
     }
     if (
