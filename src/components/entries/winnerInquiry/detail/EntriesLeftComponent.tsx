@@ -14,7 +14,7 @@ import {
 } from '@/utils/_Palette';
 import { useRouter } from 'next/navigation';
 import { EntriesDetailType } from '@/app/apis/entries/EntriesApi.type';
-import { DashDate, intComma } from '@/utils/format';
+import { DashDate, formatDateMinTimeDash, intComma } from '@/utils/format';
 import { useEntryDeleteMutation } from '@/app/apis/entries/EntriesApi.mutation';
 import ToastComponent from '@/components/common/Toast/ToastComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
@@ -120,10 +120,10 @@ function EntriesLeftComponent({ data }: Props) {
             fontSize={'15px'}
             color={ColorBlack}
           >
-            응모 종료일
+            응모 종료일시
           </Text>
           <Text fontWeight={400} fontSize={'15px'} color={ColorBlack}>
-            {DashDate(data.endDate)}
+            {formatDateMinTimeDash(data.endDate)}
           </Text>
         </Flex>
         <Flex alignItems={'center'} flexDirection={'row'}>
@@ -148,10 +148,10 @@ function EntriesLeftComponent({ data }: Props) {
             fontSize={'15px'}
             color={ColorBlack}
           >
-            오픈일
+            오픈일시
           </Text>
           <Text fontWeight={400} fontSize={'15px'} color={ColorBlack}>
-            {DashDate(data.openDate)}
+            {formatDateMinTimeDash(data.openDate)}
           </Text>
         </Flex>
       </Flex>

@@ -210,10 +210,10 @@ function page() {
             EntriesData={EntriesData}
             setEntriesData={setEntriesData}
           />
-          <OpenDateComponent
+          {/* <OpenDateComponent
             EntriesData={EntriesData}
             setEntriesData={setEntriesData}
-          />
+          /> */}
           <EditorDetailComponent
             EntriesData={EntriesData}
             setEntriesData={setEntriesData}

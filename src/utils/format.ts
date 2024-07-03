@@ -79,6 +79,22 @@ export const formatDateTimeDash = (d: Dayjs) => {
   return `${year}-${month}-${day} ${hour}:${min}:${second}`;
 };
 
+export const formatDateMinTimeDash = (d: any) => {
+  let date = null;
+  if (d instanceof Date) {
+    date = d;
+  }
+  date = new Date(d);
+  const day = `0${date.getDate()}`.slice(-2);
+  const month = `0${date.getMonth() + 1}`.slice(-2);
+  const year = date.getFullYear();
+  const hour = `0${date.getHours()}`.slice(-2);
+  const min = `0${date.getMinutes()}`.slice(-2);
+  const second = `0${date.getSeconds()}`.slice(-2);
+
+  return `${year}-${month}-${day} ${hour}:${min}`;
+};
+
 export const getDays = (d: any) => {
   const week = ['일', '월', '화', '수', '목', '금', '토'];
   let date = null;
@@ -154,7 +170,7 @@ export const imgPath = () => {
     // return `http://192.168.0.63:40009/img/downloadFile?filePath=`;
     return `https://d2x6bq0qfvknb8.cloudfront.net`;
   } else {
-    return `https://resource.gate26.co.kr/img/downloadFile?filePath=`;
+    return `https://d2x6bq0qfvknb8.cloudfront.net`;
   }
 };
 

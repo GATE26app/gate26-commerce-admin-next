@@ -45,12 +45,12 @@ export const cancellistheader = [
   },
   {
     id: 'rest',
-    name: '오픈일',
+    name: '오픈일시',
     width: '10%',
   },
   {
     id: 'reves',
-    name: '종료일',
+    name: '종료일시',
     width: '10%',
   },
   {

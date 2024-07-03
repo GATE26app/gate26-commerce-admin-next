@@ -13,7 +13,7 @@ import {
 
 import { ItemProps } from './EntriesFitstTable';
 import { EntriesListType } from '@/app/apis/entries/EntriesApi.type';
-import { DashDate } from '@/utils/format';
+import { DashDate, formatDateMinTimeDash } from '@/utils/format';
 import { useEntryDeleteMutation } from '@/app/apis/entries/EntriesApi.mutation';
 import ToastComponent from '@/components/common/Toast/ToastComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
@@ -65,6 +65,7 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
       },
     },
   });
+  console.log('statusName', item.statusName);
   return (
     <>
       <ButtonModal
@@ -135,7 +136,7 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
           flexDirection={'column'}
         >
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {DashDate(item.openDate)}
+            {formatDateMinTimeDash(item.openDate)}
           </Text>
         </Flex>
         <Flex
@@ -146,7 +147,7 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
         >
           <Flex mb={'5px'} flexDirection={'column'} flexShrink={0}>
             <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-              {DashDate(item.endDate)}
+              {formatDateMinTimeDash(item.endDate)}
             </Text>
           </Flex>
         </Flex>

@@ -17,7 +17,7 @@ import {
 
 import { ItemProps } from './EntruesWinnerInquiryTable';
 import { EntriesListType } from '@/app/apis/entries/EntriesApi.type';
-import { DashDate, intComma } from '@/utils/format';
+import { DashDate, formatDateMinTimeDash, intComma } from '@/utils/format';
 import { useEntryDeleteMutation } from '@/app/apis/entries/EntriesApi.mutation';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import ToastComponent from '@/components/common/Toast/ToastComponent';
@@ -155,7 +155,7 @@ function EntriesWinnerInquiryCard({
           gap={'10px'}
         >
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {DashDate(item.openDate)}
+            {formatDateMinTimeDash(item.openDate)}
           </Text>
         </Flex>
         <Flex
@@ -166,7 +166,7 @@ function EntriesWinnerInquiryCard({
         >
           <Flex mb={'5px'} flexDirection={'column'} flexShrink={0}>
             <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-              {DashDate(item.endDate)}
+              {formatDateMinTimeDash(item.endDate)}
             </Text>
           </Flex>
         </Flex>
