@@ -31,6 +31,15 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
   const [sState, setSState] = useState(false);
   const [eState, setEState] = useState(false);
 
+  //상세에서 날짜 안불러올때 다시 추가
+  useEffect(() => {
+    if (EntriesData?.openDate !== '' && EntriesData?.openDate !== null) {
+      setOpenDay(dayjs(EntriesData.openDate));
+    }
+    if (EntriesData?.endDate !== '' && EntriesData?.endDate !== null) {
+      setEndDay(dayjs(EntriesData.endDate));
+    }
+  }, [EntriesData]);
   useEffect(() => {
     if (sState) {
       setEntriesData({

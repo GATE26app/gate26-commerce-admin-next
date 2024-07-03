@@ -148,7 +148,7 @@ function EntriesAucionCard({ header, item, index, pageNo, totalCount }: Props) {
           justifyContent={'center'}
           gap={'10px'}
         >
-          <Flex mb={'5px'} flexDirection={'column'} flexShrink={0}>
+          <Flex flexDirection={'column'} flexShrink={0}>
             {/* <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
               {DashDate(item.openDate)}~
             </Text> */}

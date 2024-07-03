@@ -1,7 +1,7 @@
 'use client';
 import React, { ReactElement, Suspense, useEffect, useState } from 'react';
 
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
 import CustomButton from '@/components/common/CustomButton';
 
@@ -39,9 +39,11 @@ import {
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import EntriesImageComponent from '@/components/entries/detail/EntriesImageComponent';
+import dayjs from 'dayjs';
 
 function EntriesAuctionDetail() {
   const router = useRouter();
+  const toast = useToast();
   const searchParams = useSearchParams();
   const getEntryId = searchParams.get('id');
   const [isLoadingModal, setLoadingModal] = useState(false);
@@ -140,7 +142,74 @@ function EntriesAuctionDetail() {
       data: EntriesData,
       entryId: Number(getEntryId),
     };
-    optionModifyMutate(obj);
+    const startTime = dayjs(EntriesData.openDate);
+    const endTime = dayjs(EntriesData.endDate);
+    if (EntriesData.title == '') {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.openDate == '') {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 시작일을 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.endDate == '') {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (
+      Math.sign(endTime.diff(startTime)) == -1 ||
+      Math.sign(endTime.diff(startTime)) == 0
+    ) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 다시 확인해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.winnerCnt == 0) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'당첨자수를 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.content == '') {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상세설명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else {
+      optionModifyMutate(obj);
+    }
   };
   useEffect(() => {
     setLoadingModal(isLoading);

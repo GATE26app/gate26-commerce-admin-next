@@ -31,7 +31,7 @@ import EntriesImageComponent from '@/components/entries/detail/EntriesImageCompo
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import { usePutCreateEntriesMutation } from '@/app/apis/entries/EntriesApi.mutation';
-import ToastComponent from '@/components/common/Toast/ToastComponent';
+import dayjs from 'dayjs';
 
 function page() {
   const router = useRouter();
@@ -84,20 +84,80 @@ function page() {
     },
   });
   const handleClick = () => {
+    const startTime = dayjs(EntriesData.openDate);
+    const endTime = dayjs(EntriesData.endDate);
     if (EntriesData.title == '') {
-      ToastComponent('상품응모명을 입력해주세요.');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모명을 입력해주세요.'}
+          </Box>
+        ),
+      });
     } else if (EntriesData.openDate == '') {
-      ToastComponent('상품응모 시작일을 선택해주세요.');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 시작일을 선택해주세요.'}
+          </Box>
+        ),
+      });
     } else if (EntriesData.endDate == '') {
-      ToastComponent('상품응모 종료일을 선택해주세요.');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 선택해주세요.'}
+          </Box>
+        ),
+      });
     } else if (EntriesData.winnerCnt == 0) {
-      ToastComponent('당첨자수를 선택해주세요.');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'당첨자수를 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (
+      Math.sign(endTime.diff(startTime)) == -1 ||
+      Math.sign(endTime.diff(startTime)) == 0
+    ) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 다시 확인해주세요.'}
+          </Box>
+        ),
+      });
     }
     // else if(EntriesData.winnerCnt == 0){
     //   ToastComponent('응모시 차감 mile을 입력해주세요.');
     // }
     else if (EntriesData.content == '') {
-      ToastComponent('상세설명을 입력해주세요.');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상세설명을 입력해주세요.'}
+          </Box>
+        ),
+      });
     } else {
       CreateItemMutate(EntriesData);
     }

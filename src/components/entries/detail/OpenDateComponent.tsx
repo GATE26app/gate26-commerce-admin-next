@@ -49,7 +49,7 @@ function OpenDateComponent({ EntriesData, setEntriesData }: Props) {
         borderColor={ColorGray400}
       >
         <Text fontWeight={800} fontSize={'18px'} color={ColorBlack}>
-          오픈일
+          오픈일시
         </Text>
       </Flex>
       <Flex

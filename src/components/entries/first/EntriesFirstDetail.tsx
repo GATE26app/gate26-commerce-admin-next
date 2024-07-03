@@ -37,8 +37,10 @@ import ToastComponent from '@/components/common/Toast/ToastComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import EntriesImageComponent from '@/components/entries/detail/EntriesImageComponent';
+import dayjs from 'dayjs';
 function EntriesFirstDetail() {
   const router = useRouter();
+  const toast = useToast();
   const searchParams = useSearchParams();
   const getEntryId = searchParams.get('id');
   const [isLoadingModal, setLoadingModal] = useState(false);
@@ -131,7 +133,88 @@ function EntriesFirstDetail() {
       data: EntriesData,
       entryId: Number(getEntryId),
     };
-    optionModifyMutate(obj);
+    const startTime = dayjs(EntriesData.openDate);
+    const endTime = dayjs(EntriesData.endDate);
+    if (EntriesData.title == '') {
+      console.log('1');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.openDate == '') {
+      console.log('2');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 시작일을 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.endDate == '') {
+      console.log('3');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (
+      Math.sign(endTime.diff(startTime)) == -1 ||
+      Math.sign(endTime.diff(startTime)) == 0
+    ) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상품응모 종료일을 다시 확인해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.winnerCnt == 0) {
+      console.log('4');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'당첨자수를 선택해주세요.'}
+          </Box>
+        ),
+      });
+    }
+    // else if(EntriesData.winnerCnt == 0){
+    //   ToastComponent('응모시 차감 mile을 입력해주세요.');
+    // }
+    else if (EntriesData.content == '') {
+      console.log('4');
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'상세설명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else {
+      optionModifyMutate(obj);
+    }
   };
   useEffect(() => {
     setLoadingModal(isLoading);
@@ -155,6 +238,8 @@ function EntriesFirstDetail() {
       },
     },
   });
+
+  console.log('EntriesData', EntriesData);
   return (
     <>
       <ButtonModal
@@ -261,10 +346,10 @@ function EntriesFirstDetail() {
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
             />
-            <OpenDateComponent
+            {/* <OpenDateComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
-            />
+            /> */}
             <EditorDetailComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
