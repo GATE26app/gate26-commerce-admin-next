@@ -48,6 +48,7 @@ function page() {
       onSuccess: (res: any) => {
         if (res.success == true) {
           const data = res.data;
+          document.cookie = `auth=${data?.accessToken}`;
           const param = {
             access: data?.accessToken ? data?.accessToken : '',
             refresh: data?.refreshToken ? data?.refreshToken : '',
@@ -89,6 +90,13 @@ function page() {
 
     setRequest(newRequest);
   }
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      // enter 했을 때의 코드 작성
+      // if(e.keyCode === 13) 도 사용가능하다.
+      handleClickLogin();
+    }
+  };
   return (
     <Box width="100vw" backgroundColor={ColorGray50}>
       <Flex
@@ -147,6 +155,7 @@ function page() {
               value={request.password}
               onChange={(e) => handleChangeInput('password', e.target.value)}
               error={errorMsg}
+              onKeyDown={handleKeyDown}
             />
           </FormHelper>
           <CheckBox

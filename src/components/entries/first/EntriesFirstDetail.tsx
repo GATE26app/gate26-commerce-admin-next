@@ -212,6 +212,17 @@ function EntriesFirstDetail() {
           </Box>
         ),
       });
+    } else if (EntriesData.images.length == 0) {
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'이미지를 추가 해주세요.'}
+          </Box>
+        ),
+      });
     } else {
       optionModifyMutate(obj);
     }

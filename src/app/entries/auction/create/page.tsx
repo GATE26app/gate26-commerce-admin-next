@@ -88,6 +88,17 @@ function page() {
       },
     },
   });
+  // useEffect(() => {
+  //   if (EntriesData.openDate && EntriesData.endDate) {
+  //     console.log('openDate', EntriesData.openDate);
+  //     console.log('endDate', EntriesData.endDate);
+  //     const startTime = dayjs(EntriesData.openDate);
+  //     const endTime = dayjs(EntriesData.endDate);
+  //     console.log('endTime.diff(startTime)', endTime.diff(startTime));
+  //     const durationt = dayjs.duration(endTime.diff(startTime));
+  //     console.log('duration', durationt);
+  //   }
+  // }, [EntriesData]);
   const handleClick = () => {
     const startTime = dayjs(EntriesData.openDate);
     const endTime = dayjs(EntriesData.endDate);
@@ -151,6 +162,17 @@ function page() {
         render: () => (
           <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
             {'상세설명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.images.length == 0) {
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'이미지를 추가 해주세요.'}
           </Box>
         ),
       });

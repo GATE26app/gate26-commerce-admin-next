@@ -32,7 +32,20 @@ import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import { usePutCreateEntriesMutation } from '@/app/apis/entries/EntriesApi.mutation';
 import dayjs from 'dayjs';
+// import ToastComponent from '@/components/common/Toast/ToastComponent';
 
+function ToastComponent(message: string) {
+  const toast = useToast();
+  return toast({
+    position: 'top',
+    duration: 2000,
+    render: () => (
+      <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+        {`${message}`}
+      </Box>
+    ),
+  });
+}
 function page() {
   const router = useRouter();
   const toast = useToast();
@@ -60,6 +73,7 @@ function page() {
     images: [],
   });
 
+  console.log('EntriesData.image', EntriesData.images);
   const { mutate: CreateItemMutate, isLoading } = usePutCreateEntriesMutation({
     options: {
       onSuccess: (res) => {
@@ -84,6 +98,7 @@ function page() {
     },
   });
   const handleClick = () => {
+    console.log('EntriesData', EntriesData);
     const startTime = dayjs(EntriesData.openDate);
     const endTime = dayjs(EntriesData.endDate);
     if (EntriesData.title == '') {
@@ -155,6 +170,17 @@ function page() {
         render: () => (
           <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
             {'상세설명을 입력해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (EntriesData.images.length == 0) {
+      setOpenAlertModal(false);
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'이미지를 추가 해주세요.'}
           </Box>
         ),
       });
