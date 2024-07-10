@@ -24,7 +24,7 @@ const nextConfig = {
       {
         source: '/backoffice/:path*',
         // destination: 'https://cdbackoffice.gate26.co.kr/:path*',
-        destination: 'http://commercebackoffice.gate26.co.kr/:path*',
+        destination: 'https://commercebackoffice.gate26.co.kr/:path*',
         permanent: false
       },
     ];
