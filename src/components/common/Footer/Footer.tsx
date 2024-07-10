@@ -6,11 +6,11 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { ColorFooterBack, ColorWhite } from '@/utils/_Palette';
 
 const data = {
-  compony: 'GATE26',
-  componyUser: '홍길동',
-  num: '111-22-33',
-  num2: '제2019-생태로-0000',
-  address: '서울특별시 서울로 209번길 12',
+  compony: '아시아나IDT(주)',
+  componyUser: '김응철',
+  num: '104-81-22547',
+  num2: '2006-03807',
+  address: '서울특별시 종로구 우정국로 26. A동 23층',
 };
 function Footer() {
   return (
