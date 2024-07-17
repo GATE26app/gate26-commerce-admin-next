@@ -78,7 +78,7 @@ function SelectBox({
           zIndex={9999}
           display={'block'}
           maxHeight={'220px'}
-          overflowY={'scroll'}
+          overflowY={'auto'}
         >
           {list &&
             list.map((item: string, index: number) => {
