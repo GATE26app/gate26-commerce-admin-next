@@ -51,6 +51,9 @@ function MenuBar() {
     ) {
       setMenu(5);
       setOrdreMenu(3);
+    } else if (pathname == '/review') {
+      setMenu(9);
+      setOrdreMenu(1);
     }
   }, [pathname]);
   //필터 초기화
@@ -620,40 +623,42 @@ function MenuBar() {
           신고관리
         </Text>
       </Flex> */}
-      {/* <Flex
-        alignItems={'center'}
-        cursor={'pointer'}
-        mb={'30px'}
-        onClick={() => {
-          setMenu(9);
-          setOrdreMenu(1);
-        }}
-      >
-        {menu == 9 ? (
-          <Image
-            src={'/images/Menu/leftmenu01_on.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/Menu/leftmenu01_off.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        )}
-
-        <Text
-          color={menu == 9 ? ColorRed : ColorGrayMenu}
-          fontWeight={800}
-          fontSize={'18px'}
-          ml={'15px'}
+      <Link href={'/review'}>
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(9);
+            setOrdreMenu(1);
+          }}
         >
-          리뷰관리
-        </Text>
-      </Flex> */}
+          {menu == 9 ? (
+            <Image
+              src={'/images/Menu/leftmenu09_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu09_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 9 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            리뷰관리
+          </Text>
+        </Flex>
+      </Link>
       {/* <Flex
         alignItems={'center'}
         cursor={'pointer'}
