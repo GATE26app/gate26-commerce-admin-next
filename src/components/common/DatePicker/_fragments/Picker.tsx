@@ -5,21 +5,29 @@ import moment from 'moment';
 
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 
-import { ColorBlue, ColorRed, ColorWhite } from '@/utils/_Palette';
+import {
+  ColorBlack,
+  ColorBlue,
+  ColorGray200,
+  ColorGray500,
+  ColorGray700,
+  ColorRed,
+  ColorWhite,
+} from '@/utils/_Palette';
 
 import { PickerGrid, PickerGridItem } from './DatePicker.style';
 import CalendarHeader from './PickerHeader';
 
 interface DatePickerProps {
   date: dayjs.Dayjs;
-  handleDayClick?: (day: dayjs.Dayjs) => void;
+  // handleDayClick?: (day: dayjs.Dayjs) => void;
   onDayClick?: (val: dayjs.Dayjs) => void;
   setDate: (val: dayjs.Dayjs) => void;
   minDateTime?: string;
   maxDateTime?: string;
 }
 const Picker = ({
-  handleDayClick,
+  // handleDayClick,
   onDayClick,
   minDateTime,
   maxDateTime,
@@ -35,10 +43,10 @@ const Picker = ({
 
     setDate(current);
 
-    if (handleDayClick) {
+    if (onDayClick) {
       if (selecetMoment < momentNow) {
       } else {
-        handleDayClick(current);
+        onDayClick(current);
       }
     }
   };
@@ -107,57 +115,8 @@ const Picker = ({
                 <Flex
                   key={current.format('YYYYMMDD')}
                   onClick={() => {
-                    if (minDateTime !== '' && minDateTime !== undefined) {
-                      //maxDateTime 가 있을때
-                      if (maxDateTime !== '' && maxDateTime !== undefined) {
-                        if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
-                          toast({
-                            position: 'top',
-                            duration: 1000,
-                            render: () => (
-                              <Box
-                                style={{ borderRadius: 8 }}
-                                p={3}
-                                color="white"
-                                bg="#ff6955"
-                              >
-                                종료 날짜 이후 날짜는 선택할 수 없습니다.
-                              </Box>
-                            ),
-                          });
-                        } else {
-                          onDayClick && onDayClick(current);
-                          _handleDayClick(current);
-                          setNewSelected(true);
-                        }
-                      } else {
-                        //maxDateTime 가 없을떼
-                        if (dayjs(current).format('YYYY-MM-DD') < minDateTime) {
-                          toast({
-                            position: 'top',
-                            duration: 1000,
-                            render: () => (
-                              <Box
-                                style={{ borderRadius: 8 }}
-                                p={3}
-                                color="white"
-                                bg="#ff6955"
-                              >
-                                시작 날짜보다 이전 날짜는 선택할 수 없습니다.
-                              </Box>
-                            ),
-                          });
-                        } else {
-                          onDayClick && onDayClick(current);
-                          _handleDayClick(current);
-                          setNewSelected(true);
-                        }
-                      }
-                    } else if (
-                      maxDateTime !== '' &&
-                      maxDateTime !== undefined
-                    ) {
-                      if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
+                    if (minDateTime != '' && minDateTime !== undefined) {
+                      if (dayjs(current).format('YYYY-MM-DD') < minDateTime) {
                         toast({
                           position: 'top',
                           duration: 1000,
@@ -167,6 +126,27 @@ const Picker = ({
                               p={3}
                               color="white"
                               bg="#ff6955"
+                            >
+                              시작 날짜보다 이전 날짜는 선택할 수 없습니다.
+                            </Box>
+                          ),
+                        });
+                      } else {
+                        onDayClick && onDayClick(current);
+                        _handleDayClick(current);
+                        setNewSelected(true);
+                      }
+                    } else if (maxDateTime != '' && maxDateTime !== undefined) {
+                      if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
+                        toast({
+                          position: 'top',
+                          duration: 1000,
+                          render: () => (
+                            <Box
+                              style={{ borderRadius: 8 }}
+                              p={3}
+                              color="white"
+                              bg={ColorRed}
                             >
                               종료 날짜 이후 날짜는 선택할 수 없습니다.
                             </Box>
@@ -182,53 +162,6 @@ const Picker = ({
                       _handleDayClick(current);
                       setNewSelected(true);
                     }
-                    // if (minDateTime != '' && minDateTime !== undefined) {
-                    //   if (dayjs(current).format('YYYY-MM-DD') < minDateTime) {
-                    //     toast({
-                    //       position: 'top',
-                    //       duration: 1000,
-                    //       render: () => (
-                    //         <Box
-                    //           style={{ borderRadius: 8 }}
-                    //           p={3}
-                    //           color="white"
-                    //           bg="#ff6955"
-                    //         >
-                    //           시작 날짜보다 이전 날짜는 선택할 수 없습니다.
-                    //         </Box>
-                    //       ),
-                    //     });
-                    //   } else {
-                    //     onDayClick && onDayClick(current);
-                    //     _handleDayClick(current);
-                    //     setNewSelected(true);
-                    //   }
-                    // } else if (maxDateTime != '' && maxDateTime !== undefined) {
-                    //   if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
-                    //     toast({
-                    //       position: 'top',
-                    //       duration: 1000,
-                    //       render: () => (
-                    //         <Box
-                    //           style={{ borderRadius: 8 }}
-                    //           p={3}
-                    //           color="white"
-                    //           bg="#ff6955"
-                    //         >
-                    //           종료 날짜 이후 날짜는 선택할 수 없습니다.
-                    //         </Box>
-                    //       ),
-                    //     });
-                    //   } else {
-                    //     onDayClick && onDayClick(current);
-                    //     _handleDayClick(current);
-                    //     setNewSelected(true);
-                    //   }
-                    // } else {
-                    //   onDayClick && onDayClick(current);
-                    //   _handleDayClick(current);
-                    //   setNewSelected(true);
-                    // }
                   }}
                   cursor="pointer"
                   background={ColorWhite}
@@ -260,10 +193,10 @@ const Picker = ({
                           current.format('YYYYMMDD') == date.format('YYYYMMDD')
                         ? 'white'
                         : isGrayed
-                        ? 'gray.200'
+                        ? ColorGray200
                         : isBlakced
-                        ? 'black'
-                        : 'gray.500'
+                        ? ColorBlack
+                        : ColorGray500
                     }
                   >
                     {current.format('D')}
@@ -292,7 +225,7 @@ const Picker = ({
       <CalendarHeader date={date} setDate={setDate} />
       <PickerGrid templateColumns={'repeat(7, 1fr)'}>
         {['일', '월', '화', '수', '목', '금', '토'].map((el) => (
-          <PickerGridItem w="42.8px" h="44px" key={el} color="gray.700">
+          <PickerGridItem w="42.8px" h="44px" key={el} color={ColorGray700}>
             {el}
           </PickerGridItem>
         ))}
