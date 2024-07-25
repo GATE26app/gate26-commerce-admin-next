@@ -76,6 +76,7 @@ function ImageComponent({ list, setList }: Props) {
       },
     },
   });
+  
   const handleImageSave = (imagePath: string, thumbnailImagePath: string) => {
     const obj = {
       sort: imageIndex,

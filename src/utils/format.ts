@@ -187,6 +187,15 @@ export const imgPath = () => {
   }
 };
 
+export const filePath = () => {
+  if (DEV() === 'dev') {
+    // return `http://192.168.0.63:40009/img/downloadFile?filePath=`;
+    return `https://cdbackoffice.gate26.co.kr`;
+  } else {
+    return `https://commercebackoffice.gate26.co.kr`;
+  }
+};
+
 // 이미지 path
 export const DEV = () => {
   // return '';

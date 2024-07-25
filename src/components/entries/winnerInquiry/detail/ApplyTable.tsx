@@ -143,10 +143,12 @@ function ApplyTable() {
     entryId: Number(getEntryId),
   };
 
+  console.log('Obj', Obj);
   const { mutate: participantList, isLoading } =
     useGetEntryParticipantListMutation({
       options: {
         onSuccess: (res) => {
+          console.log('res.dat', res.data);
           setList(res.data);
         },
       },
@@ -157,6 +159,8 @@ function ApplyTable() {
       participantList(Obj);
     }
   }, [getEntryId]);
+
+  console.log('list', list);
   return (
     <Suspense>
       <Box>

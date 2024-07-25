@@ -9,6 +9,7 @@ export const ColorMainBackBule = '#F5F8FC';
 export const ColorRed = '#FF5942';
 export const ColorRedOpa = '#FFF3F1';
 export const ColorRed50 = '#FFDFDB';
+export const ColorRequireRed = '#D91C24';
 
 export const ColorBlue = '#3479EA';
 export const ColorclickBlue = '#468DFF';

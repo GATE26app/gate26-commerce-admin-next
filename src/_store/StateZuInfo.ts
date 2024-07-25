@@ -8,6 +8,7 @@ interface GoodsType {
   winnerState?: boolean;
   entryState?: boolean;
   reviewState?: boolean;
+  partnerState?: boolean;
 }
 
 interface GoodsInfoState {
@@ -22,6 +23,7 @@ const defaultState = {
   winnerState: false,
   entryState: false,
   reviewState: false,
+  partnerState: false,
 };
 
 export const useGoodsStateZuInfo = create(
