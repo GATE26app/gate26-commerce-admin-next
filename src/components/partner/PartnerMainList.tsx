@@ -1,46 +1,52 @@
 import React, { ReactElement, Suspense, useEffect, useState } from 'react';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
-import { ColorBlack00, ColorGray700, ColorGrayBorder } from '@/utils/_Palette';
+import { ColorBlack00, ColorGray700, ColorGrayBorder, ColorRed, ColorWhite } from '@/utils/_Palette';
 import GoodsFilter from '@/components/goods/GoodsrFilter';
 import GoodsListComponet from '@/components/goods/GoodsListComponet';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { getToken } from '@/utils/localStorage/token';
 import { useSearchParams } from 'next/navigation';
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
-import { usePostListMutation } from '@/app/apis/goods/GoodsApi.mutation';
-import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
+import PartnerFilter from './PartnerFilter';
+import { PartnerSettingFilterInfoType, usePartnerSettingFilterZuInfo } from '@/_store/PartnerSetFilterInfo';
+import { PartnerListDataType, PartnerListParamGetType } from '@/app/apis/partners/PartnersApi.type';
+import PartnerListComponet from './PartnerListComponet';
+import CustomButton from '../common/CustomButton';
+import { useRouter } from '../../../node_modules/next/navigation';
+import { usePostListMutation, usePostPartnersListMutation } from '@/app/apis/partners/PartnersApi.mutation';
 function GoodsMainList() {
-  const { GoodsSettingFilterInfo, setGoodsSettingFilterInfo } =
-    useGoodsSettingFilterZuInfo((state) => state);
+  const { PartnersSettingFilterInfo, setPartnersSettingFilterInfo } =
+    usePartnerSettingFilterZuInfo((state) => state);
   const toast = useToast();
+  const router = useRouter();
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [filter, setFilter] = useState(true);
-  const [list, setList] = useState();
+  const [list, setList] = useState<Array<PartnerListDataType>>();
   const [onSubmit, setOnSubmit] = useState(true);
-  const [request, setRequest] = useState<GoodsListParamGetType>({
-    pageNo: GoodsSettingFilterInfo.pageNo,
-    pageSize: GoodsSettingFilterInfo.pageSize,
-    status: GoodsSettingFilterInfo.status, //0=>오픈예정, 1=>진행중, 2=>종료
-    level: GoodsSettingFilterInfo.level, //1=>노출, 2=>미노출
-    forSale: GoodsSettingFilterInfo.forSale, //1=>선착순, 2=>추첨 , 0 =>당첨자조회
-    searchType: GoodsSettingFilterInfo.searchType,
-    searchKeyword: GoodsSettingFilterInfo.searchKeyword,
-    partnerId: '',
-    // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
+
+  const [request, setRequest] = useState<PartnerListParamGetType>({
+    pageNo: PartnersSettingFilterInfo.pageNo,
+    pageSize: PartnersSettingFilterInfo.pageSize,
+    searchType: PartnersSettingFilterInfo.searchType,
+    searchKeyword: PartnersSettingFilterInfo.searchKeyword,
+    level: PartnersSettingFilterInfo.level,
+    status: PartnersSettingFilterInfo.status,
+    // type: PartnersSettingFilterInfo.pay_type,
   });
-  const { mutate: refreshList, isLoading } = usePostListMutation({
+
+  const { mutate: PartnersList, isLoading } = usePostPartnersListMutation({
     options: {
       onSuccess: (res) => {
         setList(res.data);
         setGoodsInfo({
-          goodState: false,
+          partnerState: false,
         });
       },
     },
   });
 
   const getGoodsMainList = async () => {
-    console.log('request', request);
+    // console.log(request);
     if (request.searchKeyword !== '' && request.searchType == '') {
       toast({
         position: 'top',
@@ -52,19 +58,21 @@ function GoodsMainList() {
         ),
       });
       setGoodsInfo({
-        goodState: false,
+        partnerState: false,
       });
     } else {
-      refreshList(request);
+      PartnersList(request);
     }
   };
 
   useEffect(() => {
-    refreshList(request);
+    PartnersList(request);
   }, []);
+
   useEffect(() => {
-    if (goodsInfo.goodState) getGoodsMainList();
-  }, [goodsInfo.goodState]);
+    if (goodsInfo.partnerState) getGoodsMainList();
+  }, [goodsInfo.partnerState]);
+
   return (
     <Box w={'100%'} py={'60px'}>
       <Flex justifyContent={'space-between'} mb={'26px'}>
@@ -119,13 +127,25 @@ function GoodsMainList() {
         </Flex>
       </Flex>
       {filter && (
-        <GoodsFilter
+        <PartnerFilter
           request={request}
           setRequest={setRequest}
           setOnSubmit={setOnSubmit}
         />
       )}
-      <GoodsListComponet
+      <Flex mt={'40px'} justifyContent={'flex-end'}>
+      <CustomButton
+          text="등록하기"
+          fontSize="15px"
+          color={ColorWhite}
+          bgColor={ColorRed}
+          borderColor={ColorRed}
+          py="14px"
+          px="48px"
+          onClick={() => router.push('/partner/add')}
+        />
+      </Flex>
+      <PartnerListComponet
         data={list}
         request={request}
         setRequest={setRequest}

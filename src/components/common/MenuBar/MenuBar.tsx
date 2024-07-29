@@ -116,7 +116,8 @@ function MenuBar() {
           </Text>
         </Box>
       </Flex>
-      {/* <Flex
+      <Link href={'/partner'}>
+      <Flex
         alignItems={'center'}
         cursor={'pointer'}
         mb={'30px'}
@@ -149,7 +150,8 @@ function MenuBar() {
         >
           파트너사 승인/관리
         </Text>
-      </Flex> */}
+      </Flex>
+      </Link>
       <Link href={'/goodsSetting'}>
         <Flex
           alignItems={'center'}

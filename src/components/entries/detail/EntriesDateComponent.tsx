@@ -86,7 +86,7 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             type={'datetime'}
             curDate={openDay}
             width={'310px'}
-            minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
+            minDateTime={dayjs(new Date()).add(1, 'day').format('YYYY-MM-DD')}
             maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
             onApply={(date) => {
               setOpenDay(date);
@@ -104,7 +104,7 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             minDateTime={
               EntriesData.openDate == ''
                 ? ''
-                : dayjs(EntriesData.openDate).format('YYYY-MM-DD')
+                : dayjs(EntriesData.openDate).add(1, 'day').format('YYYY-MM-DD')
             }
             onApply={(date) => {
               setEndDay(date);

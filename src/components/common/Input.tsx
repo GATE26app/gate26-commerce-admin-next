@@ -12,7 +12,7 @@ export interface Props extends InputProps {
   disabled?: boolean;
 }
 
-const InputBox = ({ error, disabled = false, ...props }: Props) => {
+const InputBox = ({ error, disabled = false, ...props }: any) => {
   return (
     <>
       <Input

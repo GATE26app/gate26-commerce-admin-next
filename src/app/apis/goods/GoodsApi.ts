@@ -188,6 +188,7 @@ export class GoodsApi {
     });
     return data;
   };
+
   //상품 리스트 로그 상세
   getGoodsLogItem = async (
     req: GoodsLogItemReqType,
@@ -244,6 +245,7 @@ export class GoodsApi {
     });
     return data;
   };
+  
   // 상품거절
   postItemDenied = async (
     req: ItemDeniedReqType,
