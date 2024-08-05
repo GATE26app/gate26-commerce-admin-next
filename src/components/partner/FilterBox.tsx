@@ -23,7 +23,13 @@ interface Props {
 }
 function FilterBox({ request, setRequest }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
-  const searchSelectList = ['파트너사명', '아이디', '대표자', '연락처/연락망'];
+  const searchSelectList = [
+    '파트너사명',
+    '아이디',
+    '대표자',
+    '연락처',
+    '연락망',
+  ];
 
   useEffect(() => {
     if (request.searchType == '') {
@@ -285,15 +291,15 @@ function FilterBox({ request, setRequest }: Props) {
                   searchType:
                     item == '파트너사명'
                       ? 'title'
-                      : '아이디'
+                      : item == '아이디'
                       ? 'loginId'
-                      : '대표자'
+                      : item == '대표자'
                       ? 'nameOfRepresentative'
-                      : '연락처'
+                      : item == '연락처'
                       ? 'hp'
-                      : '연락망'
+                      : item == '연락망'
                       ? 'authEmail'
-                      : ''
+                      : '',
                 });
               }}
             />
@@ -301,7 +307,7 @@ function FilterBox({ request, setRequest }: Props) {
           <SearchInput
             value={request.searchKeyword}
             onChange={(e: any) => {
-              setRequest({ ...request, searchKeyword: e.target.value })
+              setRequest({ ...request, searchKeyword: e.target.value });
             }}
             placeholder="검색어를 입력해주세요."
           />

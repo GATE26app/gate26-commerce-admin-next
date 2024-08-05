@@ -5,19 +5,19 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 export interface PartnerSettingFilterInfoType {
   pageNo: number;
   pageSize: number;
-  user_approval: null | number; //null =>전체 0=>임시저장, 1=>승인, 2=>대기, 3=> 반려
-  pay_type: number;
-  user_status: number;
+  level: number; //null =>전체 0=>임시저장, 1=>승인, 2=>대기, 3=> 반려
+  type: number;
+  status: number;
   searchType: string;
   searchKeyword: string;
 }
 
 interface PartnerSettingFiterInfoState {
-  GoodsSettingFilterInfo: PartnerSettingFilterInfoType;
-  setGoodsSettingFilterInfo: (
+  PartnersSettingFilterInfo: PartnerSettingFilterInfoType;
+  setPartnersSettingFilterInfo: (
     firstFilterInfo: PartnerSettingFilterInfoType,
   ) => void;
-  deleteGoodsSettingFilterInfo: () => void;
+  deletePartnersSettingFilterInfo: () => void;
 }
 
 const defaultState = {
