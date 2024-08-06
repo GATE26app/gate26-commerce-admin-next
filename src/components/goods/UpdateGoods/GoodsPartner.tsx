@@ -5,6 +5,7 @@ import {
   useItemDeniedmutation,
 } from '@/app/apis/goods/GoodsApi.mutation';
 import {
+  GoodsBasicProps,
   ItemApproveReqType,
   ItemDeniedReqType,
 } from '@/app/apis/goods/GoodsApi.type';
@@ -31,8 +32,9 @@ import { useQuery } from 'react-query';
 interface Props {
   itemCode: string;
   itemId: string;
+  BasicInfo: GoodsBasicProps;
 }
-function GoodsPartner({ itemCode, itemId }: Props) {
+function GoodsPartner({ itemCode, itemId, BasicInfo }: Props) {
   const [select, setSelect] = useState(''); //로그 상세 선택
   const toast = useToast();
   const router = useRouter();
@@ -189,6 +191,15 @@ function GoodsPartner({ itemCode, itemId }: Props) {
       setSelect(LogListData.data[0].version);
     }
   }, [LogListData]);
+  //승인상태
+  useEffect(() => {
+    if (BasicInfo?.status == 1) {
+      setIsCheck(1);
+    } else if (BasicInfo?.status == 3) {
+      setIsCheck(3);
+      setDeniedReason(BasicInfo?.deniedReason);
+    }
+  }, [BasicInfo?.status]);
   return (
     <>
       <ButtonModal
@@ -234,7 +245,7 @@ function GoodsPartner({ itemCode, itemId }: Props) {
                 fontWeight={600}
                 fontSize={'15px'}
               >
-                파트너사명
+                {BasicInfo?.partnerTitle}
               </Text>
             </Flex>
           </Flex>
@@ -285,7 +296,7 @@ function GoodsPartner({ itemCode, itemId }: Props) {
               상품승인요청일
             </Text>
             <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              2024-01-01 00:00
+              {BasicInfo?.requestDate == null ? '-' : BasicInfo?.requestDate}
             </Text>
           </Flex>
           <Flex flexDirection={'row'} pb={'20px'}>
@@ -296,10 +307,16 @@ function GoodsPartner({ itemCode, itemId }: Props) {
               fontWeight={600}
               fontSize={'15px'}
             >
-              상품승인일
+              {BasicInfo?.status == 1 ? '상품승인일' : '상품반려일'}
             </Text>
             <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              2024-01-01 00:00
+              {BasicInfo?.status == 1
+                ? BasicInfo?.approvalDate == null
+                  ? '-'
+                  : BasicInfo?.deniedDate
+                : BasicInfo?.deniedDate == null
+                ? '-'
+                : BasicInfo?.deniedDate}
             </Text>
           </Flex>
           <Flex flexDirection={'row'} pb={'20px'}>
@@ -325,13 +342,13 @@ function GoodsPartner({ itemCode, itemId }: Props) {
                 <RadioComponent
                   text="반려"
                   disabled={goodsInfo.LogItemDisable}
-                  checked={isCheck == 2 ? true : false}
+                  checked={isCheck == 3 ? true : false}
                   onClick={() => {
-                    setIsCheck(2);
+                    setIsCheck(3);
                   }}
                 />
               </Flex>
-              {isCheck == 2 && (
+              {isCheck == 3 && (
                 <InputBox
                   w={'100%'}
                   mt={'10px'}

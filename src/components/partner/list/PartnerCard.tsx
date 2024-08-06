@@ -29,7 +29,13 @@ import LoadingModal from '@/components/common/Modal/LoadingModal';
 import PartnerItemCard from './PartnerItemCard';
 import SelectBox from '@/components/common/SelectBox/SelectBox';
 import { PartnersParamsType } from '@/app/apis/partners/PartnersApi.type';
-import { useItemApprovePartner, useItemRejectPartner, useItemResignPartner, useItemRestorePartner, useItemStopPartner } from '@/app/apis/partners/PartnersApi.mutation';
+import {
+  useItemApprovePartner,
+  useItemRejectPartner,
+  useItemResignPartner,
+  useItemRestorePartner,
+  useItemStopPartner,
+} from '@/app/apis/partners/PartnersApi.mutation';
 
 // import { useGoodsStateZuInfo } from '_store/StateZuInfo';
 // import { useCustomModalHandlerContext } from 'contexts/modal/useCustomModalHandler.context';
@@ -70,8 +76,8 @@ function PartnerCard({
   const { setGoodsInfo } = useGoodsStateZuInfo((state) => state);
 
   useEffect(() => {
-    if(item){
-      if(item.level == 3){
+    if (item) {
+      if (item.level == 3) {
         setSelect(['정상', '정지', '탈퇴']);
       }
     }
@@ -101,7 +107,7 @@ function PartnerCard({
       },
     },
   });
-  
+
   //반려
   const { mutate: PartnerReject } = useItemRejectPartner({
     options: {
@@ -278,7 +284,12 @@ function PartnerCard({
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <Text fontSize={'14px'} fontWeight={400} color={ColorBlack} textAlign={'center'}>
+          <Text
+            fontSize={'14px'}
+            fontWeight={400}
+            color={ColorBlack}
+            textAlign={'center'}
+          >
             {item.type == 1 ? item.hp : item.authEmail}
           </Text>
         </Flex>
@@ -287,7 +298,17 @@ function PartnerCard({
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <Text fontSize={'14px'} fontWeight={'bold'} color={(item.level == 1) ? ColorBlue : item.level == 2 ? ColorBlack : ColorRed}>
+          <Text
+            fontSize={'14px'}
+            fontWeight={'bold'}
+            color={
+              item.level == 1
+                ? ColorBlue
+                : item.level == 2
+                ? ColorBlack
+                : ColorRed
+            }
+          >
             {item.levelName}
           </Text>
         </Flex>
@@ -297,11 +318,25 @@ function PartnerCard({
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <Text fontSize={'14px'} fontWeight={400} color={ColorBlack} textAlign={'center'}>
-            {item.requestDate ? moment(item.requestDate).format('YYYY-MM-DD') : "-"}
+          <Text
+            fontSize={'14px'}
+            fontWeight={400}
+            color={ColorBlack}
+            textAlign={'center'}
+          >
+            {item.requestDate
+              ? moment(item.requestDate).format('YYYY-MM-DD')
+              : '-'}
           </Text>
-          <Text fontSize={'14px'} fontWeight={400} color={ColorBlack} textAlign={'center'}>
-            {item.processDate ? moment(item.processDate).format('YYYY-MM-DD') : '-'}
+          <Text
+            fontSize={'14px'}
+            fontWeight={400}
+            color={ColorBlack}
+            textAlign={'center'}
+          >
+            {item.processDate
+              ? moment(item.processDate).format('YYYY-MM-DD')
+              : '-'}
           </Text>
         </Flex>
         {/* <Flex
@@ -327,32 +362,33 @@ function PartnerCard({
           w={`${header[8]?.width}%`}
           alignItems={'center'}
           justifyContent={'center'}
+          zIndex={999}
         >
           <SelectBox
-              placeholder="정상"
-              width={'120px'}
-              list={select}
-              select={item.statusName}
-              setSelect={(e) => {
-                console.log(e);
-                if(e == '정지'){
-                  PartnerStop({
-                    partnerId: item.partnerId,
-                    adminMemo: '',
-                  });
-                } else if(e == '정상'){
-                  PartnerRestore({
-                    partnerId: item.partnerId,
-                    adminMemo: '',
-                  });
-                } else if(e == '탈퇴'){
-                  PartnerResign({
-                    partnerId: item.partnerId,
-                    adminMemo: '',
-                  });
-                }
-              }}
-            />
+            placeholder="정상"
+            width={'120px'}
+            list={select}
+            select={item.statusName}
+            setSelect={(e) => {
+              console.log(e);
+              if (e == '정지') {
+                PartnerStop({
+                  partnerId: item.partnerId,
+                  adminMemo: '',
+                });
+              } else if (e == '정상') {
+                PartnerRestore({
+                  partnerId: item.partnerId,
+                  adminMemo: '',
+                });
+              } else if (e == '탈퇴') {
+                PartnerResign({
+                  partnerId: item.partnerId,
+                  adminMemo: '',
+                });
+              }
+            }}
+          />
         </Flex>
         <Flex
           w={`${header[9]?.width}%`}
@@ -367,11 +403,11 @@ function PartnerCard({
             color={ColorGray700}
             borderColor={ColorGray400}
             bgColor={ColorWhite}
-            onClick={() => router.push(`/partner/detail?partnerId=${item.partnerId}`)}
+            onClick={() =>
+              router.push(`/partner/detail?partnerId=${item.partnerId}`)
+            }
           />
         </Flex>
-
-
       </Flex>
     </>
   );

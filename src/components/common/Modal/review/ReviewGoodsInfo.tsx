@@ -15,7 +15,6 @@ interface Props {
   data: ReviewListItemType;
 }
 function ReviewGoodsInfo({ data }: Props) {
-  console.log('data', data);
   return (
     <Flex flexDirection={'column'}>
       {data?.review?.replyContent !== null ? (

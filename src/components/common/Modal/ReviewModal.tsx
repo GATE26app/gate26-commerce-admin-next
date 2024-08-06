@@ -4,22 +4,17 @@ import {
   Box,
   Flex,
   Image,
-  InputGroup,
-  InputRightElement,
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   ModalProps,
   Text,
-  Textarea,
   useToast,
 } from '@chakra-ui/react';
 
 import CustomButton from '@/components/common/CustomButton';
-import InputBox from '@/components/common/Input';
 
 import styled from '@emotion/styled';
 import {
@@ -50,6 +45,7 @@ import {
   useDeleteReviewMutation,
   useReviewShowMutation,
 } from '@/app/apis/review/ReviewApi.mutation';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 interface AlertModalProps extends Omit<ModalProps, 'children'> {
   onClose: () => void;
   reviewId: string;
@@ -65,6 +61,7 @@ function ReviewModal({
   // onSubmit,
   ...props
 }: AlertModalProps) {
+  const toast = useToast();
   const [reload, setReload] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
   const [ModalState, setModalState] = useState({
@@ -75,6 +72,7 @@ function ReviewModal({
     cbOk: () => {},
     cbCancel: () => {},
   });
+  const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const StateArr = ['노출', '노출안함', '블라인드'];
   const [select, setSelect] = useState('');
 
@@ -99,34 +97,55 @@ function ReviewModal({
       setSelect(ReviewData?.data.review.levelName);
     }
   }, [ReviewData]);
-  console.log('reviewId,', reviewId);
-  useEffect(() => {
-    console.log('ReviewData', ReviewData);
-  }, [ReviewData]);
 
   //리뷰 노출 여부
   const { mutate: showReviewMutate } = useReviewShowMutation({
     options: {
       onSuccess: (res) => {
-        console.log('노출 여부 res', res);
+        if (res.success) {
+          onClose();
+          toast({
+            position: 'top',
+            duration: 2000,
+            render: () => (
+              <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                {'노출상태가 변경되었습니다.'}
+              </Box>
+            ),
+          });
+          setGoodsInfo({
+            reviewState: true,
+          });
+        } else {
+          setSelect(String(ReviewData?.data.review.levelName));
+          toast({
+            position: 'top',
+            duration: 2000,
+            render: () => (
+              <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                {res.message}
+              </Box>
+            ),
+          });
+        }
       },
     },
   });
 
-  const changeReviewState = () => {
-    if (select == '노출') {
+  const changeReviewState = (data: string) => {
+    if (data == '노출') {
       const obj = {
         reviewId: reviewId,
         state: 'show',
       };
       showReviewMutate(obj);
-    } else if (select == '노출안함') {
+    } else if (data == '노출안함') {
       const obj = {
         reviewId: reviewId,
         state: 'hide',
       };
       showReviewMutate(obj);
-    } else if (select == '블라인드') {
+    } else if (data == '블라인드') {
       const obj = {
         reviewId: reviewId,
         state: 'blind',
@@ -139,7 +158,6 @@ function ReviewModal({
   const { mutate: deleteReplyMutate } = useDeleteReviewCommentMutation({
     options: {
       onSuccess: (res) => {
-        console.log('댓글 삭제 res', res);
         setReload(true);
         // setList(res.data);
         // setGoodsInfo({
@@ -150,10 +168,8 @@ function ReviewModal({
   });
 
   useEffect(() => {
-    console.log('reload', reload);
     //reload 가 true일때 (댓글 작성시) 재시작
     if (reload) {
-      console.log('reloadddddd');
       refetch();
       setTimeout(() => {
         //1초후 false처리
@@ -216,7 +232,7 @@ function ReviewModal({
               setSelect={setSelect}
               onClick={(data: string) => {
                 setSelect(data);
-                changeReviewState();
+                changeReviewState(data);
                 // setEntriesData({ ...EntriesData, winnerCnt: Number(data) });
               }}
             />

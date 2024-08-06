@@ -79,6 +79,7 @@ export type ReviewDetailDtoType = {
   count: number;
   data: ReviewListItemType;
   success: boolean;
+  message: string;
 };
 
 //리뷰 댓글 작성

@@ -286,7 +286,6 @@ function FilterBox({ request, setRequest }: Props) {
           <SearchInput
             value={request.searchKeyword}
             onChange={(e: any) => {
-              console.log('e', e.target.value);
               setRequest({ ...request, searchKeyword: e.target.value });
             }}
             placeholder="검색어를 입력해주세요."

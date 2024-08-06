@@ -40,7 +40,6 @@ function GoodsMainList() {
   });
 
   const getGoodsMainList = async () => {
-    console.log('request', request);
     if (request.searchKeyword !== '' && request.searchType == '') {
       toast({
         position: 'top',

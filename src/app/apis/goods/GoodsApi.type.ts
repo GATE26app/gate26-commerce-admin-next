@@ -372,6 +372,11 @@ export type GoodsBasicProps = {
   optionInputStartDate: string;
   optionInputEndDate: string;
   autoConfirm: number;
+  partnerTitle: string;
+  requestDate: string;
+  approvalDate: string;
+  deniedDate: string;
+  deniedReason: string;
 };
 //상품등록 type
 export type GoodsReqProps = {

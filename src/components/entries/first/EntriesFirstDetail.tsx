@@ -135,8 +135,12 @@ function EntriesFirstDetail() {
     };
     const startTime = dayjs(EntriesData.openDate);
     const endTime = dayjs(EntriesData.endDate);
+    const nowTime = dayjs(new Date());
+
+    const startTimeDifference = startTime.diff(nowTime, 'minutes'); //현재시간과 시작시간 비교 5분 차이 나야함
+    const endTimeDifference = endTime.diff(startTime, 'minutes'); //시작시간과 종료시간 비교 5분 차이 나야함
+
     if (EntriesData.title == '') {
-      console.log('1');
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -148,7 +152,6 @@ function EntriesFirstDetail() {
         ),
       });
     } else if (EntriesData.openDate == '') {
-      console.log('2');
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -159,8 +162,32 @@ function EntriesFirstDetail() {
           </Box>
         ),
       });
+    }
+    // else if (
+    //   Math.sign(startTime.diff(nowTime)) == -1 ||
+    //   Math.sign(startTime.diff(nowTime)) == 0
+    // ) {
+    //   toast({
+    //     position: 'top',
+    //     duration: 2000,
+    //     render: () => (
+    //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+    //         {'시작일을 현재 시간 이후로 선택해주세요.'}
+    //       </Box>
+    //     ),
+    //   });
+    // }
+    else if (startTimeDifference < 4) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'시작 시간을 현재 시간 5분 이후 시간으로 선택해주세요.'}
+          </Box>
+        ),
+      });
     } else if (EntriesData.endDate == '') {
-      console.log('3');
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -171,21 +198,32 @@ function EntriesFirstDetail() {
           </Box>
         ),
       });
-    } else if (
-      Math.sign(endTime.diff(startTime)) == -1 ||
-      Math.sign(endTime.diff(startTime)) == 0
-    ) {
+    }
+    // else if (
+    //   Math.sign(endTime.diff(nowTime)) == -1 ||
+    //   Math.sign(endTime.diff(nowTime)) == 0
+    // ) {
+    //   toast({
+    //     position: 'top',
+    //     duration: 2000,
+    //     render: () => (
+    //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+    //         {'종료일을 현재 시간 이후로 선택해주세요.'}
+    //       </Box>
+    //     ),
+    //   });
+    // }
+    else if (endTimeDifference < 4) {
       toast({
         position: 'top',
         duration: 2000,
         render: () => (
           <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'상품응모 종료일을 다시 확인해주세요.'}
+            {'종료 시간을 시작시간 5분 이후 시간으로 선택해주세요.'}
           </Box>
         ),
       });
     } else if (EntriesData.winnerCnt == 0) {
-      console.log('4');
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -201,7 +239,6 @@ function EntriesFirstDetail() {
     //   ToastComponent('응모시 차감 mile을 입력해주세요.');
     // }
     else if (EntriesData.content == '') {
-      console.log('4');
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -250,7 +287,6 @@ function EntriesFirstDetail() {
     },
   });
 
-  console.log('EntriesData', EntriesData);
   return (
     <>
       <ButtonModal

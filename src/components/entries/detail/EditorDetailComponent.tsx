@@ -102,7 +102,6 @@ function EditorDetailComponent({ EntriesData, setEntriesData }: Props) {
       onSuccess: (resImg) => {
         if (resImg.success == true) {
           const imgUrl = resImg.data.imagePath;
-          console.log('imgUrl', imgUrl);
           if (quillRef.current !== null) {
             const range = quillRef.current.getEditorSelection();
             quillRef.current

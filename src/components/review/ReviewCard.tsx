@@ -65,7 +65,6 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
   const { mutate: deleteReviewMutate } = useDeleteReviewMutation({
     options: {
       onSuccess: (res) => {
-        console.log('리뷰 삭제 res', res);
         setLoadingModal(false);
         if (res.success == true) {
           setGoodsInfo({
@@ -91,7 +90,6 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
     },
   });
   const handleDelete = () => {
-    console.log('삭제모달');
     setOpenAlertModal(true);
     setModalState({
       ...ModalState,

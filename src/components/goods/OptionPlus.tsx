@@ -126,7 +126,6 @@ function OptionPlus({
   }, [optionInputList]);
 
   useEffect(() => {
-    console.log('optionType', optionType);
     if (optionType == 2) {
       getDatesBetween(
         startDay.format('YYYY-MM-DD'),
@@ -241,7 +240,6 @@ function OptionPlus({
           setOptions(resultArray);
         }
       } else {
-        console.log('조합형');
         if (Number(optionCnt) == 1) {
           handleFirstValueChange();
         } else if (Number(optionCnt) == 2) {
@@ -253,7 +251,6 @@ function OptionPlus({
     }
   };
   const handleFirstValueChange = () => {
-    console.log('1개');
     let resultArray: Option[] = [];
     const firstOptions = optionValues[0].split(',');
     if (DateList.length > 0) {
@@ -300,7 +297,6 @@ function OptionPlus({
   };
 
   const handleSecondValueChange = () => {
-    console.log('2개');
     let resultArray: Option[] = [];
     const firstOptions = optionValues[0].split(',');
     const secondOptions = optionValues[1].split(',');

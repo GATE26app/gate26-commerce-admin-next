@@ -248,7 +248,5 @@ const paymentMethods = {
 };
 
 export const PaymentMethod = (value: string) => {
-  console.log('payment :: ', value);
-  console.log('payment :: ', paymentMethods[value]);
-  // return paymentMethods[value];
+  return paymentMethods[value];
 };

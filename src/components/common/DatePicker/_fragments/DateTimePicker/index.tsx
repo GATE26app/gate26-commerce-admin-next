@@ -47,6 +47,10 @@ const DateTimePicker = ({ date, onTimeClick }: DateTimePickerProps) => {
   const currentTime = () => {
     const curTime = date;
     const minute = curTime?.clone().format('m');
+    // let hour =
+    //   curTime?.clone().format('H') == 'Invalid Date'
+    //     ? dayjs(new Date()).clone().format('H')
+    //     : curTime?.clone().format('H');
     let hour = curTime?.clone().format('H');
     hour = Number(hour) > 12 ? String(Number(hour) - 12) : hour;
     const ampm = curTime?.clone().format('a');
@@ -55,9 +59,11 @@ const DateTimePicker = ({ date, onTimeClick }: DateTimePickerProps) => {
       <div style={{ paddingRight: '10px' }}>
         <Flex padding={'19px 10px'} columnGap={'10px'}>
           <TimeBox className="cur">{ampm === 'am' ? '오전' : '오후'}</TimeBox>
-          <TimeBox className="cur">{hour}</TimeBox>
+          <TimeBox className="cur">{hour == 'Invalid Date' ? 0 : hour}</TimeBox>
           <div>:</div>
-          <TimeBox className="cur">{minute}</TimeBox>
+          <TimeBox className="cur">
+            {minute == 'Invalid Date' ? 0 : minute}
+          </TimeBox>
         </Flex>
         <Flex padding={'0px 10px'} columnGap={'10px'}>
           <Flex direction={'column'}>

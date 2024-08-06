@@ -128,6 +128,11 @@ function UpdateGoodDetail() {
     optionInputStartDate: '', //상품 옵션입력 이용일시 생성구간 시작일
     optionInputEndDate: '', //상품 옵션입력 이용일시 생성구간 종료일,
     autoConfirm: 0, //자동예약확정: 활성화 비활성화
+    partnerTitle: '', //파트너사명
+    requestDate: '', //상품승인요청일
+    approvalDate: '', //상품승인일
+    deniedDate: '', //상품반려일
+    deniedReason: '', //반려사유
   });
   const [imageList, setImageList] = useState<GoodsListItemImageProps[]>([]);
   const [policyList, setPolicyList] = useState<GoodsPoliciesListProps[]>([]);
@@ -154,7 +159,6 @@ function UpdateGoodDetail() {
   >([]);
   const itemCode = getItemCode as string;
 
-  console.log('itemCode', itemCode);
   //상품상세
   const { data: detailData, isLoading } = useQuery(
     ['GET_GOODSDETAIL', itemCode],
@@ -200,6 +204,11 @@ function UpdateGoodDetail() {
           optionInputStartDate: data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
           optionInputEndDate: data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
           autoConfirm: data.autoConfirm,
+          partnerTitle: data.partnerTitle, //파트너사명
+          requestDate: data.requestDate, //상품승인요청일
+          approvalDate: data.approvalDate, //상품승인일
+          deniedDate: data.deniedDate, //상품반려일
+          deniedReason: data.deniedReason,
         });
         setPlanList(data.schedules);
         setPolicyList(data.policies);
@@ -208,8 +217,6 @@ function UpdateGoodDetail() {
       },
     },
   );
-
-  console.log('detailData', detailData);
 
   // useEffect(() => {
   //   if (
@@ -344,7 +351,6 @@ function UpdateGoodDetail() {
   //     optionModifyMutate(body);
   //   }
   // };
-  console.log('BasicInfo', BasicInfo);
   return (
     <>
       {/* {detailData !== undefined ? ( */}
@@ -536,6 +542,8 @@ function UpdateGoodDetail() {
           <GoodsPartner
             itemCode={String(getItemCode)}
             itemId={String(BasicInfo.itemId)}
+            BasicInfo={BasicInfo}
+            // title={BasicInfo?.partnerTitle}
           />
           {/* <CatagoryComponent list={categoryList} setList={setCategoryList} />
           {(getType == '3' || getType == '2') && (

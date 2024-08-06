@@ -80,7 +80,6 @@ function page() {
           });
         } else {
           ToastComponent('등록에 실패하였습니다.');
-          console.log('error 경매 응모 등록 에러', res.code);
         }
       },
       onError: (req) => {
@@ -88,20 +87,15 @@ function page() {
       },
     },
   });
-  // useEffect(() => {
-  //   if (EntriesData.openDate && EntriesData.endDate) {
-  //     console.log('openDate', EntriesData.openDate);
-  //     console.log('endDate', EntriesData.endDate);
-  //     const startTime = dayjs(EntriesData.openDate);
-  //     const endTime = dayjs(EntriesData.endDate);
-  //     console.log('endTime.diff(startTime)', endTime.diff(startTime));
-  //     const durationt = dayjs.duration(endTime.diff(startTime));
-  //     console.log('duration', durationt);
-  //   }
-  // }, [EntriesData]);
+
   const handleClick = () => {
     const startTime = dayjs(EntriesData.openDate);
     const endTime = dayjs(EntriesData.endDate);
+    const nowTime = dayjs(new Date());
+
+    const startTimeDifference = startTime.diff(nowTime, 'minutes'); //현재시간과 시작시간 비교 5분 차이 나야함
+    const endTimeDifference = endTime.diff(startTime, 'minutes'); //시작시간과 종료시간 비교 5분 차이 나야함
+
     if (EntriesData.title == '') {
       toast({
         position: 'top',
@@ -122,6 +116,16 @@ function page() {
           </Box>
         ),
       });
+    } else if (startTimeDifference <= 4) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'시작 시간을 현재 시간 5분 이후 시간으로 선택해주세요.'}
+          </Box>
+        ),
+      });
     } else if (EntriesData.endDate == '') {
       toast({
         position: 'top',
@@ -132,16 +136,28 @@ function page() {
           </Box>
         ),
       });
-    } else if (
-      Math.sign(endTime.diff(startTime)) == -1 ||
-      Math.sign(endTime.diff(startTime)) == 0
-    ) {
+    }
+    // else if (
+    //   Math.sign(endTime.diff(startTime)) == -1 ||
+    //   Math.sign(endTime.diff(startTime)) == 0
+    // ) {
+    //   toast({
+    //     position: 'top',
+    //     duration: 2000,
+    //     render: () => (
+    //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+    //         {'상품응모 종료일을 다시 확인해주세요.'}
+    //       </Box>
+    //     ),
+    //   });
+    // }
+    else if (endTimeDifference <= 4) {
       toast({
         position: 'top',
         duration: 2000,
         render: () => (
           <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'상품응모 종료일을 다시 확인해주세요.'}
+            {'종료 시간을 시작시간 5분 이후 시간으로 선택해주세요.'}
           </Box>
         ),
       });

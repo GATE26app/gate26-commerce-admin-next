@@ -41,12 +41,12 @@ export const cancellistheader = [
   {
     id: 'rest',
     name: '오픈일시',
-    width: '10%',
+    width: '11%',
   },
   {
     id: 'reves',
     name: '종료일시',
-    width: '10%',
+    width: '11%',
   },
   {
     id: 'state',
@@ -56,7 +56,7 @@ export const cancellistheader = [
   {
     id: '예약자정보',
     name: '노출상태',
-    width: '10%',
+    width: '8%',
   },
   {
     id: 'setting',
