@@ -498,3 +498,22 @@ export type ItemDeniedReqType = {
   itemCode: string;
   deniedReason: string;
 };
+
+export type PartnerImageProps = {
+  imagePath: string;
+  thumbnailImagePath: string;
+  createdDate: string;
+};
+
+export type PartnerType = {
+  partnerId: string;
+  loginId: string;
+  level: number;
+  levelName: string;
+  status: number;
+  statusName: string;
+  type: number;
+  typeName: string;
+  title: string;
+  images: PartnerImageProps[];
+};

@@ -51,6 +51,7 @@ import {
   GoodsSchedulesListProps,
   LocationResProps,
   OptionItemProps,
+  PartnerType,
   StatusProps,
   optionInputsProps,
 } from '@/app/apis/goods/GoodsApi.type';
@@ -103,6 +104,20 @@ function UpdateGoodDetail() {
   const [optionInputList, setOptionInputList] = useState<optionInputsProps[]>(
     [],
   );
+  const [partnerInfo, setPartnerInfo] = useState<PartnerType>();
+  // const [partnerInfo, setPartnerInfo] = useState({
+  //   partnerId: '',
+  //   loginId: '',
+  //   level: 0,
+  //   levelName: '',
+  //   status: 0,
+  //   statusName: '',
+  //   type: 0,
+  //   typeName: '',
+  //   title: '',
+  //   images: [],
+  // });
+  // const [partnerImage]
   const [BasicInfo, setBasicInfo] = useState<GoodsBasicProps>({
     itemId: '',
     title: '', //상품 명
@@ -214,6 +229,7 @@ function UpdateGoodDetail() {
         setPolicyList(data.policies);
         setOptionInputList(data.optionInputs);
         setImageList(data.images);
+        setPartnerInfo(data.partner);
       },
     },
   );
@@ -543,6 +559,7 @@ function UpdateGoodDetail() {
             itemCode={String(getItemCode)}
             itemId={String(BasicInfo.itemId)}
             BasicInfo={BasicInfo}
+            partnerInfo={partnerInfo}
             // title={BasicInfo?.partnerTitle}
           />
           {/* <CatagoryComponent list={categoryList} setList={setCategoryList} />

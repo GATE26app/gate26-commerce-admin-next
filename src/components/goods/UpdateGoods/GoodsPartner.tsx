@@ -8,6 +8,7 @@ import {
   GoodsBasicProps,
   ItemApproveReqType,
   ItemDeniedReqType,
+  PartnerType,
 } from '@/app/apis/goods/GoodsApi.type';
 import CustomButton from '@/components/common/CustomButton';
 import InputBox from '@/components/common/Input';
@@ -23,6 +24,7 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
+import { imgPath } from '@/utils/format';
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -33,8 +35,9 @@ interface Props {
   itemCode: string;
   itemId: string;
   BasicInfo: GoodsBasicProps;
+  partnerInfo: PartnerType;
 }
-function GoodsPartner({ itemCode, itemId, BasicInfo }: Props) {
+function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
   const [select, setSelect] = useState(''); //로그 상세 선택
   const toast = useToast();
   const router = useRouter();
@@ -200,6 +203,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo }: Props) {
       setDeniedReason(BasicInfo?.deniedReason);
     }
   }, [BasicInfo?.status]);
+
   return (
     <>
       <ButtonModal
@@ -232,12 +236,24 @@ function GoodsPartner({ itemCode, itemId, BasicInfo }: Props) {
               파트너사
             </Text>
             <Flex gap={'10px'} alignItems={'center'}>
-              <Image
-                src={'/images/Header/icon_header_user.png'}
-                width={24}
-                height={24}
-                alt="파트너사 이미지"
-              />
+              <Box
+                borderRadius={'50px'}
+                overflow={'hidden'}
+                w={'24px'}
+                h={'24px'}
+              >
+                <Image
+                  src={
+                    partnerInfo?.images.length > 0
+                      ? imgPath() + partnerInfo?.images[0].thumbnailImagePath
+                      : '/images/Header/icon_header_user.png'
+                  }
+                  width={24}
+                  height={24}
+                  alt="파트너사 이미지"
+                />
+              </Box>
+
               <Text
                 w={'165px'}
                 flexShrink={0}
