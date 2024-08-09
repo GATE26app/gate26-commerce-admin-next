@@ -507,13 +507,15 @@ export type PartnerImageProps = {
 
 export type PartnerType = {
   partnerId: string;
-  loginId: string;
-  level: number;
-  levelName: string;
-  status: number;
-  statusName: string;
-  type: number;
-  typeName: string;
+  info: string;
+  // level: number;
+  // levelName: string;
+  // status: number;
+  // statusName: string;
+  // type: number;
+  // typeName: string;
   title: string;
-  images: PartnerImageProps[];
+  imagePath: string;
+  thumbnailImagePath: string;
+  // images: Array<PartnerImageType>;
 };
