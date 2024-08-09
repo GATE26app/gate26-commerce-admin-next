@@ -244,7 +244,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
               >
                 <Image
                   src={
-                    partnerInfo?.thumbnailImagePath !== null ||
+                    partnerInfo?.thumbnailImagePath !== null &&
                     partnerInfo?.thumbnailImagePath !== undefined
                       ? imgPath() + partnerInfo?.thumbnailImagePath
                       : '/images/header/icon_header_user.png'
