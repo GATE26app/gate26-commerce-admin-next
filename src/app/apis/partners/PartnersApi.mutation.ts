@@ -3,7 +3,6 @@ import { useMutation } from 'react-query';
 import { MutationHookParams } from '../../apis/type';
 import partnersApi from './PartnersApi';
 
-
 export const EXAMPLE_API_MUTATION_KEY = {
   POST: (param?: string) => ['item-code', param],
 };
@@ -18,21 +17,21 @@ export const usePostPartnersListMutation = (
 
 //상품승인
 export const useItemApprovePartner = (
-    params?: MutationHookParams<typeof partnersApi.postPartnersApprove>,
-  ) => {
-    return useMutation(partnersApi.postPartnersApprove, {
-      ...params?.options,
-    });
-  };
+  params?: MutationHookParams<typeof partnersApi.postPartnersApprove>,
+) => {
+  return useMutation(partnersApi.postPartnersApprove, {
+    ...params?.options,
+  });
+};
 
 //상품반려
 export const useItemRejectPartner = (
-    params?: MutationHookParams<typeof partnersApi.postPartnersReject>,
-  ) => {
-    return useMutation(partnersApi.postPartnersReject, {
-      ...params?.options,
-    });
-  };
+  params?: MutationHookParams<typeof partnersApi.postPartnersReject>,
+) => {
+  return useMutation(partnersApi.postPartnersReject, {
+    ...params?.options,
+  });
+};
 
 //상품정지
 export const useItemStopPartner = (
@@ -52,7 +51,7 @@ export const useItemResignPartner = (
   });
 };
 
-//정상 
+//정상
 export const useItemRestorePartner = (
   params?: MutationHookParams<typeof partnersApi.postPartnersRestore>,
 ) => {
@@ -61,23 +60,23 @@ export const useItemRestorePartner = (
   });
 };
 
-  //등록
-  export const usePutCreatePartnerMutation = (
-    params?: MutationHookParams<typeof partnersApi.putCreatePartners>,
-  ) => {
-    return useMutation(partnersApi.putCreatePartners, {
-      ...params?.options,
-    });
-  };
+//등록
+export const usePutCreatePartnerMutation = (
+  params?: MutationHookParams<typeof partnersApi.putCreatePartners>,
+) => {
+  return useMutation(partnersApi.putCreatePartners, {
+    ...params?.options,
+  });
+};
 
-  //수정
-  export const usePatchUpdatePartnerMutation = (
-    params?: MutationHookParams<typeof partnersApi.patchUpdatePartners>,
-  ) => {
-    return useMutation(partnersApi.patchUpdatePartners, {
-      ...params?.options,
-    });
-  };
+//수정
+export const usePatchUpdatePartnerMutation = (
+  params?: MutationHookParams<typeof partnersApi.patchUpdatePartners>,
+) => {
+  return useMutation(partnersApi.patchUpdatePartners, {
+    ...params?.options,
+  });
+};
 
 //사진 등록
 export const usePostPartnersImageMutation = (
@@ -93,6 +92,14 @@ export const usePostPartnersFileMutation = (
   params?: MutationHookParams<typeof partnersApi.postPartnersfiles>,
 ) => {
   return useMutation(partnersApi.postPartnersfiles, {
+    ...params?.options,
+  });
+};
+//프로필 - 배송비 추가/수정
+export const useProfileShippingMutation = (
+  params?: MutationHookParams<typeof partnersApi.patchParnterShipping>,
+) => {
+  return useMutation(partnersApi.patchParnterShipping, {
     ...params?.options,
   });
 };

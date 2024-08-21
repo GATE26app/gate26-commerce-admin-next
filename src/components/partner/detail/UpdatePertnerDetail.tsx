@@ -36,7 +36,7 @@ import InfoComponent from '@/components/goods/InfoComponent';
 import DetailComponent from '@/components/goods/DetailComponent';
 import PlanComponent from '@/components/goods/PlanComponent';
 import BookingCheckComponent from '@/components/goods/BookingCheckComponent';
-import CancleComponent from '@/components/goods/CancleComponent';
+import CancelComponent from '@/components/goods/CancelComponent';
 import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
 import OptionComponent from '@/components/goods/OptionComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
@@ -61,6 +61,7 @@ import PartnerBasicInfo from './PartnerBasicInfo';
 import PartnerConnectInfo from './PartnerConnectInfo';
 import PartnerPayDataTable from './PartnerPayDataTable';
 import partnersApi from '@/app/apis/partners/PartnersApi';
+import PartnerShippingInfo from './PartnerShippingInfo';
 
 interface CategoryListProps {
   categoryId: number;
@@ -122,8 +123,8 @@ function UpdatePartnerDetail() {
       durationTime: '',
       location: '',
       info: '',
-      lat: 0,
-      lng: 0,
+      lat: '',
+      lng: '',
       images: [
         {
           imagePath: '',
@@ -132,11 +133,14 @@ function UpdatePartnerDetail() {
       ],
     },
   ]);
-  
+
   //상세
-  const { data: info, isLoading: isLoading, error } = useQuery(
-    ['commerce_detail', getPertnerId],
-    () => partnersApi.GetPartnersDetail(getPertnerId),
+  const {
+    data: info,
+    isLoading: isLoading,
+    error,
+  } = useQuery(['commerce_detail', getPertnerId], () =>
+    partnersApi.GetPartnersDetail(String(getPertnerId)),
   );
 
   return (
@@ -179,10 +183,10 @@ function UpdatePartnerDetail() {
             itemId={String(BasicInfo.itemId)}
             info={info && info.data}
           />
-          <PartnerDetailTab setTab={tab} onTab={(t:number) => setTab(t)}/>
-          {tab == 1 && <PartnerBasicInfo info={info && info.data}/>}
-          {tab == 2 && <PartnerConnectInfo info={info?.data}/>}
-          {/* {tab == 3 && <PartnerPayDataTable info={info?.data}/>} */}
+          <PartnerDetailTab setTab={tab} onTab={(t: number) => setTab(t)} />
+          {tab == 1 && <PartnerBasicInfo info={info && info.data} />}
+          {tab == 2 && <PartnerConnectInfo info={info?.data} />}
+          {tab == 3 && <PartnerShippingInfo info={info?.data} />}
         </Box>
       </Flex>
     </>

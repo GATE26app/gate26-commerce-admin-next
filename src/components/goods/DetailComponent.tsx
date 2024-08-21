@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 
-import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
+import { Flex, Image, Text, Textarea } from '@chakra-ui/react';
 
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
+import {
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 import {
   ColorBlack,
@@ -20,7 +23,6 @@ interface Props {
 function DetailComponent({ list, setList }: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const [open, setOpen] = useState(true);
-  const [data, setData] = useState('');
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex
@@ -37,7 +39,7 @@ function DetailComponent({ list, setList }: Props) {
       >
         <Flex>
           <Text fontWeight={800} fontSize={'18px'} color={ColorBlack}>
-            상세설명
+            주의사항
           </Text>
         </Flex>
         <Flex>
@@ -73,19 +75,19 @@ function DetailComponent({ list, setList }: Props) {
         >
           <Flex flexDirection={'column'}>
             <Textarea
-              placeholder="상세설명을 입력해주세요."
+              placeholder="주의사항을 입력해주세요."
               _placeholder={{ color: ColorGray700 }}
               color={ColorBlack}
               borderColor={ColorGray400}
-              onChange={(e) => setList({ ...list, content: e.target.value })}
+              onChange={(e) => setList({ ...list, detailInfo: e.target.value })}
               maxLength={500}
               height={150}
-              value={list.content}
+              value={list.detailInfo}
               disabled={goodsInfo.LogItemDisable}
             />
             <Flex justifyContent={'flex-end'} mt={'5px'}>
               <Text color={ColorGray700} fontWeight={400} fontSize={'15px'}>
-                ({list?.content.length}/500)
+                ({list?.detailInfo == '' ? 0 : list?.detailInfo?.length}/500)
               </Text>
             </Flex>
           </Flex>

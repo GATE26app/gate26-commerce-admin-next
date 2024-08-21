@@ -6,6 +6,7 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 
 import {
   GoodsBasicProps,
+  GoodsDetailBasicProps,
   OptionProps,
   optionInputsProps,
 } from '@/app/apis/goods/GoodsApi.type';

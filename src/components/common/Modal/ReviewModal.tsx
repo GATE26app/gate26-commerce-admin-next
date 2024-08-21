@@ -107,11 +107,13 @@ function ReviewModal({
           toast({
             position: 'top',
             duration: 2000,
-            render: () => (
-              <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-                {'노출상태가 변경되었습니다.'}
-              </Box>
-            ),
+            status: 'success',
+            description: '노출상태가 변경되었습니다.',
+            // render: () => (
+            //   <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            //     {'노출상태가 변경되었습니다.'}
+            //   </Box>
+            // ),
           });
           setGoodsInfo({
             reviewState: true,
@@ -237,7 +239,9 @@ function ReviewModal({
               }}
             />
           </Flex>
-          <ReviewGoodsInfo data={ReviewData?.data} />
+          {ReviewData?.data !== undefined && (
+            <ReviewGoodsInfo data={ReviewData?.data} />
+          )}
 
           {/* 리뷰 내역 */}
 

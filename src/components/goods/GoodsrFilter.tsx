@@ -1,27 +1,20 @@
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
-
-// import { GoodsListParamGetType } from '../../../../apis/goods/GoodsApi.type';
+import { Box, Flex, useToast } from '@chakra-ui/react';
 
 import CustomButton from '@/components/common/CustomButton';
 import ImageButton from '@/components/common/ImageButton';
-import SearchInput from '@/components/common/SearchInput';
-import SelectBox from '@/components/common/SelectBox/SelectBox';
 
 import {
-  ColorBlack,
   ColorGray50,
   ColorGray600,
-  ColorGray700,
   ColorGrayBorder,
-  ColorInputBorder,
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
 
 import FilterBox from './FilterBox';
-
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
@@ -34,11 +27,52 @@ interface Props {
 function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
   const { setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [search, setSearch] = useState('');
+  const router = useRouter();
+  const toast = useToast();
   const {
     GoodsSettingFilterInfo,
     setGoodsSettingFilterInfo,
     deleteGoodsSettingFilterInfo,
   } = useGoodsSettingFilterZuInfo((state) => state);
+  const onClickSubmit = () => {
+    if (request.searchType == '' && request.searchKeyword !== '') {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            검색분류를 선택해주세요.
+          </Box>
+        ),
+      });
+      // ToastComponent('기간조회 유형을 선택해주세요.');
+    } else {
+      router.push(`/goodsSetting?page=1`);
+      setGoodsSettingFilterInfo({
+        ...GoodsSettingFilterInfo,
+        pageNo: 0,
+        searchType: request.searchType !== undefined ? request.searchType : '',
+        searchKeyword:
+          request.searchKeyword !== undefined ? request.searchKeyword : '',
+        level: request.level !== undefined ? request.level : 0,
+        forSale: request.forSale !== undefined ? request.forSale : 0,
+        status: request.status !== undefined ? request.status : null,
+      });
+      setRequest({
+        ...request,
+        pageNo: 0,
+        searchType: request.searchType !== undefined ? request.searchType : '',
+        searchKeyword:
+          request.searchKeyword !== undefined ? request.searchKeyword : '',
+        level: request.level !== undefined ? request.level : 0,
+        forSale: request.forSale !== undefined ? request.forSale : 0,
+        status: request.status !== undefined ? request.status : null,
+      });
+      setGoodsInfo({
+        goodState: true,
+      });
+    }
+  };
   return (
     <Flex
       bgColor={ColorGray50}
@@ -95,23 +129,7 @@ function GoodsFilter({ request, setRequest, setOnSubmit }: Props) {
           py="14px"
           px="67px"
           onClick={() => {
-            // setOnSubmit(true);
-            setGoodsSettingFilterInfo({
-              ...GoodsSettingFilterInfo,
-              pageNo: request.pageNo !== undefined ? request.pageNo : 0,
-              searchType:
-                request.searchType !== undefined ? request.searchType : '',
-              searchKeyword:
-                request.searchKeyword !== undefined
-                  ? request.searchKeyword
-                  : '',
-              status: request.status !== undefined ? request.status : 0,
-              level: request.level !== undefined ? request.level : 0,
-              forSale: request.forSale !== undefined ? request.forSale : 0,
-            });
-            setGoodsInfo({
-              goodState: true,
-            });
+            onClickSubmit();
           }}
         />
         {/* <Button size="sm" text="검색" width={'160px'} /> */}

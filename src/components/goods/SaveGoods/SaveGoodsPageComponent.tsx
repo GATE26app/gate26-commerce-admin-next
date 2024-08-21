@@ -42,10 +42,11 @@ import InfoComponent from '@/components/goods/InfoComponent';
 import DetailComponent from '@/components/goods/DetailComponent';
 import PlanComponent from '@/components/goods/PlanComponent';
 import BookingCheckComponent from '@/components/goods/BookingCheckComponent';
-import CancleComponent from '@/components/goods/CancleComponent';
+import CancelComponent from '@/components/goods/CancelComponent';
 import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
 import OptionComponent from '@/components/goods/OptionComponent';
 import StatusComponent from '@/components/goods/StatusComponent';
+import ShippingComponent from '../ShippingComponent';
 
 interface CategoryListProps {
   categoryId: number;
@@ -115,8 +116,8 @@ function SaveGoodsPageComponent() {
       durationTime: '',
       location: '',
       info: '',
-      lat: 0,
-      lng: 0,
+      lat: '',
+      lng: '',
       images: [
         {
           imagePath: '',
@@ -142,45 +143,83 @@ function SaveGoodsPageComponent() {
     {
       refetchOnWindowFocus: false,
       onSuccess: ({ data }) => {
-        setOptionList(data.options);
-        setCateGetList(data.categories);
-        setLocationGetList(data.locations);
-        // setGoodsItemList(data);
-        setAttributeList(data.attributes);
-        setBasicInfo({
-          itemId: data.itemId,
-          title: data.title, //상품 명
-          basicInfo: data.basicInfo, //상품 기본정보
-          detailInfo: data.detailInfo, //상품 상세설명
-          content: data.content, //상품 상세설명(에디터)
-          reservationInfo: data.reservationInfo, //상품 예약전 확인사항
-          sort: data.sort, //상품 정렬
-          type: data.type, //상품 유형 (미사용)
-          orderSameDay: data.orderSameDay, //상품 이용일시 당일판매, 0=>가능, 1=>불가능
-          orderCloseBefore: data.orderCloseBefore, //상품 판매마감처리, 0=>해당없음, N시간전 판매마감
-          level: data.level, //상품 레벨, 1=>노출, 2=>미노출, 10=>삭제
-          viewStartDate: data.viewStartDate, //노출 시작일시
-          viewEndDate: data.viewEndDate, //노출 종료일시
-          status: data.status, //상품 상태, 0=>임시저장, 2=>저장(승인요청, 승인대기)
-          forSale: data.forSale, //판매 상태, 1=>판매중, 2=>판매안함, 10=>품절
-          priceNet: data.priceNet, //상품 판매금액, 기본할인전
-          priceDcPer: data.priceDcPer, //상품 기본할인율
-          priceDc: data.priceDc, //상품 기본할인금액
-          price: data.price, //상품 판매금액, 기본할인후
-          optionType: data.optionType, //상품 옵션유형, 1=>일반형, 2=>날짜지정형
-          optionInputType: data.optionInputType, //상품 옵션입력 유형, 0=>단독형, 1=>조합형
-          optionInputStartDate: data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
-          optionInputEndDate: data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
-          autoConfirm: data.autoConfirm,
-        });
-        setPlanList(data.schedules);
-        setPolicyList(data.policies);
-        setOptionInputList(data.optionInputs);
-        setImageList(data.images);
+        if (data == undefined) {
+          toast({
+            position: 'top',
+            duration: 2000,
+            render: () => (
+              <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                {'존재하지 않는 상품입니다.'}
+              </Box>
+            ),
+          });
+          if (document.referrer) {
+            router.back();
+          } else {
+            router.replace('/goodsList');
+          }
+        } else {
+          setOptionList(data.options);
+          setCateGetList(data.categories);
+          setLocationGetList(data.locations);
+          // setGoodsItemList(data);
+          setAttributeList(data.attributes);
+          setBasicInfo({
+            itemId: data.itemId,
+            title: data.title, //상품 명
+            basicInfo: data.basicInfo, //상품 기본정보
+            detailInfo: data.detailInfo, //상품 상세설명
+            content: data.content, //상품 상세설명(에디터)
+            reservationInfo: data.reservationInfo, //상품 예약전 확인사항
+            sort: data.sort, //상품 정렬
+            type: data.type, //상품 유형 (미사용)
+            orderSameDay: data.orderSameDay, //상품 이용일시 당일판매, 0=>가능, 1=>불가능
+            orderCloseBefore: data.orderCloseBefore, //상품 판매마감처리, 0=>해당없음, N시간전 판매마감
+            level: data.level, //상품 레벨, 1=>노출, 2=>미노출, 10=>삭제
+            viewStartDate: data.viewStartDate, //노출 시작일시
+            viewEndDate: data.viewEndDate, //노출 종료일시
+            status: data.status, //상품 상태, 0=>임시저장, 2=>저장(승인요청, 승인대기)
+            forSale: data.forSale, //판매 상태, 1=>판매중, 2=>판매안함, 10=>품절
+            priceNet: data.priceNet, //상품 판매금액, 기본할인전
+            priceDcPer: data.priceDcPer, //상품 기본할인율
+            priceDc: data.priceDc, //상품 기본할인금액
+            price: data.price, //상품 판매금액, 기본할인후
+            optionType: data.optionType, //상품 옵션유형, 1=>일반형, 2=>날짜지정형
+            optionInputType: data.optionInputType, //상품 옵션입력 유형, 0=>단독형, 1=>조합형
+            optionInputStartDate: data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
+            optionInputEndDate: data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
+            autoConfirm: data.autoConfirm,
+          });
+          setPlanList(data.schedules);
+          setPolicyList(data.policies);
+          setOptionInputList(data.optionInputs);
+          setImageList(data.images);
+        }
+      },
+      onError: (err) => {
+        console.log('err', err);
       },
     },
   );
 
+  // useEffect(() => {
+  //   if (
+  //     data?.message !== undefined &&
+  //     data?.message == '존재하지 않는 상품입니다.'
+  //   ) {
+  //     toast({
+  //       position: 'top',
+  //       duration: 2000,
+  //       render: () => (
+  //         <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+  //           {'존재하지 않는 상품입니다.'}
+  //         </Box>
+  //       ),
+  //     });
+  //     console.log('vvvv');
+  //     router.back();
+  //   }
+  // }, [data]);
   const ToastComponent = (message: string) => {
     return toast({
       position: 'top',
@@ -318,9 +357,6 @@ function SaveGoodsPageComponent() {
       }
       if (BasicInfo.price == 0) {
         ToastComponent('판매가를 입력해주세요.');
-      }
-      if (BasicInfo.priceDcPer == 0) {
-        ToastComponent('할인율을 입력해주세요.');
       }
       if (imageList.length == 0) {
         ToastComponent('대표 상품 이미지를 선택해주세요.');
@@ -533,7 +569,7 @@ function SaveGoodsPageComponent() {
             getList={CateGetList}
             setGetList={setCateGetList}
           />
-          {(BasicInfo?.optionType == 3 || BasicInfo?.optionType == 2) && (
+          {(getType == '3' || getType == '2') && (
             <>
               <CountryComponent
                 list={locationList}
@@ -545,8 +581,9 @@ function SaveGoodsPageComponent() {
           )}
           <GoodNameComponent list={BasicInfo} setList={setBasicInfo} />
           <PriceComponent list={BasicInfo} setList={setBasicInfo} />
+          {getType == '1' && <ShippingComponent list={BasicInfo} />}
           <ImageComponent list={imageList} setList={setImageList} />
-          {BasicInfo?.optionType == 3 && (
+          {getType == '3' && (
             <DivisionComponent
               list={attributeList}
               setList={setAttributeList}
@@ -554,11 +591,11 @@ function SaveGoodsPageComponent() {
           )}
           <InfoComponent list={BasicInfo} setList={setBasicInfo} />
           <DetailComponent list={BasicInfo} setList={setBasicInfo} />
-          {BasicInfo?.optionType == 3 && (
+          {getType == '3' && (
             <>
               <PlanComponent list={planList} setList={setPlanList} />
               <BookingCheckComponent list={BasicInfo} setList={setBasicInfo} />
-              <CancleComponent list={policyList} setList={setPolicyList} />
+              <CancelComponent list={policyList} setList={setPolicyList} />
             </>
           )}
           <EditorDetailComponent list={BasicInfo} setList={setBasicInfo} />

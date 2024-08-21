@@ -14,7 +14,7 @@ import { ColorGray700, ColorInputBorder, ColorWhite } from '@/utils/_Palette';
 const SearchInput = ({ ...props }) => {
   return (
     <Flex
-      // borderRadius={'10px'}
+      // borderRadius={'0px'}
       // borderWidth={1}
       borderColor={ColorInputBorder}
       bgColor={ColorWhite}

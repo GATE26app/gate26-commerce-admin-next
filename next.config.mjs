@@ -24,10 +24,11 @@ const nextConfig = {
       {
         source: '/backoffice/:path*',
         destination: 'https://cdbackoffice.gate26.co.kr/:path*',
-        permanent: false
+        // destination: 'https://commercebackoffice.gate26.co.kr/:path*',
+        permanent: false,
       },
     ];
-  }
+  },
 };
 
 export default nextConfig;

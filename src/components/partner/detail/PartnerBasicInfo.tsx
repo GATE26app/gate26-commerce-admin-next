@@ -801,14 +801,16 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
               {...register('hp')}
               value={watch('hp')}
               onChange={(e) => {
-                setValue('hp', e.target.value);
-                if (/^\d+$/.test(e.target.value)) {
+                if (!/[^0-9]/g.test(e.target.value)) {
                   if (e.target.value.length < 8) {
                     setError({ ...error, hp: '최소 길이는 8자입니다.' });
                   } else if (e.target.value.length > 11) {
                     setError({ ...error, hp: '최대 길이는 11자입니다.' });
                   } else {
                     setError({ ...error, hp: '' });
+                  }
+                  if (e.target.value.length <= 11) {
+                    setValue('hp', e.target.value.replace(/[^0-9]/g, ''));
                   }
                 } else {
                   setError({ ...error, hp: '숫자만 입력 가능합니다.' });
@@ -1216,15 +1218,18 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                   {...register('tel')}
                   value={watch('tel')}
                   type={'number'}
+                  maxLength={11}
                   onChange={(e) => {
-                    setValue('tel', e.target.value);
-                    if (/^\d+$/.test(e.target.value)) {
+                    if (!/[^0-9]/g.test(e.target.value)) {
                       if (e.target.value.length < 8) {
                         setError({ ...error, tel: '최소 길이는 8자입니다.' });
                       } else if (e.target.value.length > 11) {
                         setError({ ...error, tel: '최대 길이는 11자입니다.' });
                       } else {
                         setError({ ...error, tel: '' });
+                      }
+                      if (e.target.value.length <= 11) {
+                        setValue('tel', e.target.value.replace(/[^0-9]/g, ''));
                       }
                     } else {
                       setError({ ...error, tel: '숫자만 입력 가능합니다.' });
@@ -1641,8 +1646,8 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
             text="목록"
             borderColor={ColorGray400}
             color={ColorGray700}
-            px="44px"
-            py="13px"
+            px="67px"
+            py="14px"
             bgColor={ColorWhite}
             fontSize="15px"
             onClick={() => router.back()}
@@ -1652,8 +1657,8 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
             text="확인"
             borderColor={ColorRed}
             color={ColorWhite}
-            px="44px"
-            py="13px"
+            px="67px"
+            py="14px"
             bgColor={ColorRed}
             fontSize="15px"
             onClick={() => {

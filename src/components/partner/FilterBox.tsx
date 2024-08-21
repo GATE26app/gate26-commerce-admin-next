@@ -67,7 +67,7 @@ function FilterBox({ request, setRequest }: Props) {
               borderColor={request.level == 1 ? ColorRed : ColorInputBorder}
               bgColor={request.level == 1 ? ColorRed : ColorWhite}
               borderRadius={'10px'}
-              text="대기"
+              text="정상"
               fontSize={'15px'}
               color={request.level == 1 ? ColorWhite : ColorGray700}
               onClick={() => setRequest({ ...request, level: 1 })}
@@ -78,7 +78,7 @@ function FilterBox({ request, setRequest }: Props) {
               borderColor={request.level == 2 ? ColorRed : ColorInputBorder}
               bgColor={request.level == 2 ? ColorRed : ColorWhite}
               borderRadius={'10px'}
-              text="승인"
+              text="승인대기중"
               fontSize={'15px'}
               color={request.level == 2 ? ColorWhite : ColorGray700}
               onClick={() => setRequest({ ...request, level: 2 })}

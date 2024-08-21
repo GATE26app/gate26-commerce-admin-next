@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
 
 import {
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
+
+import {
   ColorBlack,
   ColorGray50,
   ColorGray100,
@@ -13,7 +18,6 @@ import {
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
 
 interface Props {
   list: GoodsBasicProps;

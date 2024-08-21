@@ -5,19 +5,19 @@ export type ListDtoType = {
   success: boolean;
   message?: string;
 };
- //상품 목록 params
- export type FileListType = {
+//상품 목록 params
+export type FileListType = {
   type: number;
   typeName: string;
   filePath: string;
   thumbnailImagePath: string;
   createdDate: string;
- };
- export type ImageListType = {
+};
+export type ImageListType = {
   imagePath: string;
   thumbnailImagePath: string;
- };
- export type PartnersParamsType = {
+};
+export type PartnersParamsType = {
   partnerId: string;
   loginId: string;
   level: number;
@@ -41,8 +41,8 @@ export type ListDtoType = {
   businessType: string;
   businessItem: string;
   businessTel: string;
-  images: Array<ImageListType>,
-  files: Array<FileListType>,
+  images: Array<ImageListType>;
+  files: Array<FileListType>;
   requestDate: string;
   processDate: string;
   deniedDate: string;
@@ -76,30 +76,30 @@ export type PartnerListDataType = {
   pageCount: number;
   pageNo: number;
   pageSize: number;
-  partners: Array<PartnersParamsType>
+  partners: Array<PartnersParamsType>;
 };
 
 export type PartnerListDTO = {
   code: string;
   count: number;
-  data: PartnerListDataType,
-  success: boolean,
-}
+  data: PartnerListDataType;
+  success: boolean;
+};
 
 export type PartnerDetailDTO = {
   code: string;
   count: number;
-  data: PartnersParamsType,
-  success: boolean,
-}
+  data: PartnersParamsType;
+  success: boolean;
+};
 
 export type PartnerStatusResultType = {
   code: string;
   message?: string;
   count: number;
   success: boolean;
-  data?:any;
-}
+  data?: any;
+};
 
 export type PartnerAddStatusResultType = {
   code: string;
@@ -109,7 +109,7 @@ export type PartnerAddStatusResultType = {
   data: {
     partnerId: string;
   };
-}
+};
 
 export type PartnerAddFormType = {
   partnerId?: string;
@@ -137,9 +137,9 @@ export type PartnerAddFormType = {
   mailOrderSalesRegistrationNo: string;
   images: Array<ImageListType>;
   files: Array<FileListType>;
-  files1: Array<FileListType>,
-  files2: Array<FileListType>,
-  files3: Array<FileListType>,
+  files1: Array<FileListType>;
+  files2: Array<FileListType>;
+  files3: Array<FileListType>;
   status: number;
 };
 
@@ -152,14 +152,24 @@ export type PartnerFileResponseType = {
     thumbnailImagePath: string;
   };
   success: boolean;
-}
+};
 
 export type AdminStatusInputType = {
   adminMemo?: string;
   status: number;
-}
+};
 
 export type updateStatueType = {
   partnerId: string;
   adminMemo?: string;
-}
+};
+
+export type PartnerShippingResType = {
+  partnerId: string;
+  shipping: PartnerShippingType;
+};
+export type PartnerShippingType = {
+  shippingType: number;
+  shippingFee: number;
+  shippingMinAmount: number;
+};

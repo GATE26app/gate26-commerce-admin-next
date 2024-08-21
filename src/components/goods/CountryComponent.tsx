@@ -3,9 +3,6 @@ import { useQuery } from 'react-query';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
-import goodsApi from '@/app/apis/goods/GoodsApi';
-import { LocationResProps } from '@/app/apis/goods/GoodsApi.type';
-
 import {
   ColorBlack,
   ColorGray50,
@@ -16,7 +13,9 @@ import {
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
-import { LocationListProps } from '@/app/saveGoods/page';
+import { LocationListProps } from './SaveGoods/SaveGoodsPageComponent';
+import { LocationResProps } from '@/app/apis/goods/GoodsApi.type';
+import goodsApi from '@/app/apis/goods/GoodsApi';
 import LocationSelectBox from '../common/SelectBox/LocationSelectBox';
 
 interface LocationProps {
@@ -83,7 +82,6 @@ function CountryComponent({ list, setList, getList, setGetList }: Props) {
     if (getList) {
       const result: SelectListProps[] = [];
       getList.forEach((item) => {
-        // console.log()
         result.push({
           level1Name:
             item.depth == 1 ? item.title : item.fullTitle.split('>')[0],
@@ -95,7 +93,6 @@ function CountryComponent({ list, setList, getList, setGetList }: Props) {
       setSelectList(result);
       const resultId: LocationListProps[] = [];
       getList.forEach((item) => {
-        // console.log()
         resultId.push({
           locationId: item.locationId,
         });

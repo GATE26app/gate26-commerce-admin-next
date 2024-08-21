@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 
 import {
   Editable,
@@ -36,6 +36,8 @@ interface Props {
 function OptionList({ list, setList, optionList, setOptionList }: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const [focus, setFocus] = useState(false);
+  const [stock, setStock] = useState('');
+  const [price, setprice] = useState('');
   const onDeleteOption = (id: number) => {
     setOptionList(
       optionList.filter((item: Option, index: number) => index !== id),
@@ -58,20 +60,23 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
     } else if (key == 'thirdValue') {
       optionList[index].thirdValue = value;
     } else if (key == 'stockCnt') {
-      optionList[index].stockCnt = Number(value);
+      let updateItem = optionList.map((item) =>
+        item.sort === index + 1 ? { ...item, stockCnt: Number(stock) } : item,
+      );
+      setOptionList(updateItem);
     } else if (key == 'price') {
-      optionList[index].price = Number(value);
+      let updateItem = optionList.map((item) =>
+        item.sort === index + 1 ? { ...item, price: Number(price) } : item,
+      );
+      setOptionList(updateItem);
     }
   };
-
   return (
     <Flex
       borderRadius={'12px'}
       borderColor={ColorGray400}
       borderWidth={1}
       mt={'30px'}
-      // w={'1200px'}
-      // h={'500px'}
       overflow={'hidden'}
       flexDirection={'column'}
     >
@@ -82,8 +87,6 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
           flexDirection={'row'}
           h={'60px'}
           w="100%"
-          // borderBottomColor={ColorGray400}
-          // borderBottomWidth={1}
         >
           {optionList[0].useDateTime !== '' &&
             optionList[0].useDateTime !== null && (
@@ -100,9 +103,77 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                 </Text>
               </Flex>
             )}
-
-          {/* {optionList[0].firstKey !== null && ( */}
-          <Flex
+          {/* 옵션타입 optionInputType 0=> 단독형 1 =>조합형 */}
+          {list.optionInputType == 1 ? (
+            <>
+              <Flex
+                w={'300px'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRightWidth={1}
+                borderRightColor={ColorGray400}
+              >
+                <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                  {optionList[0].firstKey}
+                </Text>
+              </Flex>
+              {optionList[0].secondKey !== null &&
+                optionList[0].secondKey !== '' && (
+                  <Flex
+                    w={'300px'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    borderRightWidth={1}
+                    borderRightColor={ColorGray400}
+                  >
+                    <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                      {optionList[0].secondKey}
+                    </Text>
+                  </Flex>
+                )}
+              {optionList[0].thirdKey !== null &&
+                optionList[0].thirdKey !== '' && (
+                  <Flex
+                    w={'300px'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    borderRightWidth={1}
+                    borderRightColor={ColorGray400}
+                  >
+                    <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                      {optionList[0].thirdKey}
+                    </Text>
+                  </Flex>
+                )}
+            </>
+          ) : (
+            <>
+              {/* 단독형 */}
+              <Flex
+                w={'300px'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRightWidth={1}
+                borderRightColor={ColorGray400}
+              >
+                <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                  옵션명
+                </Text>
+              </Flex>
+              <Flex
+                w={'300px'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRightWidth={1}
+                borderRightColor={ColorGray400}
+              >
+                <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                  옵션값
+                </Text>
+              </Flex>
+            </>
+          )}
+          {/* <Flex
             py={'20px'}
             w={'300px'}
             alignItems={'center'}
@@ -114,7 +185,6 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               {list.optionInputType == 0 ? '옵션명' : optionList[0].firstKey}
             </Text>
           </Flex>
-          {/* )} */}
           {list.optionInputType == 1 &&
           optionList[0].secondKey !== null &&
           optionList[0].secondKey !== '' ? (
@@ -169,7 +239,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                 {optionList[0].thirdKey}
               </Text>
             </Flex>
-          )}
+          )} */}
           {optionList[0].price !== null && (
             <Flex
               w={'300px'}
@@ -236,15 +306,45 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                     >
                       <Editable
                         w={'100%'}
+                        key={item.useDateTime.split(' ')[0]}
                         value={item.useDateTime.split(' ')[0]}
                         textAlign={'center'}
                         fontSize={'15px'}
                         fontWeight={500}
-                        isPreviewFocusable={true}
+                        isPreviewFocusable={false}
                         selectAllOnFocus={false}
                         isDisabled={goodsInfo.LogItemDisable}
                         onChange={(e) =>
                           handleInputChange(index, 'useDateTime', e)
+                        }
+                      >
+                        <EditablePreview py={'17px'} color={ColorGray700} />
+                        <EditableInput py={'17px'} color={ColorBlack} />
+                      </Editable>
+                    </Flex>
+                  )}
+                {/* 옵션타입 optionInputType 0=> 단독형 1 =>조합형 */}
+                {list.optionInputType == 1 ? (
+                  <>
+                    <Flex
+                      w={'300px'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRightWidth={1}
+                      borderRightColor={ColorGray400}
+                    >
+                      <Editable
+                        w={'100%'}
+                        key={item.firstValue}
+                        value={item.firstValue}
+                        textAlign={'center'}
+                        fontSize={'15px'}
+                        fontWeight={500}
+                        isPreviewFocusable={false}
+                        selectAllOnFocus={false}
+                        isDisabled={goodsInfo.LogItemDisable}
+                        onChange={(e) =>
+                          handleInputChange(index, 'firstValue', e)
                         }
                       >
                         <EditablePreview py={'17px'} color={ColorGray700} />
@@ -255,217 +355,130 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                         />
                       </Editable>
                     </Flex>
-                  )}
-
-                {/* <Flex
-                  w={'300px'}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                  borderRightColor={ColorGray400}
-                  borderRightWidth={1}
-                >
-                  <Input
-                    defaultValue={
-                      item.type == 1 ? item.firstKey : item.firstValue
-                    }
-                    fontSize={'16px'}
-                    fontWeight={500}
-                    focusBorderColor={ColorBlack}
-                    borderRadius={0}
-                    color={focus ? ColorBlack : ColorGray700}
-                    borderWidth={0}
-                    textAlign={'center'}
-                    onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)}
-                    onChange={(e) =>
-                      handleInputChange(
-                        index,
-                        item.type == 1 ? 'firstKey' : 'firstValue',
-                        e.target.value,
-                      )
-                    }
-                  /> */}
-                <Flex
-                  w={'300px'}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                  borderRightWidth={1}
-                  borderRightColor={ColorGray400}
-                >
-                  <Editable
-                    w={'100%'}
-                    value={
-                      list.optionInputType == 0
-                        ? item.firstKey
-                        : item.firstValue
-                    }
-                    textAlign={'center'}
-                    fontSize={'15px'}
-                    fontWeight={500}
-                    isPreviewFocusable={true}
-                    selectAllOnFocus={false}
-                    isDisabled={goodsInfo.LogItemDisable}
-                    onChange={(e) =>
-                      handleInputChange(
-                        index,
-                        item.type == 1 ? 'firstKey' : 'firstValue',
-                        e,
-                      )
-                    }
-                  >
-                    <EditablePreview py={'17px'} color={ColorGray700} />
-                    <EditableInput
-                      py={'17px'}
-                      color={ColorBlack}
-                      disabled={goodsInfo.LogItemDisable}
-                    />
-                  </Editable>
-                </Flex>
-                {list.optionInputType == 0 &&
-                optionList[0].secondKey !== null &&
-                optionList[0].secondKey !== '' ? (
-                  // <Flex
-                  //   w={'300px'}
-                  //   alignItems={'center'}
-                  //   justifyContent={'center'}
-                  //   borderRightColor={ColorGray400}
-                  //   borderRightWidth={1}
-                  // >
-                  //   <Input
-                  //     defaultValue={
-                  //       item.type == 1 ? item.firstValue : item.secondValue
-                  //     }
-                  //     fontSize={'16px'}
-                  //     fontWeight={500}
-                  //     focusBorderColor={ColorBlack}
-                  //     borderRadius={0}
-                  //     color={focus ? ColorBlack : ColorGray700}
-                  //     borderWidth={0}
-                  //     textAlign={'center'}
-                  //     onFocus={() => setFocus(true)}
-                  //     onBlur={() => setFocus(false)}
-                  //     onChange={(e) =>
-                  //       handleInputChange(
-                  //         index,
-                  //         item.type == 1 ? 'firstValue' : 'secondValue',
-                  //         e.target.value,
-                  //       )
-                  //     }
-                  //     // onFocus={}
-                  //   />
-                  //   {/* <Text
-                  //     fontSize={'15px'}
-                  //     fontWeight={500}
-                  //     color={ColorGray700}
-                  //     py={'17px'}
-                  //   >
-                  //     {item.type == 1 ? item.firstValue : item.secondValue}
-                  //   </Text> */}
-                  // </Flex>
-                  <Flex
-                    w={'300px'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRightWidth={1}
-                    borderRightColor={ColorGray400}
-                  >
-                    <Editable
-                      w={'100%'}
-                      value={
-                        list.optionInputType == 0
-                          ? item.firstKey
-                          : item.secondValue
-                      }
-                      textAlign={'center'}
-                      fontSize={'15px'}
-                      fontWeight={500}
-                      isPreviewFocusable={true}
-                      selectAllOnFocus={false}
-                      isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) =>
-                        handleInputChange(
-                          index,
-                          list.optionInputType == 0
-                            ? 'firstKey'
-                            : 'secondValue',
-                          e,
-                        )
-                      }
-                    >
-                      <EditablePreview py={'17px'} color={ColorGray700} />
-                      <EditableInput
-                        py={'17px'}
-                        color={ColorBlack}
-                        disabled={goodsInfo.LogItemDisable}
-                      />
-                    </Editable>
-                  </Flex>
+                    {item.secondValue !== null && item.secondValue !== '' && (
+                      <Flex
+                        w={'300px'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        borderRightWidth={1}
+                        borderRightColor={ColorGray400}
+                      >
+                        <Editable
+                          w={'100%'}
+                          key={item.secondValue}
+                          value={item.secondValue}
+                          textAlign={'center'}
+                          fontSize={'15px'}
+                          fontWeight={500}
+                          isPreviewFocusable={false}
+                          selectAllOnFocus={false}
+                          isDisabled={goodsInfo.LogItemDisable}
+                          onChange={(e) =>
+                            handleInputChange(index, 'secondValue', e)
+                          }
+                        >
+                          <EditablePreview py={'17px'} color={ColorGray700} />
+                          <EditableInput
+                            py={'17px'}
+                            color={ColorBlack}
+                            disabled={goodsInfo.LogItemDisable}
+                          />
+                        </Editable>
+                      </Flex>
+                    )}
+                    {item.thirdValue !== null && item.thirdValue !== '' && (
+                      <Flex
+                        w={'300px'}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        borderRightWidth={1}
+                        borderRightColor={ColorGray400}
+                      >
+                        <Editable
+                          w={'100%'}
+                          key={item.thirdValue}
+                          value={item.thirdValue}
+                          textAlign={'center'}
+                          fontSize={'15px'}
+                          fontWeight={500}
+                          isPreviewFocusable={false}
+                          selectAllOnFocus={false}
+                          isDisabled={goodsInfo.LogItemDisable}
+                          onChange={(e) =>
+                            handleInputChange(index, 'thirdValue', e)
+                          }
+                        >
+                          <EditablePreview py={'17px'} color={ColorGray700} />
+                          <EditableInput
+                            py={'17px'}
+                            color={ColorBlack}
+                            disabled={goodsInfo.LogItemDisable}
+                          />
+                        </Editable>
+                      </Flex>
+                    )}
+                  </>
                 ) : (
-                  <></>
+                  <>
+                    {/* 단독형 */}
+                    <Flex
+                      w={'300px'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRightWidth={1}
+                      borderRightColor={ColorGray400}
+                    >
+                      <Editable
+                        w={'100%'}
+                        key={item.firstKey}
+                        value={item.firstKey}
+                        // value={item.firstKey}
+                        textAlign={'center'}
+                        fontSize={'15px'}
+                        fontWeight={500}
+                        isPreviewFocusable={false}
+                        selectAllOnFocus={false}
+                        isDisabled={goodsInfo.LogItemDisable}
+                        onChange={(e) => {
+                          handleInputChange(index, 'firstKey', e);
+                        }}
+                      >
+                        <EditablePreview py={'17px'} color={ColorGray700} />
+                        <EditableInput py={'17px'} color={ColorBlack} />
+                      </Editable>
+                    </Flex>
+                    <Flex
+                      w={'300px'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRightWidth={1}
+                      borderRightColor={ColorGray400}
+                    >
+                      <Editable
+                        w={'100%'}
+                        key={item.firstValue}
+                        value={item.firstValue}
+                        textAlign={'center'}
+                        fontSize={'15px'}
+                        fontWeight={500}
+                        isPreviewFocusable={false}
+                        selectAllOnFocus={false}
+                        isDisabled={goodsInfo.LogItemDisable}
+                        onChange={(e) =>
+                          handleInputChange(index, 'firstValue', e)
+                        }
+                      >
+                        <EditablePreview py={'17px'} color={ColorGray700} />
+                        <EditableInput
+                          py={'17px'}
+                          color={ColorBlack}
+                          disabled={goodsInfo.LogItemDisable}
+                        />
+                      </Editable>
+                    </Flex>
+                  </>
                 )}
 
-                {optionList[0].type == 1 && (
-                  <Flex
-                    w={'300px'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRightWidth={1}
-                    borderRightColor={ColorGray400}
-                  >
-                    <Editable
-                      w={'100%'}
-                      value={item.firstValue}
-                      textAlign={'center'}
-                      fontSize={'15px'}
-                      fontWeight={500}
-                      isPreviewFocusable={true}
-                      selectAllOnFocus={false}
-                      isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) =>
-                        handleInputChange(index, 'firstValue', e)
-                      }
-                      // py={'20px'}
-                    >
-                      <EditablePreview py={'17px'} color={ColorGray700} />
-                      <EditableInput
-                        py={'17px'}
-                        color={ColorBlack}
-                        disabled={goodsInfo.LogItemDisable}
-                      />
-                    </Editable>
-                  </Flex>
-                )}
-
-                {item.thirdValue !== null && item.thirdValue !== '' && (
-                  <Flex
-                    w={'300px'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRightWidth={1}
-                    borderRightColor={ColorGray400}
-                  >
-                    <Editable
-                      w={'100%'}
-                      value={item.thirdValue}
-                      textAlign={'center'}
-                      fontSize={'15px'}
-                      fontWeight={500}
-                      isPreviewFocusable={true}
-                      selectAllOnFocus={false}
-                      isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) =>
-                        handleInputChange(index, 'thirdValue', e)
-                      }
-                    >
-                      <EditablePreview py={'17px'} color={ColorGray700} />
-                      <EditableInput
-                        py={'17px'}
-                        color={ColorBlack}
-                        disabled={goodsInfo.LogItemDisable}
-                      />
-                    </Editable>
-                  </Flex>
-                )}
                 {item.price !== null && (
                   <Flex
                     w={'300px'}
@@ -476,16 +489,22 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                   >
                     <Editable
                       w={'100%'}
-                      value={String(item.price)}
+                      key={item.price}
+                      defaultValue={String(item.price)}
                       textAlign={'center'}
                       fontSize={'15px'}
                       fontWeight={500}
                       isPreviewFocusable={true}
                       selectAllOnFocus={false}
                       isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) => handleInputChange(index, 'price', e)}
+                      onBlur={(e) => handleInputChange(index, 'price', e)}
+                      onChange={(e) => setprice(e)}
                     >
-                      <EditablePreview py={'17px'} color={ColorGray700} />
+                      <EditablePreview
+                        py={'17px'}
+                        color={ColorGray700}
+                        width="full"
+                      />
                       <EditableInput
                         py={'17px'}
                         type="number"
@@ -505,23 +524,41 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                   >
                     <Editable
                       w={'100%'}
-                      value={String(item.stockCnt)}
+                      defaultValue={String(item.stockCnt)}
                       textAlign={'center'}
                       fontSize={'15px'}
                       fontWeight={500}
+                      key={item.stockCnt}
                       isPreviewFocusable={true}
                       selectAllOnFocus={false}
-                      isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) => handleInputChange(index, 'stockCnt', e)}
+                      // isDisabled={goodsInfo.LogItemDisable}
+                      onChange={(e) => setStock(e)}
+                      onBlur={(e) => {
+                        handleInputChange(index, 'stockCnt', e);
+                      }}
                     >
-                      <EditablePreview py={'17px'} color={ColorGray700} />
+                      <EditablePreview
+                        py={'17px'}
+                        color={ColorGray700}
+                        width="full"
+                      />
                       <EditableInput
                         py={'17px'}
                         type="number"
                         color={ColorBlack}
-                        disabled={goodsInfo.LogItemDisable}
                       />
                     </Editable>
+
+                    {/* <InputBox
+                      placeholder="예) 색상"
+                      defaultValue={optionList[index].stockCnt}
+                      disabled={goodsInfo.LogItemDisable}
+                      onChange={(e) =>
+                        handleInputChange(index, 'stockCnt', e.target.value)
+                      }
+                      // value={item.optionName}
+                      // onChange={(e) => handleOptionValueChange(index, e.target.value)}
+                    /> */}
                   </Flex>
                 )}
 
@@ -529,8 +566,6 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                   w={'300px'}
                   alignItems={'center'}
                   justifyContent={'center'}
-                  // borderLeftColor={ColorGray400}
-                  // borderLeftWidth={1}
                 >
                   <CustomButton
                     text="삭제하기"
@@ -553,4 +588,4 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   );
 }
 
-export default OptionList;
+export default memo(OptionList);

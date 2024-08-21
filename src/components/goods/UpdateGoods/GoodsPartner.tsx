@@ -1,4 +1,3 @@
-import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import goodsApi from '@/app/apis/goods/GoodsApi';
 import {
   useItemApprovemutation,
@@ -6,6 +5,8 @@ import {
 } from '@/app/apis/goods/GoodsApi.mutation';
 import {
   GoodsBasicProps,
+  GoodsDetailBasicProps,
+  GoodsSelectLogItemType,
   ItemApproveReqType,
   ItemDeniedReqType,
   PartnerType,
@@ -20,6 +21,7 @@ import {
   ColorBlack,
   ColorGray400,
   ColorGray50,
+  ColorGray700,
   ColorGrayBorder,
   ColorRed,
   ColorWhite,
@@ -30,14 +32,21 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 interface Props {
   itemCode: string;
   itemId: string;
   BasicInfo: GoodsBasicProps;
   partnerInfo: PartnerType;
+  setSelectLog: React.Dispatch<React.SetStateAction<GoodsSelectLogItemType>>;
 }
-function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
+function GoodsPartner({
+  itemCode,
+  itemId,
+  BasicInfo,
+  partnerInfo,
+  setSelectLog,
+}: Props) {
   const [select, setSelect] = useState(''); //로그 상세 선택
   const toast = useToast();
   const router = useRouter();
@@ -55,7 +64,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
     cbCancel: () => {},
   });
   const [logList, setLogList] = useState([]);
-  // console.log
+  console.log('BasicInfo', BasicInfo);
   //상품승인
   const { mutate: ApproveMutate } = useItemApprovemutation({
     options: {
@@ -92,6 +101,8 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
       },
     },
   });
+
+  console.log('select', select);
   //상품거절
   const { mutate: DeniedMutate } = useItemDeniedmutation({
     options: {
@@ -200,7 +211,9 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
       setIsCheck(1);
     } else if (BasicInfo?.status == 3) {
       setIsCheck(3);
-      setDeniedReason(BasicInfo?.deniedReason);
+      setDeniedReason(
+        BasicInfo?.deniedReason !== undefined ? BasicInfo?.deniedReason : '',
+      );
     }
   }, [BasicInfo?.status]);
 
@@ -223,6 +236,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
         bgColor={ColorGray50}
         p={'40px'}
         flexDirection={'column'}
+        mb={'20px'}
       >
         <Flex flexDirection={'column'}>
           <Flex flexDirection={'row'} pb={'20px'}>
@@ -262,11 +276,11 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
                 fontWeight={600}
                 fontSize={'15px'}
               >
-                {BasicInfo?.partnerTitle}
+                {partnerInfo?.title}
               </Text>
             </Flex>
           </Flex>
-          <Flex flexDirection={'row'}>
+          <Flex flexDirection={'row'} alignItems={'center'}>
             <Text
               w={'165px'}
               flexShrink={0}
@@ -288,10 +302,25 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
                     itemCode: itemCode,
                     itemId: e,
                   };
+                  console.log('obj', obj);
+                  setSelectLog(obj);
                   // console.log(e);
                   // LogItemMutate(obj);
                 }}
               />
+            </Flex>
+            <Flex pl={'15px'}>
+              <Text
+                fontWeight={400}
+                fontSize={'15px'}
+                color={ColorGray700}
+                pr={'10px'}
+              >
+                상품코드
+              </Text>
+              <Text color={ColorBlack} fontWeight={600} fontSize={'15px'}>
+                {BasicInfo?.itemCode}
+              </Text>
             </Flex>
           </Flex>
         </Flex>
@@ -316,26 +345,73 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
               {BasicInfo?.requestDate == null ? '-' : BasicInfo?.requestDate}
             </Text>
           </Flex>
-          <Flex flexDirection={'row'} pb={'20px'}>
-            <Text
-              w={'165px'}
-              flexShrink={0}
-              color={ColorBlack}
-              fontWeight={600}
-              fontSize={'15px'}
-            >
-              {BasicInfo?.status == 1 ? '상품승인일' : '상품반려일'}
-            </Text>
-            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              {BasicInfo?.status == 1
-                ? BasicInfo?.approvalDate == null
+          <Flex>
+            <Flex flexDirection={'row'} pb={'20px'} w={'50%'}>
+              <Text
+                w={'165px'}
+                flexShrink={0}
+                color={ColorBlack}
+                fontWeight={600}
+                fontSize={'15px'}
+              >
+                상품승인일/거절일시
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                {BasicInfo?.status == 1
+                  ? BasicInfo?.approvalDate == null ||
+                    BasicInfo?.approvalDate == undefined
+                    ? '-'
+                    : BasicInfo?.approvalDate
+                  : BasicInfo?.deniedDate == null ||
+                    BasicInfo?.deniedDate == undefined
                   ? '-'
-                  : BasicInfo?.deniedDate
-                : BasicInfo?.deniedDate == null
-                ? '-'
-                : BasicInfo?.deniedDate}
-            </Text>
+                  : BasicInfo?.deniedDate}
+              </Text>
+            </Flex>
+            <Flex flexDirection={'row'} pb={'20px'} w={'50%'}>
+              <Text
+                w={'165px'}
+                flexShrink={0}
+                color={ColorBlack}
+                fontWeight={600}
+                fontSize={'15px'}
+              >
+                승인처리자/반려처리자
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                {BasicInfo?.status == 1
+                  ? BasicInfo?.approvalId == null ||
+                    BasicInfo?.approvalId == undefined
+                    ? '-'
+                    : BasicInfo?.approvalId
+                  : BasicInfo?.deniedId == null ||
+                    BasicInfo?.deniedId == undefined
+                  ? '-'
+                  : BasicInfo?.deniedId}
+              </Text>
+            </Flex>
           </Flex>
+          {(BasicInfo.deniedDate !== null ||
+            BasicInfo.deniedDate !== undefined) && (
+            <Flex flexDirection={'row'} pb={'20px'}>
+              <Text
+                w={'165px'}
+                flexShrink={0}
+                color={ColorBlack}
+                fontWeight={600}
+                fontSize={'15px'}
+              >
+                반려사유
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                {BasicInfo?.deniedReason == null ||
+                BasicInfo?.deniedReason == undefined
+                  ? '-'
+                  : BasicInfo?.deniedReason}
+              </Text>
+            </Flex>
+          )}
+
           <Flex flexDirection={'row'} pb={'20px'}>
             <Text
               w={'165px'}
@@ -372,7 +448,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
                   value={deniedReason}
                   placeholder="반려 사유를 입력해주세요."
                   // value={list?.title}
-                  onChange={(e) => setDeniedReason(e.target.value)}
+                  onChange={(e: any) => setDeniedReason(e.target.value)}
                   disabled={goodsInfo.LogItemDisable}
                   // register={register('title')}
                 />
@@ -382,7 +458,7 @@ function GoodsPartner({ itemCode, itemId, BasicInfo, partnerInfo }: Props) {
         </Flex>
         <Flex justifyContent={'center'} pt={'20px'}>
           <CustomButton
-            text="저장"
+            text="처리완료"
             bgColor={ColorRed}
             borderColor={ColorRed}
             color={ColorWhite}

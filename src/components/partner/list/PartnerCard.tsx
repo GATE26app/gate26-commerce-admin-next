@@ -88,7 +88,11 @@ function PartnerCard({
       onSuccess: (res) => {
         setLoadingModal(false);
         if (res.success == true) {
-          toast({ description: '링크가 복사되었습니다.', status: 'success' });
+          toast({
+            position: 'top',
+            description: '링크가 복사되었습니다.',
+            status: 'success',
+          });
           setGoodsInfo({
             partnerState: true,
           });
@@ -139,7 +143,11 @@ function PartnerCard({
       onSuccess: (res) => {
         setLoadingModal(false);
         if (res.success == true) {
-          toast({ description: '정지 처리되었습니다.', status: 'success' });
+          toast({
+            position: 'top',
+            description: '정지 처리되었습니다.',
+            status: 'success',
+          });
           setGoodsInfo({
             partnerState: true,
           });
@@ -165,7 +173,11 @@ function PartnerCard({
       onSuccess: (res) => {
         setLoadingModal(false);
         if (res.success == true) {
-          toast({ description: '탈퇴 처리되었습니다.', status: 'success' });
+          toast({
+            position: 'top',
+            description: '탈퇴 처리되었습니다.',
+            status: 'success',
+          });
           setGoodsInfo({
             partnerState: true,
           });
@@ -191,7 +203,11 @@ function PartnerCard({
       onSuccess: (res) => {
         setLoadingModal(false);
         if (res.success == true) {
-          toast({ description: '정상 처리되었습니다.', status: 'success' });
+          toast({
+            position: 'top',
+            description: '정상 처리되었습니다.',
+            status: 'success',
+          });
           setGoodsInfo({
             partnerState: true,
           });
@@ -362,7 +378,7 @@ function PartnerCard({
           w={`${header[8]?.width}%`}
           alignItems={'center'}
           justifyContent={'center'}
-          zIndex={999}
+          // zIndex={999}
         >
           <SelectBox
             placeholder="정상"

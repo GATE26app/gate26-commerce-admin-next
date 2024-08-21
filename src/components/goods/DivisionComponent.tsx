@@ -2,18 +2,43 @@ import React, { useEffect, useState } from 'react';
 
 import { Flex, Image, Text, useToast } from '@chakra-ui/react';
 
-import { GoodsAttributeListProps } from '@/app/apis/goods/GoodsApi.type';
-
 import InputBox from '@/components/common/Input';
 
 import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { GoodsAttributeListProps } from '@/app/apis/goods/GoodsApi.type';
 import SelectBox from '../common/SelectBox/SelectBox';
 
-const tranList = ['도보', '차량', '그외(직접입력)'];
+const tranList = ['도보', '차량', '비행기', '기차', '그외(직접입력)'];
 const tripSizeList = ['단독 프라이빗/투어', '그룹 투어'];
-const timeList = ['1시간', '2시간', '3시간', '4시간', '5시간', '6시간'];
+const timeList = [
+  '1시간',
+  '2시간',
+  '3시간',
+  '4시간',
+  '5시간',
+  '6시간',
+  '7시간',
+  '8시간',
+  '9시간',
+  '10시간',
+  '11시간',
+  '12시간',
+  '13시간',
+  '14시간',
+  '15시간',
+  '16시간',
+  '17시간',
+  '18시간',
+  '19시간',
+  '20시간',
+  '21시간',
+  '22시간',
+  '23시간',
+  '24시간',
+  '그외(직접입력)',
+];
 const languageList = [
   '한국어',
   '영어',
@@ -36,6 +61,7 @@ function DivisionComponent({ list, setList }: Props) {
   const [inputTrans, setInputTrans] = useState('');
   const [tripSize, seTripSize] = useState('');
   const [time, setTime] = useState('');
+  const [inputTime, setInputTime] = useState('');
   const [language, setLanguage] = useState('');
   const [inputLanguage, setInputLanguage] = useState('');
   // const [list, setList] = useState<GoodsAttributeListProps[]>([]);
@@ -181,12 +207,12 @@ function DivisionComponent({ list, setList }: Props) {
                 <InputBox
                   placeholder="언어 직접입력"
                   value={inputTrans}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     setInputTrans(e.target.value);
                     // handleOnChange(4, '언어', 1, e.target.value);
                   }}
                   disabled={goodsInfo.LogItemDisable}
-                  onBlur={(e) =>
+                  onBlur={(e: any) =>
                     handleOnChange(1, '이동수단', 1, e.target.value)
                   }
                 />
@@ -222,9 +248,24 @@ function DivisionComponent({ list, setList }: Props) {
                 disable={goodsInfo.LogItemDisable}
                 setSelect={setTime}
                 onClick={(data: string) =>
-                  handleOnChange(3, '소요시간', 1, data)
+                  data !== '그외(직접입력)'
+                    ? handleOnChange(3, '소요시간', 1, data)
+                    : setInputTime('')
                 }
               />
+              {time == '그외(직접입력)' && (
+                <InputBox
+                  placeholder="소요시간 직접입력"
+                  value={inputTime}
+                  onChange={(e: any) => {
+                    setInputTime(e.target.value);
+                  }}
+                  disabled={goodsInfo.LogItemDisable}
+                  onBlur={(e: any) =>
+                    handleOnChange(3, '소요시간', 1, e.target.value)
+                  }
+                />
+              )}
             </Flex>
             <Flex w={'311px'} flexDirection={'column'} gap={'6px'}>
               <Text fontWeight={700} fontSize={'16px'} color={ColorBlack}>
@@ -248,12 +289,14 @@ function DivisionComponent({ list, setList }: Props) {
                 <InputBox
                   placeholder="언어 직접입력"
                   value={inputLanguage}
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     setInputLanguage(e.target.value);
                     // handleOnChange(4, '언어', 1, e.target.value);
                   }}
                   disabled={goodsInfo.LogItemDisable}
-                  onBlur={(e) => handleOnChange(4, '언어', 1, e.target.value)}
+                  onBlur={(e: any) =>
+                    handleOnChange(4, '언어', 1, e.target.value)
+                  }
                 />
               )}
             </Flex>

@@ -8,6 +8,8 @@ import {
   PartnerAddFormType,
   PartnerListDTO,
   PartnerListParamGetType,
+  PartnerShippingResType,
+  PartnerShippingType,
   PartnerStatusResultType,
   updateStatueType,
 } from './PartnersApi.type';
@@ -200,6 +202,21 @@ export class PartnersApi {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
     });
+    return data;
+  };
+  // 배송비 추가/수정
+  patchParnterShipping = async (
+    body: PartnerShippingResType,
+  ): Promise<ListDtoType> => {
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: `/admin/partners/${body.partnerId}/shipping`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: body.shipping,
+    });
+    console.log('body', body);
     return data;
   };
 }
