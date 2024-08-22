@@ -56,7 +56,7 @@ export type GoodsListParamGetType = {
   partnerId?: string;
 };
 
-//상품 상세 response data && 상품 목록 데이터
+//상품 상세 response data
 export type GoodsItemProps = {
   itemId: string;
   itemCode: string;
@@ -120,6 +120,7 @@ export type ListDtoType = {
   count?: number;
   data?: any;
   success: boolean;
+  message?: string;
 };
 export type DeleteType = {
   itemCode: string;
@@ -202,15 +203,20 @@ export type GoodsListItemCategoryProps = {
 };
 export type GoodsListResponseProps = {
   count: number;
-  data?: GoodsListItemProps[];
+  data?: Array<GodsListItemDataListProps>;
   pageCount: number;
   pageNo: number;
+  pageSize: number;
   totalCount: number;
 };
 export type GoodsListItemImageProps = {
   sort: number;
   imagePath: string;
   thumbnailImagePath: string;
+};
+export type GodsListItemDataListProps = {
+  itemCode: string;
+  items: Array<GoodsListItemProps>;
 };
 export type GoodsListItemProps = {
   itemId: string;
@@ -303,8 +309,8 @@ export type GoodsSchedulesListProps = {
   startTime: string;
   durationTime: string;
   location: string;
-  lat: number;
-  lng: number;
+  lat: string;
+  lng: string;
   info: string;
   images: ScheduleImageProps[];
 };
@@ -349,6 +355,7 @@ export type optionInputsProps = {
 //상품 등록시 basic body type
 export type GoodsBasicProps = {
   itemId: string;
+  itemCode?: string;
   title: string;
   basicInfo: string;
   detailInfo: string;
@@ -372,9 +379,51 @@ export type GoodsBasicProps = {
   optionInputStartDate: string;
   optionInputEndDate: string;
   autoConfirm: number;
+  deniedReason?: string;
+  partnerTitle?: string;
+  requestDate?: string;
+  approvalDate?: string;
+  deniedDate?: string;
+  approvalId?: string;
+  deniedId?: string;
+  partnerId?: string;
+};
+
+//상품 상세시 basic body type
+export type GoodsDetailBasicProps = {
+  itemId: string;
+  title: string;
+  basicInfo: string;
+  detailInfo: string;
+  content: string;
+  reservationInfo: string;
+  sort: number;
+  type: number;
+  orderSameDay: number;
+  orderCloseBefore: number;
+  level: number;
+  viewStartDate: string;
+  viewEndDate: string;
+  status: number;
+  forSale: number;
+  priceNet: number;
+  priceDcPer: number;
+  priceDc: number;
+  price: number;
+  optionType: number;
+  optionInputType: number;
+  optionInputStartDate: string;
+  optionInputEndDate: string;
+  autoConfirm: number;
+  deniedReason: string;
+  partnerTitle: string;
+  requestDate: string;
+  approvalDate: string;
+  deniedDate: string;
 };
 //상품등록 type
 export type GoodsReqProps = {
+  partnerId?: string;
   title: string;
   basicInfo: string;
   detailInfo: string;
@@ -434,6 +483,8 @@ export type PatchUpdateGoodsStatusParmaType = {
 export type PathGoodsType = {
   level: number;
   forSale: number;
+  autoConfirm: number;
+  orderSameDay: number;
   viewStartDate: string;
   viewEndDate: string;
 };
@@ -445,6 +496,11 @@ export type GoodsOptionStockModifyType = {
 };
 export type GoodsLogItemType = {
   itemCode: string;
+};
+
+export type GoodsSelectLogItemType = {
+  itemCode: string;
+  itemId: string;
 };
 
 export type LodListType = {
@@ -473,7 +529,6 @@ export type CateProps = {
   sort: number;
   title: string;
 };
-
 // 상품승인 params
 export type ItemApproveReqType = {
   itemId: string;
@@ -492,4 +547,76 @@ export type ItemDeniedReqType = {
   itemId: string;
   itemCode: string;
   deniedReason: string;
+};
+
+export type PartnerType = {
+  partnerId: string;
+  info: string;
+  level: number;
+  levelName: string;
+  status: number;
+  statusName: string;
+  type: number;
+  typeName: string;
+  title: string;
+  imagePath: string;
+  // thumbnailImagePath: string;
+  images: Array<PartnerImageType>;
+};
+
+export type PartnerImageType = {
+  imagePath: string;
+  thumbnailImagePath: string;
+  createdDate: string;
+};
+export type PartnerListParamGetType = {
+  pageNo: number;
+  pageSize: number;
+  type?: number;
+  status?: number;
+  level?: number;
+  searchKeyword?: string;
+  searchType?: string;
+  partnerId?: string;
+};
+
+export type PartnerListParamType = {
+  count: number;
+  pageCount: number;
+  pageNo: number;
+  pageSize: number;
+  partners: Array<PartnersParamsType>;
+  totalCount: number;
+};
+
+export type PartnerListDTO = {
+  code: string;
+  count: number;
+  data: PartnerListDataType;
+  success: boolean;
+};
+export type PartnerListDataType = {
+  count: number;
+  totalCount: number;
+  pageCount: number;
+  pageNo: number;
+  pageSize: number;
+  partners: Array<PartnersParamsType>;
+};
+
+export type PartnersParamsType = {
+  partnerId: string;
+  loginId: string;
+  level: number;
+  levelName: string;
+  type: number;
+  typeName: string;
+  title: string;
+  status: number;
+  statusName: string;
+  images: Array<PartnerImageType>;
+  shippingFee: number;
+  shippingMinAmount: number;
+  shippingType: number;
+  shippingTypeName: string;
 };

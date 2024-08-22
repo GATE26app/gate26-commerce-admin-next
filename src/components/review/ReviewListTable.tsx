@@ -107,7 +107,6 @@ function ReviewListTable({ data }: Props) {
     }
   };
 
-  console.log('data', data);
   return (
     <Box
       overflowX={'auto'}

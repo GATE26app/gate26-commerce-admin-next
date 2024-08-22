@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 
 import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
 
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
-
 import {
   ColorBlack,
   ColorGray50,
-  ColorGray100,
   ColorGray400,
   ColorGray700,
-  ColorRed,
-  ColorWhite,
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import {
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 interface Props {
   list: GoodsBasicProps;

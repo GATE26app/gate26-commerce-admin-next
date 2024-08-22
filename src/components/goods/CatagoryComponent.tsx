@@ -3,9 +3,6 @@ import { useQuery } from 'react-query';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
-import goodsApi from '@/app/apis/goods/GoodsApi';
-import { CategoryResProps } from '@/app/apis/goods/GoodsApi.type';
-
 import {
   ColorBlack,
   ColorGray50,
@@ -16,15 +13,18 @@ import {
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
-import { CategoryListProps } from '@/app/saveGoods/page';
+import goodsApi from '@/app/apis/goods/GoodsApi';
 import CategorySelectBox from '../common/SelectBox/CategorySelectBox';
+import { CategoryResProps } from '@/app/apis/goods/GoodsApi.type';
 
 interface SelectListProps {
   categoryId: number;
   level1Name: string;
   level2Name: string;
 }
-
+interface CategoryListProps {
+  categoryId: number;
+}
 interface CateProps {
   categories: Array<CateProps[]>;
   categoryId: number;
@@ -59,7 +59,6 @@ function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
     if (getList) {
       const result: SelectListProps[] = [];
       getList.forEach((item) => {
-        // console.log()
         result.push({
           level1Name:
             item.depth == 1 ? item.title : item.fullTitle.split('>')[0],
@@ -71,7 +70,6 @@ function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
       setSelectList(result);
       const resultId: CategoryListProps[] = [];
       getList.forEach((item) => {
-        // console.log()
         resultId.push({
           categoryId: item.categoryId,
         });

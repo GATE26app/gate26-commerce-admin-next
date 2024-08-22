@@ -1,6 +1,12 @@
 import React, { ReactElement, Suspense, useEffect, useState } from 'react';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
-import { ColorBlack00, ColorGray700, ColorGrayBorder, ColorRed, ColorWhite } from '@/utils/_Palette';
+import {
+  ColorBlack00,
+  ColorGray700,
+  ColorGrayBorder,
+  ColorRed,
+  ColorWhite,
+} from '@/utils/_Palette';
 import GoodsFilter from '@/components/goods/GoodsrFilter';
 import GoodsListComponet from '@/components/goods/GoodsListComponet';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
@@ -8,15 +14,22 @@ import { getToken } from '@/utils/localStorage/token';
 import { useSearchParams } from 'next/navigation';
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
 import PartnerFilter from './PartnerFilter';
-import { PartnerSettingFilterInfoType, usePartnerSettingFilterZuInfo } from '@/_store/PartnerSetFilterInfo';
-import { PartnerListDataType, PartnerListParamGetType } from '@/app/apis/partners/PartnersApi.type';
+import {
+  PartnerSettingFilterInfoType,
+  usePartnerSettingFilterZuInfo,
+} from '@/_store/PartnerSetFilterInfo';
+import {
+  PartnerListDataType,
+  PartnerListParamGetType,
+} from '@/app/apis/partners/PartnersApi.type';
 import PartnerListComponet from './PartnerListComponet';
 import CustomButton from '../common/CustomButton';
 import { useRouter } from '../../../node_modules/next/navigation';
-import { usePostListMutation, usePostPartnersListMutation } from '@/app/apis/partners/PartnersApi.mutation';
+import { usePostPartnersListMutation } from '@/app/apis/partners/PartnersApi.mutation';
 function GoodsMainList() {
-  const { PartnersSettingFilterInfo, setPartnersSettingFilterInfo } =
-    usePartnerSettingFilterZuInfo((state) => state);
+  const { PartnersSettingFilterInfo } = usePartnerSettingFilterZuInfo(
+    (state) => state,
+  );
   const toast = useToast();
   const router = useRouter();
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
@@ -30,6 +43,7 @@ function GoodsMainList() {
     searchType: PartnersSettingFilterInfo.searchType,
     searchKeyword: PartnersSettingFilterInfo.searchKeyword,
     level: PartnersSettingFilterInfo.level,
+    type: PartnersSettingFilterInfo.type,
     status: PartnersSettingFilterInfo.status,
     // type: PartnersSettingFilterInfo.pay_type,
   });
@@ -134,7 +148,7 @@ function GoodsMainList() {
         />
       )}
       <Flex mt={'40px'} justifyContent={'flex-end'}>
-      <CustomButton
+        <CustomButton
           text="등록하기"
           fontSize="15px"
           color={ColorWhite}

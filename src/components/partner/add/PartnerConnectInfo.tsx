@@ -3,7 +3,16 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 
-import { Box, Flex, Image, Text, useToast, Grid, GridItem, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  useToast,
+  Grid,
+  GridItem,
+  Textarea,
+} from '@chakra-ui/react';
 
 // import goodsApi from '@/apis/goods/GoodsApi';
 import { usePatchUpdateGoodsStatusMutation } from '@/app/apis/goods/GoodsApi.mutation';
@@ -39,7 +48,7 @@ import CustomButton from '@/components/common/CustomButton';
 import InputBox from '@/components/common/Input';
 import RadioComponent from '@/components/common/CustomRadioButton/RadioComponent';
 import PartnerImageComponent from './PartnerImageComponents';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import SelectBox from '@/components/common/SelectBox/SelectBox';
 
 function PartnerConnectInfo() {
@@ -50,8 +59,13 @@ function PartnerConnectInfo() {
   const searchParams = useSearchParams();
   const [check, setCheck] = useState(1);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = (data:any) => console.log(data);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => console.log(data);
 
   const [ModalState, setModalState] = useState({
     title: '',
@@ -76,18 +90,26 @@ function PartnerConnectInfo() {
         onClose={() => setLoadingModal(false)}
       />
       <Flex flexDirection={'column'}>
-        <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>기본정보</Text>
-        <Flex w={'100%'} h={'2px'} bgColor={ColorDataTableBorderTop} mt={'10px'} mb={'30px'}></Flex>
+        <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>
+          기본정보
+        </Text>
+        <Flex
+          w={'100%'}
+          h={'2px'}
+          bgColor={ColorDataTableBorderTop}
+          mt={'10px'}
+          mb={'30px'}
+        ></Flex>
         <Flex flexDirection={'row'} pb={'20px'} width={'100%'}>
           <Text
-              w={'165px'}
-              flexShrink={0}
-              color={ColorBlack}
-              fontWeight={600}
-              fontSize={'15px'}
-              display={'inline'}
-            >
-              관리자 메모
+            w={'165px'}
+            flexShrink={0}
+            color={ColorBlack}
+            fontWeight={600}
+            fontSize={'15px'}
+            display={'inline'}
+          >
+            관리자 메모
           </Text>
           <Flex flexDirection={'column'} width={'100%'}>
             <Textarea
@@ -103,40 +125,40 @@ function PartnerConnectInfo() {
             />
           </Flex>
         </Flex>
-        <Grid templateColumns='repeat(2, 1fr)'>
+        <Grid templateColumns="repeat(2, 1fr)">
           <GridItem>
-          <Flex flexDirection={'row'} pb={'20px'} alignItems={'center'}>
-            <Text
-              w={'165px'}
-              flexShrink={0}
-              color={ColorBlack}
-              fontWeight={600}
-              fontSize={'15px'}
-              // mb={'20px'} // error 있을 때
-            >
-              가입일시
-            </Text>
-            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              2021-05-05
-            </Text>
-          </Flex>
+            <Flex flexDirection={'row'} pb={'20px'} alignItems={'center'}>
+              <Text
+                w={'165px'}
+                flexShrink={0}
+                color={ColorBlack}
+                fontWeight={600}
+                fontSize={'15px'}
+                // mb={'20px'} // error 있을 때
+              >
+                가입일시
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                2021-05-05
+              </Text>
+            </Flex>
           </GridItem>
           <GridItem>
-          <Flex flexDirection={'row'} pb={'20px'} alignItems={'center'}>
-            <Text
-              w={'165px'}
-              flexShrink={0}
-              color={ColorBlack}
-              fontWeight={600}
-              fontSize={'15px'}
-              // mb={'20px'} // error 있을 때
-            >
-              로그인 일시
-            </Text>
-            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              2021-05-05
-            </Text>
-          </Flex>
+            <Flex flexDirection={'row'} pb={'20px'} alignItems={'center'}>
+              <Text
+                w={'165px'}
+                flexShrink={0}
+                color={ColorBlack}
+                fontWeight={600}
+                fontSize={'15px'}
+                // mb={'20px'} // error 있을 때
+              >
+                로그인 일시
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                2021-05-05
+              </Text>
+            </Flex>
           </GridItem>
         </Grid>
         <Flex flexDirection={'row'} pb={'20px'} width={'48%'}>
@@ -150,7 +172,7 @@ function PartnerConnectInfo() {
             회원상태
           </Text>
           <Flex w={'100%'}>
-          <SelectBox
+            <SelectBox
               placeholder="검색분류선택"
               width={'100%'}
               list={['탈퇴요청']}
@@ -170,7 +192,7 @@ function PartnerConnectInfo() {
             탈퇴요청일시
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-          2024-01-01 00:00
+            2024-01-01 00:00
           </Text>
         </Flex>
         <Flex flexDirection={'row'} pb={'20px'} width={'50%'}>
@@ -184,34 +206,40 @@ function PartnerConnectInfo() {
             탈퇴요청사유
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-          회원상태 - 탈퇴요청시 판매자가 입력한 탈퇴요청사유 노출
+            회원상태 - 탈퇴요청시 판매자가 입력한 탈퇴요청사유 노출
           </Text>
         </Flex>
-        
-        <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'} justifyContent={'center'} mt={'40px'}>
-            <CustomButton
-              text="목록"
-              borderColor={ColorGray400}
-              color={ColorGray700}
-              px="44px"
-              py="13px"
-              bgColor={ColorWhite}
-              fontSize="15px"
-              onClick={() => router.back()}
-            />
 
-            <CustomButton
-              text="확인"
-              borderColor={ColorRed}
-              color={ColorWhite}
-              px="44px"
-              py="13px"
-              bgColor={ColorRed}
-              fontSize="15px"
-              onClick={() => {}}
-            />
-          </Flex>
+        <Flex
+          flexDirection={'row'}
+          alignItems={'center'}
+          gap={'10px'}
+          justifyContent={'center'}
+          mt={'40px'}
+        >
+          <CustomButton
+            text="목록"
+            borderColor={ColorGray400}
+            color={ColorGray700}
+            px="44px"
+            py="13px"
+            bgColor={ColorWhite}
+            fontSize="15px"
+            onClick={() => router.back()}
+          />
+
+          <CustomButton
+            text="확인"
+            borderColor={ColorRed}
+            color={ColorWhite}
+            px="44px"
+            py="13px"
+            bgColor={ColorRed}
+            fontSize="15px"
+            onClick={() => {}}
+          />
         </Flex>
+      </Flex>
     </>
   );
 }

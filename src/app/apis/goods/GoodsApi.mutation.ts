@@ -93,3 +93,12 @@ export const useItemDeniedmutation = (
     ...params?.options,
   });
 };
+
+//상품 등록시 파트너사 목록
+export const useGetGoodsPartnersListMutation = (
+  params?: MutationHookParams<typeof goodsApi.getPartnersList>,
+) => {
+  return useMutation(goodsApi.getPartnersList, {
+    ...params?.options,
+  });
+};

@@ -17,7 +17,7 @@ import {
 } from '@/app/apis/entries/EntriesApi.type';
 import EntriesFirstSkeletonCard from '../first/EntriesFirstSkeletonCard';
 
-export const cancellistheader = [
+export const entriesAuctionListheader = [
   {
     id: 'state',
     name: '번호',
@@ -41,12 +41,12 @@ export const cancellistheader = [
   {
     id: 'rest',
     name: '오픈일시',
-    width: '10%',
+    width: '11%',
   },
   {
     id: 'reves',
     name: '종료일시',
-    width: '10%',
+    width: '11%',
   },
   {
     id: 'state',
@@ -56,7 +56,7 @@ export const cancellistheader = [
   {
     id: '예약자정보',
     name: '노출상태',
-    width: '10%',
+    width: '8%',
   },
   {
     id: 'setting',
@@ -124,27 +124,29 @@ function EntreisAuctionTable({ data }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
-        {cancellistheader.map((item: DataTableHeaderProps, index: number) => {
-          return (
-            <Flex
-              key={index}
-              w={item.width}
-              alignItems={'center'}
-              justifyContent={'center'}
-              h={'64px'}
-            >
-              <Text
-                color={ColorBlack}
-                fontSize={'15px'}
-                fontWeight={700}
-                whiteSpace={'pre-wrap'}
-                textAlign={'center'}
+        {entriesAuctionListheader.map(
+          (item: DataTableHeaderProps, index: number) => {
+            return (
+              <Flex
+                key={index}
+                w={item.width}
+                alignItems={'center'}
+                justifyContent={'center'}
+                h={'64px'}
               >
-                {item.name}
-              </Text>
-            </Flex>
-          );
-        })}
+                <Text
+                  color={ColorBlack}
+                  fontSize={'15px'}
+                  fontWeight={700}
+                  whiteSpace={'pre-wrap'}
+                  textAlign={'center'}
+                >
+                  {item.name}
+                </Text>
+              </Flex>
+            );
+          },
+        )}
       </Flex>
       {!data ? (
         <>
@@ -154,7 +156,7 @@ function EntreisAuctionTable({ data }: Props) {
               return (
                 <EntriesFirstSkeletonCard
                   key={index}
-                  header={cancellistheader}
+                  header={entriesAuctionListheader}
                 />
               );
             })}
@@ -196,7 +198,7 @@ function EntreisAuctionTable({ data }: Props) {
                     index={index}
                     totalCount={data.totalCount}
                     pageNo={data.pageNo}
-                    header={cancellistheader}
+                    header={entriesAuctionListheader}
                   />
                 );
               })}
@@ -214,7 +216,7 @@ function EntreisAuctionTable({ data }: Props) {
               index={index}
               totalCount={data.totalCount}
               pageNo={data.pageNo}
-              header={cancellistheader}
+              header={entriesAuctionListheader}
             />
           );
         })} */}

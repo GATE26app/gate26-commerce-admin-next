@@ -88,13 +88,65 @@ body {
 body {
   color: #000;
   background: #fff;
+  overflow: auto;
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
+h1 {
+  font-size: 2.125rem; /* h1 태그의 폰트 크기를 설정합니다 */
+}
+h2 {
+  font-size: 1.875rem; /* h2 태그의 폰트 크기를 설정합니다 */
+}
 
+h3 {
+  font-size: 1.5rem; /* h3 태그의 폰트 크기를 설정합니다 */
+}
+h4 {
+  font-size: 1.25rem; /* h4 태그의 폰트 크기를 설정합니다 */
+}
+h5 {
+  font-size: 1.125rem; /* h5 태그의 폰트 크기를 설정합니다 */
+}
+h6 {
+  font-size: 1rem; /* h6 태그의 폰트 크기를 설정합니다 */
+}
+/* :where(h1, h2, h3, h4, h5, h6) {
+  font-size: revert;
+  font-weight: revert;
+} */
+/* @layer base {
+  h1 {
+    @apply text-4xl;
+    @apply font-bold;
+  }
+  h2 {
+    @apply text-3xl;
+    @apply font-bold;
+  }
+  h3 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+  h4 {
+    @apply text-xl;
+    @apply font-semibold;
+  }
+  h5 {
+    @apply text-md; 
+    @apply font-semibold;
+  }
+  h6 {
+    @apply text-sm;
+    @apply font-semibold;
+  }
+} */
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

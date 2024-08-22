@@ -85,17 +85,6 @@ function FilterBox({ request, setRequest }: Props) {
               color={request.status == 3 ? ColorWhite : ColorGray700}
               onClick={() => setRequest({ ...request, status: 3 })}
             />
-            <CustomButton
-              px={'14px'}
-              py={'11px'}
-              borderColor={request.status == 0 ? ColorRed : ColorInputBorder}
-              bgColor={request.status == 0 ? ColorRed : ColorWhite}
-              borderRadius={'10px'}
-              text="임시저장"
-              fontSize={'15px'}
-              color={request.status == 0 ? ColorWhite : ColorGray700}
-              onClick={() => setRequest({ ...request, status: 0 })}
-            />
           </Flex>
         </Flex>
         <Flex flexDirection={'column'} flexWrap={'wrap'} w={'50%'}>
@@ -286,7 +275,6 @@ function FilterBox({ request, setRequest }: Props) {
           <SearchInput
             value={request.searchKeyword}
             onChange={(e: any) => {
-              console.log('e', e.target.value);
               setRequest({ ...request, searchKeyword: e.target.value });
             }}
             placeholder="검색어를 입력해주세요."

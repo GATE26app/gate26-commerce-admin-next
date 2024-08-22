@@ -113,19 +113,24 @@ function GoodsListComponet({
           </Text>
         </Flex>
         <Flex gap={'10px'}>
-          {/* <CustomButton
+          <CustomButton
+            text="예약형 상품 등록"
+            bgColor={ColorRed}
+            px="29px"
+            py="11px"
+            color={ColorWhite}
+            fontSize="14px"
+            onClick={() => router.push('/createGoods?type=3')}
+            borderColor={ColorRed}
+          />
+          <CustomButton
             text="일반 상품 등록"
             bgColor={ColorRed}
             px="29px"
             py="11px"
             color={ColorWhite}
             fontSize="14px"
-            // onClick={() =>
-            //   router.push({
-            //     pathname: '/creategoods',
-            //     query: { type: 1 },
-            //   })
-            // }
+            onClick={() => router.push('/createGoods?type=1')}
             borderColor={ColorRed}
           />
           <CustomButton
@@ -135,29 +140,10 @@ function GoodsListComponet({
             py="11px"
             color={ColorWhite}
             fontSize="14px"
-            // onClick={() =>
-            //   router.push({
-            //     pathname: '/creategoods',
-            //     query: { type: 2 },
-            //   })
-            // }
+            onClick={() => router.push('/createGoods?type=2')}
             borderColor={ColorRed}
           />
-          <CustomButton
-            text="예약형 상품 등록"
-            bgColor={ColorRed}
-            px="29px"
-            py="11px"
-            color={ColorWhite}
-            fontSize="14px"
-            // onClick={() =>
-            //   router.push({
-            //     pathname: '/creategoods',
-            //     query: { type: 3 },
-            //   })
-            // }
-            borderColor={ColorRed}
-          /> */}
+
           {/* <ImageButton
             img="/images/Page/excel_icon.png"
             backgroundColor={ColorWhite}

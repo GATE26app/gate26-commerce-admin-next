@@ -198,8 +198,8 @@ export const filePath = () => {
 
 // 이미지 path
 export const DEV = () => {
-  return '';
-  // return 'dev';
+  // return '';
+  return 'dev';
 };
 
 // yyyy-mm-dd형식에 맞춰서 유효한 날짜인지 체크해주는 코드
@@ -248,7 +248,5 @@ const paymentMethods = {
 };
 
 export const PaymentMethod = (value: string) => {
-  console.log('payment :: ', value);
-  console.log('payment :: ', paymentMethods[value]);
-  // return paymentMethods[value];
+  return paymentMethods[value];
 };

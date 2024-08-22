@@ -17,7 +17,7 @@ import {
 } from '@/app/apis/entries/EntriesApi.type';
 import EntriesWinnerSkeletonCard from './EntriesWinnerSkeletonCard';
 
-export const cancellistheader = [
+export const entriesWinnerlistheader = [
   {
     id: 'state',
     name: '번호',
@@ -127,33 +127,37 @@ function EntruesWinnerInquiryTable({ data }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
-        {cancellistheader.map((item: DataTableHeaderProps, index: number) => {
-          return (
-            <Flex
-              w={item.width}
-              alignItems={'center'}
-              justifyContent={'center'}
-              h={'64px'}
-            >
-              <Text
-                color={ColorBlack}
-                fontSize={'15px'}
-                fontWeight={700}
-                whiteSpace={'pre-wrap'}
-                textAlign={'center'}
+        {entriesWinnerlistheader.map(
+          (item: DataTableHeaderProps, index: number) => {
+            return (
+              <Flex
+                w={item.width}
+                alignItems={'center'}
+                justifyContent={'center'}
+                h={'64px'}
               >
-                {item.name}
-              </Text>
-            </Flex>
-          );
-        })}
+                <Text
+                  color={ColorBlack}
+                  fontSize={'15px'}
+                  fontWeight={700}
+                  whiteSpace={'pre-wrap'}
+                  textAlign={'center'}
+                >
+                  {item.name}
+                </Text>
+              </Flex>
+            );
+          },
+        )}
       </Flex>
       {!data ? (
         <>
           {Array(7)
             .fill(0)
             .map(() => {
-              return <EntriesWinnerSkeletonCard header={cancellistheader} />;
+              return (
+                <EntriesWinnerSkeletonCard header={entriesWinnerlistheader} />
+              );
             })}
         </>
       ) : (
@@ -192,7 +196,7 @@ function EntruesWinnerInquiryTable({ data }: Props) {
                     index={index}
                     totalCount={data.totalCount}
                     pageNo={data.pageNo}
-                    header={cancellistheader}
+                    header={entriesWinnerlistheader}
                   />
                 );
               })}
@@ -210,7 +214,7 @@ function EntruesWinnerInquiryTable({ data }: Props) {
               index={index}
               totalCount={data.totalCount}
               pageNo={data.pageNo}
-              header={cancellistheader}
+              header={entriesWinnerlistheader}
             />
           );
         })} */}

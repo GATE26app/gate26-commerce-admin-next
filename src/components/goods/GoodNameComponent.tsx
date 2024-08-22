@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Box, Flex, Image, Input, Text } from '@chakra-ui/react';
-
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
+import { Flex, Text } from '@chakra-ui/react';
 
 import InputBox from '@/components/common/Input';
 
 import {
   ColorBlack,
   ColorGray50,
-  ColorGray100,
   ColorGray400,
-  ColorGray700,
   ColorRed,
-  ColorWhite,
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import {
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 interface Props {
   list: GoodsBasicProps;
@@ -56,7 +55,7 @@ function GoodNameComponent({ list, setList }: Props) {
         <InputBox
           placeholder="상품명을 입력해주세요."
           value={list?.title}
-          onChange={(e) => setList({ ...list, title: e.target.value })}
+          onChange={(e: any) => setList({ ...list, title: e.target.value })}
           disabled={goodsInfo.LogItemDisable}
           // register={register('title')}
         />

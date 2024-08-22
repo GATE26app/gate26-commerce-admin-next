@@ -20,6 +20,8 @@ import {
   ItemDeniedReqType,
   ListDtoType,
   LocationDtoType,
+  PartnerListDTO,
+  PartnerListParamGetType,
   PatchGoodsStatusParmaType,
   PatchOptionStockType,
   PatchUpdateGoodsStatusParmaType,
@@ -153,7 +155,7 @@ export class GoodsApi {
   putCreateGoods = async (body: GoodsReqProps): Promise<GoodsCreateDtoType> => {
     const { data } = await this.axios({
       method: 'PUT',
-      url: '/admin/items',
+      url: `/admin/items/${body.partnerId}`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
@@ -245,7 +247,7 @@ export class GoodsApi {
     });
     return data;
   };
-  
+
   // 상품거절
   postItemDenied = async (
     req: ItemDeniedReqType,
@@ -257,6 +259,25 @@ export class GoodsApi {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
       data: req.deniedReason,
+    });
+    return data;
+  };
+  //상품 등록 파트너사 목록
+  getPartnersList = async (
+    request: PartnerListParamGetType,
+  ): Promise<PartnerListDTO> => {
+    const url = `/admin/partners2?&level=1&status=1&pageNo=${
+      request.pageNo + 1
+    }&pageSize=${request.pageSize}${
+      request.searchKeyword !== '' && '&searchType=title'
+    }${request.searchKeyword ? `&searchKeyword=${request.searchKeyword}` : ''}`;
+
+    const { data } = await this.axios({
+      method: 'GET',
+      url: url,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
     });
     return data;
   };

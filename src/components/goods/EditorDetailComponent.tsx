@@ -1,21 +1,16 @@
 import dynamic from 'next/dynamic';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 
-import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
+import { Flex, Image, Text } from '@chakra-ui/react';
 
 import { usePostImageMutation } from '@/app/apis/goods/GoodsApi.mutation';
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
-
 import {
-  ColorBlack,
-  ColorGray50,
-  ColorGray100,
-  ColorGray400,
-  ColorGray700,
-  ColorRed,
-  ColorWhite,
-} from '@/utils/_Palette';
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
+
+import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 import { imgPath } from '@/utils/format';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
@@ -27,17 +22,18 @@ interface Props {
 const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import('react-quill');
-    return function comp({
+
+    return ({
       forwardedRef,
       ...props
     }: {
       forwardedRef: any;
       [key: string]: any;
-    }) {
-      return <RQ ref={forwardedRef} {...props} />;
-    };
+    }) => <RQ ref={forwardedRef} {...props} />;
   },
-  { ssr: false },
+  {
+    ssr: false,
+  },
 );
 
 function EditorDetailComponent({ list, setList }: Props) {
@@ -45,8 +41,6 @@ function EditorDetailComponent({ list, setList }: Props) {
   const [open, setOpen] = useState(true);
   const [data, setData] = useState('');
   const [term, setTerm] = useState<string>(''); //이용약관
-  const quillTermRef = useRef(null);
-  // const quillRef = React.useRef(false);
   const quillRef = useRef<any>(null);
   const imageHandler = () => {
     const input = document.createElement('input');
@@ -86,11 +80,19 @@ function EditorDetailComponent({ list, setList }: Props) {
       onSuccess: (resImg) => {
         if (resImg.success == true) {
           const imgUrl = resImg.data.imagePath;
-          const range = quillRef.current.getEditorSelection();
-          quillRef.current
-            .getEditor()
-            .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
-          quillRef.current.getEditor().setSelection(range.index + 1);
+          if (quillRef.current !== null) {
+            const range = quillRef.current.getEditorSelection();
+            quillRef.current
+              .getEditor()
+              .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
+            quillRef.current.getEditor().setSelection(range.index + 1);
+          }
+
+          // const range = quillRef.current.getEditorSelection();
+          // quillRef.current
+          //   .getEditor()
+          //   .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
+          // quillRef.current.getEditor().setSelection(range.index + 1);
         } else {
           console.log('error 코드 생성 에러', resImg.code);
         }
@@ -102,8 +104,6 @@ function EditorDetailComponent({ list, setList }: Props) {
     () => ({
       toolbar: {
         container: [
-          [{ header: '1' }, { header: '2' }],
-          [{ size: [] }],
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
           [{ list: 'ordered' }, { list: 'bullet' }, { align: [] }],
           ['image'],
@@ -192,11 +192,11 @@ function EditorDetailComponent({ list, setList }: Props) {
               theme="snow"
               modules={modules}
               formats={formats}
-              value={list?.detailInfo}
+              value={list?.content}
               onChange={(e: any) =>
                 goodsInfo.LogItemDisable
                   ? undefined
-                  : setList({ ...list, detailInfo: e })
+                  : setList({ ...list, content: e })
               }
               readOnly={goodsInfo.LogItemDisable}
               style={{ height: '480px' }}

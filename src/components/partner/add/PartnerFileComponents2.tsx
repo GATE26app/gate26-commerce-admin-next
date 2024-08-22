@@ -15,8 +15,14 @@ import { filePath, imgPath } from '@/utils/format';
 
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
 import { usePostEntriesImageMutation } from '@/app/apis/entries/EntriesApi.mutation';
-import { usePostPartnersFileMutation, usePostPartnersImageMutation } from '@/app/apis/partners/PartnersApi.mutation';
-import { FileListType, ImageListType } from '@/app/apis/partners/PartnersApi.type';
+import {
+  usePostPartnersFileMutation,
+  usePostPartnersImageMutation,
+} from '@/app/apis/partners/PartnersApi.mutation';
+import {
+  FileListType,
+  ImageListType,
+} from '@/app/apis/partners/PartnersApi.type';
 import { getToken } from '@/utils/localStorage/token/index';
 
 interface Props {
@@ -25,15 +31,19 @@ interface Props {
   idx?: number;
 }
 
-function PartnerFileComponent2({ EntriesData, setEntriesData, idx=0 }: Props) {
+function PartnerFileComponent2({
+  EntriesData,
+  setEntriesData,
+  idx = 0,
+}: Props) {
   const toast = useToast();
 
   useEffect(() => {
-    if(EntriesData?.length > 0){
+    if (EntriesData?.length > 0) {
       imgAxios();
     }
   }, [EntriesData]);
-  
+
   const imgAxios = async () => {
     const res = await axios.get(
       filePath() + EntriesData[0].thumbnailImagePath,
@@ -45,52 +55,51 @@ function PartnerFileComponent2({ EntriesData, setEntriesData, idx=0 }: Props) {
       },
     );
     const imageURL = window.URL.createObjectURL(res.data);
-    console.log('imageURL', imageURL);
     document.getElementById('target-img-3').src = imageURL;
   };
 
   // 파일 다운
- const downloadFile = async () => {
-  const url = filePath() + EntriesData[0].filePath; // 파일을 다운로드할 URL
+  const downloadFile = async () => {
+    const url = filePath() + EntriesData[0].filePath; // 파일을 다운로드할 URL
 
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'X-AUTH-TOKEN': `${getToken().access}`,
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/octet-stream',
+          'X-AUTH-TOKEN': `${getToken().access}`,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let fileName = '첨부파일';
+
+      if (contentDisposition && contentDisposition.includes('filename=')) {
+        fileName = contentDisposition
+          .split('filename=')[1]
+          .split(';')[0]
+          .replace(/"/g, '');
+      }
+
+      a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error('Error downloading the file:', error);
     }
-
-    const blob = await response.blob();
-    const downloadUrl = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-
-    const contentDisposition = response.headers.get('Content-Disposition');
-    let fileName = '첨부파일';
-
-    if (contentDisposition && contentDisposition.includes('filename=')) {
-      fileName = contentDisposition
-        .split('filename=')[1]
-        .split(';')[0]
-        .replace(/"/g, '');
-    }
-
-    a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
-
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(downloadUrl);
-  } catch (error) {
-    console.error('Error downloading the file:', error);
-  }
-};
+  };
 
   const { mutate: ItemFileMutate, isLoading } = usePostPartnersFileMutation({
     options: {
@@ -114,15 +123,15 @@ function PartnerFileComponent2({ EntriesData, setEntriesData, idx=0 }: Props) {
             </Box>
           ),
         });
-      }
+      },
     },
   });
 
   const handleImageSave = (filePath: string, thumbnailImagePath: string) => {
     const obj = {
-        type: 3,
-        filePath: filePath,
-        thumbnailImagePath: thumbnailImagePath,
+      type: 3,
+      filePath: filePath,
+      thumbnailImagePath: thumbnailImagePath,
     };
     setEntriesData([obj]);
   };
@@ -199,34 +208,32 @@ function PartnerFileComponent2({ EntriesData, setEntriesData, idx=0 }: Props) {
                   }}
                   id={'target-img-3'}
                   alt="이미지 업로드"
-                  onClick={() =>
-                    downloadFile()
-                  }
+                  onClick={() => downloadFile()}
                 />
               </Flex>
             </>
           ) : (
             <label htmlFor="file3">
-            <Flex
-              w={182}
-              h={182}
-              borderWidth={1}
-              borderStyle={'dashed'}
-              borderColor={ColorInputBorder}
-              justifyContent={'center'}
-              alignItems={'center'}
-              borderRadius={'10px'}
-            >
-              <Image
-                src={'/images/Page/ico_plus.png'}
-                width={28}
-                height={28}
-                alt="이미지 추가"
-              />
-            </Flex>
+              <Flex
+                w={182}
+                h={182}
+                borderWidth={1}
+                borderStyle={'dashed'}
+                borderColor={ColorInputBorder}
+                justifyContent={'center'}
+                alignItems={'center'}
+                borderRadius={'10px'}
+              >
+                <Image
+                  src={'/images/Page/ico_plus.png'}
+                  width={28}
+                  height={28}
+                  alt="이미지 추가"
+                />
+              </Flex>
             </label>
           )}
-          </>
+        </>
       )}
       <input
         type="file"

@@ -5,7 +5,7 @@ import {
   CategoryResProps,
   GoodsAttributeListProps,
   GoodsBasicProps,
-  GoodsItemProps,
+  GoodsDetailBasicProps,
   GoodsListItemImageProps,
   GoodsPoliciesListProps,
   GoodsSchedulesListProps,
@@ -23,9 +23,10 @@ import InfoComponent from './InfoComponent';
 import DetailComponent from './DetailComponent';
 import PlanComponent from './PlanComponent';
 import BookingCheckComponent from './BookingCheckComponent';
-import CancleComponent from './CancleComponent';
+import CancelComponent from './CancelComponent';
 import EditorDetailComponent from './EditorDetailComponent';
 import OptionComponent from './OptionComponent';
+import ShippingComponent from './ShippingComponent';
 
 interface CategoryListProps {
   categoryId: number;
@@ -116,6 +117,7 @@ Props) {
 
       <GoodNameComponent list={BasicInfo} setList={setBasicInfo} />
       <PriceComponent list={BasicInfo} setList={setBasicInfo} />
+      {BasicInfo.type == 1 && <ShippingComponent list={BasicInfo} />}
       <ImageComponent list={imageList} setList={setImageList} />
       {BasicInfo.type == 3 && (
         <DivisionComponent list={attributeList} setList={setAttributeList} />
@@ -126,7 +128,7 @@ Props) {
         <>
           <PlanComponent list={planList} setList={setPlanList} />
           <BookingCheckComponent list={BasicInfo} setList={setBasicInfo} />
-          <CancleComponent list={policyList} setList={setPolicyList} />
+          <CancelComponent list={policyList} setList={setPolicyList} />
         </>
       )}
 

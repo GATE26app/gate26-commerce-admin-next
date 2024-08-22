@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
-import { GoodsBasicProps } from '@/app/apis/goods/GoodsApi.type';
-
 import InputBox from '@/components/common/Input';
 
 import {
@@ -17,6 +15,10 @@ import {
 import { intComma } from '@/utils/format';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import {
+  GoodsBasicProps,
+  GoodsDetailBasicProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 interface Props {
   list: GoodsBasicProps;
@@ -26,7 +28,7 @@ function PriceComponent({ list, setList }: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const originalPriceNum = list?.price / (1 - list?.priceDcPer / 100);
   useEffect(() => {
-    if (list?.price !== 0 || list?.priceDcPer !== 0) {
+    if (list?.price !== 0) {
       setList({
         ...list,
         priceNet: list?.price / (1 - list?.priceDcPer / 100),
@@ -73,10 +75,14 @@ function PriceComponent({ list, setList }: Props) {
           <Box w={'288px'}>
             <InputBox
               placeholder="숫자로만 입력"
-              type="number"
-              value={list.price == 0 ? '' : list.price}
+              type="text"
+              maxLength={15}
+              value={list.price == 0 ? '' : intComma(list.price)}
               onChange={(e: any) =>
-                setList({ ...list, price: Number(e.target.value) })
+                setList({
+                  ...list,
+                  price: Number(e.target.value.replace(/[^0-9]/g, '')),
+                })
               }
               disabled={goodsInfo.LogItemDisable}
             />
@@ -92,10 +98,14 @@ function PriceComponent({ list, setList }: Props) {
           <Box w={'288px'}>
             <InputBox
               placeholder="할인율"
-              type="number"
-              value={list.priceDcPer == 0 ? '' : list.priceDcPer}
-              onChange={(e) =>
-                setList({ ...list, priceDcPer: Number(e.target.value) })
+              type="text"
+              maxLength={2}
+              value={list.priceDcPer}
+              onChange={(e: any) =>
+                setList({
+                  ...list,
+                  priceDcPer: Number(e.target.value.replace(/[^0-9]/g, '')),
+                })
               }
               disabled={goodsInfo.LogItemDisable}
             />

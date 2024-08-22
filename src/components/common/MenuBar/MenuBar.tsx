@@ -13,6 +13,8 @@ import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
 import { useWinnerFilterZuInfo } from '@/_store/WinnerFIlterInfo';
 import { useFirstFilterZuInfo } from '@/_store/FirstFilterInfo';
 import { useAuctionFilterZuInfo } from '@/_store/AuctionFilterInfo';
+import { useOrderFilterZuInfo } from '@/_store/OrderFilterInfo';
+import { useCancelFilterZuInfo } from '@/_store/CancelStateInfo';
 
 function MenuBar() {
   const pathname = usePathname();
@@ -24,6 +26,8 @@ function MenuBar() {
   const { deleteWinnerFilterInfo } = useWinnerFilterZuInfo((state) => state);
   const { deleteFilterFilterInfo } = useFirstFilterZuInfo((state) => state);
   const { deleteAuctionFilterInfo } = useAuctionFilterZuInfo((state) => state);
+  const { deleteOrderFilterInfo } = useOrderFilterZuInfo((state) => state);
+  const { deleteCancelFilterInfo } = useCancelFilterZuInfo((state) => state);
   useEffect(() => {
     if (
       pathname == '/goodsSetting' ||
@@ -54,6 +58,12 @@ function MenuBar() {
     } else if (pathname == '/review') {
       setMenu(9);
       setOrdreMenu(1);
+    } else if (pathname == '/orderDetail' || pathname == '/orderList') {
+      setMenu(3);
+      setOrdreMenu(1);
+    } else if (pathname == '/cancelList' || pathname == '/cancelDetail') {
+      setMenu(3);
+      setOrdreMenu(2);
     }
   }, [pathname]);
   //필터 초기화
@@ -83,6 +93,12 @@ function MenuBar() {
       pathname !== '/entries/winnerInquiry/detail'
     ) {
       deleteWinnerFilterInfo();
+    }
+    if (pathname !== '/orderList' && pathname !== '/orderDetail') {
+      deleteOrderFilterInfo();
+    }
+    if (pathname !== '/cancelList' && pathname !== '/cancelDetail') {
+      deleteCancelFilterInfo();
     }
   }, [pathname]);
   return (
@@ -117,40 +133,40 @@ function MenuBar() {
         </Box>
       </Flex>
       <Link href={'/partner'}>
-      <Flex
-        alignItems={'center'}
-        cursor={'pointer'}
-        mb={'30px'}
-        onClick={() => {
-          setMenu(1);
-          setOrdreMenu(1);
-        }}
-      >
-        {menu == 1 ? (
-          <Image
-            src={'/images/Menu/leftmenu01_on.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/Menu/leftmenu01_off.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        )}
-
-        <Text
-          color={menu == 1 ? ColorRed : ColorGrayMenu}
-          fontWeight={800}
-          fontSize={'18px'}
-          ml={'15px'}
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(1);
+            setOrdreMenu(1);
+          }}
         >
-          파트너사 승인/관리
-        </Text>
-      </Flex>
+          {menu == 1 ? (
+            <Image
+              src={'/images/Menu/leftmenu01_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu01_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 1 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            파트너사 승인/관리
+          </Text>
+        </Flex>
       </Link>
       <Link href={'/goodsSetting'}>
         <Flex
@@ -189,7 +205,7 @@ function MenuBar() {
         </Flex>
       </Link>
 
-      {/* <Flex
+      <Flex
         alignItems={'center'}
         cursor={'pointer'}
         justifyContent={'space-between'}
@@ -241,10 +257,10 @@ function MenuBar() {
             alt="로고"
           />
         )}
-      </Flex> */}
-      {/* {menu == 3 && (
+      </Flex>
+      {menu == 3 && (
         <Flex mb={'30px'} ml={'57px'} flexDirection={'column'}>
-          <Link href={'/orderlist'}>
+          <Link href={'/orderList'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -258,7 +274,7 @@ function MenuBar() {
               주문관리
             </Text>
           </Link>
-          <Link href={'/cancellist'}>
+          <Link href={'/cancelList'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -270,7 +286,7 @@ function MenuBar() {
               취소관리
             </Text>
           </Link>
-          <Link href={'/cancellist'}>
+          {/* <Link href={'/cancellist'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -281,9 +297,9 @@ function MenuBar() {
             >
               마일충전내역
             </Text>
-          </Link>
+          </Link> */}
         </Flex>
-      )} */}
+      )}
       {/* <Flex
         alignItems={'center'}
         cursor={'pointer'}

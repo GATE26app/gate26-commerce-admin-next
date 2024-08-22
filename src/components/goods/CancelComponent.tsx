@@ -33,7 +33,7 @@ interface Props {
   list: Array<GoodsPoliciesListProps>;
   setList: React.Dispatch<React.SetStateAction<GoodsPoliciesListProps[]>>;
 }
-function CancleComponent({ list, setList }: Props) {
+function CancelComponent({ list, setList }: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const toast = useToast();
   const [open, setOpen] = useState(true);
@@ -50,28 +50,26 @@ function CancleComponent({ list, setList }: Props) {
 
   useEffect(() => {
     if (list) {
-      list.filter((item) => {
+      list?.filter((item) => {
         item.type == 1
           ? setFull(item.days)
           : item.type == 2
           ? setNotCancel(item.days)
           : null;
       });
-      console.log(list);
-      // setFull()
     }
   }, [list]);
 
   const onHandleBasic = () => {
     if (fullDay !== 0 && notCancelDay !== 0) {
       const itemExists = list?.some((item) => item.sort === 1);
-      if (fullDay > notCancelDay) {
+      if (fullDay < notCancelDay) {
         toast({
           position: 'top',
           duration: 1000,
           render: () => (
             <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-              전액 환불 유효일보다 취소/환불 불가 유효일이 더 작습니다.
+              취소/환불 불가 유효일보다 전액 환불 유효일이 더 작습니다.
             </Box>
           ),
         });
@@ -88,7 +86,7 @@ function CancleComponent({ list, setList }: Props) {
             return {
               ...item,
               days: notCancelDay,
-              title: `${notCancelDay}일 이후 취소/환불 불가`,
+              title: `${notCancelDay}일 이전 취소/환불 불가`,
             };
           }
           return item;
@@ -108,7 +106,7 @@ function CancleComponent({ list, setList }: Props) {
             days: notCancelDay,
             feePer: 0,
             sort: 2,
-            title: `${notCancelDay}일 이후 취소/환불 불가`,
+            title: `${notCancelDay}일 이전 취소/환불 불가`,
             type: 2,
           },
         ]);
@@ -178,10 +176,10 @@ function CancleComponent({ list, setList }: Props) {
     }
   };
 
-  const handelDelete = (index: number) => {
+  const handelDelete = (idx: number) => {
     setList(
       list.filter(
-        (item: GoodsPoliciesListProps, index: number) => index !== index,
+        (item: GoodsPoliciesListProps, index: number) => index !== idx,
       ),
     );
   };
@@ -272,7 +270,7 @@ function CancleComponent({ list, setList }: Props) {
                   type="number"
                   disabled={goodsInfo.LogItemDisable}
                   value={fullDay == 0 ? '' : fullDay}
-                  onChange={(e) => setFull(Number(e.target.value))}
+                  onChange={(e: any) => setFull(Number(e.target.value))}
                 />
                 <Text
                   fontWeight={400}
@@ -289,7 +287,7 @@ function CancleComponent({ list, setList }: Props) {
                   w={'154px'}
                   disabled={goodsInfo.LogItemDisable}
                   value={notCancelDay == 0 ? '' : notCancelDay}
-                  onChange={(e) => setNotCancel(Number(e.target.value))}
+                  onChange={(e: any) => setNotCancel(Number(e.target.value))}
                 />
                 <Text
                   fontWeight={400}
@@ -297,7 +295,7 @@ function CancleComponent({ list, setList }: Props) {
                   color={ColorBlack}
                   ml={'10px'}
                 >
-                  일 이후 취소/환불 불가
+                  일 이전 취소/환불 불가
                 </Text>
               </Flex>
               <CustomButton
@@ -317,6 +315,63 @@ function CancleComponent({ list, setList }: Props) {
               fontSize={'16px'}
               mb={'10px'}
             >
+              추가
+            </Text>
+            <Flex alignItems={'center'} gap={'20px'}>
+              <Flex flexDirection={'row'} alignItems={'center'}>
+                <InputBox
+                  placeholder="숫자로만 입력"
+                  w={'154px'}
+                  type="number"
+                  disabled={goodsInfo.LogItemDisable}
+                  value={day == 0 ? '' : day}
+                  onChange={(e: any) => setDay(Number(e.target.value))}
+                />
+                <Text
+                  fontWeight={400}
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  ml={'10px'}
+                >
+                  일전
+                </Text>
+              </Flex>
+              <Flex flexDirection={'row'} alignItems={'center'}>
+                <InputBox
+                  placeholder="숫자로만 입력"
+                  w={'154px'}
+                  type="number"
+                  disabled={goodsInfo.LogItemDisable}
+                  value={per == 0 ? '' : per}
+                  onChange={(e: any) => setPer(Number(e.target.value))}
+                />
+                <Text
+                  fontWeight={400}
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  ml={'10px'}
+                >
+                  % 공제후 환불
+                </Text>
+              </Flex>
+              <CustomButton
+                text="+ 추가하기"
+                bgColor={ColorGray900}
+                borderColor={ColorGray900}
+                color={ColorWhite}
+                fontSize="15px"
+                px="24px"
+                py="12px"
+                onClick={() => onHandlePlus()}
+              />
+            </Flex>
+            <Text
+              color={ColorBlack}
+              fontWeight={700}
+              fontSize={'16px'}
+              mb={'10px'}
+              mt="20px"
+            >
               기타
             </Text>
             <Flex mb={'30px'} w={'100%'}>
@@ -325,7 +380,7 @@ function CancleComponent({ list, setList }: Props) {
                 mr={'10px'}
                 value={etc}
                 disabled={goodsInfo.LogItemDisable}
-                onChange={(e) => setEtc(e.target.value)}
+                onChange={(e: any) => setEtc(e.target.value)}
               />
               {/* <Input
                 value={etc}
@@ -358,62 +413,6 @@ function CancleComponent({ list, setList }: Props) {
                   onClick={() => onHandleEtc()}
                 />
               </Flex>
-            </Flex>
-            <Text
-              color={ColorBlack}
-              fontWeight={700}
-              fontSize={'16px'}
-              mb={'10px'}
-            >
-              추가
-            </Text>
-            <Flex alignItems={'center'} gap={'20px'}>
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <InputBox
-                  placeholder="숫자로만 입력"
-                  w={'154px'}
-                  type="number"
-                  disabled={goodsInfo.LogItemDisable}
-                  value={day == 0 ? '' : day}
-                  onChange={(e) => setDay(Number(e.target.value))}
-                />
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  ml={'10px'}
-                >
-                  일전
-                </Text>
-              </Flex>
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <InputBox
-                  placeholder="숫자로만 입력"
-                  w={'154px'}
-                  type="number"
-                  disabled={goodsInfo.LogItemDisable}
-                  value={per == 0 ? '' : per}
-                  onChange={(e) => setPer(Number(e.target.value))}
-                />
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  ml={'10px'}
-                >
-                  % 공제후 환불
-                </Text>
-              </Flex>
-              <CustomButton
-                text="+ 추가하기"
-                bgColor={ColorGray900}
-                borderColor={ColorGray900}
-                color={ColorWhite}
-                fontSize="15px"
-                px="24px"
-                py="12px"
-                onClick={() => onHandlePlus()}
-              />
             </Flex>
           </Flex>
           <Flex justifyContent={'center'} mt={'32px'} mb={'30px'}>
@@ -481,4 +480,4 @@ function CancleComponent({ list, setList }: Props) {
   );
 }
 
-export default CancleComponent;
+export default CancelComponent;

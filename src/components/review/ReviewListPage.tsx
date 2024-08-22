@@ -43,7 +43,6 @@ function ReviewListPage() {
     },
   });
   const getReveiwMainList = async () => {
-    console.log('request', request);
     if (request.searchKeyword !== '' && request.searchType == '') {
       toast({
         position: 'top',

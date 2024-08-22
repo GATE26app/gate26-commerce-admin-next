@@ -46,7 +46,7 @@ import InfoComponent from '@/components/goods/InfoComponent';
 import DetailComponent from '@/components/goods/DetailComponent';
 import PlanComponent from '@/components/goods/PlanComponent';
 import BookingCheckComponent from '@/components/goods/BookingCheckComponent';
-import CancleComponent from '@/components/goods/CancleComponent';
+import CancelComponent from '@/components/goods/CancelComponent';
 import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
 import OptionComponent from '@/components/goods/OptionComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
@@ -321,29 +321,35 @@ function AddPartnerDetail() {
                 // register={register('title')}
               />
             </Flex>
-            <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'} justifyContent={'center'} mt={'40px'}>
-            <CustomButton
-              text="목록"
-              borderColor={ColorGray400}
-              color={ColorGray700}
-              px="44px"
-              py="13px"
-              bgColor={ColorWhite}
-              fontSize="15px"
-              onClick={() => router.back()}
-            />
+            <Flex
+              flexDirection={'row'}
+              alignItems={'center'}
+              gap={'10px'}
+              justifyContent={'center'}
+              mt={'40px'}
+            >
+              <CustomButton
+                text="목록"
+                borderColor={ColorGray400}
+                color={ColorGray700}
+                px="44px"
+                py="13px"
+                bgColor={ColorWhite}
+                fontSize="15px"
+                onClick={() => router.back()}
+              />
 
-            <CustomButton
-              text="확인"
-              borderColor={ColorRed}
-              color={ColorWhite}
-              px="44px"
-              py="13px"
-              bgColor={ColorRed}
-              fontSize="15px"
-              onClick={() => {}}
-            />
-          </Flex>
+              <CustomButton
+                text="확인"
+                borderColor={ColorRed}
+                color={ColorWhite}
+                px="44px"
+                py="13px"
+                bgColor={ColorRed}
+                fontSize="15px"
+                onClick={() => {}}
+              />
+            </Flex>
           </Flex>
         </Box>
       </Flex>

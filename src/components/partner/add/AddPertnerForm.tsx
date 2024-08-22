@@ -36,7 +36,7 @@ import InfoComponent from '@/components/goods/InfoComponent';
 import DetailComponent from '@/components/goods/DetailComponent';
 import PlanComponent from '@/components/goods/PlanComponent';
 import BookingCheckComponent from '@/components/goods/BookingCheckComponent';
-import CancleComponent from '@/components/goods/CancleComponent';
+import CancelComponent from '@/components/goods/CancelComponent';
 import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
 import OptionComponent from '@/components/goods/OptionComponent';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
@@ -129,7 +129,7 @@ function AddPartnerForm() {
           imagePath: '',
           thumbnailImagePath: '',
         },
-      ], 
+      ],
     },
   ]);
   const [optionModifyList, setOptionModifyList] = useState<
@@ -137,7 +137,6 @@ function AddPartnerForm() {
   >([]);
   const itemCode = getItemCode as string;
 
-  
   return (
     <>
       <ButtonModal
