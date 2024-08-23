@@ -120,7 +120,7 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
         gap={'5px'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.partner.title}
+          {item.partner?.title}
         </Text>
       </Flex>
       <Flex w={header[3]?.width} gap={'10px'}>
@@ -176,7 +176,18 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
             >
               {item.orderCategoryTitle}
             </Text>
-            <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
+            <Text
+              color={ColorBlack}
+              fontSize={'14px'}
+              fontWeight={400}
+              overflow="hidden"
+              textOverflow={'ellipsis'}
+              display="-webkit-box"
+              style={{
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
               {item.orderTitle}
             </Text>
           </Flex>

@@ -165,6 +165,13 @@ function GoodsItemCard({ header, item }: Props) {
             fontWeight={400}
             color={ColorBlack}
             pr={'10px'}
+            overflow="hidden"
+            textOverflow={'ellipsis'}
+            display="-webkit-box"
+            style={{
+              WebkitLineClamp: 4,
+              WebkitBoxOrient: 'vertical',
+            }}
           >
             {item?.title}
           </Text>

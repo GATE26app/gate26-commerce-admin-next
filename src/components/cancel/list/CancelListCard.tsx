@@ -139,7 +139,7 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
       borderBottomColor={ColorGrayBorder}
       borderBottomWidth={1}
     >
-      <Flex
+      {/* <Flex
         w={'5%'}
         alignItems={'center'}
         justifyContent={'center'}
@@ -160,21 +160,21 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
             alt="체크"
           />
         )}
-      </Flex>
+      </Flex> */}
       <Flex
         w={header[0]?.width}
         alignItems={'center'}
         justifyContent={'center'}
         flexDirection={'column'}
       >
-        <OrderStateSelectBox
+        {/* <OrderStateSelectBox
           placeholder="결제완료"
           width={'109px'}
           list={StateList}
           select={cancelState}
           setSelect={setCancelState}
           onClick={onClickSelect}
-        />
+        /> */}
         {/* <SelectBox
           placeholder="상태값 변경처리"
           width={'168px'}
@@ -182,9 +182,9 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
           select={cancelState}
           setSelect={setCancelState}
         /> */}
-        {/* <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
+        <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
           {item.cancelStatusName}
-        </Text> */}
+        </Text>
       </Flex>
       <Flex
         w={header[1]?.width}
@@ -314,7 +314,18 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
             >
               {item.orderCategoryTitle}
             </Text>
-            <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
+            <Text
+              color={ColorBlack}
+              fontSize={'14px'}
+              fontWeight={400}
+              overflow="hidden"
+              textOverflow={'ellipsis'}
+              display="-webkit-box"
+              style={{
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
               {item.orderTitle}
             </Text>
           </Flex>

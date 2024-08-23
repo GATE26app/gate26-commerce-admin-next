@@ -213,7 +213,7 @@ export type OrderDetailItemType = {
   partnerMemo: string;
   policies: Array<policiesType>;
   orderConfirmName: string;
-  partner?: partnerType;
+  partner: partnerType;
   shipping: Shippingtype;
   groupOrders?: Array<GroupOrderListType>;
 };

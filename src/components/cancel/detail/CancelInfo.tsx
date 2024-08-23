@@ -34,7 +34,7 @@ interface Props {
   info: OrderDetailItemType;
 }
 function CancelInfo({ info }: Props) {
-  const [state, setState] = useState(1); //반려 : 1, 승인:2
+  const [state, setState] = useState(1); //1=>취소요청, 2=>취소거절, 3=>취소완료
   const router = useRouter();
   const searchParams = useSearchParams();
   const getOrderId = searchParams.get('orderId');
@@ -47,11 +47,16 @@ function CancelInfo({ info }: Props) {
   );
   const [cancelApproModal, setCancelApproModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+
   useEffect(() => {
     if (info.partnerMemo) {
       setMemo(info.partnerMemo);
     }
+    if (info.cancelStatus) {
+      setState(info.cancelStatus);
+    }
   }, [info]);
+  console.log('****info', info);
   const { mutate: InputMemoMutate, isLoading: isLoading } =
     usePutOrderMemoMutation({
       options: {
@@ -222,30 +227,41 @@ function CancelInfo({ info }: Props) {
               flexShrink={0}
               color={ColorBlack}
             >
-              취소승인
+              취소상태
             </Text>
             <Flex gap={'10px'} flexDirection={'column'} w={'100%'}>
               <Flex flexDirection={'row'} gap={'40px'}>
-                <RadioComponent
-                  text="승인"
-                  // disabled={info.cancelStatus}
-                  checked={state == 1 ? true : false}
-                  onClick={() => {
-                    setState(1);
-                    setCancelApproModal(true);
-                  }}
-                />
-                <RadioComponent
-                  text="반려"
-                  // disabled={info.cancelStatus}
-                  checked={state == 2 ? true : false}
-                  onClick={() => {
-                    setState(2);
-                    setCancelModal(true);
-                  }}
-                />
+                <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                  {info.cancelRequestDetail}
+                </Text>
+                {info?.cancelStatus == 1 ? (
+                  <>
+                    <RadioComponent
+                      text="승인"
+                      // disabled={info.cancelStatus}
+                      checked={state == 3 ? true : false}
+                      onClick={() => {
+                        setState(3);
+                        setCancelApproModal(true);
+                      }}
+                    />
+                    <RadioComponent
+                      text="반려"
+                      // disabled={info.cancelStatus}
+                      checked={state == 2 ? true : false}
+                      onClick={() => {
+                        setState(2);
+                        setCancelModal(true);
+                      }}
+                    />
+                  </>
+                ) : (
+                  <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                    {info.cancelStatusName}
+                  </Text>
+                )}
               </Flex>
-              {state == 2 && (
+              {state == 2 && deniedReason && (
                 <InputBox
                   w={'100%'}
                   mt={'10px'}
@@ -273,9 +289,6 @@ function CancelInfo({ info }: Props) {
                 {info.cancelFaultTypeName}
               </Text>
             </Flex> */}
-              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                {info.cancelRequestDetail}
-              </Text>
             </Flex>
           </Flex>
           <Flex mt={'15px'} alignItems={'center'}>

@@ -31,7 +31,7 @@ function GoodsInfoCard({ header, item }: Props) {
       flexDirection={'row'}
       justifyContent={'center'}
       pt={'20px'}
-      // mb={'20px'}
+      mb={'20px'}
     >
       <Flex
         w={header[0]?.width}

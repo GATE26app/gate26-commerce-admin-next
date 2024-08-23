@@ -57,6 +57,7 @@ function CancelComponent({ list, request, setRequest }: Props) {
     onNextPageClicked: (page: number) => handleChangeInput('page', page),
   };
 
+  console.log('request.pageNo', request.pageNo);
   function handleChangeInput(key: string, value: string | number, id?: string) {
     const newRequest = { ...request, [key]: value };
     //10개씩 보기, 20개씩 보기, 50개씩 보기, 100개씩 보기 클릭 시 0으로 초기화
@@ -65,10 +66,10 @@ function CancelComponent({ list, request, setRequest }: Props) {
     } else if (key === 'page') {
       // setPage(value as number);
       newRequest.pageNo = Number(value);
-      setCancelFilterInfo({
-        ...cancelFilterInfo,
-        pageNo: Number(value),
-      });
+      // setCancelFilterInfo({
+      //   ...cancelFilterInfo,
+      //   pageNo: Number(value),
+      // });
       router.push(`/cancelList?page=${Number(value) + 1}`);
     }
     //페이지가 0보다 작은 경우 0으로 세팅

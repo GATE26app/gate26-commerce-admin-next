@@ -70,12 +70,12 @@ export const cancellistheader = [
   {
     id: 'reves',
     name: '상품정보',
-    width: '30%',
+    width: '31%',
   },
   {
     id: 'state',
     name: '결제정보',
-    width: '10%',
+    width: '9%',
   },
   {
     id: '예약자정보',

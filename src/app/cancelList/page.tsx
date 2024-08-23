@@ -52,7 +52,7 @@ function CancelListPage() {
     if (cancelFilterInfo.pageNo) {
       setRequest({ ...request, pageNo: Number(cancelFilterInfo.pageNo) - 1 });
       setGoodsInfo({
-        orderState: true,
+        cancelState: true,
       });
     }
   }, [cancelFilterInfo.pageNo]);
@@ -61,7 +61,7 @@ function CancelListPage() {
       onSuccess: (res) => {
         setList(res.data);
         setGoodsInfo({
-          orderState: false,
+          cancelState: false,
         });
       },
     },
@@ -71,8 +71,8 @@ function CancelListPage() {
     refreshList(request);
   }, []);
   useEffect(() => {
-    if (goodsInfo.orderState) refreshList(request);
-  }, [goodsInfo.orderState]);
+    if (goodsInfo.cancelState) refreshList(request);
+  }, [goodsInfo.cancelState]);
 
   return (
     <Box w={'100%'}>

@@ -28,8 +28,12 @@ import {
 } from '@/utils/_Palette';
 
 import ModalOrderInfo from './ModalOrderInfo';
+import RadioComponent from '../CustomRadioButton/RadioComponent';
+import InputBox from '../Input';
+import { intComma } from '@/utils/format';
 
 interface InfoProps {
+  orderType: number;
   orderId: string;
   orderThumbnailImagePath: string;
   orderCategoryTitle: string;
@@ -49,10 +53,13 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
   const toast = useToast();
+  const [cancelFaultType, setCancelFaultType] = useState(0); //1=>구매자, 2=>판매자, 3=>운영자
+  const [cancelAmount, setCancelAmount] = useState(0);
   const [data, setData] = useState({
     orderCancelRequestDetail: '',
   });
 
+  console.log('**info', info);
   const handleClickOK = () => {
     onSubmit(data.orderCancelRequestDetail);
     if (data.orderCancelRequestDetail == '') {
@@ -76,6 +83,102 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
     return (
       <Flex flexDirection={'column'}>
         <Flex mt={'25px'} flexDirection={'column'} pb={'25px'}>
+          <Text
+            fontSize={'16px'}
+            color={ColorBlack}
+            fontWeight={600}
+            mb={'5px'}
+          >
+            취소 귀책자
+          </Text>
+          <Flex gap={'20px'} mb={'20px'}>
+            <RadioComponent
+              text="구매자"
+              checked={cancelFaultType == 1 ? true : false}
+              onClick={() => {
+                setCancelFaultType(1);
+              }}
+            />
+            <RadioComponent
+              text="판매자"
+              checked={cancelFaultType == 2 ? true : false}
+              onClick={() => {
+                setCancelFaultType(2);
+              }}
+            />
+            <RadioComponent
+              text="운영자"
+              checked={cancelFaultType == 3 ? true : false}
+              onClick={() => {
+                setCancelFaultType(3);
+              }}
+            />
+          </Flex>
+          {info?.orderType !== 1 && (
+            <>
+              <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  w={'150px'}
+                >
+                  취소할(환불)금액
+                </Text>
+                <InputBox
+                  w={'50%'}
+                  placeholder="숫자로만 입력"
+                  type="text"
+                  maxLength={15}
+                  value={cancelAmount == 0 ? '' : intComma(cancelAmount)}
+                  onChange={(e: any) =>
+                    setCancelAmount(
+                      Number(e.target.value.replace(/[^0-9]/g, '')),
+                    )
+                  }
+                />
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  ml={'10px'}
+                >
+                  원
+                </Text>
+              </Flex>
+              <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  w={'150px'}
+                >
+                  기취소금액
+                </Text>
+                <InputBox
+                  w={'50%'}
+                  placeholder="숫자로만 입력"
+                  type="text"
+                  maxLength={15}
+                  value={cancelAmount == 0 ? '' : intComma(cancelAmount)}
+                  onChange={(e: any) =>
+                    setCancelAmount(
+                      Number(e.target.value.replace(/[^0-9]/g, '')),
+                    )
+                  }
+                />
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  ml={'10px'}
+                >
+                  원
+                </Text>
+              </Flex>
+            </>
+          )}
+
           <Text
             fontSize={'16px'}
             color={ColorBlack}

@@ -62,26 +62,31 @@ function OrderGoodsCard({ header, item }: Props) {
   });
 
   useEffect(() => {
-    if (item.cancelStatusName == '' || item.cancelStatusName == null) {
-      if (
-        (item.orderStatusName == '결제완료' && item.orderType == 1) ||
-        (item.orderStatusName == '결제완료' && item.orderType == 2)
-      ) {
-        setStateList(['결제완료', '취소요청']);
-        // StateList = dataList;
-      } else if (item.orderStatusName == '결제완료' && item.orderType == 3) {
-        setStateList(['결제완료', '예약확정', '취소']);
-      } else if (item.orderStatusName == '이용일') {
-        setStateList([item.orderStatusName, '취소요청']);
-      } else if (item.orderStatusName == '예약확정') {
-        setStateList([item.orderStatusName, '취소요청']);
-      } else {
-        setStateList([item.orderStatusName]);
-      }
-    } else {
-      setSelectState(item.cancelStatusName);
-      setStateList([item.cancelStatusName]);
+    if (item.orderStatus !== 0 && item.orderStatus !== 100) {
+      setStateList([item.orderStatusName, '주문 취소']);
+      // if()
     }
+    // if()
+    // if (item.cancelStatusName == '' || item.cancelStatusName == null) {
+    //   if (
+    //     (item.orderStatusName == '결제완료' && item.orderType == 1) ||
+    //     (item.orderStatusName == '결제완료' && item.orderType == 2)
+    //   ) {
+    //     setStateList(['결제완료', '취소요청']);
+    //     // StateList = dataList;
+    //   } else if (item.orderStatusName == '결제완료' && item.orderType == 3) {
+    //     setStateList(['결제완료', '예약확정', '취소']);
+    //   } else if (item.orderStatusName == '이용일') {
+    //     setStateList([item.orderStatusName, '취소요청']);
+    //   } else if (item.orderStatusName == '예약확정') {
+    //     setStateList([item.orderStatusName, '취소요청']);
+    //   } else {
+    //     setStateList([item.orderStatusName]);
+    //   }
+    // } else {
+    //   setSelectState(item.cancelStatusName);
+    //   setStateList([item.cancelStatusName]);
+    // }
   }, [item.orderStatusName, item.cancelStatusName]);
 
   const [itemData, setItemData] = useState({
