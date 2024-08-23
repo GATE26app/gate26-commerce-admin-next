@@ -5,6 +5,7 @@ import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 
 import {
   usePostOrderContfrimMutation,
+  usePostOrderGroupMutation,
   usePutOrderCancelMutation,
   usePutOrderCancelRequestMutation,
 } from '@/app/apis/order/OrderApi.mutation';
@@ -48,7 +49,7 @@ function OrderListComponent({ list, request, setRequest }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const { setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [stateSelect, setStateSelect] = useState('');
-  const stateSelectList = ['예약확정', '접수거절', '취소요청'];
+  const stateSelectList = ['접수거절'];
   const [cancelModal, setCancelModal] = useState(false);
   const { orderFilterInfo, setOrderFilterInfo } = useOrderFilterZuInfo(
     (state) => state,
@@ -87,7 +88,28 @@ function OrderListComponent({ list, request, setRequest }: Props) {
   }
 
   const [CheckList, setChekcList] = useState<string[]>([]);
+  const [newCheckList, setNewChekcList] = useState<string[]>([]);
 
+  //주문번호 그룹화
+  const { mutate: OrderGroupMutate } = usePostOrderGroupMutation({
+    options: {
+      onSuccess: (res, req) => {
+        if (res.success) {
+          console.log('res', res);
+          setNewChekcList(res.data.orderIds);
+          // setIsLoading(false);
+          if (stateSelect == '접수거절') {
+            setCancelModal(true);
+
+            setModalInfo({
+              type: '접수거절',
+              title: '취소사유 입력',
+            });
+          }
+        }
+      },
+    },
+  });
   //상태값 변경
   const onChangeState = () => {
     if (stateSelect == '') {
@@ -101,47 +123,15 @@ function OrderListComponent({ list, request, setRequest }: Props) {
         ),
       });
     } else {
-      if (stateSelect == '예약확정') {
-        CheckList.map((item) => {
-          const obj = {
-            orderId: item,
-          };
-          setIsLoading(true);
-          ConfrimMutate(obj);
-        });
-      } else if (stateSelect == '접수거절') {
-        setCancelModal(true);
-
-        setModalInfo({
-          type: '접수거절',
-          title: '취소사유 입력',
-        });
-      } else if (stateSelect == '취소요청') {
-        setCancelModal(true);
-
-        setModalInfo({
-          type: '접수거절',
-          title: '취소요청사유 입력',
-        });
-      }
+      OrderGroupMutate({
+        orderIds: CheckList,
+      });
     }
   };
 
   const onSubmitCancel = (text: string) => {
-    if (modalInfo.type == '취소요청') {
-      CheckList.map((item) => {
-        const obj = {
-          orderId: item,
-          type: '취소요청',
-          body: {
-            orderCancelRequestDetail: text,
-          },
-        };
-        setIsLoading(true);
-        CancelRequestMutate(obj);
-      });
-    } else if (modalInfo.type == '접수거절') {
-      CheckList.map((item) => {
+    if (modalInfo.type == '접수거절') {
+      newCheckList.map((item) => {
         // CancelRequestMutate(obj);
         const obj = {
           orderId: item,
@@ -155,89 +145,7 @@ function OrderListComponent({ list, request, setRequest }: Props) {
       });
     }
   };
-  //예약 확정
-  const { mutate: ConfrimMutate, isLoading: isConfrimLoading } =
-    usePostOrderContfrimMutation({
-      options: {
-        onSuccess: (res, req) => {
-          if (res.success) {
-            setIsLoading(false);
-            toast({
-              position: 'top',
-              duration: 2000,
-              render: () => (
-                <Box
-                  style={{ borderRadius: 8 }}
-                  p={3}
-                  color="white"
-                  bg="#ff6955"
-                >
-                  {`주문번호 [${req?.orderId}] : 예약 확정 요청되었습니다.`}
-                </Box>
-              ),
-            });
-          } else {
-            setIsLoading(false);
-            toast({
-              position: 'top',
-              duration: 2000,
-              render: () => (
-                <Box
-                  style={{ borderRadius: 8 }}
-                  p={3}
-                  color="white"
-                  bg="#ff6955"
-                >
-                  {`주문번호 [${req?.orderId}] : ${res.message}`}
-                </Box>
-              ),
-            });
-          }
-        },
-      },
-    });
-  //주문 취소 요청
-  const { mutate: CancelRequestMutate, isLoading: isCancelRequestLoading } =
-    usePutOrderCancelRequestMutation({
-      options: {
-        onSuccess: (res, req) => {
-          setIsLoading(false);
-          setCancelModal(false);
-          if (res.success) {
-            toast({
-              position: 'top',
-              duration: 2000,
-              render: () => (
-                <Box
-                  style={{ borderRadius: 8 }}
-                  p={3}
-                  color="white"
-                  bg="#ff6955"
-                >
-                  {`주문번호 [${req?.orderId}] : 주문 취소 요청이 되었습니다.`}
-                </Box>
-              ),
-            });
-            // ToastComponent('주문 취소 요청이 되었습니다.');
-          } else {
-            toast({
-              position: 'top',
-              duration: 2000,
-              render: () => (
-                <Box
-                  style={{ borderRadius: 8 }}
-                  p={3}
-                  color="white"
-                  bg="#ff6955"
-                >
-                  {`주문번호 [${req?.orderId}] : ${res.message}`}
-                </Box>
-              ),
-            });
-          }
-        },
-      },
-    });
+
   //주문 취소
   const { mutate: CancelMutate, isLoading: isCancelLoading } =
     usePutOrderCancelMutation({
@@ -316,8 +224,8 @@ function OrderListComponent({ list, request, setRequest }: Props) {
             {list?.totalCount}건
           </Text>
         </Flex>
-        {/* <Flex gap={'10px'}>
-          <SelectBox
+        <Flex gap={'10px'}>
+          {/* <SelectBox
             placeholder="상태값 변경처리"
             width={'168px'}
             list={stateSelectList}
@@ -333,8 +241,8 @@ function OrderListComponent({ list, request, setRequest }: Props) {
             color={ColorGray700}
             fontSize="14px"
             onClick={() => onChangeState()}
-          />
-          <ImageButton
+          /> */}
+          {/* <ImageButton
             img="/images/Page/excel_icon.png"
             backgroundColor={ColorWhite}
             borderColor={ColorGrayBorder}
@@ -346,8 +254,8 @@ function OrderListComponent({ list, request, setRequest }: Props) {
             px="14px"
             py="10px"
             onClick={() => console.log('엑셀다운로드')}
-          />
-        </Flex> */}
+          /> */}
+        </Flex>
       </Flex>
       <OrderDataTable
         list={list}

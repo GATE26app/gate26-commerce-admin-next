@@ -2,13 +2,9 @@ import Image from 'next/image';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import {
-  ColorBlack,
-  ColorGray100,
-  ColorGray700,
-} from '@/utils/_Palette';
-import { imgPath, intComma } from '@/utils/format';
-import { SyntheticEvent } from "react";
+import { ColorBlack, ColorGray100, ColorGray700 } from '@/utils/_Palette';
+import { formatDate, formatDateDash, imgPath, intComma } from '@/utils/format';
+import { SyntheticEvent } from 'react';
 
 interface Props {
   info: {
@@ -20,6 +16,8 @@ interface Props {
     discountAmount: number;
     orderAmount: number;
     orderTitle: string;
+    orderType: number;
+    orderDateTimeOfUse: string;
   };
 }
 function ModalOrderInfo({ info }: Props) {
@@ -130,6 +128,21 @@ function ModalOrderInfo({ info }: Props) {
               {intComma(info?.orderAmount)}
             </Text>
           </Flex>
+          {info?.orderType == 3 && (
+            <Flex>
+              <Text
+                color={ColorGray700}
+                fontWeight={600}
+                fontSize={'14px'}
+                w={'57px'}
+              >
+                이용일
+              </Text>
+              <Text color={ColorGray700} fontWeight={400} fontSize={'14px'}>
+                {formatDateDash(info?.orderDateTimeOfUse)}
+              </Text>
+            </Flex>
+          )}
         </Flex>
       </Flex>
       {/* <Flex

@@ -1,6 +1,6 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, use, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
@@ -22,15 +22,22 @@ import OrderDelivery from '@/components/order/detail/OrderDelivery';
 import OrderPayment from '@/components/order/detail/OrderPayment';
 import CustomButton from '@/components/common/CustomButton';
 import PartnerInfo from '@/components/order/detail/PartnerInfo';
+import OrderAmount from '@/components/order/detail/OrderAmount';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import LoadingModal from '@/components/common/Modal/LoadingModal';
 
 function CancelDetailComponentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const getOrderId = searchParams.get('orderId');
+  const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
+
+  const [isLoadingModal, setLoadingModal] = useState(false);
   const {
     data: CancelData,
     isLoading,
     error,
+    refetch,
   } = useQuery(
     ['orderItem', String(getOrderId)],
     () => orderApi.getOrderItem(String(getOrderId)),
@@ -40,8 +47,20 @@ function CancelDetailComponentPage() {
       enabled: !!getOrderId,
     },
   );
+
+  useEffect(() => {
+    if (goodsInfo.cancelState) {
+      refetch();
+    }
+  }, [goodsInfo.cancelState]);
+
   return (
     <>
+      <LoadingModal
+        children={isLoadingModal}
+        isOpen={isLoadingModal}
+        onClose={() => setLoadingModal(false)}
+      />
       <Box w={'100%'} pt={'60px'}>
         <Flex justifyContent={'space-between'} mb={'26px'}>
           <Flex alignItems={'center'}>
@@ -63,12 +82,20 @@ function CancelDetailComponentPage() {
         </Flex>
         {CancelData?.data !== undefined && (
           <>
-            <PartnerInfo info={CancelData?.data?.partner} />
+            {CancelData?.data?.orderType !== 4 && (
+              <PartnerInfo info={CancelData?.data?.partner} />
+            )}
+
             <CancelInfo info={CancelData?.data} />
             <OrderInfo info={CancelData?.data} />
             {/* <OrderGoods /> */}
-            <OrderResevationInfo info={CancelData?.data} />
-            <OrderDelivery info={CancelData?.data} />
+            {CancelData?.data?.orderType !== 1 && (
+              <OrderResevationInfo info={CancelData?.data} />
+            )}
+            {CancelData?.data?.orderType == 1 && (
+              <OrderDelivery info={CancelData?.data} />
+            )}
+            <OrderAmount info={CancelData?.data} />
             <OrderPayment info={CancelData?.data} />
           </>
         )}

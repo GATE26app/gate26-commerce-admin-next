@@ -15,8 +15,8 @@ export const usePostPartnersListMutation = (
   });
 };
 
-//상품승인
-export const useItemApprovePartner = (
+//파트너사 승인
+export const useApprovePartner = (
   params?: MutationHookParams<typeof partnersApi.postPartnersApprove>,
 ) => {
   return useMutation(partnersApi.postPartnersApprove, {
@@ -24,8 +24,8 @@ export const useItemApprovePartner = (
   });
 };
 
-//상품반려
-export const useItemRejectPartner = (
+//파트너사 반려
+export const useRejectPartner = (
   params?: MutationHookParams<typeof partnersApi.postPartnersReject>,
 ) => {
   return useMutation(partnersApi.postPartnersReject, {

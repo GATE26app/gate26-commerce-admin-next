@@ -69,3 +69,30 @@ export const usePostOrderContfrimMutation = (
     ...params?.options,
   });
 };
+
+//주문 취소 수수료
+export const usePostOrderCancelMutation = (
+  params?: MutationHookParams<typeof orderApi.postOrderCheckCancelFee>,
+) => {
+  return useMutation(orderApi.postOrderCheckCancelFee, {
+    ...params?.options,
+  });
+};
+
+//주문번호 그룹화
+export const usePostOrderGroupMutation = (
+  params?: MutationHookParams<typeof orderApi.postOrderGroup>,
+) => {
+  return useMutation(orderApi.postOrderGroup, {
+    ...params?.options,
+  });
+};
+
+//주문 취소 반려
+export const usePostCancelDeniedMutation = (
+  params?: MutationHookParams<typeof orderApi.postOrderRequestCancel>,
+) => {
+  return useMutation(orderApi.postOrderRequestCancel, {
+    ...params?.options,
+  });
+};

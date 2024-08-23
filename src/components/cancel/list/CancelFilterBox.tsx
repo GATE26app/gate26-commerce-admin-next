@@ -93,10 +93,10 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
           select == '취소요청일'
             ? 'cancelRequestDate'
             : select == '취소승인일'
-              ? 'cancelConfirmDate'
-              : select == '취소반려일'
-                ? 'cancelDeniedDate'
-                : '',
+            ? 'cancelConfirmDate'
+            : select == '취소반려일'
+            ? 'cancelDeniedDate'
+            : '',
       });
     }
   }, [select]);
@@ -108,11 +108,12 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
           searchSelect == '상품코드'
             ? 'itemCode'
             : searchSelect == '카테고리명'
-              ? 'category'
-              : 'title',
+            ? 'category'
+            : 'title',
       });
     }
   }, [searchSelect]);
+  //취소 상태, 1=>취소요청, 2=>취소거절, 3=>취소완료
   return (
     <Flex flexDirection={'column'} w={'100%'}>
       <Flex flexDirection={'row'} flexWrap={'wrap'}>
@@ -198,50 +199,18 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
               py={'11px'}
               borderColor={
                 request.cancelStatus?.length == 1 &&
-                request.cancelStatus?.includes(2)
+                request.cancelStatus?.includes(3)
                   ? ColorRed
                   : ColorInputBorder
               }
               bgColor={
                 request.cancelStatus?.length == 1 &&
-                request.cancelStatus?.includes(2)
+                request.cancelStatus?.includes(3)
                   ? ColorRed
                   : ColorWhite
               }
               borderRadius={'10px'}
               text="취소승인"
-              fontSize={'15px'}
-              color={
-                request.cancelStatus?.length == 1 &&
-                request.cancelStatus?.includes(2)
-                  ? ColorWhite
-                  : ColorGray700
-              }
-              onClick={() => {
-                setRequest({
-                  ...request,
-                  cancelStatus: [2],
-                  orderStatus: 0,
-                });
-              }}
-            />
-            <CustomButton
-              px={'14px'}
-              py={'11px'}
-              borderColor={
-                request.cancelStatus?.length == 1 &&
-                request.cancelStatus?.includes(3)
-                  ? ColorRed
-                  : ColorInputBorder
-              }
-              bgColor={
-                request.cancelStatus?.length == 1 &&
-                request.cancelStatus?.includes(3)
-                  ? ColorRed
-                  : ColorWhite
-              }
-              borderRadius={'10px'}
-              text="취소반려"
               fontSize={'15px'}
               color={
                 request.cancelStatus?.length == 1 &&
@@ -253,6 +222,38 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
                 setRequest({
                   ...request,
                   cancelStatus: [3],
+                  orderStatus: 0,
+                });
+              }}
+            />
+            <CustomButton
+              px={'14px'}
+              py={'11px'}
+              borderColor={
+                request.cancelStatus?.length == 1 &&
+                request.cancelStatus?.includes(2)
+                  ? ColorRed
+                  : ColorInputBorder
+              }
+              bgColor={
+                request.cancelStatus?.length == 1 &&
+                request.cancelStatus?.includes(2)
+                  ? ColorRed
+                  : ColorWhite
+              }
+              borderRadius={'10px'}
+              text="취소반려"
+              fontSize={'15px'}
+              color={
+                request.cancelStatus?.length == 1 &&
+                request.cancelStatus?.includes(2)
+                  ? ColorWhite
+                  : ColorGray700
+              }
+              onClick={() => {
+                setRequest({
+                  ...request,
+                  cancelStatus: [2],
                   orderStatus: 0,
                 });
               }}

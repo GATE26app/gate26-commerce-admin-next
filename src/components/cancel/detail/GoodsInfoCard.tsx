@@ -24,14 +24,13 @@ function GoodsInfoCard({ header, item }: Props) {
   const addDefaultImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = '/images/Page/no_data.png';
   };
-  console.log('item,', item);
   return (
     <Flex
       w={'100%'}
       flexDirection={'row'}
       justifyContent={'center'}
       pt={'20px'}
-      // mb={'20px'}
+      mb={'20px'}
     >
       <Flex
         w={header[0]?.width}

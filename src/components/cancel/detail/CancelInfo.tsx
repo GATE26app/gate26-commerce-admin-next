@@ -5,8 +5,14 @@ import dayjs from 'dayjs';
 
 import { Box, Flex, Text, Textarea, useToast } from '@chakra-ui/react';
 
-import { usePutOrderMemoMutation } from '@/app/apis/order/OrderApi.mutation';
-import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
+import {
+  usePostCancelDeniedMutation,
+  usePutOrderMemoMutation,
+} from '@/app/apis/order/OrderApi.mutation';
+import {
+  OrderDetailItemType,
+  OrderRequestCancelType,
+} from '@/app/apis/order/OrderApi.type';
 
 import CustomButton from '@/components/common/CustomButton';
 
@@ -29,12 +35,13 @@ import InputBox from '@/components/common/Input';
 import DatePicker from '@/components/common/DatePicker';
 import CancelApprovalModal from '@/components/common/Modal/CancelApprovalModal';
 import CancelCompaionModal from '@/components/common/Modal/CancelCompaionModal';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   info: OrderDetailItemType;
 }
 function CancelInfo({ info }: Props) {
-  const [state, setState] = useState(1); //반려 : 1, 승인:2
+  const [state, setState] = useState(1); //1=>취소요청, 2=>취소거절, 3=>취소완료
   const router = useRouter();
   const searchParams = useSearchParams();
   const getOrderId = searchParams.get('orderId');
@@ -47,9 +54,14 @@ function CancelInfo({ info }: Props) {
   );
   const [cancelApproModal, setCancelApproModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
+
   useEffect(() => {
     if (info.partnerMemo) {
       setMemo(info.partnerMemo);
+    }
+    if (info.cancelStatus) {
+      setState(info.cancelStatus);
     }
   }, [info]);
   const { mutate: InputMemoMutate, isLoading: isLoading } =
@@ -117,7 +129,6 @@ function CancelInfo({ info }: Props) {
     }
   };
 
-  console.log('333info', info);
   const ItemInfo = {
     orderId: info.orderId,
     orderThumbnailImagePath: info.orderThumbnailImagePath,
@@ -136,26 +147,58 @@ function CancelInfo({ info }: Props) {
     recieverHp: info.recieverHp,
   };
   const onSubmitCancel = (text: string) => {
-    // if (modalInfo.type == '취소요청') {
-    //   const obj = {
-    //     orderId: item.orderId,
-    //     type: '취소요청',
-    //     body: {
-    //       orderCancelRequestDetail: text,
-    //     },
-    //   };
-    //   CancelRequestMutate(obj);
-    // } else if (modalInfo.type == '접수거절') {
-    //   const obj = {
-    //     orderId: item.orderId,
-    //     type: '접수거절',
-    //     body: {
-    //       orderCancelRequestDetail: text,
-    //     },
-    //   };
-    //   CancelMutate(obj);
+    const obj: OrderRequestCancelType = {
+      orderId: info?.orderId,
+      body: {
+        cancelDeniedDetail: text,
+      },
+    };
+    CancelDeniedMutate(obj);
     // }
   };
+  //주문 취소 반려
+  const { mutate: CancelDeniedMutate, isLoading: isCancelLoading } =
+    usePostCancelDeniedMutation({
+      options: {
+        onSuccess: (res, req) => {
+          setCancelModal(false);
+          if (res.success) {
+            setGoodsInfo({
+              cancelState: false,
+            });
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`취소 반려가 되었습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
   return (
     <>
       {cancelApproModal && (
@@ -222,30 +265,39 @@ function CancelInfo({ info }: Props) {
               flexShrink={0}
               color={ColorBlack}
             >
-              취소승인
+              취소상태
             </Text>
             <Flex gap={'10px'} flexDirection={'column'} w={'100%'}>
               <Flex flexDirection={'row'} gap={'40px'}>
-                <RadioComponent
-                  text="승인"
-                  // disabled={info.cancelStatus}
-                  checked={state == 1 ? true : false}
-                  onClick={() => {
-                    setState(1);
-                    setCancelApproModal(true);
-                  }}
-                />
-                <RadioComponent
-                  text="반려"
-                  // disabled={info.cancelStatus}
-                  checked={state == 2 ? true : false}
-                  onClick={() => {
-                    setState(2);
-                    setCancelModal(true);
-                  }}
-                />
+                <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                  {info.cancelStatusName}
+                </Text>
+                {info?.cancelStatus == 1 ? (
+                  <>
+                    <RadioComponent
+                      text="승인"
+                      // disabled={info.cancelStatus}
+                      checked={state == 3 ? true : false}
+                      onClick={() => {
+                        setState(3);
+                        setCancelApproModal(true);
+                      }}
+                    />
+                    <RadioComponent
+                      text="반려"
+                      // disabled={info.cancelStatus}
+                      checked={state == 2 ? true : false}
+                      onClick={() => {
+                        setState(2);
+                        setCancelModal(true);
+                      }}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
               </Flex>
-              {state == 2 && (
+              {state == 2 && deniedReason && (
                 <InputBox
                   w={'100%'}
                   mt={'10px'}
@@ -273,9 +325,6 @@ function CancelInfo({ info }: Props) {
                 {info.cancelFaultTypeName}
               </Text>
             </Flex> */}
-              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                {info.cancelRequestDetail}
-              </Text>
             </Flex>
           </Flex>
           <Flex mt={'15px'} alignItems={'center'}>
@@ -299,6 +348,20 @@ function CancelInfo({ info }: Props) {
               w={'160px'}
               fontSize={'15px'}
               fontWeight={700}
+              flexShrink={0}
+              color={ColorBlack}
+            >
+              취소요청 사유
+            </Text>
+            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+              {info?.cancelRequestDetail}
+            </Text>
+          </Flex>
+          <Flex mt={'15px'} alignItems={'center'}>
+            <Text
+              w={'160px'}
+              fontSize={'15px'}
+              fontWeight={700}
               // flexShrink={0}
               color={ColorBlack}
               whiteSpace={'pre-wrap'}
@@ -311,29 +374,7 @@ function CancelInfo({ info }: Props) {
                 : formatDated(dayjs(info.cancelConfirmDate))}
             </Text>
           </Flex>
-          <Flex mt={'15px'} alignItems={'center'}>
-            <Text
-              w={'160px'}
-              fontSize={'15px'}
-              fontWeight={700}
-              // flexShrink={0}
-              color={ColorBlack}
-              whiteSpace={'pre-wrap'}
-            >
-              환불처리기준일
-            </Text>
-            <DatePicker
-              type={'date'}
-              curDate={day}
-              width={'200px'}
-              // minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
-              // maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
-              onApply={(date) => {
-                setDay(date);
-                console.log(date);
-              }}
-            />
-          </Flex>
+
           <Flex mt={'15px'} alignItems={'flex-start'}>
             <Text
               w={'160px'}

@@ -104,6 +104,27 @@ function OrderInfo({ info }: Props) {
       >
         <CancelInfoCard info={ItemInfo} />
       </Flex>
+      {info?.groupOrders !== undefined && info?.groupOrders?.length > 0 && (
+        <>
+          <Text
+            color={ColorBlack}
+            fontWeight={600}
+            fontSize={'18px'}
+            mt={'40px'}
+          >
+            함께 주문한 상품
+          </Text>
+          <Flex
+            borderTopColor={ColorDataTableBorderTop}
+            borderTopWidth={1}
+            mt={'15px'}
+          >
+            {info?.groupOrders.map((item) => {
+              return <CancelInfoCard info={item} />;
+            })}
+          </Flex>
+        </>
+      )}
     </Box>
   );
 }
