@@ -88,7 +88,7 @@ export const usePostOrderGroupMutation = (
   });
 };
 
-//주문번호 그룹화
+//주문 취소 반려
 export const usePostCancelDeniedMutation = (
   params?: MutationHookParams<typeof orderApi.postOrderRequestCancel>,
 ) => {

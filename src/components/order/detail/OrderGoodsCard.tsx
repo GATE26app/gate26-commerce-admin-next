@@ -346,7 +346,6 @@ function OrderGoodsCard({ header, item }: Props) {
           isOpen={cancelApproModal}
           onClose={() => {
             setCancelApproModal(false);
-            router.back();
           }}
           onSubmit={onSubmitCancel}
           info={item}

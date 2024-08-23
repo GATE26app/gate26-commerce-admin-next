@@ -96,7 +96,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
           if (res.success) {
             if (res.data) {
               setCancelFee(res.data);
-              setCancelAmount(res.data?.paymentAmount);
+              setCancelAmount(res.data?.atSpecificDate?.cancelAmount);
             } else {
               // setCancelFee();
             }
@@ -108,6 +108,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         },
       },
     });
+  console.log('openDay', openDay);
   useEffect(() => {
     if (cancelFaultType !== 0) {
       if (openDay.format('YYYY-MM-DD HH:mm:ss') !== 'Invalid Date') {
@@ -326,7 +327,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               </Text>
               <Text
                 fontSize={'15px'}
-                color={ColorBlack}
+                color={ColorRed}
                 fontWeight={600}
                 mr={'5px'}
               >
@@ -343,7 +344,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               </Text>
               <Text
                 fontSize={'15px'}
-                color={ColorBlack}
+                color={ColorRed}
                 fontWeight={600}
                 mr={'5px'}
               >
