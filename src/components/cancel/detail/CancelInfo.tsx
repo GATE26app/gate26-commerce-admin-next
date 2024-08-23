@@ -369,29 +369,7 @@ function CancelInfo({ info }: Props) {
                 : formatDated(dayjs(info.cancelConfirmDate))}
             </Text>
           </Flex>
-          <Flex mt={'15px'} alignItems={'center'}>
-            <Text
-              w={'160px'}
-              fontSize={'15px'}
-              fontWeight={700}
-              // flexShrink={0}
-              color={ColorBlack}
-              whiteSpace={'pre-wrap'}
-            >
-              환불처리기준일
-            </Text>
-            <DatePicker
-              type={'date'}
-              curDate={day}
-              width={'200px'}
-              // minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
-              // maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
-              onApply={(date) => {
-                setDay(date);
-                console.log(date);
-              }}
-            />
-          </Flex>
+
           <Flex mt={'15px'} alignItems={'flex-start'}>
             <Text
               w={'160px'}

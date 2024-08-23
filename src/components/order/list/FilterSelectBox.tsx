@@ -4,7 +4,6 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { OrderListParamsType } from '@/apis/order/OrderApi.type';
 
-
 import {
   ColorBlack,
   ColorGray700,
@@ -106,6 +105,26 @@ function FilterSelectBox({ request, setRequest }: Props) {
               lineHeight={'15px'}
             >
               예약형
+            </Text>
+          </Box>
+          <Box
+            bgColor={request.orderType == 4 ? ColorRed : ColorWhite}
+            borderRadius={'10px'}
+            borderWidth={1}
+            borderColor={request.orderType == 4 ? ColorRed : ColorInputBorder}
+            py={'11px'}
+            px={'14px'}
+            mr={'10px'}
+            cursor={'pointer'}
+            onClick={() => setRequest({ ...request, orderType: 4 })}
+          >
+            <Text
+              fontSize={'15px'}
+              fontWeight={400}
+              color={request.orderType == 4 ? ColorWhite : ColorGray700}
+              lineHeight={'15px'}
+            >
+              이륙살롱
             </Text>
           </Box>
         </Flex>
