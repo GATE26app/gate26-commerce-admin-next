@@ -31,7 +31,11 @@ import {
 import ModalOrderInfo from './ModalOrderInfo';
 import RadioComponent from '../CustomRadioButton/RadioComponent';
 import InputBox from '../Input';
-import { formatDateDash, intComma } from '@/utils/format';
+import {
+  formatDateDash,
+  formatDateMinTimeDash,
+  intComma,
+} from '@/utils/format';
 import {
   usePostOrderCancelMutation,
   usePutOrderCancelMutation,
@@ -43,6 +47,7 @@ import {
 import DatePicker from '../DatePicker';
 import dayjs from 'dayjs';
 import ToastComponent from '../Toast/ToastComponent';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface InfoProps {
   orderType: number;
@@ -59,6 +64,7 @@ interface InfoProps {
   shippingMemo: string;
   paymentAmount: number;
   orderDateTimeOfUse: string;
+  cancelRequestDate: string;
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
@@ -69,15 +75,19 @@ interface Props extends Omit<ModalProps, 'children'> {
 function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
   const toast = useToast();
   const [cancelFaultType, setCancelFaultType] = useState(0); //1=>구매자, 2=>판매자, 3=>운영자
-  const [cancelAmount, setCancelAmount] = useState(0);
+  const [cancelAmount, setCancelAmount] = useState(
+    info?.orderAmount ? info?.orderAmount : 0,
+  );
   const [cancelReason, setCancelReason] = useState('');
   const [data, setData] = useState({
     orderCancelRequestDetail: '',
   });
   const [cancelFee, setCancelFee] = useState<CancelFeeType>();
   const [openDay, setOpenDay] = useState<dayjs.Dayjs>(() =>
-    dayjs(info?.orderDateTimeOfUse ? info?.orderDateTimeOfUse : ''),
+    dayjs(info?.cancelRequestDate ? info?.cancelRequestDate : ''),
   );
+  const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
+
   //주문 취소 수수료
   const { mutate: OrderCancelFeeMutate, isLoading: isConfrimLoading } =
     usePostOrderCancelMutation({
@@ -86,6 +96,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
           if (res.success) {
             if (res.data) {
               setCancelFee(res.data);
+              setCancelAmount(res.data?.paymentAmount);
             } else {
               // setCancelFee();
             }
@@ -99,16 +110,26 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
     });
   useEffect(() => {
     if (cancelFaultType !== 0) {
-      let obj = {
-        orderId: info?.orderId,
-        body: {
-          cancelFaultType: cancelFaultType,
-          specificDate: openDay,
-        },
-      };
-      OrderCancelFeeMutate(obj);
+      if (openDay.format('YYYY-MM-DD HH:mm:ss') !== 'Invalid Date') {
+        let obj = {
+          orderId: info?.orderId,
+          body: {
+            cancelFaultType: cancelFaultType,
+            specificDate: formatDateMinTimeDash(openDay) + ':00',
+          },
+        };
+        OrderCancelFeeMutate(obj);
+      } else {
+        let obj = {
+          orderId: info?.orderId,
+          body: {
+            cancelFaultType: cancelFaultType,
+          },
+        };
+        OrderCancelFeeMutate(obj);
+      }
     }
-  }, [cancelFaultType]);
+  }, [cancelFaultType, openDay]);
 
   //주문 취소
   const { mutate: CancelMutate, isLoading: isCancelLoading } =
@@ -116,6 +137,9 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
       options: {
         onSuccess: (res, req) => {
           if (res.success) {
+            setGoodsInfo({
+              cancelState: false,
+            });
             toast({
               position: 'top',
               duration: 2000,
@@ -192,7 +216,6 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             cancelReason: cancelReason,
           },
         };
-        console.log('vobj', obj);
         CancelMutate(obj);
       } else {
         let obj: OrderCancelParamsType = {
@@ -203,7 +226,6 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             cancelAmount: cancelAmount,
           },
         };
-        console.log('vobj', obj);
         CancelMutate(obj);
       }
       // setOrderStateInfo({
@@ -212,6 +234,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
       onClose();
     }
   };
+
   const renderContent = () => {
     return (
       <Flex flexDirection={'column'}>
@@ -252,9 +275,9 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               fontSize={'16px'}
               color={ColorBlack}
               fontWeight={600}
-              w={'150px'}
+              w={'180px'}
             >
-              취소기준일
+              취소요청일(취소기준일자)
             </Text>
             <DatePicker
               type={'datetime'}
@@ -290,7 +313,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                 fontWeight={600}
                 mr={'5px'}
               >
-                [{formatDateDash(cancelFee?.atSpecificDate?.cancelBaseDate)}
+                [{cancelFee?.atSpecificDate?.cancelBaseDate}
                 (취소요청일시)]
               </Text>
               <Text
@@ -355,7 +378,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                 fontWeight={600}
                 mr={'5px'}
               >
-                [{formatDateDash(cancelFee?.atNow?.cancelBaseDate)}
+                [{cancelFee?.atNow?.cancelBaseDate}
                 (현재시간)]
               </Text>
               <Text
@@ -403,7 +426,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   fontSize={'16px'}
                   color={ColorBlack}
                   fontWeight={600}
-                  w={'150px'}
+                  w={'180px'}
                 >
                   상품 결제금액
                 </Text>
@@ -417,11 +440,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                       ? ''
                       : intComma(info?.paymentAmount)
                   }
-                  onChange={(e: any) =>
-                    setCancelAmount(
-                      Number(e.target.value.replace(/[^0-9]/g, '')),
-                    )
-                  }
+                  disable={false}
                 />
                 <Text
                   fontSize={'16px'}
@@ -437,7 +456,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   fontSize={'16px'}
                   color={ColorBlack}
                   fontWeight={600}
-                  w={'150px'}
+                  w={'180px'}
                 >
                   취소할(환불)금액
                 </Text>

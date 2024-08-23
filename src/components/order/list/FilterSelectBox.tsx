@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { OrderListParamsType } from '@/apis/order/OrderApi.type';
+import { OrderListParamsType } from '@/app/apis/order/OrderApi.type';
 
 import {
   ColorBlack,

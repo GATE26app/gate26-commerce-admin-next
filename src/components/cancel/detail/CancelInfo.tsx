@@ -35,6 +35,7 @@ import InputBox from '@/components/common/Input';
 import DatePicker from '@/components/common/DatePicker';
 import CancelApprovalModal from '@/components/common/Modal/CancelApprovalModal';
 import CancelCompaionModal from '@/components/common/Modal/CancelCompaionModal';
+import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   info: OrderDetailItemType;
@@ -53,6 +54,7 @@ function CancelInfo({ info }: Props) {
   );
   const [cancelApproModal, setCancelApproModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
 
   useEffect(() => {
     if (info.partnerMemo) {
@@ -161,6 +163,9 @@ function CancelInfo({ info }: Props) {
         onSuccess: (res, req) => {
           setCancelModal(false);
           if (res.success) {
+            setGoodsInfo({
+              cancelState: false,
+            });
             toast({
               position: 'top',
               duration: 2000,

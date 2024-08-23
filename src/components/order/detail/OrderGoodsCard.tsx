@@ -26,6 +26,8 @@ import CancelModal from '../../common/Modal/CancelModal';
 import OrderStateSelectBox from './OrderStateSelectBox';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import DeliveryModal from '@/components/common/Modal/DeliveryModal';
+import CancelApprovalModal from '@/components/common/Modal/CancelApprovalModal';
+import { useRouter } from 'next/navigation';
 interface headerProps {
   id: string;
   name: string;
@@ -38,9 +40,10 @@ interface Props {
 function OrderGoodsCard({ header, item }: Props) {
   const dispatch = useDispatch();
   const toast = useToast();
+  const router = useRouter();
   const [StateList, setStateList] = useState<string[]>([]);
   const [selectState, setSelectState] = useState(item.orderStatusName);
-
+  const [cancelApproModal, setCancelApproModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [deliveryModal, setDelieveryModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({
@@ -105,56 +108,70 @@ function OrderGoodsCard({ header, item }: Props) {
   });
 
   const onClickSelect = (type: string) => {
-    if (type !== selectState) {
-      if (
-        type == '접수거절' ||
-        (type == '취소요청' && item.cancelStatusName == '')
-      ) {
-        setModalInfo({
-          type: type,
-          title: type == '접수거절' ? '취소사유 입력' : '취소요청사유 입력',
-        });
-        setCancelModal(true);
-      } else if (type == '취소요청' && item.cancelStatusName !== '') {
-        setOpenAlertModal(true);
-        setModalState({
-          ...ModalState,
-          title: '상태값 변경',
-          message: `이미 취소요청이 되어 있습니다.`,
-          type: 'confirm',
-          okButtonName: '확인',
-          cbOk: () => {},
-        });
-      } else if (type == '예약확정') {
-        setOpenAlertModal(true);
-        setModalState({
-          ...ModalState,
-          title: '상태값 변경',
-          message: `${type}으로 변경하시겠습니까?`,
-          type: 'confirm',
-          okButtonName: '변경',
-          cbOk: () => {
-            setSelectState(type);
-            let obj = {
-              orderId: item.orderId,
-            };
-            ConfrimMutate(obj);
-          },
-        });
-      } else {
-        setOpenAlertModal(true);
-        setModalState({
-          ...ModalState,
-          title: '상태값 변경',
-          message: `${type}으로 변경하시겠습니까?`,
-          type: 'confirm',
-          okButtonName: '변경',
-          cbOk: () => {
-            setSelectState(type);
-          },
-        });
-      }
+    if (type == '주문 취소') {
+      setCancelApproModal(true);
+      // setOpenAlertModal(true);
+      //   setModalState({
+      //     ...ModalState,
+      //     title: '상태값 변경',
+      //     message: `${type}으로 변경하시겠습니까?`,
+      //     type: 'confirm',
+      //     okButtonName: '변경',
+      //     cbOk: () => {
+      //       setSelectState(type);
+      //     },
+      //   });
     }
+    // if (type !== selectState) {
+    //   if (
+    //     type == '접수거절' ||
+    //     (type == '취소요청' && item.cancelStatusName == '')
+    //   ) {
+    //     setModalInfo({
+    //       type: type,
+    //       title: type == '접수거절' ? '취소사유 입력' : '취소요청사유 입력',
+    //     });
+    //     setCancelModal(true);
+    //   } else if (type == '취소요청' && item.cancelStatusName !== '') {
+    //     setOpenAlertModal(true);
+    //     setModalState({
+    //       ...ModalState,
+    //       title: '상태값 변경',
+    //       message: `이미 취소요청이 되어 있습니다.`,
+    //       type: 'confirm',
+    //       okButtonName: '확인',
+    //       cbOk: () => {},
+    //     });
+    //   } else if (type == '예약확정') {
+    //     setOpenAlertModal(true);
+    //     setModalState({
+    //       ...ModalState,
+    //       title: '상태값 변경',
+    //       message: `${type}으로 변경하시겠습니까?`,
+    //       type: 'confirm',
+    //       okButtonName: '변경',
+    //       cbOk: () => {
+    //         setSelectState(type);
+    //         let obj = {
+    //           orderId: item.orderId,
+    //         };
+    //         ConfrimMutate(obj);
+    //       },
+    //     });
+    //   } else {
+    //     setOpenAlertModal(true);
+    //     setModalState({
+    //       ...ModalState,
+    //       title: '상태값 변경',
+    //       message: `${type}으로 변경하시겠습니까?`,
+    //       type: 'confirm',
+    //       okButtonName: '변경',
+    //       cbOk: () => {
+    //         setSelectState(type);
+    //       },
+    //     });
+    //   }
+    // }
   };
 
   const onSubmitCancel = (text: string) => {
@@ -324,6 +341,17 @@ function OrderGoodsCard({ header, item }: Props) {
     });
   return (
     <>
+      {cancelApproModal && (
+        <CancelApprovalModal
+          isOpen={cancelApproModal}
+          onClose={() => {
+            setCancelApproModal(false);
+            router.back();
+          }}
+          onSubmit={onSubmitCancel}
+          info={item}
+        />
+      )}
       {cancelModal && (
         <CancelModal
           isOpen={cancelModal}
