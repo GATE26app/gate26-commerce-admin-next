@@ -6,6 +6,7 @@ import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import {
   OrderListParamsType,
   OrderListResType,
+  OrderRequestCancelType,
 } from '@/app/apis/order/OrderApi.type';
 
 import Pagination from '@/components/common/Pagination';
@@ -22,6 +23,11 @@ import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import CancelDataTable from './CancelDataTable';
 import SelectBox from '@/components/common/SelectBox';
 import CustomButton from '@/components/common/CustomButton';
+import {
+  usePostCancelDeniedMutation,
+  usePostOrderGroupMutation,
+} from '@/app/apis/order/OrderApi.mutation';
+import CancelListModal from '@/components/common/Modal/CancelListModal';
 
 // import OrderDataTable from './OrderDataTable';
 
@@ -43,7 +49,8 @@ function CancelComponent({ list, request, setRequest }: Props) {
   const toast = useToast();
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const [stateSelect, setStateSelect] = useState('');
-  const stateSelectList = ['취소요청', '취소승인', '취소반려', '취소'];
+  const stateSelectList = ['취소반려'];
+  const [cancelModal, setCancelModal] = useState(false);
   const [CheckList, setChekcList] = useState<string[]>([]);
   const { cancelFilterInfo, setCancelFilterInfo } = useCancelFilterZuInfo(
     (state) => state,
@@ -57,19 +64,13 @@ function CancelComponent({ list, request, setRequest }: Props) {
     onNextPageClicked: (page: number) => handleChangeInput('page', page),
   };
 
-  console.log('request.pageNo', request.pageNo);
   function handleChangeInput(key: string, value: string | number, id?: string) {
     const newRequest = { ...request, [key]: value };
     //10개씩 보기, 20개씩 보기, 50개씩 보기, 100개씩 보기 클릭 시 0으로 초기화
     if (key === 'limit') {
       newRequest.pageNo = 0;
     } else if (key === 'page') {
-      // setPage(value as number);
       newRequest.pageNo = Number(value);
-      // setCancelFilterInfo({
-      //   ...cancelFilterInfo,
-      //   pageNo: Number(value),
-      // });
       router.push(`/cancelList?page=${Number(value) + 1}`);
     }
     //페이지가 0보다 작은 경우 0으로 세팅
@@ -81,6 +82,32 @@ function CancelComponent({ list, request, setRequest }: Props) {
     });
     setRequest(newRequest);
   }
+  const [modalInfo, setModalInfo] = useState({
+    type: '',
+    title: '',
+  });
+  const [newCheckList, setNewChekcList] = useState<string[]>([]);
+
+  //주문번호 그룹화
+  const { mutate: OrderGroupMutate } = usePostOrderGroupMutation({
+    options: {
+      onSuccess: (res, req) => {
+        if (res.success) {
+          console.log('res', res);
+          setNewChekcList(res.data.orderIds);
+          // setIsLoading(false);
+          if (stateSelect == '취소반려') {
+            setCancelModal(true);
+
+            setModalInfo({
+              type: '취소반려',
+              title: '반사유 입력',
+            });
+          }
+        }
+      },
+    },
+  });
   //상태값 변경
   const onChangeState = () => {
     if (stateSelect == '') {
@@ -94,37 +121,75 @@ function CancelComponent({ list, request, setRequest }: Props) {
         ),
       });
     } else {
-      if (stateSelect == '취소요청') {
-        CheckList.map((item) => {
-          const obj = {
-            orderId: item,
-          };
-          // setIsLoading(true);
-          // ConfrimMutate(obj);
-        });
-      } else if (stateSelect == '취소승인') {
-        // setCancelModal(true);
-        // setModalInfo({
-        //   type: '접수거절',
-        //   title: '취소사유 입력',
-        // });
-      } else if (stateSelect == '취소반려') {
-        // setCancelModal(true);
-        // setModalInfo({
-        //   type: '접수거절',
-        //   title: '취소요청사유 입력',
-        // });
-      } else if (stateSelect == '취소') {
-        // setCancelModal(true);
-        // setModalInfo({
-        //   type: '접수거절',
-        //   title: '취소요청사유 입력',
-        // });
-      }
+      OrderGroupMutate({
+        orderIds: CheckList,
+      });
     }
   };
+  const onSubmitCancel = (text: string) => {
+    newCheckList.map((item) => {
+      const obj: OrderRequestCancelType = {
+        orderId: item,
+        body: {
+          cancelDeniedDetail: text,
+        },
+      };
+      CancelDeniedMutate(obj);
+    });
+  };
+
+  //주문 취소 반려
+  const { mutate: CancelDeniedMutate, isLoading: isCancelLoading } =
+    usePostCancelDeniedMutation({
+      options: {
+        onSuccess: (res, req) => {
+          setCancelModal(false);
+          if (res.success) {
+            setGoodsInfo({
+              cancelState: true,
+            });
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문번호 [${req?.orderId}] : 취소 반려가 되었습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문번호 [${req?.orderId}] : ${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
   return (
     <Box mt={'40px'}>
+      {cancelModal && (
+        <CancelListModal
+          isOpen={cancelModal}
+          onClose={() => setCancelModal(false)}
+          onSubmit={onSubmitCancel}
+        />
+      )}
       <Flex justifyContent={'space-between'}>
         <Flex flexDirection={'row'} alignItems={'center'} gap={'6px'}>
           <Text
@@ -144,7 +209,7 @@ function CancelComponent({ list, request, setRequest }: Props) {
             {list?.totalCount}건
           </Text>
         </Flex>
-        {/* <Flex gap={'10px'}>
+        <Flex gap={'10px'}>
           <SelectBox
             placeholder="상태값 변경처리"
             width={'168px'}
@@ -162,7 +227,7 @@ function CancelComponent({ list, request, setRequest }: Props) {
             fontSize="14px"
             onClick={() => onChangeState()}
           />
-          <ImageButton
+          {/* <ImageButton
             img="/images/Page/excel_icon.png"
             backgroundColor={ColorWhite}
             borderColor={ColorGrayBorder}
@@ -174,8 +239,8 @@ function CancelComponent({ list, request, setRequest }: Props) {
             px="14px"
             py="10px"
             onClick={() => console.log('엑셀다운로드')}
-          />
-        </Flex> */}
+          /> */}
+        </Flex>
       </Flex>
       <CancelDataTable
         list={list}

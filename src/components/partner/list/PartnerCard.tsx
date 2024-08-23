@@ -30,11 +30,11 @@ import PartnerItemCard from './PartnerItemCard';
 import SelectBox from '@/components/common/SelectBox/SelectBox';
 import { PartnersParamsType } from '@/app/apis/partners/PartnersApi.type';
 import {
-  useItemApprovePartner,
-  useItemRejectPartner,
+  useApprovePartner,
   useItemResignPartner,
   useItemRestorePartner,
   useItemStopPartner,
+  useRejectPartner,
 } from '@/app/apis/partners/PartnersApi.mutation';
 
 // import { useGoodsStateZuInfo } from '_store/StateZuInfo';
@@ -83,7 +83,7 @@ function PartnerCard({
     }
   }, [item]);
 
-  const { mutate: PartnerApprove } = useItemApprovePartner({
+  const { mutate: PartnerApprove } = useApprovePartner({
     options: {
       onSuccess: (res) => {
         setLoadingModal(false);
@@ -113,7 +113,7 @@ function PartnerCard({
   });
 
   //반려
-  const { mutate: PartnerReject } = useItemRejectPartner({
+  const { mutate: PartnerReject } = useRejectPartner({
     options: {
       onSuccess: (res) => {
         setLoadingModal(false);

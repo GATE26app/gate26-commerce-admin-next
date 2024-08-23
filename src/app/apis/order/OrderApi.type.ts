@@ -215,7 +215,7 @@ export type OrderDetailItemType = {
   orderConfirmName: string;
   partner: partnerType;
   shipping: Shippingtype;
-  groupOrders?: Array<GroupOrderListType>;
+  groupOrders: Array<GroupOrderListType>;
 };
 
 export type policiesType = {
@@ -258,6 +258,17 @@ export type OrderCancelRequestParamsType = {
 //주문 접수
 export type OrderConfrimParamsType = {
   orderId: string;
+};
+//주문 취소
+export type OrderCancelParamsType = {
+  orderId: string;
+  body: {
+    cancelRequestType?: number;
+    cancelRequestDetail?: string;
+    cancelFaultType: number;
+    cancelReason: string;
+    cancelAmount?: number;
+  };
 };
 //취소내역 params
 export type OrderCancelListParamsType = {
@@ -358,4 +369,61 @@ export type GroupOrderListType = {
   policies: Array<policiesType>;
   orderConfirmName: string;
   shipping: Shippingtype;
+};
+
+//주문 취소 수수료
+export type OrderCacelFeeType = {
+  orderId: string;
+  body: {
+    cancelFaultType: number;
+    specificDate?: string;
+  };
+};
+export type CancelFeeType = {
+  atNow: {
+    cancelAmount: number;
+    cancelBaseDate: string;
+    cancelFee: number;
+    cancelFeePer: number;
+  };
+  atSpecificDate: {
+    cancelAmount: number;
+    cancelBaseDate: string;
+    cancelFee: number;
+    cancelFeePer: number;
+  };
+  cancelFaultType: number;
+  cancelFaultTypeName: string;
+  orderDateTimeUse: string;
+  paymentAmount: number;
+};
+//주문상세
+export type OrderCancelFeeItemResType = {
+  code: string;
+  count: number;
+  data: CancelFeeType;
+  success: boolean;
+  message?: string;
+};
+
+//주문번호 그룹화
+export type OrderGroupType = {
+  orderIds: Array<string>;
+};
+
+//주문번호 그룹화
+export type OrderGroupResType = {
+  code: string;
+  count: number;
+  data: OrderGroupType;
+  success: boolean;
+  message?: string;
+};
+
+//취소 거절
+export type OrderRequestCancelType = {
+  orderId: string;
+  body: {
+    cancelDeniedDetail: string;
+  };
 };

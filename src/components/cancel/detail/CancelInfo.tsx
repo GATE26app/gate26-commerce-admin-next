@@ -5,8 +5,14 @@ import dayjs from 'dayjs';
 
 import { Box, Flex, Text, Textarea, useToast } from '@chakra-ui/react';
 
-import { usePutOrderMemoMutation } from '@/app/apis/order/OrderApi.mutation';
-import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
+import {
+  usePostCancelDeniedMutation,
+  usePutOrderMemoMutation,
+} from '@/app/apis/order/OrderApi.mutation';
+import {
+  OrderDetailItemType,
+  OrderRequestCancelType,
+} from '@/app/apis/order/OrderApi.type';
 
 import CustomButton from '@/components/common/CustomButton';
 
@@ -56,7 +62,6 @@ function CancelInfo({ info }: Props) {
       setState(info.cancelStatus);
     }
   }, [info]);
-  console.log('****info', info);
   const { mutate: InputMemoMutate, isLoading: isLoading } =
     usePutOrderMemoMutation({
       options: {
@@ -122,7 +127,6 @@ function CancelInfo({ info }: Props) {
     }
   };
 
-  console.log('333info', info);
   const ItemInfo = {
     orderId: info.orderId,
     orderThumbnailImagePath: info.orderThumbnailImagePath,
@@ -141,26 +145,55 @@ function CancelInfo({ info }: Props) {
     recieverHp: info.recieverHp,
   };
   const onSubmitCancel = (text: string) => {
-    // if (modalInfo.type == '취소요청') {
-    //   const obj = {
-    //     orderId: item.orderId,
-    //     type: '취소요청',
-    //     body: {
-    //       orderCancelRequestDetail: text,
-    //     },
-    //   };
-    //   CancelRequestMutate(obj);
-    // } else if (modalInfo.type == '접수거절') {
-    //   const obj = {
-    //     orderId: item.orderId,
-    //     type: '접수거절',
-    //     body: {
-    //       orderCancelRequestDetail: text,
-    //     },
-    //   };
-    //   CancelMutate(obj);
+    const obj: OrderRequestCancelType = {
+      orderId: info?.orderId,
+      body: {
+        cancelDeniedDetail: text,
+      },
+    };
+    CancelDeniedMutate(obj);
     // }
   };
+  //주문 취소 반려
+  const { mutate: CancelDeniedMutate, isLoading: isCancelLoading } =
+    usePostCancelDeniedMutation({
+      options: {
+        onSuccess: (res, req) => {
+          setCancelModal(false);
+          if (res.success) {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`취소 반려가 되었습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
   return (
     <>
       {cancelApproModal && (
@@ -232,7 +265,7 @@ function CancelInfo({ info }: Props) {
             <Flex gap={'10px'} flexDirection={'column'} w={'100%'}>
               <Flex flexDirection={'row'} gap={'40px'}>
                 <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                  {info.cancelRequestDetail}
+                  {info.cancelStatusName}
                 </Text>
                 {info?.cancelStatus == 1 ? (
                   <>
@@ -256,9 +289,7 @@ function CancelInfo({ info }: Props) {
                     />
                   </>
                 ) : (
-                  <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                    {info.cancelStatusName}
-                  </Text>
+                  <></>
                 )}
               </Flex>
               {state == 2 && deniedReason && (
@@ -305,6 +336,20 @@ function CancelInfo({ info }: Props) {
               {formatDated(dayjs(info.cancelRequestDate)) == 'Invalid Date'
                 ? '-'
                 : formatDated(dayjs(info.cancelRequestDate))}
+            </Text>
+          </Flex>
+          <Flex mt={'15px'} alignItems={'center'}>
+            <Text
+              w={'160px'}
+              fontSize={'15px'}
+              fontWeight={700}
+              flexShrink={0}
+              color={ColorBlack}
+            >
+              취소요청 사유
+            </Text>
+            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+              {info?.cancelRequestDetail}
             </Text>
           </Flex>
           <Flex mt={'15px'} alignItems={'center'}>

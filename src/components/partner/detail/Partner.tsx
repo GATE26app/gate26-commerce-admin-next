@@ -28,7 +28,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { PartnersParamsType } from '@/app/apis/partners/PartnersApi.type';
+import {
+  ApprovePartnerType,
+  DeniedPartnerType,
+  PartnersParamsType,
+  updateStatueType,
+} from '@/app/apis/partners/PartnersApi.type';
+import {
+  useApprovePartner,
+  useRejectPartner,
+} from '@/app/apis/partners/PartnersApi.mutation';
 
 interface Props {
   itemCode: string;
@@ -54,8 +63,8 @@ function Partner({ itemCode, itemId, info }: Props) {
   });
   const [logList, setLogList] = useState([]);
   // console.log
-  //상품승인
-  const { mutate: ApproveMutate } = useItemApprovemutation({
+  //파트너사 승인
+  const { mutate: ApproveMutate } = useApprovePartner({
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
@@ -91,8 +100,8 @@ function Partner({ itemCode, itemId, info }: Props) {
       },
     },
   });
-  //상품거절
-  const { mutate: DeniedMutate } = useItemDeniedmutation({
+  //파트너사 반려
+  const { mutate: DeniedMutate } = useRejectPartner({
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
@@ -130,10 +139,6 @@ function Partner({ itemCode, itemId, info }: Props) {
 
   const handleSubmit = () => {
     if (isCheck == 1) {
-      const obj: ItemApproveReqType = {
-        itemCode: itemCode,
-        itemId: itemId,
-      };
       setOpenAlertModal(true);
       setModalState({
         ...ModalState,
@@ -142,7 +147,7 @@ function Partner({ itemCode, itemId, info }: Props) {
         type: 'confirm',
         okButtonName: '확인',
         cbOk: () => {
-          ApproveMutate(obj);
+          ApproveMutate(info.partnerId);
           // window.history.back();
         },
       });
@@ -158,9 +163,8 @@ function Partner({ itemCode, itemId, info }: Props) {
           ),
         });
       } else {
-        const obj: ItemDeniedReqType = {
-          itemCode: itemCode,
-          itemId: itemId,
+        const obj: DeniedPartnerType = {
+          partnerId: info?.partnerId,
           deniedReason: deniedReason,
         };
         setOpenAlertModal(true);

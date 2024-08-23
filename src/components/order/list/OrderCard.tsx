@@ -47,7 +47,6 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
       }
     });
   };
-  console.log('item', item);
   return (
     <Flex
       minW={'1550px'}
@@ -57,28 +56,6 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
       borderBottomColor={ColorGrayBorder}
       borderBottomWidth={1}
     >
-      <Flex
-        w={'5%'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        onClick={() => onCheckClick(item.orderId)}
-      >
-        {CheckList.includes(item.orderId) ? (
-          <Image
-            width={21}
-            height={21}
-            src={'/images/icon_check_on.png'}
-            alt="체크"
-          />
-        ) : (
-          <Image
-            width={21}
-            height={21}
-            src={'/images/icon_check_off.png'}
-            alt="체크"
-          />
-        )}
-      </Flex>
       <Flex
         w={header[0]?.width}
         alignItems={'center'}
@@ -120,7 +97,7 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
         gap={'5px'}
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {item.partner?.title}
+          {item.partner?.title ? item.partner?.title : '-'}
         </Text>
       </Flex>
       <Flex w={header[3]?.width} gap={'10px'}>

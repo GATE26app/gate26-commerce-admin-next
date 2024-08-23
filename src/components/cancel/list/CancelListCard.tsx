@@ -33,18 +33,6 @@ interface Props {
 }
 function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
   const router = useRouter();
-  const [cancelState, setCancelState] = useState('');
-  const [StateList, setStateList] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (
-      item.cancelStatusName !== '' ||
-      item.cancelStatusName !== null ||
-      item.cancelStatusName !== undefined
-    ) {
-      setCancelState(item.cancelStatusName);
-    }
-  }, [item.cancelStatusName]);
 
   const onCheckClick = (item: string) => {
     setChekcList((prevItems) => {
@@ -59,77 +47,6 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
     e.currentTarget.src = '/images/Page/no_data.png';
   };
 
-  useEffect(() => {
-    setStateList([item.cancelStatusName]);
-    // if (
-    //   (item.cancelStatusName == '결제완료' && item.orderType == 1) ||
-    //   (item.orderStatusName == '결제완료' && item.orderType == 2)
-    // ) {
-    //   setStateList(['결제완료', '취소요청']);
-    //   // StateList = dataList;
-    // } else if (item.cancelStatusName == '결제완료' && item.orderType == 3) {
-    //   setStateList(['결제완료', '예약확정', '취소']);
-    // } else if (item.cancelStatusName == '이용일') {
-    //   setStateList([item.cancelStatusName, '취소요청']);
-    // } else if (item.cancelStatusName == '예약확정') {
-    //   setStateList([item.cancelStatusName, '취소요청']);
-    // } else {
-    //   setStateList([item.cancelStatusName]);
-    // }
-  }, [item.cancelStatusName]);
-
-  const onClickSelect = (type: string) => {
-    if (type !== cancelState) {
-      // if (
-      //   type == '접수거절' ||
-      //   (type == '취소요청' && item.cancelStatusName == '')
-      // ) {
-      //   setModalInfo({
-      //     type: type,
-      //     title: type == '접수거절' ? '취소사유 입력' : '취소요청사유 입력',
-      //   });
-      //   setCancelModal(true);
-      // } else if (type == '취소요청' && item.cancelStatusName !== '') {
-      //   setOpenAlertModal(true);
-      //   setModalState({
-      //     ...ModalState,
-      //     title: '상태값 변경',
-      //     message: `이미 취소요청이 되어 있습니다.`,
-      //     type: 'confirm',
-      //     okButtonName: '확인',
-      //     cbOk: () => {},
-      //   });
-      // } else if (type == '예약확정') {
-      //   setOpenAlertModal(true);
-      //   setModalState({
-      //     ...ModalState,
-      //     title: '상태값 변경',
-      //     message: `${type}으로 변경하시겠습니까?`,
-      //     type: 'confirm',
-      //     okButtonName: '변경',
-      //     cbOk: () => {
-      //       setSelectState(type);
-      //       let obj = {
-      //         orderId: item.orderId,
-      //       };
-      //       ConfrimMutate(obj);
-      //     },
-      //   });
-      // } else {
-      //   setOpenAlertModal(true);
-      //   setModalState({
-      //     ...ModalState,
-      //     title: '상태값 변경',
-      //     message: `${type}으로 변경하시겠습니까?`,
-      //     type: 'confirm',
-      //     okButtonName: '변경',
-      //     cbOk: () => {
-      //       setSelectState(type);
-      //     },
-      //   });
-      // }
-    }
-  };
   return (
     <Flex
       minW={'1550px'}
@@ -139,7 +56,7 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
       borderBottomColor={ColorGrayBorder}
       borderBottomWidth={1}
     >
-      {/* <Flex
+      <Flex
         w={'5%'}
         alignItems={'center'}
         justifyContent={'center'}
@@ -160,7 +77,7 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
             alt="체크"
           />
         )}
-      </Flex> */}
+      </Flex>
       <Flex
         w={header[0]?.width}
         alignItems={'center'}
@@ -256,7 +173,7 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
         flexDirection={'column'}
       >
         <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-          {item.partner?.title}
+          {item.partner?.title ? item.partner?.title : '-'}
         </Text>
       </Flex>
       <Flex

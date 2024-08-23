@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -24,13 +24,25 @@ import {
   ColorGray700,
   ColorGray900,
   ColorGrayBorder,
+  ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
 
 import ModalOrderInfo from './ModalOrderInfo';
 import RadioComponent from '../CustomRadioButton/RadioComponent';
 import InputBox from '../Input';
-import { intComma } from '@/utils/format';
+import { formatDateDash, intComma } from '@/utils/format';
+import {
+  usePostOrderCancelMutation,
+  usePutOrderCancelMutation,
+} from '@/app/apis/order/OrderApi.mutation';
+import {
+  CancelFeeType,
+  OrderCancelParamsType,
+} from '@/app/apis/order/OrderApi.type';
+import DatePicker from '../DatePicker';
+import dayjs from 'dayjs';
+import ToastComponent from '../Toast/ToastComponent';
 
 interface InfoProps {
   orderType: number;
@@ -45,7 +57,10 @@ interface InfoProps {
   shippingCompany: string;
   shippingInvoice: string;
   shippingMemo: string;
+  paymentAmount: number;
+  orderDateTimeOfUse: string;
 }
+
 interface Props extends Omit<ModalProps, 'children'> {
   onClose: () => void;
   info?: InfoProps;
@@ -55,14 +70,99 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
   const toast = useToast();
   const [cancelFaultType, setCancelFaultType] = useState(0); //1=>구매자, 2=>판매자, 3=>운영자
   const [cancelAmount, setCancelAmount] = useState(0);
+  const [cancelReason, setCancelReason] = useState('');
   const [data, setData] = useState({
     orderCancelRequestDetail: '',
   });
+  const [cancelFee, setCancelFee] = useState<CancelFeeType>();
+  const [openDay, setOpenDay] = useState<dayjs.Dayjs>(() =>
+    dayjs(info?.orderDateTimeOfUse ? info?.orderDateTimeOfUse : ''),
+  );
+  //주문 취소 수수료
+  const { mutate: OrderCancelFeeMutate, isLoading: isConfrimLoading } =
+    usePostOrderCancelMutation({
+      options: {
+        onSuccess: (res, req) => {
+          if (res.success) {
+            if (res.data) {
+              setCancelFee(res.data);
+            } else {
+              // setCancelFee();
+            }
 
-  console.log('**info', info);
+            console.log('res', res);
+            // setIsLoading(false);
+          } else {
+          }
+        },
+      },
+    });
+  useEffect(() => {
+    if (cancelFaultType !== 0) {
+      let obj = {
+        orderId: info?.orderId,
+        body: {
+          cancelFaultType: cancelFaultType,
+          specificDate: openDay,
+        },
+      };
+      OrderCancelFeeMutate(obj);
+    }
+  }, [cancelFaultType]);
+
+  //주문 취소
+  const { mutate: CancelMutate, isLoading: isCancelLoading } =
+    usePutOrderCancelMutation({
+      options: {
+        onSuccess: (res, req) => {
+          if (res.success) {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문 취소가 되었습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문번호 [${req?.orderId}] : ${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
+
   const handleClickOK = () => {
-    onSubmit(data.orderCancelRequestDetail);
-    if (data.orderCancelRequestDetail == '') {
+    // onSubmit(data.orderCancelRequestDetail);
+    if (cancelFaultType == 0) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'취소 귀책자를 선택해주세요.'}
+          </Box>
+        ),
+      });
+    } else if (cancelReason == '') {
       toast({
         position: 'top',
         duration: 2000,
@@ -72,7 +172,40 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
           </Box>
         ),
       });
+    } else if (info?.orderType !== 1 && cancelAmount == 0) {
+      toast({
+        position: 'top',
+        duration: 2000,
+        render: () => (
+          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+            {'취소금액을 입력해주세요.'}
+          </Box>
+        ),
+      });
     } else {
+      if (info?.orderType == 1) {
+        // 전체취소
+        let obj: OrderCancelParamsType = {
+          orderId: info?.orderId,
+          body: {
+            cancelFaultType: cancelFaultType,
+            cancelReason: cancelReason,
+          },
+        };
+        console.log('vobj', obj);
+        CancelMutate(obj);
+      } else {
+        let obj: OrderCancelParamsType = {
+          orderId: info?.orderId !== undefined ? info?.orderId : '',
+          body: {
+            cancelFaultType: cancelFaultType,
+            cancelReason: cancelReason,
+            cancelAmount: cancelAmount,
+          },
+        };
+        console.log('vobj', obj);
+        CancelMutate(obj);
+      }
       // setOrderStateInfo({
       //   orderCancelRequestDetail: data.orderCancelRequestDetail,
       // });
@@ -114,8 +247,191 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               }}
             />
           </Flex>
+          <Flex mb={'20px'} alignItems={'center'}>
+            <Text
+              fontSize={'16px'}
+              color={ColorBlack}
+              fontWeight={600}
+              w={'150px'}
+            >
+              취소기준일
+            </Text>
+            <DatePicker
+              type={'datetime'}
+              curDate={openDay}
+              width={'50%'}
+              onApply={(date) => {
+                setOpenDay(date);
+                console.log(date);
+              }}
+            />
+          </Flex>
+          {cancelFee?.atSpecificDate && (
+            <Flex flexDirection={'row'} wrap={'wrap'} mb={'10px'}>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{cancelFee?.cancelFaultTypeName}]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                귀책으로 인한
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{formatDateDash(cancelFee?.atSpecificDate?.cancelBaseDate)}
+                (취소요청일시)]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                기준 환불수수료는
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{intComma(cancelFee?.atSpecificDate?.cancelFee)}원(
+                {cancelFee?.atSpecificDate?.cancelFeePer}%)]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                이며 취소예상금액은
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{intComma(cancelFee?.atSpecificDate?.cancelAmount)}원]
+              </Text>
+              <Text fontSize={'15px'} color={ColorBlack} fontWeight={400}>
+                입니다.
+              </Text>
+            </Flex>
+          )}
+          {cancelFee?.atNow && (
+            <Flex flexDirection={'row'} wrap={'wrap'} mb={'10px'}>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{cancelFee?.cancelFaultTypeName}]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                귀책으로 인한
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{formatDateDash(cancelFee?.atNow?.cancelBaseDate)}
+                (현재시간)]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                기준 환불수수료는
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{intComma(cancelFee?.atNow?.cancelFee)}원(
+                {cancelFee?.atNow?.cancelFeePer}%)]
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={400}
+                mr={'5px'}
+              >
+                이며 취소예상금액은
+              </Text>
+              <Text
+                fontSize={'15px'}
+                color={ColorBlack}
+                fontWeight={600}
+                mr={'5px'}
+              >
+                [{intComma(cancelFee?.atNow?.cancelAmount)}원]
+              </Text>
+              <Text fontSize={'15px'} color={ColorBlack} fontWeight={400}>
+                입니다.
+              </Text>
+            </Flex>
+          )}
           {info?.orderType !== 1 && (
             <>
+              <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  w={'150px'}
+                >
+                  상품 결제금액
+                </Text>
+                <InputBox
+                  w={'50%'}
+                  placeholder="숫자로만 입력"
+                  type="text"
+                  maxLength={15}
+                  value={
+                    info?.paymentAmount == 0
+                      ? ''
+                      : intComma(info?.paymentAmount)
+                  }
+                  onChange={(e: any) =>
+                    setCancelAmount(
+                      Number(e.target.value.replace(/[^0-9]/g, '')),
+                    )
+                  }
+                />
+                <Text
+                  fontSize={'16px'}
+                  color={ColorBlack}
+                  fontWeight={600}
+                  ml={'10px'}
+                >
+                  원
+                </Text>
+              </Flex>
               <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
                 <Text
                   fontSize={'16px'}
@@ -146,7 +462,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   원
                 </Text>
               </Flex>
-              <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
+              {/* <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
                 <Text
                   fontSize={'16px'}
                   color={ColorBlack}
@@ -175,7 +491,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                 >
                   원
                 </Text>
-              </Flex>
+              </Flex> */}
             </>
           )}
 
@@ -188,11 +504,13 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             취소
           </Text>
           <Textarea
+            value={cancelReason}
             placeholder="취소 사유 입력"
             _placeholder={{ color: ColorGray700 }}
             color={ColorBlack}
             borderColor={ColorGrayBorder}
             onChange={(e) => {
+              setCancelReason(e.target.value);
               // setOrderStateInfo({
               //   orderCancelRequestDetail: e.target.value,
               // });
@@ -203,6 +521,12 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             borderRadius={'10px'}
           />
         </Flex>
+        {info?.orderType == 1 && (
+          <Text fontSize={'15px'} color={ColorRed} fontWeight={400} mb={'10px'}>
+            * 해당 상품은 판매자 직배송 상품으로, 취소 시 함께 주문한 동일한
+            판매자의 배송 상품도 일괄 취소 처리됩니다.
+          </Text>
+        )}
       </Flex>
     );
   };
@@ -217,7 +541,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             mb={'17px'}
           >
             <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-              취소요청승인
+              취소
             </Text>
             <Image
               src={'/images/Page/ico_modal_close.png'}
@@ -235,7 +559,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         </ModalBody>
         <Flex mx={'30px'} flexDirection={'column'}>
           <CustomButton
-            text="저장"
+            text="취소하기"
             bgColor={ColorGray900}
             borderColor={ColorGray900}
             fontSize="16px"

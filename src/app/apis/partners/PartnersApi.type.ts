@@ -158,7 +158,13 @@ export type AdminStatusInputType = {
   adminMemo?: string;
   status: number;
 };
-
+export type ApprovePartnerType = {
+  partnerId: string;
+};
+export type DeniedPartnerType = {
+  partnerId: string;
+  deniedReason?: string;
+};
 export type updateStatueType = {
   partnerId: string;
   adminMemo?: string;

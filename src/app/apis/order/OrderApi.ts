@@ -3,12 +3,18 @@ import { AxiosInstance } from 'axios';
 import { getToken } from '@/utils/localStorage/token';
 
 import {
+  OrderCacelFeeType,
+  OrderCancelFeeItemResType,
+  OrderCancelParamsType,
   OrderCancelRequestParamsType,
   OrderConfrimParamsType,
   OrderDetailItemResType,
+  OrderGroupResType,
+  OrderGroupType,
   OrderListDtoType,
   OrderListParamsType,
   OrderMemoParamsType,
+  OrderRequestCancelType,
   OrderShoppingParamsType,
 } from './OrderApi.type';
 import instance from '../_axios/instance';
@@ -96,7 +102,7 @@ export class OrderApi {
     //type : code 또는 parentCode
     const { data } = await this.axios({
       method: 'PUT',
-      url: `/partner/orders/${req.orderId}/shipping`,
+      url: `/admin/orders/${req.orderId}/shipping`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
@@ -123,7 +129,7 @@ export class OrderApi {
 
   //주문 취소
   postOrderCancel = async (
-    req: OrderCancelRequestParamsType,
+    req: OrderCancelParamsType,
   ): Promise<OrderDetailItemResType> => {
     //type : code 또는 parentCode
     const { data } = await this.axios({
@@ -148,6 +154,52 @@ export class OrderApi {
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
+    });
+    return data;
+  };
+
+  //주문 취소 수수료
+  postOrderCheckCancelFee = async (
+    req: OrderCacelFeeType,
+  ): Promise<OrderCancelFeeItemResType> => {
+    //type : code 또는 parentCode
+    const { data } = await this.axios({
+      method: 'POST',
+      url: `/admin/orders/${req.orderId}/check-cancellation-fee`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: req.body,
+    });
+    return data;
+  };
+
+  //주문번호 그룹화
+  postOrderGroup = async (req: OrderGroupType): Promise<OrderGroupResType> => {
+    //type : code 또는 parentCode
+    const { data } = await this.axios({
+      method: 'POST',
+      url: '/admin/grouping-orders',
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: req,
+    });
+    return data;
+  };
+
+  //취소반려
+  postOrderRequestCancel = async (
+    req: OrderRequestCancelType,
+  ): Promise<OrderGroupResType> => {
+    //type : code 또는 parentCode
+    const { data } = await this.axios({
+      method: 'POST',
+      url: `/admin/orders/${req.orderId}/request-cancel-denied`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: req.body,
     });
     return data;
   };

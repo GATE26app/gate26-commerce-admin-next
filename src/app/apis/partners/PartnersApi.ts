@@ -4,6 +4,7 @@ import instance from '../_axios/instance';
 
 import { getToken } from '@/utils/localStorage/token';
 import {
+  DeniedPartnerType,
   ListDtoType,
   PartnerAddFormType,
   PartnerListDTO,
@@ -64,9 +65,6 @@ export class PartnersApi {
       // headers: {
       //   'X-AUTH-TOKEN': `${getToken().access}`,
       // },
-      data: {
-        adminMemo: '관리자메모입력',
-      },
     });
     console.log(data);
     return data;
@@ -74,16 +72,16 @@ export class PartnersApi {
 
   // 반려
   postPartnersReject = async (
-    partnerId: string,
+    req: DeniedPartnerType,
   ): Promise<PartnerStatusResultType> => {
     const { data } = await this.axios({
       method: 'POST',
-      url: `/admin/partners/${partnerId}/denied`,
+      url: `/admin/partners/${req.partnerId}/denied`,
       // headers: {
       //   'X-AUTH-TOKEN': `${getToken().access}`,
       // },
       data: {
-        adminMemo: '관리자메모입력',
+        deniedReason: req.deniedReason,
       },
     });
     return data;

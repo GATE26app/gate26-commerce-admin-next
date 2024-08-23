@@ -24,7 +24,6 @@ function GoodsInfoCard({ header, item }: Props) {
   const addDefaultImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = '/images/Page/no_data.png';
   };
-  console.log('item,', item);
   return (
     <Flex
       w={'100%'}

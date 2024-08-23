@@ -114,7 +114,7 @@ function CancelDataTable({ list, setChekcList, CheckList }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
-        {/* <Flex
+        <Flex
           w={'5%'}
           alignItems={'center'}
           justifyContent={'center'}
@@ -136,7 +136,7 @@ function CancelDataTable({ list, setChekcList, CheckList }: Props) {
               alt="체크"
             />
           )}
-        </Flex> */}
+        </Flex>
         {cancellistheader.map((item: DataTableHeaderProps, index: number) => {
           return (
             <Flex

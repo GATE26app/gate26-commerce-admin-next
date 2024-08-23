@@ -22,6 +22,7 @@ import OrderDelivery from '@/components/order/detail/OrderDelivery';
 import OrderPayment from '@/components/order/detail/OrderPayment';
 import CustomButton from '@/components/common/CustomButton';
 import PartnerInfo from '@/components/order/detail/PartnerInfo';
+import OrderAmount from '@/components/order/detail/OrderAmount';
 
 function CancelDetailComponentPage() {
   const router = useRouter();
@@ -40,6 +41,7 @@ function CancelDetailComponentPage() {
       enabled: !!getOrderId,
     },
   );
+
   return (
     <>
       <Box w={'100%'} pt={'60px'}>
@@ -63,12 +65,20 @@ function CancelDetailComponentPage() {
         </Flex>
         {CancelData?.data !== undefined && (
           <>
-            <PartnerInfo info={CancelData?.data?.partner} />
+            {CancelData?.data?.orderType !== 4 && (
+              <PartnerInfo info={CancelData?.data?.partner} />
+            )}
+
             <CancelInfo info={CancelData?.data} />
             <OrderInfo info={CancelData?.data} />
             {/* <OrderGoods /> */}
-            <OrderResevationInfo info={CancelData?.data} />
-            <OrderDelivery info={CancelData?.data} />
+            {CancelData?.data?.orderType !== 1 && (
+              <OrderResevationInfo info={CancelData?.data} />
+            )}
+            {CancelData?.data?.orderType == 1 && (
+              <OrderDelivery info={CancelData?.data} />
+            )}
+            <OrderAmount info={CancelData?.data} />
             <OrderPayment info={CancelData?.data} />
           </>
         )}
