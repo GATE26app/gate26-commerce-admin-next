@@ -375,7 +375,7 @@ function CancelInfo({ info }: Props) {
             </Text>
           </Flex>
 
-          <Flex mt={'15px'} alignItems={'flex-start'}>
+          {/* <Flex mt={'15px'} alignItems={'flex-start'}>
             <Text
               w={'160px'}
               fontSize={'15px'}
@@ -407,21 +407,24 @@ function CancelInfo({ info }: Props) {
                 -
               </Text>
             )}
-          </Flex>
-          <Flex mt={'15px'} alignItems={'center'}>
-            <Text
-              w={'160px'}
-              fontSize={'15px'}
-              fontWeight={700}
-              flexShrink={0}
-              color={ColorBlack}
-            >
-              환불 예정금액
-            </Text>
-            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-              {intComma(info.cancelAmount)}원
-            </Text>
-          </Flex>
+          </Flex> */}
+          {info?.cancelStatus == 3 && (
+            <Flex mt={'15px'} alignItems={'center'}>
+              <Text
+                w={'160px'}
+                fontSize={'15px'}
+                fontWeight={700}
+                flexShrink={0}
+                color={ColorBlack}
+              >
+                환불 금액
+              </Text>
+              <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                {intComma(info.cancelAmount)}원
+              </Text>
+            </Flex>
+          )}
+
           <Flex mt={'15px'} alignItems={'flex-start'}>
             <Text
               w={'160px'}
