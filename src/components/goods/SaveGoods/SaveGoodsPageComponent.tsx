@@ -47,6 +47,7 @@ import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
 import OptionComponent from '@/components/goods/OptionComponent';
 import StatusComponent from '@/components/goods/StatusComponent';
 import ShippingComponent from '../ShippingComponent';
+import { usePartnerZuInfo } from '@/_store/PatnerInfo';
 
 interface CategoryListProps {
   categoryId: number;
@@ -56,6 +57,7 @@ interface LocationListProps {
 }
 export type { CategoryListProps, LocationListProps };
 function SaveGoodsPageComponent() {
+  const { setPartnerZuInfo } = usePartnerZuInfo((state) => state);
   const [isLoadingModal, setLoadingModal] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
   const router = useRouter();
@@ -159,6 +161,7 @@ function SaveGoodsPageComponent() {
             router.replace('/goodsList');
           }
         } else {
+          setPartnerZuInfo(data.partner);
           setOptionList(data.options);
           setCateGetList(data.categories);
           setLocationGetList(data.locations);
@@ -515,7 +518,7 @@ function SaveGoodsPageComponent() {
                 // openCustomModal();
               }}
             />
-            <CustomButton
+            {/* <CustomButton
               text="임시저장"
               borderColor={ColorRed}
               color={ColorWhite}
@@ -540,20 +543,8 @@ function SaveGoodsPageComponent() {
                     // window.history.back();
                   },
                 });
-                // dispatch(
-                //   customModalSliceAction.setMessage({
-                //     title: '상품 등록',
-                //     message: `상품을 임시저장 하시겠습니까?`,
-                //     type: 'confirm',
-                //     okButtonName: '확인',
-                //     cbOk: () => {
-                //       handleOnSave(0);
-                //     },
-                //   }),
-                // );
-                // openCustomModal();
               }}
-            />
+            /> */}
           </Flex>
         </Flex>
 

@@ -20,7 +20,7 @@ export default function Home() {
     ) {
       router.replace('/login');
     } else {
-      router.push('/goodsSetting');
+      router.push('/partner');
     }
   }, [getToken()]);
   return <main className={styles.main}></main>;
