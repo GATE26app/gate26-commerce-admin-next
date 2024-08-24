@@ -56,6 +56,7 @@ import {
 import goodsApi from '@/app/apis/goods/GoodsApi';
 import AlertModal from '@/components/common/Modal/AlertModal';
 import GoodsModify from '../GoodsModify';
+import { usePartnerZuInfo } from '@/_store/PatnerInfo';
 
 interface CategoryListProps {
   categoryId: number;
@@ -67,6 +68,7 @@ function UpdateGoodDetail() {
   const dispatch = useDispatch();
   const router = useRouter();
   const toast = useToast();
+  const { setPartnerZuInfo } = usePartnerZuInfo((state) => state);
   const [isLoadingModal, setLoadingModal] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
   const [ModalState, setModalState] = useState({
@@ -213,6 +215,7 @@ function UpdateGoodDetail() {
 
   useEffect(() => {
     if (detailData?.success == true) {
+      setPartnerZuInfo(detailData.data.partner);
       setLogDisable(false);
       setOptionList(detailData.data.options);
       setStatusList({
