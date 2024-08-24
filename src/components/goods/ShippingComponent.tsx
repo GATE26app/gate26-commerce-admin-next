@@ -82,13 +82,12 @@ function ShippingComponent({ list }: Props) {
           ) : (
             <Link href={`/partner/detail?partnerId=${list.partnerId}`}>
               <Text
-                color={ColorRed}
+                color={ColorBlack}
                 fontSize={'15px'}
                 fontWeight={400}
                 px={'10px'}
-                textDecoration={'underline'}
               >
-                배송비 정책 입력하기
+                (없음) 파트너사 통해 입력/수정
               </Text>
             </Link>
           )}
