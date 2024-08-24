@@ -93,6 +93,12 @@ function OptionPlus({
       ),
     });
   };
+  useEffect(() => {
+    if (optionList.length > 0) {
+      setStartDay(dayjs(optionList[0]?.useDateTime));
+      setEndDay(dayjs(optionList[optionList.length - 1]?.useDateTime));
+    }
+  }, [optionList]);
 
   useEffect(() => {
     if (list.optionType) {
