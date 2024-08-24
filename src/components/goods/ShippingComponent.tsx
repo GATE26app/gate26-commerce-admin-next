@@ -80,16 +80,16 @@ function ShippingComponent({ list }: Props) {
                   )}원 이상 무료)`}
             </Text>
           ) : (
-            <Link href={`/partner/detail?partnerId=${list.partnerId}`}>
-              <Text
-                color={ColorBlack}
-                fontSize={'15px'}
-                fontWeight={400}
-                px={'10px'}
-              >
-                (없음) 파트너사 통해 입력/수정
-              </Text>
-            </Link>
+            // <Link href={`/partner/detail?partnerId=${list.partnerId}`}>
+            <Text
+              color={ColorBlack}
+              fontSize={'15px'}
+              fontWeight={400}
+              px={'10px'}
+            >
+              (없음) 파트너사 통해 입력/수정
+            </Text>
+            // </Link>
           )}
         </Flex>
       </Flex>
