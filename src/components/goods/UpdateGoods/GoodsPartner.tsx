@@ -64,7 +64,6 @@ function GoodsPartner({
     cbCancel: () => {},
   });
   const [logList, setLogList] = useState([]);
-  console.log('BasicInfo', BasicInfo);
   //상품승인
   const { mutate: ApproveMutate } = useItemApprovemutation({
     options: {
@@ -102,7 +101,6 @@ function GoodsPartner({
     },
   });
 
-  console.log('select', select);
   //상품거절
   const { mutate: DeniedMutate } = useItemDeniedmutation({
     options: {

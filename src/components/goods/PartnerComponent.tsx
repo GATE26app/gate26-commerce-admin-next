@@ -41,7 +41,6 @@ function PartnerComponent({ list, setList }: Props) {
   const [partnerList, setPartnerList] = useState<Array<PartnersParamsType>>([]);
   const [clickPartner, setClickPartner] = useState<PartnerType>();
 
-  console.log('partnerZuInfo', partnerZuInfo);
   const { mutate: GoodsPartnersList, isLoading } =
     useGetGoodsPartnersListMutation({
       options: {

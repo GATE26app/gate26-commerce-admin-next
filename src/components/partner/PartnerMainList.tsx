@@ -103,7 +103,7 @@ function GoodsMainList() {
             color={ColorBlack00}
             pl={'10px'}
           >
-            상품관리
+            파트너사 승인/관리
           </Text>
         </Flex>
         <Flex

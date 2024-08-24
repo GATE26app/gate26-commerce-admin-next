@@ -55,9 +55,8 @@ export type { CategoryListProps, LocationListProps };
 
 function CreateGoodsComponentPage() {
   const dispatch = useDispatch();
-  const { partnerZuInfo, setPartnerZuInfo } = usePartnerZuInfo(
-    (state) => state,
-  );
+  const { partnerZuInfo, setPartnerZuInfo, deletePartnerZuInfo } =
+    usePartnerZuInfo((state) => state);
   const router = useRouter();
   const searchParams = useSearchParams();
   const getType = searchParams.get('type');
@@ -147,6 +146,9 @@ function CreateGoodsComponentPage() {
     });
   };
 
+  useEffect(() => {
+    deletePartnerZuInfo();
+  }, []);
   const { mutate: CreateItemMutate, isLoading } = usePutCreateItemMutation({
     options: {
       onSuccess: (res) => {
@@ -445,7 +447,7 @@ function CreateGoodsComponentPage() {
                 // openCustomModal();
               }}
             />
-            <CustomButton
+            {/* <CustomButton
               text="임시저장"
               borderColor={ColorRed}
               color={ColorWhite}
@@ -472,20 +474,8 @@ function CreateGoodsComponentPage() {
                     // window.history.back();
                   },
                 });
-                // dispatch(
-                //   customModalSliceAction.setMessage({
-                //     title: '상품 등록',
-                //     message: `상품을 임시저장 하시겠습니까?`,
-                //     type: 'confirm',
-                //     okButtonName: '확인',
-                //     cbOk: () => {
-                //       handleOnSave(0);
-                //     },
-                //   }),
-                // );
-                // openCustomModal();
               }}
-            />
+            /> */}
           </Flex>
         </Flex>
 
