@@ -34,7 +34,7 @@ function LogSelectBox({
   useEffect(() => {
     if (list.length > 0) {
       setSelect(list[0]?.version);
-      setState(list[0]?.forSaleName);
+      setState(list[0]?.statusName);
     }
   }, [list]);
 
@@ -141,7 +141,7 @@ function LogSelectBox({
                     ml={'10px'}
                   >
                     <Text fontSize={'12px'} fontWeight={600} color={ColorBlue}>
-                      {item.forSaleName}
+                      {item.statusName}
                     </Text>
                   </Box>
                 </Flex>
