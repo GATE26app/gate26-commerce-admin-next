@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import { GoodsPoliciesListProps } from '@/apis/goods/GoodsApi.type';
+import { GoodsPoliciesListProps } from '@/app/apis/goods/GoodsApi.type';
 
 import CustomButton from '@/components/common/CustomButton';
 import InputBox from '@/components/common/Input';
@@ -63,15 +63,15 @@ function CancelComponent({ list, setList }: Props) {
         item.type == 1
           ? setFull(item.days)
           : item.type == 2
-            ? setNotCancel(item.days)
-            : null;
+          ? setNotCancel(item.days)
+          : null;
       });
 
-      if(list.length > 0){
+      if (list.length > 0) {
         setNotCancel(Number(list[0].feePer));
       }
-      let lastValue = list.find(res => res.type === 2);
-      if(lastValue){
+      let lastValue = list.find((res) => res.type === 2);
+      if (lastValue) {
         setEtc(lastValue.title);
       }
     }
@@ -79,7 +79,7 @@ function CancelComponent({ list, setList }: Props) {
 
   const onHandleBasic = () => {
     if (notCancelDay >= 0) {
-      if(notCancelDay > 100){
+      if (notCancelDay > 100) {
         toast({
           position: 'top',
           duration: 1000,
@@ -91,26 +91,34 @@ function CancelComponent({ list, setList }: Props) {
         });
         return false;
       }
-      let array:any = [...list];
+      let array: any = [...list];
       // 이미 입력된 내용인지 아닌지 확인
-      let findToday = cancleList.find(res => res.days === 0);
-      if(findToday){
+      let findToday = cancleList.find((res) => res.days === 0);
+      if (findToday) {
         array[0] = {
           days: 0,
           sort: 1,
           type: 1,
-          title: notCancelDay == 100 ? `이용일 당일 취소시 환불 불가` : `이용일 당일 취소시 ${notCancelDay}% 공제 후 환불`,
+          title:
+            notCancelDay == 100
+              ? `이용일 당일 취소시 환불 불가`
+              : `이용일 당일 취소시 ${notCancelDay}% 공제 후 환불`,
           feePer: notCancelDay,
         };
         setList(array);
       } else {
-        setList([{
-          days: 0,
-          sort: 1,
-          type: 1,
-          title: notCancelDay == 100 ? `이용일 당일 취소시 환불 불가` : `이용일 당일 취소시 ${notCancelDay}% 공제 후 환불`,
-          feePer: notCancelDay,
-        }]);
+        setList([
+          {
+            days: 0,
+            sort: 1,
+            type: 1,
+            title:
+              notCancelDay == 100
+                ? `이용일 당일 취소시 환불 불가`
+                : `이용일 당일 취소시 ${notCancelDay}% 공제 후 환불`,
+            feePer: notCancelDay,
+          },
+        ]);
       }
     } else {
       toast({
@@ -136,17 +144,17 @@ function CancelComponent({ list, setList }: Props) {
         ),
       });
     } else {
-      let array:any = [...list];
-      let findEtc = array.find(res => res.type === 2);
-      if(findEtc){
-        array[array.length-1] = {
-          ...array[array.length-1],
+      let array: any = [...list];
+      let findEtc = array.find((res) => res.type === 2);
+      if (findEtc) {
+        array[array.length - 1] = {
+          ...array[array.length - 1],
           title: `[기타정책] ${etc}`,
           type: 2,
         };
       } else {
         array.push({
-          sort: array.length+1,
+          sort: array.length + 1,
           title: `[기타정책] ${etc}`,
           type: 2,
         });
@@ -157,9 +165,9 @@ function CancelComponent({ list, setList }: Props) {
   };
   const onHandlePlus = () => {
     // 이용 당일 취소 정보가 입력되있는지 확인
-    let findToday = list.find(res => res.days === 0);
-      if(findToday){
-        if (day == 0 && per == 0) {
+    let findToday = list.find((res) => res.days === 0);
+    if (findToday) {
+      if (day == 0 && per == 0) {
         toast({
           position: 'top',
           duration: 1000,
@@ -170,7 +178,7 @@ function CancelComponent({ list, setList }: Props) {
           ),
         });
       } else {
-        if(day <= 0){
+        if (day <= 0) {
           toast({
             position: 'top',
             duration: 1000,
@@ -182,7 +190,7 @@ function CancelComponent({ list, setList }: Props) {
           });
           return false;
         }
-        if(per > findToday.feePer){
+        if (per > findToday.feePer) {
           toast({
             position: 'top',
             duration: 1000,
@@ -195,10 +203,10 @@ function CancelComponent({ list, setList }: Props) {
           return false;
         }
         // 이미 존재하고 있는 일일 경우
-        let findDay:any = list.find(res => res.days === day);
-        if(findDay){
+        let findDay: any = list.find((res) => res.days === day);
+        if (findDay) {
           let array = [...list];
-          let findIndex = array.findIndex(res => res.days === day);
+          let findIndex = array.findIndex((res) => res.days === day);
           array[findIndex] = {
             days: day,
             feePer: per,
@@ -207,38 +215,43 @@ function CancelComponent({ list, setList }: Props) {
             type: 1,
           };
           array.sort((a, b) => a.days - b.days); // 날짜 오름차순으로 정렬
-          array.map((res, index) => res.sort = index+1); // sort 순서 재배치
+          array.map((res, index) => (res.sort = index + 1)); // sort 순서 재배치
           setList(array);
         } else {
           let array = [...list];
-          let lastInfo = array.find(res => res.type === 2);
+          let lastInfo = array.find((res) => res.type === 2);
           // 중간에 날짜를 추가했을 때 위 날짜, 아래 날짜 사잇값으로 유효한 값만 넣게 필터링
-          let topFilter = array.filter(res => res.days && res.days < day);
-          let lowFilter = array.filter(res => res.days && res.days > day); 
+          let topFilter = array.filter((res) => res.days && res.days < day);
+          let lowFilter = array.filter((res) => res.days && res.days > day);
           let max = findToday.feePer;
           let min = 0;
-          if(topFilter.length > 0){
-            max = topFilter[topFilter.length-1].feePer;
+          if (topFilter.length > 0) {
+            max = topFilter[topFilter.length - 1].feePer;
           }
-          if(lowFilter.length > 0){
+          if (lowFilter.length > 0) {
             min = lowFilter[0].feePer;
           }
           console.log(max, min);
-          if(per > max || per < min){
+          if (per > max || per < min) {
             toast({
               position: 'top',
               duration: 1000,
               render: () => (
-                <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
                   {`${day}일의 환불률은 ${max} 이하 ${min} 이상으로 설정할 수 있습니다.`}
                 </Box>
               ),
             });
             return false;
           }
-          if(lastInfo){
+          if (lastInfo) {
             // 기타가 이미 입력되어 있을 때
-            array.splice(array.length-1, 0, {
+            array.splice(array.length - 1, 0, {
               days: day,
               feePer: per,
               sort: 0,
@@ -254,7 +267,7 @@ function CancelComponent({ list, setList }: Props) {
               type: 1,
             });
             array.sort((a, b) => a.days - b.days); // 날짜 오름차순으로 정렬
-            array.map((res, index) => res.sort = index+1); // sort 순서 재배치
+            array.map((res, index) => (res.sort = index + 1)); // sort 순서 재배치
           }
           setList(array);
           // setEtc('');
@@ -263,7 +276,6 @@ function CancelComponent({ list, setList }: Props) {
           // setData(array);
         }
       }
-      
     } else {
       toast({
         position: 'top',
@@ -283,7 +295,7 @@ function CancelComponent({ list, setList }: Props) {
     array = array.filter(
       (item: GoodsPoliciesListProps, index: number) => index !== idx,
     );
-    array.map((res, index) => res.sort = index+1); // sort 순서 재배치
+    array.map((res, index) => (res.sort = index + 1)); // sort 순서 재배치
 
     setList(array);
   };
@@ -509,8 +521,9 @@ function CancelComponent({ list, setList }: Props) {
               </Flex>
             </Flex>
             <Text color={ColorGray700} fontSize={'13px'} fontWeight={400}>
-                *기타 정책은 환불 수수료를 계산할 수 없는 예외 사항이며, 선택 항목입니다.
-              </Text>
+              *기타 정책은 환불 수수료를 계산할 수 없는 예외 사항이며, 선택
+              항목입니다.
+            </Text>
           </Flex>
           <Flex justifyContent={'center'} mt={'32px'} mb={'30px'}>
             {/* <CustomButton

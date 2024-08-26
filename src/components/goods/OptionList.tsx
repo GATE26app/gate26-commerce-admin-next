@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 
 import {
   Editable,
@@ -26,6 +26,7 @@ import {
 import { Option } from './OptionPlus';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import EditableInputBox from './CreateGoods/EditableInputBox';
 
 interface Props {
   list: GoodsBasicProps;
@@ -38,13 +39,18 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   const [focus, setFocus] = useState(false);
   const [stock, setStock] = useState('');
   const [price, setprice] = useState('');
+  const [stockState, setStockState] = useState(false);
+  const [priceState, setPriceState] = useState(false);
   const onDeleteOption = (id: number) => {
     setOptionList(
       optionList.filter((item: Option, index: number) => index !== id),
     );
   };
+  const stockRef = useRef(null);
+  const [indexCnt, setIndexCnt] = useState(0);
 
   const handleInputChange = (index: number, key: string, value: string) => {
+    console.log('value', value);
     if (key == 'useDateTime') {
       optionList[index].useDateTime = value;
     } else if (key == 'firstKey') {
@@ -60,17 +66,47 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
     } else if (key == 'thirdValue') {
       optionList[index].thirdValue = value;
     } else if (key == 'stockCnt') {
+      // setOptionList((prevOptionList) =>
+      //   prevOptionList.map((item, i) =>
+      //     i === index ? { ...item, stockCnt: Number(value) } : item,
+      //   ),
+      // );
       let updateItem = optionList.map((item) =>
-        item.sort === index + 1 ? { ...item, stockCnt: Number(stock) } : item,
+        item.sort === index + 1
+          ? { ...item, stockCnt: Number(value == 'NaN' ? stock : value) }
+          : item,
       );
       setOptionList(updateItem);
     } else if (key == 'price') {
+      // const updateArray = [...optionList];
+      // updateArray[index].price = Number(value);
+      // setOptionList(updateArray);
       let updateItem = optionList.map((item) =>
-        item.sort === index + 1 ? { ...item, price: Number(price) } : item,
+        item.sort === index + 1 ? { ...item, price: Number(value) } : item,
       );
       setOptionList(updateItem);
     }
   };
+
+  useEffect(() => {
+    if (stockState) {
+      let updateItem = optionList.map((item) =>
+        item.sort === indexCnt + 1
+          ? { ...item, stockCnt: Number(stock) }
+          : item,
+      );
+      setOptionList(updateItem);
+      setStockState(false);
+    }
+    if (priceState) {
+      let updateItem = optionList.map((item) =>
+        item.sort === indexCnt + 1 ? { ...item, price: Number(price) } : item,
+      );
+      setOptionList(updateItem);
+      setPriceState(false);
+    }
+  }, [stockState, priceState]);
+
   return (
     <Flex
       borderRadius={'12px'}
@@ -173,73 +209,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               </Flex>
             </>
           )}
-          {/* <Flex
-            py={'20px'}
-            w={'300px'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRightColor={ColorGray400}
-            borderRightWidth={1}
-          >
-            <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-              {list.optionInputType == 0 ? '옵션명' : optionList[0].firstKey}
-            </Text>
-          </Flex>
-          {list.optionInputType == 1 &&
-          optionList[0].secondKey !== null &&
-          optionList[0].secondKey !== '' ? (
-            <Flex
-              w={'300px'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              borderRightColor={ColorGray400}
-              borderRightWidth={1}
-            >
-              <Text
-                fontSize={'16px'}
-                fontWeight={700}
-                color={ColorBlack}
-                py={'20px'}
-              >
-                {optionList[0].secondKey}
-              </Text>
-            </Flex>
-          ) : (
-            <></>
-          )}
-          {list.optionInputType == 0 && (
-            <Flex
-              w={'300px'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              borderRightColor={ColorGray400}
-              borderRightWidth={1}
-            >
-              <Text
-                fontSize={'16px'}
-                fontWeight={700}
-                color={ColorBlack}
-                py={'20px'}
-              >
-                {'옵션값'}
-              </Text>
-            </Flex>
-          )}
 
-          {optionList[0].thirdKey !== null && optionList[0].thirdKey !== '' && (
-            <Flex
-              w={'300px'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              borderRightColor={ColorGray400}
-              borderRightWidth={1}
-              py={'20px'}
-            >
-              <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-                {optionList[0].thirdKey}
-              </Text>
-            </Flex>
-          )} */}
           {optionList[0].price !== null && (
             <Flex
               w={'300px'}
@@ -497,8 +467,19 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                       isPreviewFocusable={true}
                       selectAllOnFocus={false}
                       isDisabled={goodsInfo.LogItemDisable}
-                      onBlur={(e) => handleInputChange(index, 'price', e)}
-                      onChange={(e) => setprice(e)}
+                      // onBlur={(e) => {
+                      //   if (e) {
+                      //     handleInputChange(index, 'price', e);
+                      //   }
+                      // }}
+                      // onChange={(e) => setprice(e)}
+                      onChange={(e) => {
+                        setIndexCnt(index);
+                        setprice(e);
+                      }}
+                      onBlur={(e) => {
+                        setPriceState(true);
+                      }}
                     >
                       <EditablePreview
                         py={'17px'}
@@ -523,6 +504,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                     borderRightColor={ColorGray400}
                   >
                     <Editable
+                      ref={stockRef}
                       w={'100%'}
                       defaultValue={String(item.stockCnt)}
                       textAlign={'center'}
@@ -531,10 +513,12 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                       key={item.stockCnt}
                       isPreviewFocusable={true}
                       selectAllOnFocus={false}
-                      // isDisabled={goodsInfo.LogItemDisable}
-                      onChange={(e) => setStock(e)}
+                      onChange={(e) => {
+                        setIndexCnt(index);
+                        setStock(e);
+                      }}
                       onBlur={(e) => {
-                        handleInputChange(index, 'stockCnt', e);
+                        setStockState(true);
                       }}
                     >
                       <EditablePreview
@@ -588,4 +572,4 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   );
 }
 
-export default memo(OptionList);
+export default OptionList;

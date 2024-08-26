@@ -27,7 +27,7 @@ function ShippingComponent({ list }: Props) {
   const { partnerZuInfo, setPartnerZuInfo } = usePartnerZuInfo(
     (state) => state,
   );
-  console.log('partnerZuInfo', partnerZuInfo);
+
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex
