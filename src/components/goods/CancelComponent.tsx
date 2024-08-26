@@ -182,7 +182,7 @@ function CancelComponent({ list, setList }: Props) {
           });
           return false;
         }
-        if(per >= findToday.feePer){
+        if(per > findToday.feePer){
           toast({
             position: 'top',
             duration: 1000,
@@ -224,13 +224,13 @@ function CancelComponent({ list, setList }: Props) {
             min = lowFilter[0].feePer;
           }
           console.log(max, min);
-          if(per >= max || per < min){
+          if(per > max || per < min){
             toast({
               position: 'top',
               duration: 1000,
               render: () => (
                 <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-                  {`${day}일의 환불률은 ${max} 미만 ${min} 초과로 설정할 수 있습니다.`}
+                  {`${day}일의 환불률은 ${max} 이하 ${min} 이상으로 설정할 수 있습니다.`}
                 </Box>
               ),
             });
