@@ -29,7 +29,13 @@ interface Props {
 function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
   const [dateSelect, setDateSelect] = useState('');
-  const searchSelectList = ['상품코드', '상품명', '상품카테고리'];
+  const searchSelectList = [
+    '상품코드',
+    '상품명',
+    '상품카테고리',
+    '주문번호',
+    '상품주문번호',
+  ];
   const SelectList = ['결제일', '예약일'];
   const { orderFilterInfo, setOrderFilterInfo } = useOrderFilterZuInfo(
     (state) => state,
@@ -94,8 +100,12 @@ function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
           searchSelect == '상품코드'
             ? 'itemCode'
             : searchSelect == '카테고리명'
-              ? 'category'
-              : 'title',
+            ? 'category'
+            : searchSelect == '주문번호'
+            ? 'merchantId'
+            : searchSelect == '상품주문번호'
+            ? 'orderId'
+            : 'title',
       });
     }
   }, [searchSelect]);
@@ -180,7 +190,10 @@ function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
         /> */}
         <SearchInput
           text={String(request.searchKeyword)}
-          onChange={(e) => setRequest({ ...request, searchKeyword: e })}
+          onChange={(e) => {
+            console.log('e', e.target.value);
+            setRequest({ ...request, searchKeyword: e.target.value });
+          }}
           placeholder="검색어를 입력해주세요."
         />
       </Flex>
