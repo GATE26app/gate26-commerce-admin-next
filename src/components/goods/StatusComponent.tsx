@@ -314,7 +314,6 @@ function StatusComponent({ list, setList }: Props) {
                   curDate={startDay}
                   width={'200px'}
                   onApply={(date) => {
-                    console.log('srrrrrr', date);
                     setList({
                       ...list,
                       viewStartDate:

@@ -50,7 +50,6 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   const [indexCnt, setIndexCnt] = useState(0);
 
   const handleInputChange = (index: number, key: string, value: string) => {
-    console.log('value', value);
     if (key == 'useDateTime') {
       optionList[index].useDateTime = value;
     } else if (key == 'firstKey') {

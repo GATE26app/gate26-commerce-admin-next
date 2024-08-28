@@ -68,7 +68,6 @@ function Partner({ itemCode, itemId, info }: Props) {
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
-          console.log('res', res);
           // setLogDisable(true);'
           // <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
           //   {`${res.message}`}

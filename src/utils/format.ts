@@ -7,6 +7,16 @@ export const intComma = (x: number | string) => {
 export const DashDate = (date: string | null) => {
   return date !== null ? date.split(' ')[0] : '-';
 };
+const time = Date.now();
+
+export const isVaildJson = (s: any) => {
+  try {
+    JSON.parse(s);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 export const formatDated = (date: dayjs.Dayjs) => {
   const yyyymmdd = date?.format('YYYY-MM-DD');
@@ -37,6 +47,21 @@ export const formatDateDash = (d: any) => {
   return `${year}-${`0${monthIndex}`.slice(-2)}-${`0${day}`.slice(-2)}`;
 };
 
+export const formatDateMM = (d: any) => {
+  let date = null;
+  if (d instanceof Date) {
+    date = d;
+  }
+  date = new Date(d);
+  const day = date.getDate();
+  const monthIndex = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return `${year}-${`0${monthIndex}`.slice(-2)}-${`0${day}`.slice(
+    -2,
+  )} ${hour}:${minute}`;
+};
 export const formatDateDot = (d: any) => {
   let date = null;
   if (d instanceof Date) {
@@ -49,7 +74,18 @@ export const formatDateDot = (d: any) => {
 
   return `${year}.${`0${monthIndex}`.slice(-2)}.${`0${day}`.slice(-2)}`;
 };
+export const formatDateDay = (d: any) => {
+  let date = null;
+  if (d instanceof Date) {
+    date = d;
+  }
+  date = new Date(d);
+  const day = date.getDate();
+  const monthIndex = date.getMonth() + 1;
+  const year = date.getFullYear();
 
+  return `${year}/${`0${monthIndex}`.slice(-2)}/${`0${day}`.slice(-2)}`;
+};
 export const formatDateKR = (d: any) => {
   let date: any = null;
   if (d instanceof Date) {
@@ -63,6 +99,17 @@ export const formatDateKR = (d: any) => {
   return `${year}년 ${`0${monthIndex}`.slice(-2)}월 ${`0${day}`.slice(-2)}일`;
 };
 
+export const formatDateMonth = (d: any) => {
+  let date: any = null;
+  if (d instanceof Date) {
+    date = d;
+  }
+  date = new Date(d);
+  const day = date.getDate();
+  const monthIndex = date.getMonth() + 1;
+
+  return `${`0${monthIndex}`.slice(-2)}/${`0${day}`.slice(-2)}`;
+};
 export const formatDateTime = (d: any) => {
   let date = null;
   if (d instanceof Date) {
@@ -196,7 +243,21 @@ export const filePath = () => {
   }
 };
 
-// 이미지 path
+export const imgTimePath = () => {
+  if (DEV() === 'dev') {
+    return `http://dresource.gate26.co.kr/img/downloadFile?t=${time}&filePath=`;
+  } else {
+    return `https://resource.gate26.co.kr/img/downloadFile?t=${time}&filePath=`;
+  }
+};
+
+export function getImagePath(imagePath) {
+  // 절대 경로인지 확인
+  if (/^https?:\/\//i.test(imagePath)) {
+    return imagePath;
+  }
+  return `${imgPath()}${imagePath}`;
+}
 export const DEV = () => {
   // return '';
   return 'dev';
@@ -222,7 +283,7 @@ export const checkInvalidDateYYYYMMDD = (value: string) => {
   return result;
 };
 const paymentMethods = {
-  card: '신용카드',
+  card: '카드',
   trans: '실시간계좌이체',
   vbank: '가상계좌',
   phone: '휴대폰소액결제',
@@ -250,3 +311,11 @@ const paymentMethods = {
 export const PaymentMethod = (value: string) => {
   return paymentMethods[value];
 };
+
+export function fetchWithDelay() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('Fetched data after delay');
+    }, 3000); // 3초 후에 데이터를 가져옴
+  });
+}

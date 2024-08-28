@@ -300,7 +300,6 @@ function GoodsPartner({
                     itemCode: itemCode,
                     itemId: e,
                   };
-                  console.log('obj', obj);
                   setSelectLog(obj);
                   // console.log(e);
                   // LogItemMutate(obj);

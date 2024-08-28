@@ -40,12 +40,11 @@ function PartnerComponent({ list, setList }: Props) {
   // const [partnerList, setPartnerList] = useState<Array<PartnerType>>([]);
   const [partnerList, setPartnerList] = useState<Array<PartnersParamsType>>([]);
   const [clickPartner, setClickPartner] = useState<PartnerType>();
-
+  console.log('partnerZuInfo', partnerZuInfo);
   const { mutate: GoodsPartnersList, isLoading } =
     useGetGoodsPartnersListMutation({
       options: {
         onSuccess: (res) => {
-          console.log('res', res.data.partners);
           setPartnerList(res.data.partners);
 
           setList({
@@ -80,6 +79,8 @@ function PartnerComponent({ list, setList }: Props) {
       partnerId: '',
     });
   };
+
+  console.log('partnerList', partnerList);
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex

@@ -93,7 +93,6 @@ function CancelComponent({ list, request, setRequest }: Props) {
     options: {
       onSuccess: (res, req) => {
         if (res.success) {
-          console.log('res', res);
           setNewChekcList(res.data.orderIds);
           // setIsLoading(false);
           if (stateSelect == '취소반려') {

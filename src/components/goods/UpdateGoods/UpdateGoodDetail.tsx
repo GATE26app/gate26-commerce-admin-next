@@ -57,6 +57,7 @@ import goodsApi from '@/app/apis/goods/GoodsApi';
 import AlertModal from '@/components/common/Modal/AlertModal';
 import GoodsModify from '../GoodsModify';
 import { usePartnerZuInfo } from '@/_store/PatnerInfo';
+import PreviewDrawerComponent from '../Preview/PreviewDrawerComponent';
 
 interface CategoryListProps {
   categoryId: number;
@@ -71,6 +72,7 @@ function UpdateGoodDetail() {
   const { setPartnerZuInfo } = usePartnerZuInfo((state) => state);
   const [isLoadingModal, setLoadingModal] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [isPreviewModal, setIsPreviewModal] = useState(false);
   const [ModalState, setModalState] = useState({
     title: '',
     message: '',
@@ -94,11 +96,15 @@ function UpdateGoodDetail() {
   const [optionList, setOptionList] = useState<OptionItemProps[]>([]);
   const [CateGetList, setCateGetList] = useState<CategoryResProps[]>([]);
   const [categoryList, setCategoryList] = useState<CategoryListProps[]>([]); //수정시 전달한 리스트
+  const [CatePreList, setCatePreList] = useState<CategoryResProps[]>([]);
   const [locationGetList, setLocationGetList] = useState<LocationResProps[]>(
     [],
   );
   const [goodsItemList, setGoodsItemList] = useState<GoodsItemProps[]>([]);
   const [locationList, setLocationList] = useState<LocationListProps[]>([]); //수정시 전달한 리스트
+  const [locationPreList, setLocationPreList] = useState<LocationResProps[]>(
+    [],
+  );
   const [statusList, setStatusList] = useState<StatusProps>({
     forSale: 0,
     level: 0,
@@ -225,7 +231,9 @@ function UpdateGoodDetail() {
         viewEndDate: detailData.data.viewEndDate,
       });
       setCateGetList(detailData.data.categories);
+      setCatePreList(detailData.data.categories);
       setLocationGetList(detailData.data.locations);
+      setLocationPreList(detailData.data.locations);
       setGoodsItemList(detailData.data);
       setAttributeList(detailData.data.attributes);
       setBasicInfo({
@@ -364,7 +372,6 @@ function UpdateGoodDetail() {
 
     // }
     if (selectLog.itemId !== '') {
-      console.log('selectLog', selectLog);
       LogItemMutate(selectLog);
     }
   }, [selectLog.itemId]);
@@ -372,7 +379,6 @@ function UpdateGoodDetail() {
   const { mutate: LogItemMutate } = useLogItemutation({
     options: {
       onSuccess: (res) => {
-        console.log('res data', res.data);
         if (res.success == true) {
           // setLogDisable(true);
           setGoodsInfo({
@@ -386,7 +392,9 @@ function UpdateGoodDetail() {
             viewEndDate: res.data.viewEndDate,
           });
           setCateGetList(res.data.categories);
+          setCatePreList(res.data.categories);
           setLocationGetList(res.data.locations);
+          setLocationPreList(res.data.locations);
           setGoodsItemList(res.data);
           setAttributeList(res.data.attributes);
           setBasicInfo({
@@ -544,8 +552,43 @@ function UpdateGoodDetail() {
   useEffect(() => {
     setLoadingModal(isLoading);
   }, [isLoading]);
+  const previewData = {
+    type: getType,
+    title: BasicInfo.title,
+    basicInfo: BasicInfo.basicInfo,
+    detailInfo: BasicInfo.detailInfo,
+    reservationInfo: BasicInfo.reservationInfo,
+    content: BasicInfo.content,
+    orderSameDay: BasicInfo.orderSameDay,
+    level: BasicInfo.level,
+    forSale: BasicInfo.forSale,
+    priceNet: BasicInfo.priceNet,
+    priceDcPer: BasicInfo.priceDcPer,
+    priceDc: BasicInfo.priceDc,
+    price: BasicInfo.price,
+    optionType: BasicInfo.optionType,
+    viewStartDate: BasicInfo.viewStartDate,
+    viewEndDate: BasicInfo.viewEndDate,
+    attributes: attributeList,
+    categories: CatePreList,
+    locations: locationPreList,
+    optionInputType: BasicInfo.optionInputType,
+    optionInputStartDate: BasicInfo.optionInputStartDate,
+    optionInputEndDate: BasicInfo.optionInputEndDate,
+    images: imageList,
+    schedules: planList,
+    policies: policyList,
+    optionInputs: optionInputList,
+    options: optionList,
+    autoConfirm: BasicInfo.autoConfirm,
+  };
   return (
     <>
+      <PreviewDrawerComponent
+        data={previewData}
+        isOpen={isPreviewModal}
+        onClose={() => setIsPreviewModal(false)}
+      />
       <LoadingModal
         children={isLoadingModal}
         isOpen={isLoadingModal}
@@ -605,6 +648,18 @@ function UpdateGoodDetail() {
                 </Text>
               </Flex>
               <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+                <CustomButton
+                  text="미리보기"
+                  borderColor={ColorGray400}
+                  color={ColorGray700}
+                  px="44px"
+                  py="13px"
+                  bgColor={ColorWhite}
+                  fontSize="15px"
+                  onClick={() => {
+                    setIsPreviewModal(true);
+                  }}
+                />
                 {selectMenu == 1 && (
                   <CustomButton
                     text="취소"
@@ -746,12 +801,16 @@ function UpdateGoodDetail() {
             {selectMenu == 1 && (
               <GoodsModify
                 // watch={watch}
+                CatePreList={CatePreList}
+                setCatePreList={setCatePreList}
                 CateGetList={CateGetList}
                 setCateGetList={setCateGetList}
                 categoryList={categoryList}
                 setCategoryList={setCategoryList}
                 locationList={locationList}
                 setLocationList={setLocationList}
+                locationPreList={locationPreList}
+                setLocationPreList={setLocationPreList}
                 BasicInfo={BasicInfo}
                 setBasicInfo={setBasicInfo}
                 imageList={imageList}
