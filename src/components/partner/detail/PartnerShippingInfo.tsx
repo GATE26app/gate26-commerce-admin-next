@@ -27,7 +27,7 @@ function PartnerShippingInfo({ info }: { info: PartnersParamsType }) {
     shippingFee: 0,
     shippingMinAmount: 0,
   });
-  console.log('info', info.partnerId);
+
   useEffect(() => {
     if (info) {
       setShipping({

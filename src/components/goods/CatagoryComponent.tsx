@@ -41,8 +41,17 @@ interface Props {
   setList: React.Dispatch<React.SetStateAction<CategoryListProps[]>>;
   getList?: Array<CategoryResProps>;
   setGetList?: React.Dispatch<React.SetStateAction<CategoryResProps[]>>;
+  CatePreList: Array<CategoryResProps>;
+  setCatePreList: React.Dispatch<React.SetStateAction<CategoryResProps[]>>;
 }
-function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
+function CatagoryComponent({
+  list,
+  setList,
+  getList,
+  setGetList,
+  CatePreList,
+  setCatePreList,
+}: Props) {
   const toast = useToast();
   const anchorRef = useRef<HTMLDivElement>(null);
   const [selectCate1, setSelectCate1] = useState('');
@@ -126,6 +135,14 @@ function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
       level2Name: data == '전체' ? '' : data,
       categoryId: id,
     };
+    let PreObject = {
+      categoryId: id,
+      fullTitle: data == '전체' ? selectCate1 : `${selectCate1} > ${data}`,
+      title: data,
+      sort: 1,
+      level: 1,
+      depth: 1,
+    };
     let catagory = {
       categoryId: id,
     };
@@ -135,6 +152,7 @@ function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
       setSelectCate2('');
       setList([...list, catagory]);
       setLevel2CateList([]);
+      setCatePreList([...CatePreList, PreObject]);
     } else {
       toast({
         position: 'top',
@@ -153,6 +171,7 @@ function CatagoryComponent({ list, setList, getList, setGetList }: Props) {
     if (selectList.some((arr) => arr.categoryId === idx)) {
       setSelectList(selectList.filter((item) => idx !== item.categoryId));
       setList(list.filter((item) => idx !== item.categoryId));
+      setCatePreList(CatePreList.filter((item) => idx !== item.categoryId));
     }
   };
   return (

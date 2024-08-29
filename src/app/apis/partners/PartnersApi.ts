@@ -214,7 +214,6 @@ export class PartnersApi {
       },
       data: body.shipping,
     });
-    console.log('body', body);
     return data;
   };
 }

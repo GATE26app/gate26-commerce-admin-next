@@ -62,6 +62,10 @@ interface Props {
   setOptionList: React.Dispatch<React.SetStateAction<OptionItemProps[]>>;
   optionInputList: optionInputsProps[];
   setOptionInputList: React.Dispatch<React.SetStateAction<optionInputsProps[]>>;
+  CatePreList: CategoryResProps[];
+  setCatePreList: React.Dispatch<React.SetStateAction<CategoryResProps[]>>;
+  locationPreList: LocationResProps[];
+  setLocationPreList: React.Dispatch<React.SetStateAction<LocationResProps[]>>;
 }
 function GoodsModify({
   categoryList,
@@ -86,6 +90,10 @@ function GoodsModify({
   setOptionList,
   optionInputList,
   setOptionInputList,
+  CatePreList,
+  setCatePreList,
+  locationPreList,
+  setLocationPreList,
 }: // locationGetList,
 // setLocationGetList,
 // goodsItemList,
@@ -103,6 +111,8 @@ Props) {
         // setList={setCategoryList}
         getList={CateGetList}
         setGetList={setCateGetList}
+        CatePreList={CatePreList}
+        setCatePreList={setCatePreList}
       />
       {(BasicInfo.type == 3 || BasicInfo.type == 2) && (
         <CountryComponent
@@ -112,6 +122,8 @@ Props) {
           // setList={setLocationList}
           getList={locationGetList}
           setGetList={setLocationGetList}
+          locationPreList={locationPreList}
+          setLocationPreList={setLocationPreList}
         />
       )}
 

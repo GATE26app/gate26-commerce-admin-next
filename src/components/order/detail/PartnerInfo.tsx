@@ -9,8 +9,6 @@ interface Props {
   info: partnerType;
 }
 function PartnerInfo({ info }: Props) {
-  console.log('info', info);
-  console.log('info?.thumbnailImagePath ', info?.thumbnailImagePath);
   return (
     <>
       <Flex
