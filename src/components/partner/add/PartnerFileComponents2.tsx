@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Box, CircularProgress, Flex, Text, useToast } from '@chakra-ui/react';
 import {
   ColorBlack,
@@ -37,9 +37,13 @@ function PartnerFileComponent2({
   idx = 0,
 }: Props) {
   const toast = useToast();
+  const addDefaultImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = '/images/Page/no_data.png';
+  };
 
+  console.log('EntriesData', EntriesData);
   useEffect(() => {
-    if (EntriesData?.length > 0) {
+    if (EntriesData?.length > 0 && EntriesData[0] !== undefined) {
       imgAxios();
     }
   }, [EntriesData]);
@@ -153,23 +157,25 @@ function PartnerFileComponent2({
 
   return (
     <Flex flexDirection={'column'} position={'relative'}>
-      {EntriesData?.length > 0 && (
-        <>
-          <Flex
-            position={'absolute'}
-            top={'10px'}
-            right={'10px'}
-            onClick={() => onDeleteImg()}
-          >
-            <Image
-              src={'/images/Page/icon_delete_img.png'}
-              alt="이미지 삭제"
-              width={32}
-              height={32}
-            />
-          </Flex>
-        </>
-      )}
+      {EntriesData?.length > 0 &&
+        EntriesData !== undefined &&
+        EntriesData[0] !== undefined && (
+          <>
+            <Flex
+              position={'absolute'}
+              top={'10px'}
+              right={'10px'}
+              onClick={() => onDeleteImg()}
+            >
+              <Image
+                src={'/images/Page/icon_delete_img.png'}
+                alt="이미지 삭제"
+                width={32}
+                height={32}
+              />
+            </Flex>
+          </>
+        )}
       {isLoading ? (
         <Flex
           w={'182px'}
@@ -186,7 +192,9 @@ function PartnerFileComponent2({
         </Flex>
       ) : (
         <>
-          {EntriesData?.length > 0 ? (
+          {EntriesData?.length > 0 &&
+          EntriesData !== undefined &&
+          EntriesData[0] !== undefined ? (
             <>
               <Flex
                 w={'182px'}
@@ -209,6 +217,7 @@ function PartnerFileComponent2({
                   id={'target-img-3'}
                   alt="이미지 업로드"
                   onClick={() => downloadFile()}
+                  onError={addDefaultImg}
                 />
               </Flex>
             </>

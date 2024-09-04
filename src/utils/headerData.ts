@@ -151,3 +151,119 @@ export const listheader = [
     width: 6,
   },
 ];
+
+export const couponGate26Listheader = [
+  {
+    id: 'state',
+    name: '번호',
+    width: '12%',
+  },
+  {
+    id: 'GoodOrderNum',
+    name: `노출상태`,
+    width: '17%',
+  },
+  {
+    id: 'info',
+    name: '쿠폰명',
+    width: '22%',
+  },
+  {
+    id: 'payment',
+    name: '할인금액/율',
+    width: '17%',
+  },
+  {
+    id: 'rest',
+    name: '유효기간',
+    width: '17%',
+  },
+
+  {
+    id: 'setting',
+    name: '관리',
+    width: '17%',
+  },
+];
+
+export const couponPartnerListheader = [
+  {
+    id: 'state',
+    name: '번호',
+    width: '10%',
+  },
+  {
+    id: 'GoodOrderNum',
+    name: `노출상태`,
+    width: '10%',
+  },
+  {
+    id: 'info',
+    name: '발급처',
+    width: '13%',
+  },
+  {
+    id: 'info',
+    name: '쿠폰명',
+    width: '15%',
+  },
+  {
+    id: 'payment',
+    name: '할인금액',
+    width: '13%',
+  },
+  {
+    id: 'payment',
+    name: '파트너사쿠폰부담비',
+    width: '13%',
+  },
+  {
+    id: 'rest',
+    name: '유효기간',
+    width: '13%',
+  },
+
+  {
+    id: 'setting',
+    name: '관리',
+    width: '13%',
+  },
+];
+export const couponGoodsListheader = [
+  {
+    id: 'state',
+    name: '번호',
+    width: '8%',
+  },
+  {
+    id: 'GoodOrderNum',
+    name: `노출상태`,
+    width: '13%',
+  },
+  {
+    id: 'info',
+    name: '상품',
+    width: '20%',
+  },
+  {
+    id: 'info',
+    name: '쿠폰명',
+    width: '20%',
+  },
+  {
+    id: 'payment',
+    name: '할인금액/율',
+    width: '11%',
+  },
+  {
+    id: 'rest',
+    name: '유효기간',
+    width: '13%',
+  },
+
+  {
+    id: 'setting',
+    name: '관리',
+    width: '15%',
+  },
+];

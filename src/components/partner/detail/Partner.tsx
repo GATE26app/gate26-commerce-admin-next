@@ -1,38 +1,25 @@
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import goodsApi from '@/app/apis/goods/GoodsApi';
-import {
-  useItemApprovemutation,
-  useItemDeniedmutation,
-} from '@/app/apis/goods/GoodsApi.mutation';
-import {
-  ItemApproveReqType,
-  ItemDeniedReqType,
-} from '@/app/apis/goods/GoodsApi.type';
 import CustomButton from '@/components/common/CustomButton';
 import InputBox from '@/components/common/Input';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import RadioComponent from '@/components/common/RadioBox/RadioComponent';
-import LogSelectBox from '@/components/common/SelectBox/LogSelectBox';
 import moment from 'moment';
 import {
   ColorBlack,
-  ColorGray400,
   ColorGray50,
   ColorGrayBorder,
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import {
-  ApprovePartnerType,
   DeniedPartnerType,
   PartnersParamsType,
-  updateStatueType,
 } from '@/app/apis/partners/PartnersApi.type';
 import {
   useApprovePartner,
@@ -45,7 +32,6 @@ interface Props {
   info: PartnersParamsType;
 }
 function Partner({ itemCode, itemId, info }: Props) {
-  const [select, setSelect] = useState(''); //로그 상세 선택
   const toast = useToast();
   const router = useRouter();
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
@@ -61,7 +47,16 @@ function Partner({ itemCode, itemId, info }: Props) {
     cbOk: () => {},
     cbCancel: () => {},
   });
-  const [logList, setLogList] = useState([]);
+
+  useEffect(() => {
+    if (info?.level) {
+      setIsCheck(info?.level);
+    }
+    if (info?.deniedReason) {
+      setDeniedReason(info?.deniedReason);
+    }
+  }, [info]);
+
   // console.log
   //파트너사 승인
   const { mutate: ApproveMutate } = useApprovePartner({
@@ -181,21 +176,8 @@ function Partner({ itemCode, itemId, info }: Props) {
       }
     }
   };
-  //로그목록
-  const { data: LogListData, error } = useQuery(
-    ['goodsLogList', itemCode],
-    () => goodsApi.getGoodsLogList(String(itemCode)),
-    {
-      staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
-      refetchInterval: false, // 자동 새로 고침 비활성화
-    },
-  );
-  useEffect(() => {
-    if (LogListData?.success) {
-      setLogList(LogListData.data);
-      setSelect(LogListData.data[0].version);
-    }
-  }, [LogListData]);
+
+  console.log('info', info);
   return (
     <>
       {info && (
@@ -262,10 +244,14 @@ function Partner({ itemCode, itemId, info }: Props) {
                   fontWeight={600}
                   fontSize={'15px'}
                 >
-                  승인완료일
+                  {info?.level == 3 ? '반려완료일' : '승인완료일'}
                 </Text>
                 <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                  {info.processDate
+                  {info?.level == 3
+                    ? info.deniedDate
+                      ? moment(info.deniedDate).format('YYYY-MM-DD')
+                      : '-'
+                    : info.processDate
                     ? moment(info.processDate).format('YYYY-MM-DD')
                     : '-'}
                 </Text>
@@ -295,13 +281,13 @@ function Partner({ itemCode, itemId, info }: Props) {
                       <RadioComponent
                         text="반려"
                         disabled={goodsInfo.LogItemDisable}
-                        checked={isCheck == 2 ? true : false}
+                        checked={isCheck == 3 ? true : false}
                         onClick={() => {
-                          setIsCheck(2);
+                          setIsCheck(3);
                         }}
                       />
                     </Flex>
-                    {isCheck == 2 && (
+                    {isCheck == 3 && (
                       <InputBox
                         w={'100%'}
                         mt={'10px'}

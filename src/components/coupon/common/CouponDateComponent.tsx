@@ -2,55 +2,47 @@ import React, { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Box, Flex, Image, Input, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
 import DatePicker from '@/components/common/DatePicker';
 
-import {
-  ColorBlack,
-  ColorGray50,
-  ColorGray100,
-  ColorGray400,
-  ColorGray700,
-  ColorRed,
-  ColorWhite,
-} from '@/utils/_Palette';
-import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
+import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
+import { CouponDataType } from '@/app/apis/coupon/CouponApi.type';
 
 interface Props {
-  EntriesData: EntriesResType;
-  setEntriesData: React.Dispatch<React.SetStateAction<EntriesResType>>;
+  CouponData: CouponDataType;
+  setCouponData: React.Dispatch<React.SetStateAction<CouponDataType>>;
 }
-function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
+function CouponDateComponent({ CouponData, setCouponData }: Props) {
   const [openDay, setOpenDay] = useState<dayjs.Dayjs>(() =>
-    dayjs(EntriesData.openDate),
+    dayjs(CouponData.startDate),
   );
   const [endDay, setEndDay] = useState<dayjs.Dayjs>(() =>
-    dayjs(EntriesData.endDate),
+    dayjs(CouponData.endDate),
   );
   const [sState, setSState] = useState(false);
   const [eState, setEState] = useState(false);
 
   //상세에서 날짜 안불러올때 다시 추가
   useEffect(() => {
-    if (EntriesData?.openDate !== '' && EntriesData?.openDate !== null) {
-      setOpenDay(dayjs(EntriesData.openDate));
+    if (CouponData?.startDate !== '' && CouponData?.startDate !== null) {
+      setOpenDay(dayjs(CouponData.startDate));
     }
-    if (EntriesData?.endDate !== '' && EntriesData?.endDate !== null) {
-      setEndDay(dayjs(EntriesData.endDate));
+    if (CouponData?.endDate !== '' && CouponData?.endDate !== null) {
+      setEndDay(dayjs(CouponData.endDate));
     }
-  }, [EntriesData]);
+  }, [CouponData]);
   useEffect(() => {
     if (sState) {
-      setEntriesData({
-        ...EntriesData,
-        openDate: `${dayjs(openDay).format('YYYY-MM-DD HH:mm')}:00`,
+      setCouponData({
+        ...CouponData,
+        startDate: `${dayjs(openDay).format('YYYY-MM-DD HH:mm')}:00`,
       });
       setSState(false);
     }
     if (eState) {
-      setEntriesData({
-        ...EntriesData,
+      setCouponData({
+        ...CouponData,
         endDate: `${dayjs(endDay).format('YYYY-MM-DD HH:mm')}:00`,
       });
       setEState(false);
@@ -69,7 +61,7 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
         borderColor={ColorGray400}
       >
         <Text fontWeight={800} fontSize={'18px'} color={ColorBlack}>
-          응모기간
+          유효기간
         </Text>
       </Flex>
       <Flex
@@ -83,11 +75,11 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
       >
         <Flex alignItems={'center'} gap={'5px'}>
           <DatePicker
-            type={'datetime'}
+            type={'date'}
             curDate={openDay}
             width={'310px'}
             minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
-            maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
+            maxDateTime={dayjs(CouponData.endDate).format('YYYY-MM-DD')}
             onApply={(date) => {
               setOpenDay(
                 date.format('YYYY-MM-DD') == 'Invalid Date'
@@ -102,13 +94,13 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             ~
           </Text>
           <DatePicker
-            type={'datetime'}
+            type={'date'}
             curDate={endDay}
             width={'310px'}
             minDateTime={
-              EntriesData.openDate == ''
+              CouponData.startDate == ''
                 ? ''
-                : dayjs(EntriesData.openDate).format('YYYY-MM-DD')
+                : dayjs(CouponData.startDate).format('YYYY-MM-DD')
             }
             onApply={(date) => {
               setEndDay(
@@ -127,4 +119,4 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
   );
 }
 
-export default EntriesDateComponent;
+export default CouponDateComponent;

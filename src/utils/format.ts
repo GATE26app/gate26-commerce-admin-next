@@ -242,7 +242,13 @@ export const filePath = () => {
     return `https://commercebackoffice.gate26.co.kr`;
   }
 };
-
+export const imgUserPath = () => {
+  if (DEV() === 'dev') {
+    return `http://dresource.gate26.co.kr/img/downloadFile?filePath=`;
+  } else {
+    return `https://resource.gate26.co.kr/img/downloadFile?filePath=`;
+  }
+};
 export const imgTimePath = () => {
   if (DEV() === 'dev') {
     return `http://dresource.gate26.co.kr/img/downloadFile?t=${time}&filePath=`;
