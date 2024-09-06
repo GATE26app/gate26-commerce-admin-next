@@ -12,7 +12,7 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
-import { DashDate, imgPath, intComma } from '@/utils/format';
+import { DashDate, getImagePath, imgPath, intComma } from '@/utils/format';
 
 import { DataTableHeaderProps } from './GoodsDataTable';
 import { GoodsListItemProps } from '@/app/apis/goods/GoodsApi.type';
@@ -153,7 +153,7 @@ function GoodsItemCard({ header, item }: Props) {
             src={
               item?.images.length == 0
                 ? '/images/Page/no_data.png'
-                : `${imgPath()}${item?.images[0].thumbnailImagePath}`
+                : getImagePath(item?.images[0].thumbnailImagePath)
             }
             onError={addDefaultImg}
             alt="이미지 업로드"

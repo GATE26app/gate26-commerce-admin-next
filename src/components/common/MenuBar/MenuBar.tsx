@@ -698,40 +698,42 @@ function MenuBar() {
           </Text>
         </Flex>
       </Link>
-      {/* <Flex
-        alignItems={'center'}
-        cursor={'pointer'}
-        mb={'30px'}
-        onClick={() => {
-          setMenu(10);
-          setOrdreMenu(1);
-        }}
-      >
-        {menu == 10 ? (
-          <Image
-            src={'/images/Menu/leftmenu10_on.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/Menu/leftmenu10_off.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        )}
-
-        <Text
-          color={menu == 10 ? ColorRed : ColorGrayMenu}
-          fontWeight={800}
-          fontSize={'18px'}
-          ml={'15px'}
+      <Link href={'/chat'}>
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(10);
+            setOrdreMenu(1);
+          }}
         >
-          채팅
-        </Text>
-      </Flex> */}
+          {menu == 10 ? (
+            <Image
+              src={'/images/Menu/leftmenu10_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu10_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 10 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            채팅
+          </Text>
+        </Flex>
+      </Link>
     </Box>
   );
 }
