@@ -76,6 +76,7 @@ function CreateGoodsComponentPage() {
     cbCancel: () => {},
   });
   const toast = useToast();
+  const [EditorContent, setEditorContent] = useState('');
   const [BasicInfo, setBasicInfo] = useState<GoodsBasicProps>({
     itemId: '',
     partnerId: '',
@@ -220,7 +221,7 @@ function CreateGoodsComponentPage() {
       basicInfo: BasicInfo.basicInfo,
       detailInfo: BasicInfo.detailInfo,
       reservationInfo: BasicInfo.reservationInfo,
-      content: BasicInfo.content,
+      content: EditorContent,
       orderSameDay: BasicInfo.orderSameDay,
       orderCloseBefore: BasicInfo.orderCloseBefore,
       type: BasicInfo.type,
@@ -349,7 +350,7 @@ function CreateGoodsComponentPage() {
     basicInfo: BasicInfo.basicInfo,
     detailInfo: BasicInfo.detailInfo,
     reservationInfo: BasicInfo.reservationInfo,
-    content: BasicInfo.content,
+    content: EditorContent,
     orderSameDay: BasicInfo.orderSameDay,
     level: BasicInfo.level,
     forSale: BasicInfo.forSale,
@@ -575,7 +576,10 @@ function CreateGoodsComponentPage() {
               <CancelComponent list={policyList} setList={setPolicyList} />
             </>
           )}
-          <EditorDetailComponent list={BasicInfo} setList={setBasicInfo} />
+          <EditorDetailComponent
+            list={EditorContent}
+            setList={setEditorContent}
+          />
           <OptionComponent
             list={BasicInfo}
             setList={setBasicInfo}

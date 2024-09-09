@@ -11,13 +11,13 @@ import {
 } from '@/app/apis/goods/GoodsApi.type';
 
 import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
-  list: GoodsBasicProps;
-  setList: React.Dispatch<React.SetStateAction<GoodsBasicProps>>;
+  list: string;
+  setList: React.Dispatch<React.SetStateAction<string>>;
 }
 const ReactQuill = dynamic(
   async () => {
@@ -39,9 +39,8 @@ const ReactQuill = dynamic(
 function EditorDetailComponent({ list, setList }: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const [open, setOpen] = useState(true);
-  const [data, setData] = useState('');
-  const [term, setTerm] = useState<string>(''); //이용약관
   const quillRef = useRef<any>(null);
+
   const imageHandler = () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -54,21 +53,6 @@ function EditorDetailComponent({ list, setList }: Props) {
         var formData = new FormData();
         formData.append('image', file);
         ItemCodeMutate(formData);
-        // formData.append('debug_jwt', debugKey);
-        // formData.append('image', file);
-        // formData.append('timestamp', stamp);
-        // formData.append('mt_idx', userInfo?.mt_idx);
-        // const res = await axios.post('/v1/post_image_upload.php', formData, config);
-
-        // if (res.data.result == 'true') {
-        //     // set_image(res.data.data.url);
-        //     const imgUrl = res.data.data.link;
-        //     const range = quillRef.current.getEditorSelection();
-        //     quillRef.current.getEditor().insertEmbed(range.index, 'image', imgUrl);
-        //     quillRef.current.getEditor().setSelection(range.index + 1);
-        // } else {
-        //     // setError(res.data.msg);
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -84,15 +68,9 @@ function EditorDetailComponent({ list, setList }: Props) {
             const range = quillRef.current.getEditorSelection();
             quillRef.current
               .getEditor()
-              .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
+              .insertEmbed(range.index, 'image', getImagePath(imgUrl));
             quillRef.current.getEditor().setSelection(range.index + 1);
           }
-
-          // const range = quillRef.current.getEditorSelection();
-          // quillRef.current
-          //   .getEditor()
-          //   .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
-          // quillRef.current.getEditor().setSelection(range.index + 1);
         } else {
           console.log('error 코드 생성 에러', resImg.code);
         }
@@ -135,6 +113,9 @@ function EditorDetailComponent({ list, setList }: Props) {
     'align',
   ];
 
+  const hanleChange = (e: string) => {
+    setList(e);
+  };
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex
@@ -192,15 +173,10 @@ function EditorDetailComponent({ list, setList }: Props) {
               theme="snow"
               modules={modules}
               formats={formats}
-              value={list?.content}
-              onChange={(e: any) =>
-                goodsInfo.LogItemDisable
-                  ? undefined
-                  : setList({ ...list, content: e })
-              }
+              value={list}
+              onChange={hanleChange}
               readOnly={goodsInfo.LogItemDisable}
               style={{ height: '480px' }}
-
               // onBlur={(e) => console.log('onblur', e)}
               // register={..}
             />

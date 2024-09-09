@@ -66,6 +66,8 @@ interface Props {
   setCatePreList: React.Dispatch<React.SetStateAction<CategoryResProps[]>>;
   locationPreList: LocationResProps[];
   setLocationPreList: React.Dispatch<React.SetStateAction<LocationResProps[]>>;
+  EditorContent: string;
+  setEditorContent: React.Dispatch<React.SetStateAction<string>>;
 }
 function GoodsModify({
   categoryList,
@@ -94,6 +96,8 @@ function GoodsModify({
   setCatePreList,
   locationPreList,
   setLocationPreList,
+  EditorContent,
+  setEditorContent,
 }: // locationGetList,
 // setLocationGetList,
 // goodsItemList,
@@ -144,7 +148,7 @@ Props) {
         </>
       )}
 
-      <EditorDetailComponent list={BasicInfo} setList={setBasicInfo} />
+      <EditorDetailComponent list={EditorContent} setList={setEditorContent} />
       <OptionComponent
         list={BasicInfo}
         setList={setBasicInfo}
