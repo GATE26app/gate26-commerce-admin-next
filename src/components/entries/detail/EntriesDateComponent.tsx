@@ -89,9 +89,13 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
             minDateTime={dayjs(new Date()).format('YYYY-MM-DD')}
             maxDateTime={dayjs(EntriesData.endDate).format('YYYY-MM-DD')}
             onApply={(date) => {
-              setOpenDay(date);
+              setOpenDay(
+                date.format('YYYY-MM-DD') == 'Invalid Date'
+                  ? dayjs(new Date())
+                  : date,
+              );
               setSState(true);
-              console.log(date);
+              console.log('date', date.format('YYYY-MM-DD'));
             }}
           />
           <Text color={ColorBlack} fontSize={'15px'} fontWeight={500}>
@@ -107,7 +111,11 @@ function EntriesDateComponent({ EntriesData, setEntriesData }: Props) {
                 : dayjs(EntriesData.openDate).format('YYYY-MM-DD')
             }
             onApply={(date) => {
-              setEndDay(date);
+              setEndDay(
+                date.format('YYYY-MM-DD') == 'Invalid Date'
+                  ? dayjs(new Date())
+                  : date,
+              );
               console.log(date);
               setEState(true);
             }}

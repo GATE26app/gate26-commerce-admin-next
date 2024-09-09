@@ -54,6 +54,7 @@ export type GoodsListParamGetType = {
   searchKeyword?: string;
   searchType?: string;
   partnerId?: string;
+  type?: number | null;
 };
 
 //상품 상세 response data

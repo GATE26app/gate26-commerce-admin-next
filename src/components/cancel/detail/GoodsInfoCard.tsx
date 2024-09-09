@@ -7,7 +7,13 @@ import dayjs from 'dayjs';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { ColorBlack, ColorGray700 } from '@/utils/_Palette';
-import { formatDated, formatPhone, imgPath, intComma } from '@/utils/format';
+import {
+  formatDated,
+  formatPhone,
+  getImagePath,
+  imgPath,
+  intComma,
+} from '@/utils/format';
 import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
 
 interface headerProps {
@@ -85,7 +91,7 @@ function GoodsInfoCard({ header, item }: Props) {
             }}
             src={
               item.orderThumbnailImagePath !== null
-                ? `${imgPath()}${item.orderThumbnailImagePath}`
+                ? `${getImagePath(item.orderThumbnailImagePath)}`
                 : '/images/no_img.png'
             }
             onError={addDefaultImg}

@@ -699,10 +699,21 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 <Text color={ColorRed} fontSize={'12px'}>
                   {error.password_check}
                 </Text>
-                {/* <Flex width={'200px'} h={'45px'} bgColor={ColorRed} borderRadius={'12px'} cursor={'pointer'} alignItems={'center'} justifyContent={'center'} ml={'10px'}>
-                <Text fontSize={'18px'} color={'white'}>변경</Text>
-              </Flex> */}
               </Flex>
+              {/* <Flex
+                width={'150px'}
+                h={'45px'}
+                bgColor={ColorRed}
+                borderRadius={'12px'}
+                cursor={'pointer'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                ml={'10px'}
+              >
+                <Text fontSize={'18px'} color={'white'}>
+                  변경
+                </Text>
+              </Flex> */}
             </Flex>
           </GridItem>
           <GridItem>
@@ -723,14 +734,28 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 <SelectBox
                   placeholder="검색분류선택"
                   width={'100%'}
-                  list={['정상', '정지']}
-                  select={watch('status') == 1 ? '정상' : '정지'}
+                  list={['정상', '정지', '탈퇴요청']}
+                  select={
+                    watch('status') == 1
+                      ? '정상'
+                      : watch('status') == 2
+                      ? '정지'
+                      : watch('status') == 3
+                      ? '탈퇴요청'
+                      : watch('status') == 10
+                      ? '탈퇴'
+                      : ''
+                  }
                   {...register('status', { required: true })}
                   setSelect={(e) => {
                     if (e == '정상') {
                       setValue('status', 1);
-                    } else {
+                    } else if (e == '정지') {
                       setValue('status', 2);
+                    } else if (e == '탈퇴요청') {
+                      setValue('status', 3);
+                    } else if (e == '탈퇴') {
+                      setValue('status', 10);
                     }
                   }}
                 />
@@ -902,6 +927,33 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
           mt={'10px'}
           mb={'30px'}
         ></Flex>
+        <Flex
+          flexDirection={'row'}
+          pb={'20px'}
+          width={'50%'}
+          alignItems={'center'}
+        >
+          <Text
+            w={'165px'}
+            flexShrink={0}
+            color={ColorBlack}
+            fontWeight={600}
+            fontSize={'15px'}
+            display={'inline'}
+          >
+            파트너사명
+            <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
+              *
+            </Text>
+          </Text>
+          <InputBox
+            w={'100%'}
+            placeholder="파트너사명 입력"
+            {...register('title')}
+            value={watch('title')}
+            onChange={(e) => setValue('title', e.target.value)}
+          />
+        </Flex>
         <Flex w={'100%'} mb={'30px'}>
           <Flex w={'100%'} flexDirection={'column'}>
             <Flex flexDirection={'row'} pb="20px" flexWrap={'wrap'}>
@@ -930,33 +982,7 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex
-          flexDirection={'row'}
-          pb={'20px'}
-          width={'50%'}
-          alignItems={'center'}
-        >
-          <Text
-            w={'165px'}
-            flexShrink={0}
-            color={ColorBlack}
-            fontWeight={600}
-            fontSize={'15px'}
-            display={'inline'}
-          >
-            파트너사명
-            <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
-              *
-            </Text>
-          </Text>
-          <InputBox
-            w={'100%'}
-            placeholder="파트너사명 입력"
-            {...register('title')}
-            value={watch('title')}
-            onChange={(e) => setValue('title', e.target.value)}
-          />
-        </Flex>
+
         <Flex flexDirection={'row'} pb={'20px'} width={'100%'}>
           <Text
             w={'165px'}

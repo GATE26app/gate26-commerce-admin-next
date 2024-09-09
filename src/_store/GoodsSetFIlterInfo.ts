@@ -10,6 +10,7 @@ interface GoodsSettingFilterInfoType {
   forSale: number;
   searchType: string;
   searchKeyword: string;
+  type: null | number;
 }
 
 interface GoodsSettingFiterInfoState {
@@ -28,6 +29,7 @@ const defaultState = {
   forSale: 0, //0=> 전체 1=>판매, 2=>판매안함 , 10 =>품절
   searchType: '',
   searchKeyword: '',
+  type: 0,
 };
 
 export const useGoodsSettingFilterZuInfo = create(

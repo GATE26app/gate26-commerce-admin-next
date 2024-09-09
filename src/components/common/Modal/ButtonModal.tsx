@@ -64,7 +64,7 @@ function ButtonModal({ onClose, ModalState, ...props }: Props) {
   return (
     <Modal onClose={onClose} isCentered variant={'alert'} {...props}>
       <ModalOverlay />
-      <Content maxW={300} maxH={186}>
+      <Content maxW={320} minH={186}>
         <Header>{title || 'Alert'}</Header>
         <ModalBody>{message}</ModalBody>
 

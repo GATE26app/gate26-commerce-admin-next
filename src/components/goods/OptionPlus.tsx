@@ -626,7 +626,7 @@ function OptionPlus({
         >
           <Flex w={'200px'}>
             <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-              구간 선택
+              판매 기간
             </Text>
             <Text
               color={ColorRed}

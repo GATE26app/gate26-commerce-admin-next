@@ -37,6 +37,27 @@ function MenuBar() {
       setMenu(2);
       setOrdreMenu(1);
     } else if (
+      pathname == '/coupon/gate26' ||
+      pathname == '/coupon/gate26/detail' ||
+      pathname == '/coupon/gate26/create'
+    ) {
+      setMenu(4);
+      setOrdreMenu(1);
+    } else if (
+      pathname == '/coupon/partner' ||
+      pathname == '/coupon/partner/detail' ||
+      pathname == '/coupon/partner/create'
+    ) {
+      setMenu(4);
+      setOrdreMenu(2);
+    } else if (
+      pathname == '/coupon/goods' ||
+      pathname == '/coupon/goods/detail' ||
+      pathname == '/coupon/goods/create'
+    ) {
+      setMenu(4);
+      setOrdreMenu(3);
+    } else if (
       pathname == '/entries/first' ||
       pathname == '/entries/first/detail' ||
       pathname == '/entries/first/create'
@@ -300,7 +321,7 @@ function MenuBar() {
           </Link> */}
         </Flex>
       )}
-      {/* <Flex
+      <Flex
         alignItems={'center'}
         cursor={'pointer'}
         justifyContent={'space-between'}
@@ -352,10 +373,10 @@ function MenuBar() {
             alt="로고"
           />
         )}
-      </Flex> */}
-      {/* {menu == 4 && (
+      </Flex>
+      {menu == 4 && (
         <Flex mb={'30px'} ml={'57px'} flexDirection={'column'}>
-          <Link href={'/orderlist'}>
+          <Link href={'/coupon/gate26'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -369,7 +390,7 @@ function MenuBar() {
               GATE26 쿠폰관리
             </Text>
           </Link>
-          <Link href={'/cancellist'}>
+          <Link href={'/coupon/partner'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -381,7 +402,7 @@ function MenuBar() {
               파트너사 쿠폰관리
             </Text>
           </Link>
-          <Link href={'/cancellist'}>
+          <Link href={'/coupon/goods'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -394,7 +415,7 @@ function MenuBar() {
             </Text>
           </Link>
         </Flex>
-      )} */}
+      )}
       <Flex
         alignItems={'center'}
         cursor={'pointer'}
@@ -677,40 +698,42 @@ function MenuBar() {
           </Text>
         </Flex>
       </Link>
-      {/* <Flex
-        alignItems={'center'}
-        cursor={'pointer'}
-        mb={'30px'}
-        onClick={() => {
-          setMenu(10);
-          setOrdreMenu(1);
-        }}
-      >
-        {menu == 10 ? (
-          <Image
-            src={'/images/Menu/leftmenu10_on.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/Menu/leftmenu10_off.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        )}
-
-        <Text
-          color={menu == 10 ? ColorRed : ColorGrayMenu}
-          fontWeight={800}
-          fontSize={'18px'}
-          ml={'15px'}
+      {/* <Link href={'/chat'}>
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(10);
+            setOrdreMenu(1);
+          }}
         >
-          채팅
-        </Text>
-      </Flex> */}
+          {menu == 10 ? (
+            <Image
+              src={'/images/Menu/leftmenu10_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu10_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 10 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            채팅
+          </Text>
+        </Flex>
+      </Link> */}
     </Box>
   );
 }

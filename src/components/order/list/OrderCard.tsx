@@ -20,6 +20,7 @@ import {
   formatPhone,
   imgPath,
   intComma,
+  getImagePath,
 } from '@/utils/format';
 
 interface headerProps {
@@ -117,9 +118,8 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
               objectFit: 'cover',
             }}
             src={
-              item.orderThumbnailImagePath !== null ||
-              item.orderThumbnailImagePath !== ''
-                ? `${imgPath()}${item.orderThumbnailImagePath}`
+              item.orderThumbnailImagePath !== null
+                ? `${getImagePath(item.orderThumbnailImagePath)}`
                 : '/images/no_img.png'
             }
             onError={addDefaultImg}

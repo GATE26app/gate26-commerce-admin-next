@@ -11,6 +11,9 @@ interface GoodsType {
   partnerState?: boolean;
   orderState?: boolean;
   cancelState?: boolean;
+  gate26CouponState?: boolean;
+  partnerCouponState?: boolean;
+  goodsCouponState?: boolean;
 }
 
 interface GoodsInfoState {
@@ -28,6 +31,9 @@ const defaultState = {
   partnerState: false,
   orderState: false,
   cancelState: false,
+  gate26CouponState: false,
+  partnerCouponState: false,
+  goodsCouponState: false,
 };
 
 export const useGoodsStateZuInfo = create(
