@@ -26,7 +26,7 @@ import { useGoodsDeleteMutation } from '@/app/apis/goods/GoodsApi.mutation';
 import { useRouter } from 'next/navigation';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
-import { formatDateDot, imgPath } from '@/utils/format';
+import { formatDateDot, getImagePath, imgPath } from '@/utils/format';
 import ReviewModal from '../common/Modal/ReviewModal';
 import { useDeleteReviewMutation } from '@/app/apis/review/ReviewApi.mutation';
 interface DataTableHeaderProps {
@@ -104,7 +104,7 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
       },
     });
   };
-  console.log('item.orderDateTimeOfUse', item.orderDateTimeOfUse);
+
   return (
     <>
       {reviewModal && (
@@ -162,7 +162,7 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
               src={
                 item.orderThumbnailImagePath !== null ||
                 item.orderThumbnailImagePath !== ''
-                  ? `${imgPath()}${item.orderThumbnailImagePath}`
+                  ? getImagePath(item.orderThumbnailImagePath)
                   : '/images/no_img.png'
               }
               onError={addDefaultImg}
@@ -238,7 +238,7 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
               }}
               src={
                 item.review?.images.length > 0
-                  ? `${imgPath()}${item.review?.images[0].thumbnailImagePath}`
+                  ? getImagePath(item.review?.images[0].thumbnailImagePath)
                   : '/images/no_img.png'
               }
               onError={addDefaultImg}

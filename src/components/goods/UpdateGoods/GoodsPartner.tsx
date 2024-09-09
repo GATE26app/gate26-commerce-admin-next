@@ -26,7 +26,7 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 import { Box, Flex, Text, useToast } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -64,6 +64,7 @@ function GoodsPartner({
     cbCancel: () => {},
   });
   const [logList, setLogList] = useState([]);
+
   //상품승인
   const { mutate: ApproveMutate } = useItemApprovemutation({
     options: {
@@ -259,7 +260,7 @@ function GoodsPartner({
                     partnerInfo?.thumbnailImagePath == null &&
                     partnerInfo?.thumbnailImagePath == undefined
                       ? '/images/header/icon_header_user.png'
-                      : imgPath() + partnerInfo?.thumbnailImagePath
+                      : getImagePath(partnerInfo?.thumbnailImagePath)
                   }
                   width={24}
                   height={24}

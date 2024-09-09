@@ -7,7 +7,7 @@ import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
 import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
 import { usePostEntriesImageMutation } from '@/app/apis/entries/EntriesApi.mutation';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 interface Props {
   EntriesData: EntriesResType;
   setEntriesData: React.Dispatch<React.SetStateAction<EntriesResType>>;
@@ -104,7 +104,7 @@ function EditorDetailComponent({ EntriesData, setEntriesData }: Props) {
             const range = quillRef.current.getEditorSelection();
             quillRef.current
               .getEditor()
-              .insertEmbed(range.index, 'image', `${imgPath()}${imgUrl}`);
+              .insertEmbed(range.index, 'image', getImagePath(imgUrl));
             quillRef.current.getEditor().setSelection(range.index + 1);
           }
         } else {

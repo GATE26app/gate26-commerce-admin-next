@@ -9,7 +9,7 @@ import {
   ColorInputBorder,
   ColorBlue,
 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
 import { usePostEntriesImageMutation } from '@/app/apis/entries/EntriesApi.mutation';
@@ -145,7 +145,7 @@ function EntriesImageComponent({ EntriesData, setEntriesData }: Props) {
                       overflow={'hidden'}
                     >
                       <img
-                        src={`${imgPath()}${EntriesData.images[0].imagePath}`}
+                        src={getImagePath(EntriesData.images[0].imagePath)}
                         style={{
                           width: '100%',
                           height: '100%',

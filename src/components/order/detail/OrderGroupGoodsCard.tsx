@@ -23,7 +23,7 @@ import {
   ColorGrayBorder,
 } from '@/utils/_Palette';
 
-import { formatDated, imgPath, intComma } from '@/utils/format';
+import { formatDated, getImagePath, imgPath, intComma } from '@/utils/format';
 
 import CancelModal from '../../common/Modal/CancelModal';
 import OrderStateSelectBox from './OrderStateSelectBox';
@@ -149,25 +149,12 @@ function OrderGroupGoodsCard({ header, item }: Props) {
               }}
               src={
                 item.orderThumbnailImagePath !== null
-                  ? `${imgPath()}${item.orderThumbnailImagePath}`
+                  ? getImagePath(item.orderThumbnailImagePath)
                   : '/images/no_img.png'
               }
               onError={addDefaultImg}
               alt="이미지 업로드"
             />
-            {/* <Image
-              height={80}
-              width={80}
-              src={
-                item.orderThumbnailImagePath !== null
-                  ? `${imgPath()}${item.orderThumbnailImagePath}`
-                  : '/images/no_img.png'
-              }
-              // src={'/images/Page/ex_image_1.jpg'}
-              alt="상품이미지"
-              objectFit={'cover'}
-              // fill
-            /> */}
           </Box>
           {/* 상품정보 */}
           <Flex flexDirection={'column'}>

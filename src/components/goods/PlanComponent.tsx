@@ -33,7 +33,7 @@ import {
   ColorRedOpa,
   ColorWhite,
 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { GoodsSchedulesListProps } from '@/app/apis/goods/GoodsApi.type';
@@ -612,9 +612,9 @@ function PlanComponent({ list, setList }: Props) {
                                     <img
                                       // src={imagePath[index]?.imagePath}
                                       // src={imagePath[]}
-                                      src={`${imgPath()}${
-                                        item.images[0].thumbnailImagePath
-                                      }`}
+                                      src={getImagePath(
+                                        item.images[0].thumbnailImagePath,
+                                      )}
                                       alt="이미지 업로드"
                                     />
                                   </Flex>

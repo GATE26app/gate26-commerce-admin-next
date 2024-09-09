@@ -39,7 +39,7 @@ import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useQuery } from 'react-query';
 import reviewApi from '@/app/apis/review/ReviewApi';
-import { formatDateDash, imgPath } from '@/utils/format';
+import { formatDateDash, getImagePath, imgPath } from '@/utils/format';
 import {
   useDeleteReviewCommentMutation,
   useDeleteReviewMutation,
@@ -311,7 +311,7 @@ function ReviewModal({
                       <Box borderRadius={'12px'} overflow={'hidden'}>
                         <Image
                           width={'100%'}
-                          src={imgPath() + item.imagePath}
+                          src={getImagePath(item.imagePath)}
                         />
                       </Box>
                     </SwiperSlide>

@@ -3,7 +3,13 @@ import Image from 'next/image';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { ColorBlack, ColorGray100, ColorGray700 } from '@/utils/_Palette';
-import { formatDate, formatDateDash, imgPath, intComma } from '@/utils/format';
+import {
+  formatDate,
+  formatDateDash,
+  getImagePath,
+  imgPath,
+  intComma,
+} from '@/utils/format';
 import { SyntheticEvent } from 'react';
 
 interface Props {
@@ -56,20 +62,6 @@ function ModalOrderInfo({ info }: Props) {
           overflow={'hidden'}
           ml={'10px'}
         >
-          {/* <Image
-            height={80}
-            width={80}
-            src={
-              info?.orderThumbnailImagePath !== null &&
-              info?.orderThumbnailImagePath !== undefined
-                ? `${imgPath()}${info?.orderThumbnailImagePath}`
-                : '/images/no_img.png'
-            }
-            // src={'/images/Page/ex_image_1.jpg'}
-            alt="상품이미지"
-            objectFit={'cover'}
-            // fill
-          /> */}
           <img
             style={{
               width: '80px',
@@ -79,7 +71,7 @@ function ModalOrderInfo({ info }: Props) {
             src={
               info?.orderThumbnailImagePath !== null &&
               info?.orderThumbnailImagePath !== undefined
-                ? `${imgPath()}${info?.orderThumbnailImagePath}`
+                ? getImagePath(info?.orderThumbnailImagePath)
                 : '/images/no_img.png'
             }
             onError={addDefaultImg}
