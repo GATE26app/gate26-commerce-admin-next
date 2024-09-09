@@ -120,6 +120,7 @@ function OrderGoods({ info }: Props) {
           {orderGoodheader.map((item: DataTableHeaderProps, index: number) => {
             return (
               <Flex
+                key={index}
                 w={item.width}
                 alignItems={'center'}
                 justifyContent={'center'}

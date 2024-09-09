@@ -20,7 +20,7 @@ import {
   ColorGrayBorder,
 } from '@/utils/_Palette';
 
-import { formatDated, imgPath, intComma } from '@/utils/format';
+import { formatDated, getImagePath, imgPath, intComma } from '@/utils/format';
 
 import CancelModal from '../../common/Modal/CancelModal';
 import OrderStateSelectBox from './OrderStateSelectBox';
@@ -415,7 +415,7 @@ function OrderGoodsCard({ header, item }: Props) {
               }}
               src={
                 item.orderThumbnailImagePath !== null
-                  ? `${imgPath()}${item.orderThumbnailImagePath}`
+                  ? `${getImagePath(item.orderThumbnailImagePath)}`
                   : '/images/no_img.png'
               }
               onError={addDefaultImg}
