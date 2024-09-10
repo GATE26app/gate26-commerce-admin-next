@@ -261,6 +261,8 @@ export function getImagePath(imagePath) {
   // 절대 경로인지 확인
   if (/^https?:\/\//i.test(imagePath)) {
     return imagePath;
+  } else if (imagePath.startsWith('/meeting')) {
+    return `${imgUserPath()}${imagePath}`;
   }
   return `${imgPath()}${imagePath}`;
 }
