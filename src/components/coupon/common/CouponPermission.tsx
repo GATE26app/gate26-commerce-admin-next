@@ -16,7 +16,7 @@ import {
   PartnerType,
   PartnersParamsType,
 } from '@/app/apis/goods/GoodsApi.type';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 
 interface Props {
   CouponData: CouponDataType;
@@ -98,7 +98,7 @@ function CouponPermission({ CouponData, setCouponData }: Props) {
                         <Image
                           src={
                             item?.images.length > 0
-                              ? imgPath() + item?.images[0].thumbnailImagePath
+                              ? getImagePath(item?.images[0].thumbnailImagePath)
                               : '/images/header/icon_header_user.png'
                           }
                           width={'24px'}

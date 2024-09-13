@@ -29,7 +29,7 @@ import React, { useEffect, useState } from 'react';
 import RadioComponent from '@/components/common/CustomRadioButton/RadioComponent';
 import useIntersectionObserver from '@/app/apis/useIntersectionObserver';
 import { useGetPartnerLitQuery } from '@/app/apis/coupon/CouponApi.query';
-import { imgPath, imgUserPath } from '@/utils/format';
+import { getImagePath, imgPath, imgUserPath } from '@/utils/format';
 
 interface Props {
   CouponData: CouponDataResType;
@@ -225,7 +225,9 @@ function CouponPermissionPartner({
                             src={
                               item?.images.length > 0 &&
                               item?.images[0].thumbnailImagePath
-                                ? imgPath() + item?.images[0].thumbnailImagePath
+                                ? getImagePath(
+                                    item?.images[0].thumbnailImagePath,
+                                  )
                                 : '/images/header/icon_header_user.png'
                             }
                             width={'24px'}
@@ -267,7 +269,7 @@ function CouponPermissionPartner({
                 <Image
                   src={
                     clickData?.images.length > 0
-                      ? imgPath() + clickData?.images[0]?.thumbnailImagePath
+                      ? getImagePath(clickData?.images[0]?.thumbnailImagePath)
                       : '/images/header/icon_header_user.png'
                   }
                   width={'24px'}

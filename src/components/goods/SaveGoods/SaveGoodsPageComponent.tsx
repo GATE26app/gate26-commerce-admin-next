@@ -65,6 +65,7 @@ function SaveGoodsPageComponent() {
   const searchParams = useSearchParams();
   const getType = searchParams.get('type');
   const getItemcode = searchParams.get('itemcode');
+  const [EditorContent, setEditorContent] = useState('');
   const [BasicInfo, setBasicInfo] = useState<GoodsBasicProps>({
     itemId: '', //상품id
     title: '', //상품 명
@@ -167,6 +168,7 @@ function SaveGoodsPageComponent() {
           setLocationGetList(data.locations);
           // setGoodsItemList(data);
           setAttributeList(data.attributes);
+          setEditorContent(data.content);
           setBasicInfo({
             itemId: data.itemId,
             title: data.title, //상품 명
@@ -318,7 +320,7 @@ function SaveGoodsPageComponent() {
         basicInfo: BasicInfo.basicInfo,
         detailInfo: BasicInfo.detailInfo,
         reservationInfo: BasicInfo.reservationInfo,
-        content: BasicInfo.content,
+        content: EditorContent,
         orderSameDay: BasicInfo.orderSameDay,
         orderCloseBefore: BasicInfo.orderCloseBefore,
         type: BasicInfo.type,
@@ -589,7 +591,10 @@ function SaveGoodsPageComponent() {
               <CancelComponent list={policyList} setList={setPolicyList} />
             </>
           )}
-          <EditorDetailComponent list={BasicInfo} setList={setBasicInfo} />
+          <EditorDetailComponent
+            list={EditorContent}
+            setList={setEditorContent}
+          />
           <OptionComponent
             list={BasicInfo}
             setList={setBasicInfo}
