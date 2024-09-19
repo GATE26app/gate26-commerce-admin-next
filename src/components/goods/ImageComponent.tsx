@@ -15,7 +15,7 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { usePostImageMutation } from '@/app/apis/goods/GoodsApi.mutation';
@@ -96,14 +96,11 @@ function ImageComponent({ list, setList }: Props) {
   //pdf
   const handleUploadPdf = (e: any) => {
     //이미지 미리보기 기능
-    console.log('pdf');
     const reader = new FileReader();
 
-    console.log('e.target.files[0]', e.target.files[0]);
     reader.readAsDataURL(e.target.files[0]);
     reader.readAsDataURL(e.target.files);
     reader.onload = () => {
-      console.log('reader.result as string', reader.result as string);
       setImagePath(reader.result as string);
       // const formData = new FormData();
       // formData.append('image', e.target.files[0]);
@@ -305,9 +302,10 @@ function ImageComponent({ list, setList }: Props) {
                           overflow={'hidden'}
                         >
                           <img
-                            src={`${imgPath()}${
-                              list.filter((item) => item.sort == 1)[0].imagePath
-                            }`}
+                            src={getImagePath(
+                              list.filter((item) => item.sort == 1)[0]
+                                .imagePath,
+                            )}
                             style={{
                               width: '100%',
                               height: '100%',
@@ -460,19 +458,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 2)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -572,19 +566,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 3)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -684,19 +674,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 4)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -801,14 +787,10 @@ function ImageComponent({ list, setList }: Props) {
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 5)[0]
-                                    .imagePath
-                                }`}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
+                                    .imagePath,
+                                )}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -908,19 +890,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 6)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -1020,19 +998,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 7)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -1132,19 +1106,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 8)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -1244,19 +1214,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 9)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -1356,19 +1322,15 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 10)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                // src={imagePath[]}
-                                // src={`${imgPath()}${
-                                //   data[imageIndex].images[0].thumbnailImagePath
-                                // }`}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -1468,10 +1430,10 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={`${imgPath()}${
+                                src={getImagePath(
                                   list.filter((item) => item.sort == 11)[0]
-                                    .imagePath
-                                }`}
+                                    .imagePath,
+                                )}
                                 style={{
                                   width: '100%',
                                   height: '100%',

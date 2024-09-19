@@ -181,70 +181,169 @@ function FilterBox({ request, setRequest }: Props) {
         </Flex>
       </Flex>
 
-      <Box w={'50%'} mt={'30px'}>
-        <Text fontSize={'16px'} fontWeight={700} color={ColorBlack} mb={'10px'}>
-          상품노출
-        </Text>
-        <Flex mb={'30px'} gap={'10px'} flexWrap={'wrap'}>
-          <Box
-            bgColor={request.level == 0 ? ColorRed : ColorWhite}
-            borderRadius={'10px'}
-            borderWidth={1}
-            borderColor={request.level == 0 ? ColorRed : ColorInputBorder}
-            py={'11px'}
-            px={'14px'}
-            cursor={'pointer'}
-            onClick={() => setRequest({ ...request, level: 0 })}
+      <Flex mt={'30px'} flexDirection={'row'} flexWrap={'wrap'}>
+        <Box w={'50%'}>
+          <Text
+            fontSize={'16px'}
+            fontWeight={700}
+            color={ColorBlack}
+            mb={'10px'}
           >
-            <Text
-              fontSize={'15px'}
-              fontWeight={400}
-              color={request.level == 0 ? ColorWhite : ColorGray700}
-              lineHeight={'15px'}
+            상품노출
+          </Text>
+          <Flex mb={'30px'} gap={'10px'} flexWrap={'wrap'}>
+            <Box
+              bgColor={request.level == 0 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.level == 0 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, level: 0 })}
             >
-              전체
-            </Text>
-          </Box>
-          <Box
-            bgColor={request.level == 1 ? ColorRed : ColorWhite}
-            borderRadius={'10px'}
-            borderWidth={1}
-            borderColor={request.level == 1 ? ColorRed : ColorInputBorder}
-            py={'11px'}
-            px={'14px'}
-            cursor={'pointer'}
-            onClick={() => setRequest({ ...request, level: 1 })}
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                color={request.level == 0 ? ColorWhite : ColorGray700}
+                lineHeight={'15px'}
+              >
+                전체
+              </Text>
+            </Box>
+            <Box
+              bgColor={request.level == 1 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.level == 1 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, level: 1 })}
+            >
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                color={request.level == 1 ? ColorWhite : ColorGray700}
+                lineHeight={'15px'}
+              >
+                노출
+              </Text>
+            </Box>
+            <Box
+              bgColor={request.level == 2 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.level == 2 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, level: 2 })}
+            >
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                color={request.level == 2 ? ColorWhite : ColorGray700}
+                lineHeight={'15px'}
+              >
+                노출안함
+              </Text>
+            </Box>
+          </Flex>
+        </Box>
+        <Flex flexDirection={'column'} flexWrap={'wrap'} w={'50%'}>
+          <Text
+            fontSize={'16px'}
+            fontWeight={700}
+            color={ColorBlack}
+            mb={'10px'}
           >
-            <Text
-              fontSize={'15px'}
-              fontWeight={400}
-              color={request.level == 1 ? ColorWhite : ColorGray700}
-              lineHeight={'15px'}
+            상품유형
+          </Text>
+          <Flex>
+            <Box
+              bgColor={request.type == 0 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.type == 0 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              mr={'10px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, type: 0 })}
             >
-              노출
-            </Text>
-          </Box>
-          <Box
-            bgColor={request.level == 2 ? ColorRed : ColorWhite}
-            borderRadius={'10px'}
-            borderWidth={1}
-            borderColor={request.level == 2 ? ColorRed : ColorInputBorder}
-            py={'11px'}
-            px={'14px'}
-            cursor={'pointer'}
-            onClick={() => setRequest({ ...request, level: 2 })}
-          >
-            <Text
-              fontSize={'15px'}
-              fontWeight={400}
-              color={request.level == 2 ? ColorWhite : ColorGray700}
-              lineHeight={'15px'}
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                color={request.type == 0 ? ColorWhite : ColorGray700}
+                lineHeight={'15px'}
+              >
+                전체
+              </Text>
+            </Box>
+            <Box
+              bgColor={request.type == 1 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.type == 1 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              mr={'10px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, type: 1 })}
             >
-              노출안함
-            </Text>
-          </Box>
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                lineHeight={'15px'}
+                color={request.type == 1 ? ColorWhite : ColorGray700}
+              >
+                일반형
+              </Text>
+            </Box>
+            <Box
+              bgColor={request.type == 2 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.type == 2 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              mr={'10px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, type: 2 })}
+            >
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                color={request.type == 2 ? ColorWhite : ColorGray700}
+                lineHeight={'15px'}
+              >
+                바우처형
+              </Text>
+            </Box>
+            <Box
+              bgColor={request.type == 3 ? ColorRed : ColorWhite}
+              borderRadius={'10px'}
+              borderWidth={1}
+              borderColor={request.type == 3 ? ColorRed : ColorInputBorder}
+              py={'11px'}
+              px={'14px'}
+              mr={'10px'}
+              cursor={'pointer'}
+              onClick={() => setRequest({ ...request, type: 3 })}
+            >
+              <Text
+                fontSize={'15px'}
+                fontWeight={400}
+                lineHeight={'15px'}
+                color={request.type == 3 ? ColorWhite : ColorGray700}
+              >
+                예약형
+              </Text>
+            </Box>
+          </Flex>
         </Flex>
-      </Box>
+      </Flex>
       <Box w={'50%'} mr={'15px'}>
         <Text fontSize={'16px'} fontWeight={700} color={ColorBlack} mb={'10px'}>
           통합검색

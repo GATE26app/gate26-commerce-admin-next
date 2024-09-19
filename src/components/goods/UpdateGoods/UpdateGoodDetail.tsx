@@ -57,6 +57,7 @@ import goodsApi from '@/app/apis/goods/GoodsApi';
 import AlertModal from '@/components/common/Modal/AlertModal';
 import GoodsModify from '../GoodsModify';
 import { usePartnerZuInfo } from '@/_store/PatnerInfo';
+import PreviewDrawerComponent from '../Preview/PreviewDrawerComponent';
 
 interface CategoryListProps {
   categoryId: number;
@@ -71,6 +72,7 @@ function UpdateGoodDetail() {
   const { setPartnerZuInfo } = usePartnerZuInfo((state) => state);
   const [isLoadingModal, setLoadingModal] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [isPreviewModal, setIsPreviewModal] = useState(false);
   const [ModalState, setModalState] = useState({
     title: '',
     message: '',
@@ -94,11 +96,16 @@ function UpdateGoodDetail() {
   const [optionList, setOptionList] = useState<OptionItemProps[]>([]);
   const [CateGetList, setCateGetList] = useState<CategoryResProps[]>([]);
   const [categoryList, setCategoryList] = useState<CategoryListProps[]>([]); //수정시 전달한 리스트
+  const [CatePreList, setCatePreList] = useState<CategoryResProps[]>([]);
   const [locationGetList, setLocationGetList] = useState<LocationResProps[]>(
     [],
   );
+
   const [goodsItemList, setGoodsItemList] = useState<GoodsItemProps[]>([]);
   const [locationList, setLocationList] = useState<LocationListProps[]>([]); //수정시 전달한 리스트
+  const [locationPreList, setLocationPreList] = useState<LocationResProps[]>(
+    [],
+  );
   const [statusList, setStatusList] = useState<StatusProps>({
     forSale: 0,
     level: 0,
@@ -113,6 +120,7 @@ function UpdateGoodDetail() {
   const [optionInputList, setOptionInputList] = useState<optionInputsProps[]>(
     [],
   );
+  const [EditorContent, setEditorContent] = useState('');
   const [BasicInfo, setBasicInfo] = useState<GoodsBasicProps>({
     itemId: '',
     itemCode: '',
@@ -215,58 +223,61 @@ function UpdateGoodDetail() {
 
   useEffect(() => {
     if (detailData?.success == true) {
-      setPartnerZuInfo(detailData.data.partner);
+      setPartnerZuInfo(detailData?.data.partner);
       setLogDisable(false);
-      setOptionList(detailData.data.options);
+      setOptionList(detailData?.data.options);
       setStatusList({
-        forSale: detailData.data.forSale,
-        level: detailData.data.level,
-        viewStartDate: detailData.data.viewStartDate,
-        viewEndDate: detailData.data.viewEndDate,
+        forSale: detailData?.data.forSale,
+        level: detailData?.data.level,
+        viewStartDate: detailData?.data.viewStartDate,
+        viewEndDate: detailData?.data.viewEndDate,
       });
-      setCateGetList(detailData.data.categories);
-      setLocationGetList(detailData.data.locations);
-      setGoodsItemList(detailData.data);
-      setAttributeList(detailData.data.attributes);
+      setCateGetList(detailData?.data.categories);
+      setCatePreList(detailData?.data.categories);
+      setLocationGetList(detailData?.data.locations);
+      setLocationPreList(detailData?.data.locations);
+      setGoodsItemList(detailData?.data);
+      setAttributeList(detailData?.data.attributes);
+      setEditorContent(detailData?.data.content);
       setBasicInfo({
-        itemId: detailData.data.itemId,
+        itemId: detailData?.data.itemId,
         itemCode: detailData?.data?.itemCode,
-        title: detailData.data.title, //상품 명
-        basicInfo: detailData.data.basicInfo, //상품 기본정보
-        detailInfo: detailData.data.detailInfo, //상품 상세설명
-        content: detailData.data.content, //상품 상세설명(에디터)
-        reservationInfo: detailData.data.reservationInfo, //상품 예약전 확인사항
-        sort: detailData.data.sort, //상품 정렬
-        type: detailData.data.type, //상품 유형 (미사용)
-        orderSameDay: detailData.data.orderSameDay, //상품 이용일시 당일판매, 0=>가능, 1=>불가능
-        orderCloseBefore: detailData.data.orderCloseBefore, //상품 판매마감처리, 0=>해당없음, N시간전 판매마감
-        level: detailData.data.level, //상품 레벨, 1=>노출, 2=>미노출, 10=>삭제
-        viewStartDate: detailData.data.viewStartDate, //노출 시작일시
-        viewEndDate: detailData.data.viewEndDate, //노출 종료일시
-        status: detailData.data.status, //상품 상태, 0=>임시저장, 2=>저장(승인요청, 승인대기)
-        forSale: detailData.data.forSale, //판매 상태, 1=>판매중, 2=>판매안함, 10=>품절
-        priceNet: detailData.data.priceNet, //상품 판매금액, 기본할인전
-        priceDcPer: detailData.data.priceDcPer, //상품 기본할인율
-        priceDc: detailData.data.priceDc, //상품 기본할인금액
-        price: detailData.data.price, //상품 판매금액, 기본할인후
-        optionType: detailData.data.optionType, //상품 옵션유형, 1=>일반형, 2=>날짜지정형
-        optionInputType: detailData.data.optionInputType, //상품 옵션입력 유형, 0=>단독형, 1=>조합형
-        optionInputStartDate: detailData.data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
-        optionInputEndDate: detailData.data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
-        autoConfirm: detailData.data.autoConfirm,
-        deniedReason: detailData.data.deniedReason,
-        partnerTitle: detailData.data.partnerTitle, //파트너사명
-        requestDate: detailData.data.requestDate, //상품승인요청일
-        approvalDate: detailData.data.approvalDate, //상품승인일
-        deniedDate: detailData.data.deniedDate, //상품반려일
-        approvalId: detailData.data.approvalId, //승인처리자
-        deniedId: detailData.data.deniedId, //승인거절처리자
+        title: detailData?.data.title, //상품 명
+        basicInfo: detailData?.data.basicInfo, //상품 기본정보
+        detailInfo: detailData?.data.detailInfo, //상품 상세설명
+        content: detailData?.data.content, //상품 상세설명(에디터)
+        reservationInfo: detailData?.data.reservationInfo, //상품 예약전 확인사항
+        sort: detailData?.data.sort, //상품 정렬
+        type: detailData?.data.type, //상품 유형 (미사용)
+        orderSameDay: detailData?.data.orderSameDay, //상품 이용일시 당일판매, 0=>가능, 1=>불가능
+        orderCloseBefore: detailData?.data.orderCloseBefore, //상품 판매마감처리, 0=>해당없음, N시간전 판매마감
+        level: detailData?.data.level, //상품 레벨, 1=>노출, 2=>미노출, 10=>삭제
+        viewStartDate: detailData?.data.viewStartDate, //노출 시작일시
+        viewEndDate: detailData?.data.viewEndDate, //노출 종료일시
+        status: detailData?.data.status, //상품 상태, 0=>임시저장, 2=>저장(승인요청, 승인대기)
+        forSale: detailData?.data.forSale, //판매 상태, 1=>판매중, 2=>판매안함, 10=>품절
+        priceNet: detailData?.data.priceNet, //상품 판매금액, 기본할인전
+        priceDcPer: detailData?.data.priceDcPer, //상품 기본할인율
+        priceDc: detailData?.data.priceDc, //상품 기본할인금액
+        price: detailData?.data.price, //상품 판매금액, 기본할인후
+        optionType: detailData?.data.optionType, //상품 옵션유형, 1=>일반형, 2=>날짜지정형
+        optionInputType: detailData?.data.optionInputType, //상품 옵션입력 유형, 0=>단독형, 1=>조합형
+        optionInputStartDate: detailData?.data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
+        optionInputEndDate: detailData?.data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
+        autoConfirm: detailData?.data.autoConfirm,
+        deniedReason: detailData?.data.deniedReason,
+        partnerTitle: detailData?.data.partnerTitle, //파트너사명
+        requestDate: detailData?.data.requestDate, //상품승인요청일
+        approvalDate: detailData?.data.approvalDate, //상품승인일
+        deniedDate: detailData?.data.deniedDate, //상품반려일
+        approvalId: detailData?.data.approvalId, //승인처리자
+        deniedId: detailData?.data.deniedId, //승인거절처리자
       });
-      setPlanList(detailData.data.schedules);
-      setPolicyList(detailData.data.policies);
-      setOptionInputList(detailData.data.optionInputs);
-      setImageList(detailData.data.images);
-      setPartnerInfo(detailData.data.partner);
+      setPlanList(detailData?.data.schedules);
+      setPolicyList(detailData?.data.policies);
+      setOptionInputList(detailData?.data.optionInputs);
+      setImageList(detailData?.data.images);
+      setPartnerInfo(detailData?.data.partner);
     }
   }, [detailData]);
 
@@ -280,6 +291,7 @@ function UpdateGoodDetail() {
       });
     }
   }, [BasicInfo]);
+
   //상품 수정[버전변경]
   const { mutate: PatchUpdateGoodsMutate, isLoading } =
     usePatchUpdateGoodsStatusMutation({
@@ -364,7 +376,6 @@ function UpdateGoodDetail() {
 
     // }
     if (selectLog.itemId !== '') {
-      console.log('selectLog', selectLog);
       LogItemMutate(selectLog);
     }
   }, [selectLog.itemId]);
@@ -372,7 +383,6 @@ function UpdateGoodDetail() {
   const { mutate: LogItemMutate } = useLogItemutation({
     options: {
       onSuccess: (res) => {
-        console.log('res data', res.data);
         if (res.success == true) {
           // setLogDisable(true);
           setGoodsInfo({
@@ -386,9 +396,12 @@ function UpdateGoodDetail() {
             viewEndDate: res.data.viewEndDate,
           });
           setCateGetList(res.data.categories);
+          setCatePreList(res.data.categories);
           setLocationGetList(res.data.locations);
+          setLocationPreList(res.data.locations);
           setGoodsItemList(res.data);
           setAttributeList(res.data.attributes);
+          setEditorContent(res.data.content);
           setBasicInfo({
             itemId: res.data.itemId,
             itemCode: res.data.itemCode,
@@ -489,7 +502,7 @@ function UpdateGoodDetail() {
             basicInfo: BasicInfo.basicInfo,
             detailInfo: BasicInfo.detailInfo,
             reservationInfo: BasicInfo.reservationInfo,
-            content: BasicInfo.content,
+            content: EditorContent,
             orderSameDay: BasicInfo.orderSameDay,
             orderCloseBefore: BasicInfo.orderCloseBefore,
             type: BasicInfo.type,
@@ -544,8 +557,43 @@ function UpdateGoodDetail() {
   useEffect(() => {
     setLoadingModal(isLoading);
   }, [isLoading]);
+  const previewData = {
+    type: getType,
+    title: BasicInfo.title,
+    basicInfo: BasicInfo.basicInfo,
+    detailInfo: BasicInfo.detailInfo,
+    reservationInfo: BasicInfo.reservationInfo,
+    content: EditorContent,
+    orderSameDay: BasicInfo.orderSameDay,
+    level: BasicInfo.level,
+    forSale: BasicInfo.forSale,
+    priceNet: BasicInfo.priceNet,
+    priceDcPer: BasicInfo.priceDcPer,
+    priceDc: BasicInfo.priceDc,
+    price: BasicInfo.price,
+    optionType: BasicInfo.optionType,
+    viewStartDate: BasicInfo.viewStartDate,
+    viewEndDate: BasicInfo.viewEndDate,
+    attributes: attributeList,
+    categories: CatePreList,
+    locations: locationPreList,
+    optionInputType: BasicInfo.optionInputType,
+    optionInputStartDate: BasicInfo.optionInputStartDate,
+    optionInputEndDate: BasicInfo.optionInputEndDate,
+    images: imageList,
+    schedules: planList,
+    policies: policyList,
+    optionInputs: optionInputList,
+    options: optionList,
+    autoConfirm: BasicInfo.autoConfirm,
+  };
   return (
     <>
+      <PreviewDrawerComponent
+        data={previewData}
+        isOpen={isPreviewModal}
+        onClose={() => setIsPreviewModal(false)}
+      />
       <LoadingModal
         children={isLoadingModal}
         isOpen={isLoadingModal}
@@ -605,6 +653,18 @@ function UpdateGoodDetail() {
                 </Text>
               </Flex>
               <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+                <CustomButton
+                  text="미리보기"
+                  borderColor={ColorGray400}
+                  color={ColorGray700}
+                  px="44px"
+                  py="13px"
+                  bgColor={ColorWhite}
+                  fontSize="15px"
+                  onClick={() => {
+                    setIsPreviewModal(true);
+                  }}
+                />
                 {selectMenu == 1 && (
                   <CustomButton
                     text="취소"
@@ -736,7 +796,7 @@ function UpdateGoodDetail() {
           >
             <GoodsPartner
               itemCode={String(getItemCode)}
-              itemId={String(BasicInfo.itemId)}
+              itemId={String(BasicInfo?.itemId)}
               BasicInfo={BasicInfo}
               partnerInfo={partnerInfo}
               setSelectLog={setSelectLog}
@@ -746,12 +806,16 @@ function UpdateGoodDetail() {
             {selectMenu == 1 && (
               <GoodsModify
                 // watch={watch}
+                CatePreList={CatePreList}
+                setCatePreList={setCatePreList}
                 CateGetList={CateGetList}
                 setCateGetList={setCateGetList}
                 categoryList={categoryList}
                 setCategoryList={setCategoryList}
                 locationList={locationList}
                 setLocationList={setLocationList}
+                locationPreList={locationPreList}
+                setLocationPreList={setLocationPreList}
                 BasicInfo={BasicInfo}
                 setBasicInfo={setBasicInfo}
                 imageList={imageList}
@@ -768,6 +832,8 @@ function UpdateGoodDetail() {
                 setOptionList={setOptionList}
                 optionInputList={optionInputList}
                 setOptionInputList={setOptionInputList}
+                EditorContent={EditorContent}
+                setEditorContent={setEditorContent}
                 // goodsItemList={goodsItemList}
                 // setGoodsItemList={setGoodsItemList}
               />

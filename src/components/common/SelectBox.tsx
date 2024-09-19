@@ -24,7 +24,6 @@ function SelectBox({
 }: Props) {
   const [open, setOpen] = useState(false);
 
-  console.log('list', list);
   return (
     <Flex
       borderRadius={'10px'}

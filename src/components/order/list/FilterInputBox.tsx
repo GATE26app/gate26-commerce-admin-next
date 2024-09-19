@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { OrderListParamsType } from '@/apis/order/OrderApi.type';
+import { OrderListParamsType } from '@/app/apis/order/OrderApi.type';
 
 import DatePicker from '@/components/common/DatePicker';
 import SearchInput from '@/components/common/SearchInput';
@@ -101,6 +101,8 @@ function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
             ? 'itemCode'
             : searchSelect == '카테고리명'
             ? 'category'
+            : searchSelect == '이륙살롱명칭'
+            ? 'mettingTitle'
             : searchSelect == '주문번호'
             ? 'merchantId'
             : searchSelect == '상품주문번호'
@@ -191,7 +193,6 @@ function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
         <SearchInput
           text={String(request.searchKeyword)}
           onChange={(e) => {
-            console.log('e', e.target.value);
             setRequest({ ...request, searchKeyword: e.target.value });
           }}
           placeholder="검색어를 입력해주세요."

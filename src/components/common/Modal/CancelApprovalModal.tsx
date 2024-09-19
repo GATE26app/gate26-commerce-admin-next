@@ -101,14 +101,12 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               // setCancelFee();
             }
 
-            console.log('res', res);
             // setIsLoading(false);
           } else {
           }
         },
       },
     });
-  console.log('openDay', openDay);
   useEffect(() => {
     if (cancelFaultType !== 0) {
       if (openDay.format('YYYY-MM-DD HH:mm:ss') !== 'Invalid Date') {

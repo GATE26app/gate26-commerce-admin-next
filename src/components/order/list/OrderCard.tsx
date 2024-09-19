@@ -20,6 +20,7 @@ import {
   formatPhone,
   imgPath,
   intComma,
+  getImagePath,
 } from '@/utils/format';
 
 interface headerProps {
@@ -117,9 +118,8 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
               objectFit: 'cover',
             }}
             src={
-              item.orderThumbnailImagePath !== null ||
-              item.orderThumbnailImagePath !== ''
-                ? `${imgPath()}${item.orderThumbnailImagePath}`
+              item.orderThumbnailImagePath !== null
+                ? `${getImagePath(item.orderThumbnailImagePath)}`
                 : '/images/no_img.png'
             }
             onError={addDefaultImg}
@@ -221,13 +221,25 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
       >
         <Flex flexDirection={'column'} alignItems={'center'}>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderEmail == null ? '-' : item.orderEmail}
+            {item.orderEmail == null
+              ? item.buyerEmail === null
+                ? '-'
+                : item.buyerEmail
+              : item.orderEmail}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderName == null ? '-' : item.orderName}
+            {item.orderName == null
+              ? item.buyerName === null
+                ? '-'
+                : item.buyerName
+              : item.orderName}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderHp == null ? '-' : formatPhone(item.orderHp)}
+            {item.orderHp == null
+              ? item.buyerHp === null
+                ? '-'
+                : item.buyerHp
+              : formatPhone(item.orderHp)}
           </Text>
         </Flex>
       </Flex>
@@ -239,7 +251,9 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
       >
         <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
           {formatDated(dayjs(item.orderDateTimeOfUse)) == 'Invalid Date'
-            ? '-'
+            ? formatDated(dayjs(item.orderDate)) == 'Invalid Date'
+              ? '-'
+              : formatDated(dayjs(item.orderDate))
             : formatDated(dayjs(item.orderDateTimeOfUse))}
         </Text>
       </Flex>

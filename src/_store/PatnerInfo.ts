@@ -2,6 +2,11 @@ import { create } from 'zustand';
 
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
+export type PartnerImageType = {
+  imagePath: string;
+  thumbnailImagePath: string;
+  createdDate: string;
+};
 interface partnerInfoType {
   level: number;
   levelName: string;
@@ -16,6 +21,9 @@ interface partnerInfoType {
   title: string;
   type: number;
   typeName: string;
+  images: Array<PartnerImageType>;
+  // imagePath: string;
+  // thumbnailImagePath: string;
 }
 
 interface PartnerInfoState {
@@ -38,6 +46,9 @@ const defaultState = {
   shippingMinAmount: 0,
   shippingType: 0,
   shippingTypeName: '',
+  images: [],
+  // imagePath: '',
+  // thumbnailImagePath: '',
 };
 
 export const usePartnerZuInfo = create(

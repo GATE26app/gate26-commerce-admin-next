@@ -47,6 +47,9 @@ export type OrderListItemType = {
   itemCode: string;
   itemId: string;
   orderAmount: number;
+  buyerEmail?: string;
+  buyerHp?: string;
+  buyerName?: string;
   discountAmount: number;
   paymentAmount: number;
   paymentTaxType: number;

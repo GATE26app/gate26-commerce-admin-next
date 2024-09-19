@@ -25,7 +25,7 @@ import {
   PartnersParamsType,
 } from '@/app/apis/goods/GoodsApi.type';
 import Image from 'next/image';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 import { usePartnerZuInfo } from '@/_store/PatnerInfo';
 interface Props {
   list: GoodsBasicProps;
@@ -40,12 +40,10 @@ function PartnerComponent({ list, setList }: Props) {
   // const [partnerList, setPartnerList] = useState<Array<PartnerType>>([]);
   const [partnerList, setPartnerList] = useState<Array<PartnersParamsType>>([]);
   const [clickPartner, setClickPartner] = useState<PartnerType>();
-
   const { mutate: GoodsPartnersList, isLoading } =
     useGetGoodsPartnersListMutation({
       options: {
         onSuccess: (res) => {
-          console.log('res', res.data.partners);
           setPartnerList(res.data.partners);
 
           setList({
@@ -80,6 +78,7 @@ function PartnerComponent({ list, setList }: Props) {
       partnerId: '',
     });
   };
+
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex
@@ -189,8 +188,9 @@ function PartnerComponent({ list, setList }: Props) {
                             <Image
                               src={
                                 item?.images.length > 0
-                                  ? imgPath() +
-                                    item?.images[0].thumbnailImagePath
+                                  ? getImagePath(
+                                      item?.images[0].thumbnailImagePath,
+                                    )
                                   : '/images/header/icon_header_user.png'
                               }
                               width={24}
@@ -231,8 +231,9 @@ function PartnerComponent({ list, setList }: Props) {
                     <Image
                       src={
                         clickPartner?.images.length > 0
-                          ? imgPath() +
-                            clickPartner?.images[0]?.thumbnailImagePath
+                          ? getImagePath(
+                              clickPartner?.images[0]?.thumbnailImagePath,
+                            )
                           : '/images/header/icon_header_user.png'
                       }
                       width={24}

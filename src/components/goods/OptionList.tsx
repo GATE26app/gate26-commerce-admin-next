@@ -21,12 +21,18 @@ import {
   ColorInputBorder,
   ColorMainBackBule,
   ColorWhite,
+  ColorRedOpa,
+  ColorBackBlue
 } from '@/utils/_Palette';
 
 import { Option } from './OptionPlus';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import EditableInputBox from './CreateGoods/EditableInputBox';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko'
+
+dayjs.locale('ko')
 
 interface Props {
   list: GoodsBasicProps;
@@ -50,7 +56,6 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   const [indexCnt, setIndexCnt] = useState(0);
 
   const handleInputChange = (index: number, key: string, value: string) => {
-    console.log('value', value);
     if (key == 'useDateTime') {
       optionList[index].useDateTime = value;
     } else if (key == 'firstKey') {
@@ -211,6 +216,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
           )}
 
           {optionList[0].price !== null && (
+            <>
             <Flex
               w={'300px'}
               alignItems={'center'}
@@ -220,9 +226,22 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               py={'20px'}
             >
               <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-                가격
+                옵션가
               </Text>
             </Flex>
+            <Flex
+            w={'300px'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            borderRightColor={ColorGray400}
+            borderRightWidth={1}
+            py={'20px'}
+          >
+            <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+              판매가격 (기본가 + 옵션가)
+            </Text>
+          </Flex>
+          </>
           )}
           {optionList[0].stockCnt !== null && (
             <Flex
@@ -264,6 +283,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                 borderTopColor={ColorGray400}
                 borderTopWidth={1}
                 key={index}
+                backgroundColor={dayjs(item.useDateTime).get('d') === 0 ? ColorRedOpa : dayjs(item.useDateTime).get('d') === 6 ? ColorBackBlue : 'transparent'}
               >
                 {optionList[0].useDateTime !== '' &&
                   optionList[0].useDateTime !== null && (
@@ -277,7 +297,8 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                       <Editable
                         w={'100%'}
                         key={item.useDateTime.split(' ')[0]}
-                        value={item.useDateTime.split(' ')[0]}
+                        // value={item.useDateTime.split(' ')[0]}
+                        value={dayjs(item.useDateTime).format('YYYY-MM-DD (ddd)')}
                         textAlign={'center'}
                         fontSize={'15px'}
                         fontWeight={500}
@@ -450,6 +471,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                 )}
 
                 {item.price !== null && (
+                  <>
                   <Flex
                     w={'300px'}
                     alignItems={'center'}
@@ -494,6 +516,18 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                       />
                     </Editable>
                   </Flex>
+                  <Flex
+                    w={'300px'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    borderRightWidth={1}
+                    borderRightColor={ColorGray400}
+                  >
+                    <Text>
+                      {list.price + item.price}
+                    </Text>
+                  </Flex>
+                </>
                 )}
                 {item.stockCnt !== null && (
                   <Flex

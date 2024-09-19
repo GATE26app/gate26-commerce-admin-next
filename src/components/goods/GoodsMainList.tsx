@@ -26,6 +26,7 @@ function GoodsMainList() {
     searchType: GoodsSettingFilterInfo.searchType,
     searchKeyword: GoodsSettingFilterInfo.searchKeyword,
     partnerId: '',
+    type: GoodsSettingFilterInfo.type, //1=>일반, 2=>바우처, 0 =>예약형
     // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
   });
   const { mutate: refreshList, isLoading } = usePostListMutation({
@@ -61,6 +62,8 @@ function GoodsMainList() {
   useEffect(() => {
     refreshList(request);
   }, []);
+
+  console.log('goodsInfo.goodState', goodsInfo.goodState);
   useEffect(() => {
     if (goodsInfo.goodState) getGoodsMainList();
   }, [goodsInfo.goodState]);

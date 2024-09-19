@@ -7,11 +7,13 @@ import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
 import { usePutCreateItemMutation } from '@/app/apis/goods/GoodsApi.mutation';
 import {
+  CategoryResProps,
   GoodsAttributeListProps,
   GoodsBasicProps,
   GoodsListItemImageProps,
   GoodsPoliciesListProps,
   GoodsSchedulesListProps,
+  LocationResProps,
   OptionProps,
   optionInputsProps,
 } from '@/app/apis/goods/GoodsApi.type';
@@ -44,6 +46,7 @@ import PartnerComponent from '../PartnerComponent';
 import DeliveryComponent from '../DeliveryComponent';
 import ShippingComponent from '../ShippingComponent';
 import { usePartnerZuInfo } from '@/_store/PatnerInfo';
+import PreviewDrawerComponent from '../Preview/PreviewDrawerComponent';
 
 interface CategoryListProps {
   categoryId: number;
@@ -62,6 +65,7 @@ function CreateGoodsComponentPage() {
   const getType = searchParams.get('type');
   const [isLoadingModal, setLoadingModal] = useState(false);
   const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [isPreviewModal, setIsPreviewModal] = useState(false);
   const [disableBtn, setDiableBtn] = useState(false); //버튼 중복 막기
   const [ModalState, setModalState] = useState({
     title: '',
@@ -72,6 +76,7 @@ function CreateGoodsComponentPage() {
     cbCancel: () => {},
   });
   const toast = useToast();
+  const [EditorContent, setEditorContent] = useState('');
   const [BasicInfo, setBasicInfo] = useState<GoodsBasicProps>({
     itemId: '',
     partnerId: '',
@@ -105,6 +110,10 @@ function CreateGoodsComponentPage() {
   );
   const [categoryList, setCategoryList] = useState<CategoryListProps[]>([]);
   const [locationList, setLocationList] = useState<LocationListProps[]>([]);
+  const [CatePreList, setCatePreList] = useState<CategoryResProps[]>([]);
+  const [locationPreList, setLocationPreList] = useState<LocationResProps[]>(
+    [],
+  );
   const [optionList, setOptionList] = useState<OptionProps[]>([]);
   const [optionInputList, setOptionInputList] = useState<optionInputsProps[]>([
     {
@@ -212,7 +221,7 @@ function CreateGoodsComponentPage() {
       basicInfo: BasicInfo.basicInfo,
       detailInfo: BasicInfo.detailInfo,
       reservationInfo: BasicInfo.reservationInfo,
-      content: BasicInfo.content,
+      content: EditorContent,
       orderSameDay: BasicInfo.orderSameDay,
       orderCloseBefore: BasicInfo.orderCloseBefore,
       type: BasicInfo.type,
@@ -335,9 +344,43 @@ function CreateGoodsComponentPage() {
   //     window.removeEventListener('popstate', handleBack);
   //   };
   // }, []);
-
+  const previewData = {
+    type: getType,
+    title: BasicInfo.title,
+    basicInfo: BasicInfo.basicInfo,
+    detailInfo: BasicInfo.detailInfo,
+    reservationInfo: BasicInfo.reservationInfo,
+    content: EditorContent,
+    orderSameDay: BasicInfo.orderSameDay,
+    level: BasicInfo.level,
+    forSale: BasicInfo.forSale,
+    priceNet: BasicInfo.priceNet,
+    priceDcPer: BasicInfo.priceDcPer,
+    priceDc: BasicInfo.priceDc,
+    price: BasicInfo.price,
+    optionType: BasicInfo.optionType,
+    viewStartDate: BasicInfo.viewStartDate,
+    viewEndDate: BasicInfo.viewEndDate,
+    attributes: attributeList,
+    categories: CatePreList,
+    locations: locationPreList,
+    optionInputType: BasicInfo.optionInputType,
+    optionInputStartDate: BasicInfo.optionInputStartDate,
+    optionInputEndDate: BasicInfo.optionInputEndDate,
+    images: imageList,
+    schedules: planList,
+    policies: policyList,
+    optionInputs: optionInputList,
+    options: optionList,
+    autoConfirm: BasicInfo.autoConfirm,
+  };
   return (
     <>
+      <PreviewDrawerComponent
+        data={previewData}
+        isOpen={isPreviewModal}
+        onClose={() => setIsPreviewModal(false)}
+      />
       <ButtonModal
         isOpen={isOpenAlertModal}
         ModalState={ModalState}
@@ -383,6 +426,18 @@ function CreateGoodsComponentPage() {
             </Text>
           </Flex>
           <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+            <CustomButton
+              text="미리보기"
+              borderColor={ColorGray400}
+              color={ColorGray700}
+              px="44px"
+              py="13px"
+              bgColor={ColorWhite}
+              fontSize="15px"
+              onClick={() => {
+                setIsPreviewModal(true);
+              }}
+            />
             <CustomButton
               text="취소"
               borderColor={ColorGray400}
@@ -486,10 +541,20 @@ function CreateGoodsComponentPage() {
           borderBottomRadius={'16px'}
         >
           <PartnerComponent list={BasicInfo} setList={setBasicInfo} />
-          <CatagoryComponent list={categoryList} setList={setCategoryList} />
+          <CatagoryComponent
+            list={categoryList}
+            setList={setCategoryList}
+            CatePreList={CatePreList}
+            setCatePreList={setCatePreList}
+          />
           {(getType == '3' || getType == '2') && (
             <>
-              <CountryComponent list={locationList} setList={setLocationList} />
+              <CountryComponent
+                list={locationList}
+                setList={setLocationList}
+                locationPreList={locationPreList}
+                setLocationPreList={setLocationPreList}
+              />
             </>
           )}
           <GoodNameComponent list={BasicInfo} setList={setBasicInfo} />
@@ -511,7 +576,10 @@ function CreateGoodsComponentPage() {
               <CancelComponent list={policyList} setList={setPolicyList} />
             </>
           )}
-          <EditorDetailComponent list={BasicInfo} setList={setBasicInfo} />
+          <EditorDetailComponent
+            list={EditorContent}
+            setList={setEditorContent}
+          />
           <OptionComponent
             list={BasicInfo}
             setList={setBasicInfo}

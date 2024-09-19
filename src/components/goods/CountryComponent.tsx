@@ -37,8 +37,17 @@ interface Props {
   setList: React.Dispatch<React.SetStateAction<LocationListProps[]>>;
   getList?: Array<LocationResProps>;
   setGetList?: React.Dispatch<React.SetStateAction<LocationResProps[]>>;
+  locationPreList: Array<LocationResProps>;
+  setLocationPreList: React.Dispatch<React.SetStateAction<LocationResProps[]>>;
 }
-function CountryComponent({ list, setList, getList, setGetList }: Props) {
+function CountryComponent({
+  list,
+  setList,
+  getList,
+  setGetList,
+  locationPreList,
+  setLocationPreList,
+}: Props) {
   const toast = useToast();
   const [select, setSelect] = useState('');
   const [city, setCity] = useState('');

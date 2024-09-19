@@ -7,7 +7,7 @@ import {
   ColorRed,
   ColorRed50,
 } from '@/utils/_Palette';
-import { formatDateDash, imgPath } from '@/utils/format';
+import { formatDateDash, getImagePath, imgPath } from '@/utils/format';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
@@ -78,7 +78,7 @@ function ReviewGoodsInfo({ data }: Props) {
             src={
               data?.orderThumbnailImagePath !== null ||
               data?.orderThumbnailImagePath !== ''
-                ? `${imgPath()}${data?.orderThumbnailImagePath}`
+                ? getImagePath(data?.orderThumbnailImagePath)
                 : '/images/no_img.png'
             }
             // onError={addDefaultImg}

@@ -30,14 +30,15 @@ interface Props {
 function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
   const [select, setSelect] = useState('');
-  const SelectList = ['취소요청일', '취소승인일', '결제일', '예약일'];
-  const searchSelectList = [
-    '상품코드',
-    '상품명',
-    '상품카테고리',
+  const SelectList = [
+    '취소요청일',
+    '취소승인일',
+    '결제일',
+    '예약일',
     '주문번호',
     '상품주문번호',
   ];
+  const searchSelectList = ['상품코드', '상품명', '상품카테고리'];
   const { cancelFilterInfo, setCancelFilterInfo } = useCancelFilterZuInfo(
     (state) => state,
   );

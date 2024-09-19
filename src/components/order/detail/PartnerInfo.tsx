@@ -1,6 +1,6 @@
 import { partnerType } from '@/app/apis/order/OrderApi.type';
 import { ColorBlack, ColorGray50 } from '@/utils/_Palette';
-import { imgPath } from '@/utils/format';
+import { getImagePath, imgPath } from '@/utils/format';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
@@ -9,8 +9,6 @@ interface Props {
   info: partnerType;
 }
 function PartnerInfo({ info }: Props) {
-  console.log('info', info);
-  console.log('info?.thumbnailImagePath ', info?.thumbnailImagePath);
   return (
     <>
       <Flex
@@ -39,7 +37,7 @@ function PartnerInfo({ info }: Props) {
                   src={
                     info?.thumbnailImagePath !== null &&
                     info?.thumbnailImagePath !== undefined
-                      ? imgPath() + info?.thumbnailImagePath
+                      ? getImagePath(info?.thumbnailImagePath)
                       : '/images/header/icon_header_user.png'
                   }
                   width={24}
