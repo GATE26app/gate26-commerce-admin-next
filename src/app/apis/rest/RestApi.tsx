@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 
-import instance from '../_axios/instance';
+import instance from '../_axios/restInstance';
 import { DecideMeetingMember } from './RestApi.type';
 
 export class RestApi {

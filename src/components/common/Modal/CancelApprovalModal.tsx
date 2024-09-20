@@ -48,6 +48,7 @@ import DatePicker from '../DatePicker';
 import dayjs from 'dayjs';
 import ToastComponent from '../Toast/ToastComponent';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import { usePosteDecideMeetingMemberMutation } from '@/app/apis/rest/RestApi.mutation';
 
 interface InfoProps {
   orderType: number;
@@ -65,6 +66,8 @@ interface InfoProps {
   paymentAmount: number;
   orderDateTimeOfUse: string;
   cancelRequestDate: string;
+  meetingId?: string;
+  cancelFaultId?: string;
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
@@ -153,6 +156,13 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                 </Box>
               ),
             });
+            // if (info?.orderType === 4) {
+            //   const body = {
+            //     userId: info?.cancelFaultId,
+            //     meetingId: info?.meetingId,
+            //   };
+            //   memberDecideMutate(body);
+            // }
           } else {
             toast({
               position: 'top',
@@ -172,6 +182,35 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         },
       },
     });
+
+  const { mutate: memberDecideMutate } = usePosteDecideMeetingMemberMutation({
+    options: {
+      onSuccess: (res) => {
+        if (res.success === true) {
+          toast({
+            position: 'top',
+            duration: 2000,
+            render: () => (
+              <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                {`살롱 퇴장 완료 되었습니다. `}
+              </Box>
+            ),
+          });
+        }
+      },
+      onError: () => {
+        toast({
+          position: 'top',
+          duration: 2000,
+          render: () => (
+            <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+              {`살롱 퇴장 실패 되었습니다. `}
+            </Box>
+          ),
+        });
+      },
+    },
+  });
 
   const handleClickOK = () => {
     // onSubmit(data.orderCancelRequestDetail);
@@ -225,6 +264,16 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             cancelAmount: cancelAmount,
           },
         };
+
+        // if (info?.orderType === 4) {
+        //   alert('살롱');
+        //   const body = {
+        //     userId: info?.cancelFaultId,
+        //     meetingId: info?.meetingId,
+        //   };
+        //   console.log(body);
+        //   memberDecideMutate(body);
+        // }
         CancelMutate(obj);
       }
       // setOrderStateInfo({

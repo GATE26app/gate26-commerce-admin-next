@@ -308,13 +308,25 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
       >
         <Flex flexDirection={'column'} alignItems={'center'}>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderEmail == null ? '-' : item.orderEmail}
+            {item.orderEmail == null
+              ? item.buyerEmail === null
+                ? '-'
+                : item.buyerEmail
+              : item.orderEmail}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderName == null ? '-' : item.orderName}
+            {item.orderName == null
+              ? item.buyerName === null
+                ? '-'
+                : item.buyerName
+              : item.orderName}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {item.orderHp == null ? '-' : item.orderHp}
+            {item.orderHp == null
+              ? item.buyerHp === null
+                ? '-'
+                : item.buyerHp
+              : item.orderHp}
           </Text>
         </Flex>
       </Flex>
