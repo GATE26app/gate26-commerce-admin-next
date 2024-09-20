@@ -36,7 +36,9 @@ function OrderResevationInfo({ info }: Props) {
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
             {info.orderName !== null && info.orderName !== ''
               ? info.orderName
-              : '-'}
+              : info.buyerName === null
+              ? '-'
+              : info.buyerName}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -52,7 +54,9 @@ function OrderResevationInfo({ info }: Props) {
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
             {info.orderName !== null && info.orderName !== ''
               ? info.orderName
-              : '-'}
+              : info.buyerName === null
+              ? '-'
+              : info.buyerName}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -69,7 +73,9 @@ function OrderResevationInfo({ info }: Props) {
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
             {info.orderHp !== null && info.orderHp !== ''
               ? formatPhone(info.orderHp)
-              : '-'}
+              : info.buyerHp === null
+              ? '-'
+              : formatPhone(info.buyerHp)}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -86,7 +92,9 @@ function OrderResevationInfo({ info }: Props) {
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
             {info.orderEmail !== null && info.orderEmail !== ''
               ? info.orderEmail
-              : '-'}
+              : info.buyerEmail === null
+              ? '-'
+              : info.buyerEmail}
           </Text>
         </Flex>
       </Flex>
