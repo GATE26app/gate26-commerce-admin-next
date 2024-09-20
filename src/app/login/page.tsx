@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
@@ -18,11 +18,19 @@ import {
   ColorRed,
   ColorWhite,
 } from '@/utils/_Palette';
-import { getToken, setToken, setUserInfo } from '@/utils/localStorage/token';
+import {
+  getSendBirdToken,
+  getToken,
+  setSendBirdToken,
+  setToken,
+  setUserInfo,
+} from '@/utils/localStorage/token';
 import { usePostLoginMutation } from '../apis/auth/AuthApi.mutation';
 
 import { useUserZuInfo } from '@/_store/UserZuInfo';
 import { useRouter } from 'next/navigation';
+import { useQuery } from 'react-query';
+import sendBirdApi from '../apis/sendbird/SendBirdApi';
 // import BottomLayout from 'layout/BottomLayout';
 
 interface LoginModel {
@@ -42,6 +50,30 @@ function page() {
   const toggleCheckbox = () => setCheckbox(!checkbox);
   const { setUserZuInfo, userZuInfo } = useUserZuInfo((state) => state);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [sendBirdTokenState, setSendBirdTokenState] = useState(false);
+
+  //샌드버드 토큰 발급
+  const { data: SendBirdTokenData, error } = useQuery(
+    ['GET_GOODSDETAIL'],
+    () => sendBirdApi.getSendBirdToken(),
+    {
+      // staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
+      refetchInterval: false, // 자동 새로 고침 비활성화
+      enabled: !!sendBirdTokenState,
+    },
+  );
+  console.log('sendBirdTokenState', sendBirdTokenState);
+  useEffect(() => {
+    if (SendBirdTokenData !== undefined) {
+      console.log('SendBirdTokenData', SendBirdTokenData);
+      setSendBirdToken({
+        sendBird: SendBirdTokenData.data.token,
+        expiresAt: SendBirdTokenData.data.expires_at,
+        user_id: SendBirdTokenData.data.user_id,
+      });
+      router.push('/');
+    }
+  }, [SendBirdTokenData]);
 
   const { mutate: loginMutate, isLoading } = usePostLoginMutation({
     options: {
@@ -58,7 +90,15 @@ function page() {
             accessToken: data?.accessToken ? data?.accessToken : '',
             refreshToken: data?.refreshToken ? data?.refreshToken : '',
           });
-          router.push('/');
+          if (getSendBirdToken().expiresAt < Date.now()) {
+            console.log('샌드버드 토큰 재발급');
+            // ReTokenFun();
+            setSendBirdTokenState(true);
+          } else {
+            setSendBirdTokenState(false);
+            router.push('/');
+            // ReTokenFun();
+          }
           setErrorMsg('');
         } else {
           setErrorMsg(String(res.message));

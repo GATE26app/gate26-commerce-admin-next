@@ -1,4 +1,4 @@
-import { TokenType } from '@/app/apis/auth/AuthApi.type';
+import { SendBirdTokenType, TokenType } from '@/app/apis/auth/AuthApi.type';
 import { CONFIG } from '../../../../config';
 
 import {
@@ -8,7 +8,7 @@ import {
 } from '../helper';
 
 const TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@token';
-
+const SENDBIRD_TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@sendbirdtoken';
 const GateUserDefaultKey = {
   _EMAIL: 'email',
   _IS_SAVE: 'isSaveEmail',
@@ -45,6 +45,20 @@ export const deleteToken = () => {
   removeLocalStorage(TOKEN_KEY);
 };
 
+export const getSendBirdToken = () => {
+  const sendBridtoken = getLocalStorage<SendBirdTokenType>(SENDBIRD_TOKEN_KEY, {
+    sendBird: '',
+    expiresAt: 0,
+    user_id: '',
+  });
+  return sendBridtoken;
+};
+export const setSendBirdToken = (sendBird: SendBirdTokenType) => {
+  setLocalStorage(SENDBIRD_TOKEN_KEY, sendBird);
+};
+export const deleteSendBirdToken = () => {
+  removeLocalStorage(SENDBIRD_TOKEN_KEY);
+};
 export const setEmail = (email: string) => {
   setLocalStorage(GateUserDefaultKey._EMAIL, email);
 };

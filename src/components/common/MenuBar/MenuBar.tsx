@@ -698,7 +698,7 @@ function MenuBar() {
           </Text>
         </Flex>
       </Link>
-      {/* <Link href={'/chat'}>
+      <Link href={'/chat'}>
         <Flex
           alignItems={'center'}
           cursor={'pointer'}
@@ -733,7 +733,7 @@ function MenuBar() {
             채팅
           </Text>
         </Flex>
-      </Link> */}
+      </Link>
     </Box>
   );
 }

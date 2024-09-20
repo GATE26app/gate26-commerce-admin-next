@@ -355,7 +355,6 @@ function PartnerConnectInfo({ info }: { info: PartnersParamsType }) {
                 bgColor={ColorRed}
                 fontSize="15px"
                 onClick={() => {
-                  console.log(watch('adminMemo'));
                   if (watch('status') == 1) {
                     PartnerRestore({
                       partnerId: info.partnerId,

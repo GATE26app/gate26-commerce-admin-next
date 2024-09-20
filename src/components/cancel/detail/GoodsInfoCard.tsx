@@ -70,19 +70,6 @@ function GoodsInfoCard({ header, item }: Props) {
           overflow={'hidden'}
           ml={'10px'}
         >
-          {/* <Image
-            width={80}
-            height={80}
-            src={
-              item?.orderThumbnailImagePath !== null &&
-              item?.orderThumbnailImagePath !== undefined
-                ? `${imgPath()}${item?.orderThumbnailImagePath}`
-                : '/images/no_img.png'
-            }
-            alt="상품이미지"
-            objectFit={'cover'}
-            // fill
-          /> */}
           <img
             style={{
               width: '80px',

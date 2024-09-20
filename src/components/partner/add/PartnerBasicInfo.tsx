@@ -156,7 +156,6 @@ function PartnerBasicInfo() {
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex: RegExp =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
-    console.log(watch());
     if (watch('loginId') == '' || watch('loginId') == undefined) {
       toast({
         position: 'top',
@@ -518,17 +517,11 @@ function PartnerBasicInfo() {
     if (watch('files3')?.length > 0) {
       array.push(...watch('files3'));
     }
-    console.log(array);
     setValue('files', array);
-    console.log(watch());
     let json: PartnerAddFormType = watch();
     addPartner(json);
     setLoadingModal(true);
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <>
@@ -807,7 +800,7 @@ function PartnerBasicInfo() {
                   } else {
                     setError({ ...error, hp: '' });
                   }
-                  if(e.target.value.length <= 11){
+                  if (e.target.value.length <= 11) {
                     setValue('hp', e.target.value.replace(/[^0-9]/g, ''));
                   }
                 } else {
@@ -1210,7 +1203,7 @@ function PartnerBasicInfo() {
                       } else {
                         setError({ ...error, tel: '' });
                       }
-                      if(e.target.value.length <= 11){
+                      if (e.target.value.length <= 11) {
                         setValue('tel', e.target.value.replace(/[^0-9]/g, ''));
                       }
                     } else {

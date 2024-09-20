@@ -421,19 +421,6 @@ function OrderGoodsCard({ header, item }: Props) {
               onError={addDefaultImg}
               alt="이미지 업로드"
             />
-            {/* <Image
-              height={80}
-              width={80}
-              src={
-                item.orderThumbnailImagePath !== null
-                  ? `${imgPath()}${item.orderThumbnailImagePath}`
-                  : '/images/no_img.png'
-              }
-              // src={'/images/Page/ex_image_1.jpg'}
-              alt="상품이미지"
-              objectFit={'cover'}
-              // fill
-            /> */}
           </Box>
           {/* 상품정보 */}
           <Flex flexDirection={'column'}>
