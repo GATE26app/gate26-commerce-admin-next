@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 
 import { MutationHookParams } from '../../apis/type';
-import restApi from './RestAPI';
+import restApi from './RestApi';
 import { DecideMeetingMember } from './RestApi.type';
 
 export const EXAMPLE_API_MUTATION_KEY = {
