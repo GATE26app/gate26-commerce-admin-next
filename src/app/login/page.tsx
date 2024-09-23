@@ -67,9 +67,9 @@ function page() {
     if (SendBirdTokenData !== undefined) {
       console.log('SendBirdTokenData', SendBirdTokenData);
       setSendBirdToken({
-        sendBird: SendBirdTokenData.data.token,
-        expiresAt: SendBirdTokenData.data.expires_at,
-        user_id: SendBirdTokenData.data.user_id,
+        sendBird: SendBirdTokenData.data?.token,
+        expiresAt: SendBirdTokenData.data?.expires_at,
+        user_id: SendBirdTokenData.data?.user_id,
       });
       router.push('/');
     }

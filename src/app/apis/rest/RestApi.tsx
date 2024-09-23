@@ -13,7 +13,7 @@ export class RestApi {
     const body = { meetingId: params.meetingId, userId: params.userId };
     const { data } = await this.axios({
       method: 'POST',
-      url: `/rest/meeting/user/revoke`,
+      url: `rest/meeting/user/revoke`,
       data: body,
     });
     return data;

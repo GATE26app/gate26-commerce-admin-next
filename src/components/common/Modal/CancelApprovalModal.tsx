@@ -156,13 +156,14 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                 </Box>
               ),
             });
-            // if (info?.orderType === 4) {
-            //   const body = {
-            //     userId: info?.cancelFaultId,
-            //     meetingId: info?.meetingId,
-            //   };
-            //   memberDecideMutate(body);
-            // }
+            if (info?.orderType === 4) {
+              const body = {
+                userId: info?.cancelFaultId,
+                meetingId: info?.meetingId,
+              };
+
+              memberDecideMutate(body);
+            }
           } else {
             toast({
               position: 'top',
@@ -265,15 +266,6 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
           },
         };
 
-        // if (info?.orderType === 4) {
-        //   alert('살롱');
-        //   const body = {
-        //     userId: info?.cancelFaultId,
-        //     meetingId: info?.meetingId,
-        //   };
-        //   console.log(body);
-        //   memberDecideMutate(body);
-        // }
         CancelMutate(obj);
       }
       // setOrderStateInfo({
