@@ -126,9 +126,9 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       );
       setValue('images', info.images);
       setValue('files', info.files);
-      setValue('files1', [info.files[0]]);
-      setValue('files2', [info.files[1]]);
-      setValue('files3', [info.files[2]]);
+      setValue('files1', info.files[0] !== undefined ? [info.files[0]] : []);
+      setValue('files2', info.files[1] !== undefined ? [info.files[1]] : []);
+      setValue('files3', info.files[2] !== undefined ? [info.files[2]] : []);
     }
   }, [info, router]);
 
@@ -192,7 +192,6 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const onSubmit = () => {
     const emailRegex: RegExp =
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    console.log(watch());
     if (watch('loginId') == '' || watch('loginId') == undefined) {
       toast({
         position: 'top',
@@ -538,17 +537,11 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
     if (watch('files3')?.length > 0) {
       array.push(...watch('files3'));
     }
-    console.log(array);
     setValue('files', array);
-    console.log(watch());
     let json: PartnerAddFormType = watch();
     updatePartner(json);
     setLoadingModal(true);
   };
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <>
@@ -1124,7 +1117,10 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 {...register('businessRegistrationNumber')}
                 value={watch('businessRegistrationNumber')}
                 onChange={(e) =>
-                  setValue('businessRegistrationNumber', e.target.value)
+                  setValue(
+                    'businessRegistrationNumber',
+                    e.target.value.replace(/[^0-9]/g, ''),
+                  )
                 }
               />
             </Flex>
@@ -1156,7 +1152,10 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 {...register('mailOrderSalesRegistrationNo')}
                 value={watch('mailOrderSalesRegistrationNo')}
                 onChange={(e) =>
-                  setValue('mailOrderSalesRegistrationNo', e.target.value)
+                  setValue(
+                    'mailOrderSalesRegistrationNo',
+                    e.target.value.replace(/[^0-9]/g, ''),
+                  )
                 }
               />
             </Flex>
@@ -1218,7 +1217,12 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 placeholder="사업자 주민번호 입력"
                 {...register('registrationNumber')}
                 value={watch('registrationNumber')}
-                onChange={(e) => setValue('registrationNumber', e.target.value)}
+                onChange={(e) =>
+                  setValue(
+                    'registrationNumber',
+                    e.target.value.replace(/[^0-9]/g, ''),
+                  )
+                }
               />
             </Flex>
           </GridItem>
@@ -1242,7 +1246,7 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                   w={'100%'}
                   placeholder="회사 대표 전화번호 입력"
                   {...register('tel')}
-                  value={watch('tel')}
+                  value={watch('tel')?.replace(/[^0-9]/g, '')}
                   type={'number'}
                   maxLength={11}
                   onChange={(e) => {
@@ -1296,7 +1300,10 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 value={watch('businessTel')}
                 type={'number'}
                 onChange={(e) => {
-                  setValue('businessTel', e.target.value);
+                  setValue(
+                    'businessTel',
+                    e.target.value.replace(/[^0-9]/g, ''),
+                  );
                   if (/^\d+$/.test(e.target.value)) {
                     if (e.target.value.length < 8) {
                       setError({

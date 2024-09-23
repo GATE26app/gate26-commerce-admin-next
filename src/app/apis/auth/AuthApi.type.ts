@@ -1,10 +1,13 @@
-import { StringLocale } from 'yup/lib/locale';
-
 export type TokenType = NullAble<{
   access: string;
   refresh: string;
   // isRegister: boolean;
 }>;
+export type SendBirdTokenType = {
+  sendBird: string;
+  expiresAt: number;
+  user_id: string;
+};
 
 export type LoginDTOType = {
   adminId: string;

@@ -87,7 +87,6 @@ function CouponDateComponent({ CouponData, setCouponData }: Props) {
                   : date,
               );
               setSState(true);
-              console.log('date', date.format('YYYY-MM-DD'));
             }}
           />
           <Text color={ColorBlack} fontSize={'15px'} fontWeight={500}>

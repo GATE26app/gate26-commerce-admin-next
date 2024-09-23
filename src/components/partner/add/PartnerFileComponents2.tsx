@@ -41,7 +41,6 @@ function PartnerFileComponent2({
     e.currentTarget.src = '/images/Page/no_data.png';
   };
 
-  console.log('EntriesData', EntriesData);
   useEffect(() => {
     if (EntriesData?.length > 0 && EntriesData[0] !== undefined) {
       imgAxios();

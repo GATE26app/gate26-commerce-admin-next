@@ -177,7 +177,6 @@ function Partner({ itemCode, itemId, info }: Props) {
     }
   };
 
-  console.log('info', info);
   return (
     <>
       {info && (

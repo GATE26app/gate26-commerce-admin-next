@@ -63,7 +63,6 @@ function GoodsMainList() {
     refreshList(request);
   }, []);
 
-  console.log('goodsInfo.goodState', goodsInfo.goodState);
   useEffect(() => {
     if (goodsInfo.goodState) getGoodsMainList();
   }, [goodsInfo.goodState]);
