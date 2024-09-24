@@ -26,11 +26,11 @@ const myColorSet = {
 };
 
 function page() {
-  const searchParams = useSearchParams();
-  const getToken = searchParams.get('token');
-  const getChannelUrl = searchParams.get('channelUrl');
-  console.log('getToken', getToken);
-  console.log('getChannelUrl', getChannelUrl);
+  // const searchParams = useSearchParams();
+  // const getToken = searchParams.get('token');
+  // const getChannelUrl = searchParams.get('channelUrl');
+  // console.log('getToken', getToken);
+  // console.log('getChannelUrl', getChannelUrl);
   return (
     <Box w={'100%'} h={'calc(100vh - 402px)'} pt={'60px'}>
       {/* <SendbirdProvider

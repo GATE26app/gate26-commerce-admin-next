@@ -293,7 +293,7 @@ function page() {
 
   return (
     <Box w={'100%'} h={'calc(100vh - 402px)'} pt={'60px'}>
-      <Box
+      {/* <Box
         h={'calc(100vh - 462px)'}
         borderWidth={1}
         borderColor={ColorInputBorder}
@@ -425,7 +425,7 @@ function page() {
               }}
             ></GroupChannelList>
             {/* 채팅 컴포넌트 */}
-            {currentChannelUrl !== '' && (
+      {/* {currentChannelUrl !== '' && (
               <MessageComponent
                 channelrUrl={currentChannelUrl}
                 pageChange={pageChange}
@@ -434,9 +434,9 @@ function page() {
                 img={img}
               />
             )}
-          </Flex>
-        </SendbirdProvider>
-      </Box>
+          </Flex> */}
+      {/* </SendbirdProvider> */}
+      {/* </Box>  */}
     </Box>
   );
 }
