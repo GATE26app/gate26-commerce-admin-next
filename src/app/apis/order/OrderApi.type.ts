@@ -219,6 +219,7 @@ export type OrderDetailItemType = {
   partner: partnerType;
   shipping: Shippingtype;
   groupOrders: Array<GroupOrderListType>;
+  meetingId?: string;
 };
 
 export type policiesType = {

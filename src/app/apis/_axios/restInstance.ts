@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { CONFIG } from '../../../../config';
-import * as Sentry from '@sentry/nextjs';
+
 import { apiLogger } from '@/utils/apiLogger';
+import { getApi, getToken } from '@/utils/localStorage/token/index';
 
 const isDev = CONFIG.ENV === 'development';
 
@@ -14,8 +15,24 @@ const instance = axios.create({
   },
 });
 
+const setAuthHeader = (token: string) => {
+  if (token) {
+    instance.defaults.headers.common['X-AUTH-TOKEN'] = token;
+  }
+};
+
+const unsetAuthHeader = () => {
+  delete instance.defaults.headers.common['X-AUTH-TOKEN'];
+};
+
 instance.interceptors.request.use(
   (config) => {
+    const token = getToken().access;
+    const apiType = getApi();
+    if (token && apiType !== 'auth') setAuthHeader(token);
+    if (apiType === 'auth') {
+      unsetAuthHeader();
+    }
     return config;
   },
   (error) => Promise.reject(error),
