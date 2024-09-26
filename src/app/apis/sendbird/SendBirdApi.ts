@@ -71,10 +71,7 @@ export class SendBirdApi {
 
     const { data } = await this.axios({
       method: 'GET',
-      url: `/admin/chat/channels/${res.channelUrl}/messages?message_ts=${res.ts}&prev_limit=${res.prevLimit}&next_limit=${res.nextLimit}&reverse=false&include_reply_type=all&with_sorted_meta_array=true&include_reactions=true&include_thread_info=true&include_parent_message_info=true&show_subchannel_message_only=false&include_poll_details=true`,
-      // headers: {
-      //   'X-AUTH-TOKEN': `${getToken().access}`,
-      // },
+      url: `/admin/chat/channels/${res.channelUrl}/messages?message_ts=${res.ts}&prev_limit=${res.prevLimit}&next_limit=${res.nextLimit}&reverse=true&include_reply_type=all&with_sorted_meta_array=true&include_reactions=true&include_thread_info=true&include_parent_message_info=true&show_subchannel_message_only=false&include_poll_details=true`,
     });
     return data;
   };
@@ -86,6 +83,21 @@ export class SendBirdApi {
       method: 'POST',
       url: `/admin/chat/channels/${res.channelUrl}/messages`,
       data: res.body,
+    });
+    return data;
+  };
+  //백업 메세지 조회
+  getSendBirdBackUpMessage = async (
+    res: SendBirdChannelMessageType,
+  ): Promise<SendBirdMessageDtoType> => {
+    //type : code 또는 parentCode
+
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `/admin/chat/channels/${res.channelUrl}/backup-messages?message_ts=${res.ts}&prev_limit=${res.prevLimit}&next_limit=${res.nextLimit}&reverse=true&include_reply_type=all&with_sorted_meta_array=true&include_reactions=true&include_thread_info=true&include_parent_message_info=true&show_subchannel_message_only=false&include_poll_details=true`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
     });
     return data;
   };

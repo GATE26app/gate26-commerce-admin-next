@@ -1,11 +1,20 @@
 import { useSendMessageMutation } from '@/app/apis/sendbird/SendBirdApi.mutation';
 import { Box, Flex, Img, Text } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
-import { ColorBlack, ColorGray700, ColorInputBorder } from '@/utils/_Palette';
-import { useGetChatListQuery } from '@/app/apis/sendbird/SendBirdApi.query';
+import {
+  ColorBlack,
+  ColorGray700,
+  ColorInputBorder,
+  ColorRed,
+} from '@/utils/_Palette';
+import {
+  useGetBackUpChatListQuery,
+  useGetChatListQuery,
+} from '@/app/apis/sendbird/SendBirdApi.query';
 import useIntersectionObserver from '@/app/apis/useIntersectionObserver';
 import MessageChat from './MessageChat';
 import { getLocalStorage, setLocalStorage } from '@/utils/localStorage/helper';
+import moment from 'moment';
 interface Props {
   channelrUrl: string;
   pageChange: boolean;
@@ -21,20 +30,25 @@ function MessageComponent({
   img,
 }: Props) {
   const [chatList, setChatList] = useState([]);
-  const [scrollHeight, setScrollHeight] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true); // 첫 로드 여부
-  const [prevHeight, setPrevHeight] = useState(0);
   const [firstScroll, setFirstScroll] = useState(false);
-
-  const topMessageRef = useRef<HTMLDivElement>(null);
+  const [backUpStart, setBackUpStart] = useState(false); //백업 데이터 사용 유무 확인
+  const [timeState, setTimeState] = useState(false); // 백업 time 체크
 
   const [obj, setObj] = useState({
     prevLimit: 30,
     nextLimit: 0,
     channelUrl: '',
     ts: Date.now(),
+    messageId: '',
+  });
+  const [bckObj, setBckObj] = useState({
+    prevLimit: 30,
+    nextLimit: 0,
+    channelUrl: '',
+    ts: 0,
     messageId: '',
   });
 
@@ -53,40 +67,100 @@ function MessageComponent({
         ts: Date.now(),
         messageId: '',
       });
+      setBckObj({
+        prevLimit: 30,
+        nextLimit: 0,
+        channelUrl: '',
+        ts: Date.now(),
+        messageId: '',
+      });
     }
   }, [pageChange]);
 
-  const {
-    data: chatListData,
-    isLoading,
-    error,
-    isFetchingNextPage,
-    hasNextPage,
-    refetch,
-    fetchNextPage,
-  } = useGetChatListQuery({
+  const { data: chatListData, hasNextPage } = useGetChatListQuery({
     prevLimit: obj.prevLimit,
     nextLimit: obj.nextLimit,
     channelUrl: channelrUrl,
     ts: obj.ts,
     messageId: obj.messageId,
   });
+  const { data: BackUpChatListData, hasNextPage: hasBackUpNextPage } =
+    useGetBackUpChatListQuery(
+      {
+        prevLimit: bckObj.prevLimit,
+        nextLimit: bckObj.nextLimit,
+        channelUrl: channelrUrl,
+        ts: bckObj.ts,
+        messageId: bckObj.messageId,
+      },
+      {
+        // staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
+        // refetchInterval: false, // 자동 새로 고침 비활성화
+        enabled: bckObj.ts !== 0 ? true : false,
+      },
+    );
 
-  console.log('isFetching', isFetching);
+  const checkTimeDifference = (timestamp: number) => {
+    const currentTime = new Date().getTime(); // 현재 시간을 밀리초로 가져옴
+    const givenTime = new Date(timestamp).getTime(); // 타임스탬프를 밀리초로 변환
+    const timeDifference = (currentTime - givenTime) / 1000; // 밀리초를 초로 변환
+
+    const secondsIn3600Hours = 3600; // 3600시간을 초로 변환
+    // const secondsIn3600Hours = 3600 * 3600; // 3600시간을 초로 변환
+
+    return timeDifference >= secondsIn3600Hours;
+  };
+
   const fetchNextPageTarget = useIntersectionObserver(() => {
-    // 랜더링 한번만 되게 막기
-    if (
-      chatList.length >= 30 &&
-      chatListData?.pages[0].data.messages.length >= 30 &&
-      !isFetching &&
-      firstScroll
-    ) {
+    console.log('nextttt');
+    if (chatListData?.pages[0].data.messages.length >= 30) {
       setObj({
         ...obj,
-        ts: chatListData?.pages[0].data.messages[0].created_at,
-        messageId: chatListData?.pages[0].data.messages[0].message_id,
+        ts: chatListData?.pages[0].data.messages[
+          chatListData?.pages[0].data.messages.length - 1
+        ].created_at,
+        messageId:
+          chatListData?.pages[0].data.messages[
+            chatListData?.pages[0].data.messages.length - 1
+          ].message_id,
       });
-      setIsFetching(true);
+    } else {
+      const createAt =
+        chatListData?.pages[0].data.messages[
+          chatListData?.pages[0].data.messages.length - 1
+        ].created_at;
+      console.log(
+        '**checkTimeDifference(createAt)',
+        checkTimeDifference(createAt),
+      );
+      setTimeState(checkTimeDifference(createAt));
+      if (checkTimeDifference(createAt)) {
+        if (!backUpStart) {
+          // 백업 api 첫 사용 무한 스크롤 시
+          setBckObj({
+            ...bckObj,
+            ts: chatListData?.pages[0].data.messages[
+              chatListData?.pages[0].data.messages.length - 1
+            ].created_at,
+            messageId:
+              chatListData?.pages[0].data.messages[
+                chatListData?.pages[0].data.messages.length - 1
+              ].message_id,
+          });
+        } else {
+          // 백업 api 사용 무한 스크롤 시
+          setBckObj({
+            ...bckObj,
+            ts: BackUpChatListData?.pages[0].data.messages[
+              BackUpChatListData?.pages[0].data.messages.length - 1
+            ].created_at,
+            messageId:
+              BackUpChatListData?.pages[0].data.messages[
+                BackUpChatListData?.pages[0].data.messages.length - 1
+              ].message_id,
+          });
+        }
+      }
     }
   });
 
@@ -94,76 +168,41 @@ function MessageComponent({
   useEffect(() => {
     if (chatListData) {
       if (chatListData?.pages[0].data.messages.length > 0) {
-        if (!isFirstLoad && isFetching) {
+        setFirstScroll(true);
+
+        // if (!isFirstLoad && isFetching) {
+        if (!isFirstLoad) {
           setChatList([
-            ...chatListData?.pages[0].data.messages.slice(0, -1),
             ...chatList,
+            ...chatListData?.pages[0].data.messages.slice(1),
           ]);
-          // scrollRef.current!.scrollTop =
-          //   chatListData?.pages[0].data.messages.length >= 30
-          //     ? scrollRef.current!.scrollHeight -
-          //       Number(localStorage.getItem('scrollHeigth')) -
-          //       Number(localStorage.getItem('scrollTop'))
-          //     : 0;
         } else {
-          setChatList([...chatListData?.pages[0].data.messages, ...chatList]);
-          // scrollRef.current!.scrollTop =
-          //   chatListData?.pages[0].data.messages.length >= 30
-          //     ? scrollRef.current!.scrollHeight -
-          //       Number(localStorage.getItem('scrollHeigth')) -
-          //       Number(localStorage.getItem('scrollTop'))
-          //     : 0;
+          setIsFirstLoad(false);
+          setChatList([...chatList, ...chatListData?.pages[0].data.messages]);
         }
       } else if (chatListData?.pages[0].data.messages.length == 0) {
         setChatList([]);
-        // setPrevHeight(0);
       }
-    } else {
-      // setPrevHeight(0);
-      // setChatList([]);
     }
   }, [chatListData]);
 
-  // 데이터 로딩 후 스크롤 처리
   useEffect(() => {
-    if (!isLoading && scrollRef.current) {
-      if (isFirstLoad) {
-        // 첫 로드 시, 맨 아래로 스크롤
-        console.log('first');
-        setTimeout(() => {
-          scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
-          setFirstScroll(true);
-        }, 100);
-        setIsFirstLoad(false);
-      } else if (isFetching) {
-        if (topMessageRef.current) {
-          const topMessagePosition =
-            topMessageRef.current.getBoundingClientRect().top;
-          console.log(
-            'scrollRef.current!.scrollTop',
-            scrollRef.current!.scrollTop,
-          );
-          console.log('topMessagePosition', topMessagePosition);
-          scrollRef.current!.scrollTop =
-            scrollRef.current!.scrollTop + topMessagePosition; // 약간의 여유 공간을 추가
+    if (timeState) {
+      if (BackUpChatListData) {
+        console.log('BackUpChatListData', BackUpChatListData);
+        if (BackUpChatListData?.pages[0].data.messages.length > 0) {
+          // if (!isFirstLoad && isFetching) {
+          setChatList([
+            ...chatList,
+            ...BackUpChatListData?.pages[0].data.messages.slice(1),
+          ]);
+        } else if (BackUpChatListData?.pages[0].data.messages.length == 0) {
+          // setChatList([]);
         }
-        setIsFetching(false);
       }
     }
-  }, [chatListData, isLoading]);
-  console.log('chatList', chatList);
-  console.log('chatList.length - 30', chatList.length - 30);
-  console.log(
-    '****item',
-    chatList.filter((item, index) => index == chatList.length - 30),
-  );
-  // 데이터 추가 전에 스크롤 위치 저장
+  }, [BackUpChatListData]);
 
-  const handleScrollToSection = () => {
-    console.log('***');
-    // scrollRef.current?.scrollIntoView({ behavior: 'smooth' }); // 스크롤 이동
-    scrollRef.current?.focus();
-  };
   let lastDate = null; // 마지막으로 출력된 날짜를 저장하는 변수
 
   //최고관리자 메세지 전송
@@ -193,7 +232,6 @@ function MessageComponent({
     }
   };
 
-  console.log('chatList.length', chatList.length);
   return (
     <Flex flexDirection={'column'} w={'100%'}>
       <Flex
@@ -221,94 +259,75 @@ function MessageComponent({
         overflowY={'auto'}
         px={'24px'}
         ref={scrollRef}
-        flexDirection={'column'}
+        flexDirection={'column-reverse'}
         h={'calc(100vh - 600px)'}
+        justifyContent={chatList.length < 10 ? 'flex-end' : 'normal'}
       >
-        {chatList.length > 0 && (
-          <Box>
-            {hasNextPage && <Box ref={fetchNextPageTarget} />}
-            {chatList.length > 0 &&
-              chatList?.map((item, index) => {
-                var date = new Date(item.created_at);
-                var year = date.getFullYear().toString().slice(-2);
-                var month = ('0' + (date.getMonth() + 1)).slice(-2);
-                var day = ('0' + date.getDate()).slice(-2);
-                const messageDate = new Date(item.created_at).toDateString(); // 메시지의 날짜를 가져옴
-                const showDate = lastDate !== messageDate; // 마지막으로 출력된 날짜와 다르면 true
-                lastDate = messageDate; // 마지막으로 출력된 날짜를 현재 메시지의 날짜로 갱신
-
-                console.log(
-                  '*^*^',
-                  chatList.length >= 30 ? 30 : chatList.length - 30,
-                );
-                return (
-                  <Flex
-                    flexDirection={'column'}
-                    w={'100%'}
-                    onClick={handleScrollToSection}
-                    key={index}
-                    ref={
-                      index ===
-                      (chatList.length >= 30 ? 30 : chatList.length - 30)
-                        ? topMessageRef
-                        : null
-                    }
-                  >
-                    {showDate && (
-                      <Flex alignItems={'center'} w={'100%'}>
-                        <Box
-                          w={'100%'}
-                          display={'inline-block'}
-                          h={'1px'}
-                          border={'none'}
-                          bgColor="rgba(0, 0, 0, 0.12)"
-                        ></Box>
-                        <Text
-                          fontSize={'12px'}
-                          color={ColorGray700}
-                          fontWeight={600}
-                          mx={'16px'}
-                          whiteSpace={'nowrap'}
-                        >
-                          {'20' + year + '년 ' + month + '월 ' + day + '일'}
-                        </Text>
-                        <Box
-                          w={'100%'}
-                          display={'inline-block'}
-                          h={'1px'}
-                          border={'none'}
-                          bgColor="rgba(0, 0, 0, 0.12)"
-                        ></Box>
-                      </Flex>
-                    )}
-
-                    {item.type == 'MESG' || item.type == 'FILE' ? (
-                      <MessageChat
-                        item={item}
-                        lastNickname={chatList[index - 1]?.user?.nickname}
-                        nextNickname={chatList[index + 1]?.user?.nickname}
-                        lastDate={new Date(chatList[index - 1]?.created_at)}
-                        nextDate={new Date(chatList[index + 1]?.created_at)}
-                        type={chatList[index + 1]?.type}
-                      />
-                    ) : item.type == 'ADMM' ? (
-                      <Flex justifyContent={'center'} py={'5px'}>
-                        <Text
-                          fontSize={'12px'}
-                          fontWeight={400}
-                          color={ColorGray700}
-                        >
-                          {item.message}
-                        </Text>
-                      </Flex>
-                    ) : (
-                      <Flex></Flex>
-                    )}
+        {chatList.length > 0 &&
+          chatList?.map((item, index) => {
+            var date = new Date(item.created_at);
+            var year = date.getFullYear().toString().slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var day = ('0' + date.getDate()).slice(-2);
+            const messageDate = new Date(item.created_at).toDateString(); // 메시지의 날짜를 가져옴
+            const showDate = lastDate !== messageDate; // 마지막으로 출력된 날짜와 다르면 true
+            lastDate = messageDate; // 마지막으로 출력된 날짜를 현재 메시지의 날짜로 갱신
+            return (
+              <Flex flexDirection={'column'} w={'100%'} key={index}>
+                {showDate && (
+                  <Flex alignItems={'center'} w={'100%'}>
+                    <Box
+                      w={'100%'}
+                      display={'inline-block'}
+                      h={'1px'}
+                      border={'none'}
+                      bgColor="rgba(0, 0, 0, 0.12)"
+                    ></Box>
+                    <Text
+                      fontSize={'12px'}
+                      color={ColorGray700}
+                      fontWeight={600}
+                      mx={'16px'}
+                      whiteSpace={'nowrap'}
+                    >
+                      {'20' + year + '년 ' + month + '월 ' + day + '일'}
+                    </Text>
+                    <Box
+                      w={'100%'}
+                      display={'inline-block'}
+                      h={'1px'}
+                      border={'none'}
+                      bgColor="rgba(0, 0, 0, 0.12)"
+                    ></Box>
                   </Flex>
-                );
-              })}
-          </Box>
-        )}
+                )}
+
+                {item.type == 'MESG' || item.type == 'FILE' ? (
+                  <MessageChat
+                    item={item}
+                    lastNickname={chatList[index - 1]?.user?.nickname}
+                    nextNickname={chatList[index + 1]?.user?.nickname}
+                    lastDate={new Date(chatList[index - 1]?.created_at)}
+                    nextDate={new Date(chatList[index + 1]?.created_at)}
+                    type={chatList[index + 1]?.type}
+                  />
+                ) : item.type == 'ADMM' ? (
+                  <Flex justifyContent={'center'} py={'5px'}>
+                    <Text
+                      fontSize={'12px'}
+                      fontWeight={400}
+                      color={ColorGray700}
+                    >
+                      {item.message}
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Flex></Flex>
+                )}
+              </Flex>
+            );
+          })}
+        {hasNextPage && <Box ref={fetchNextPageTarget} mt={'10px'} />}
       </Flex>
 
       <div
