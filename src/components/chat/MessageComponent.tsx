@@ -1,20 +1,13 @@
 import { useSendMessageMutation } from '@/app/apis/sendbird/SendBirdApi.mutation';
 import { Box, Flex, Img, Text } from '@chakra-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  ColorBlack,
-  ColorGray700,
-  ColorInputBorder,
-  ColorRed,
-} from '@/utils/_Palette';
+import { ColorBlack, ColorGray700, ColorInputBorder } from '@/utils/_Palette';
 import {
   useGetBackUpChatListQuery,
   useGetChatListQuery,
 } from '@/app/apis/sendbird/SendBirdApi.query';
 import useIntersectionObserver from '@/app/apis/useIntersectionObserver';
 import MessageChat from './MessageChat';
-import { getLocalStorage, setLocalStorage } from '@/utils/localStorage/helper';
-import moment from 'moment';
 interface Props {
   channelrUrl: string;
   pageChange: boolean;
@@ -84,21 +77,24 @@ function MessageComponent({
     ts: obj.ts,
     messageId: obj.messageId,
   });
-  const { data: BackUpChatListData, hasNextPage: hasBackUpNextPage } =
-    useGetBackUpChatListQuery(
-      {
-        prevLimit: bckObj.prevLimit,
-        nextLimit: bckObj.nextLimit,
-        channelUrl: channelrUrl,
-        ts: bckObj.ts,
-        messageId: bckObj.messageId,
-      },
-      {
-        // staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
-        // refetchInterval: false, // 자동 새로 고침 비활성화
-        enabled: bckObj.ts !== 0 ? true : false,
-      },
-    );
+  const {
+    data: BackUpChatListData,
+    hasNextPage: hasBackUpNextPage,
+    refetch,
+  } = useGetBackUpChatListQuery(
+    {
+      prevLimit: bckObj.prevLimit,
+      nextLimit: bckObj.nextLimit,
+      channelUrl: channelrUrl,
+      ts: bckObj.ts,
+      messageId: bckObj.messageId,
+    },
+    {
+      // staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
+      // refetchInterval: false, // 자동 새로 고침 비활성화
+      enabled: bckObj.ts !== 0 ? true : false,
+    },
+  );
 
   const checkTimeDifference = (timestamp: number) => {
     const currentTime = new Date().getTime(); // 현재 시간을 밀리초로 가져옴
@@ -112,7 +108,6 @@ function MessageComponent({
   };
 
   const fetchNextPageTarget = useIntersectionObserver(() => {
-    console.log('nextttt');
     if (chatListData?.pages[0].data.messages.length >= 30) {
       setObj({
         ...obj,
@@ -129,10 +124,6 @@ function MessageComponent({
         chatListData?.pages[0].data.messages[
           chatListData?.pages[0].data.messages.length - 1
         ].created_at;
-      console.log(
-        '**checkTimeDifference(createAt)',
-        checkTimeDifference(createAt),
-      );
       setTimeState(checkTimeDifference(createAt));
       if (checkTimeDifference(createAt)) {
         if (!backUpStart) {
@@ -189,7 +180,6 @@ function MessageComponent({
   useEffect(() => {
     if (timeState) {
       if (BackUpChatListData) {
-        console.log('BackUpChatListData', BackUpChatListData);
         if (BackUpChatListData?.pages[0].data.messages.length > 0) {
           // if (!isFirstLoad && isFetching) {
           setChatList([
@@ -210,6 +200,16 @@ function MessageComponent({
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
+          setChatList([]);
+          setIsFirstLoad(true);
+          setObj({
+            prevLimit: 30,
+            nextLimit: 0,
+            channelUrl: channelrUrl,
+            ts: Date.now(),
+            messageId: '',
+          });
+          refetch();
         }
       },
       onError: (req) => {},
@@ -217,7 +217,7 @@ function MessageComponent({
   });
 
   const handleSendMessage = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && event.nativeEvent.isComposing == false) {
       event.preventDefault();
       const message = event.target.value;
       if (message.trim()) {
