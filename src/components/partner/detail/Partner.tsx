@@ -63,6 +63,7 @@ function Partner({ itemCode, itemId, info }: Props) {
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
+          setLoadingModal(false);
           // setLogDisable(true);'
           // <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
           //   {`${res.message}`}
@@ -81,6 +82,7 @@ function Partner({ itemCode, itemId, info }: Props) {
             },
           });
         } else {
+          setLoadingModal(false);
           toast({
             position: 'top',
             duration: 3000,
@@ -99,6 +101,7 @@ function Partner({ itemCode, itemId, info }: Props) {
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
+          setLoadingModal(false);
           setOpenAlertModal(true);
           setModalState({
             ...ModalState,
@@ -117,6 +120,7 @@ function Partner({ itemCode, itemId, info }: Props) {
           //   {`${res.message}`}
           // </Box>;
         } else {
+          setLoadingModal(false);
           toast({
             position: 'top',
             duration: 3000,
@@ -142,6 +146,7 @@ function Partner({ itemCode, itemId, info }: Props) {
         okButtonName: '확인',
         cbOk: () => {
           ApproveMutate(info.partnerId);
+          setLoadingModal(true);
           // window.history.back();
         },
       });
@@ -162,6 +167,7 @@ function Partner({ itemCode, itemId, info }: Props) {
           deniedReason: deniedReason,
         };
         setOpenAlertModal(true);
+
         setModalState({
           ...ModalState,
           title: `파트너사 반려`,
@@ -170,6 +176,7 @@ function Partner({ itemCode, itemId, info }: Props) {
           okButtonName: '확인',
           cbOk: () => {
             DeniedMutate(obj);
+            setLoadingModal(true);
             // window.history.back();
           },
         });
@@ -265,41 +272,42 @@ function Partner({ itemCode, itemId, info }: Props) {
                 >
                   승인상태
                 </Text>
-                {info.level == 1 && <Text>승인</Text>}
-                {info.level != 1 && (
-                  <Flex flexDirection={'column'} w={'100%'}>
-                    <Flex flexDirection={'row'} gap={'20px'}>
-                      <RadioComponent
-                        text="승인"
-                        disabled={goodsInfo.LogItemDisable}
-                        checked={isCheck == 1 ? true : false}
-                        onClick={() => {
-                          setIsCheck(1);
-                        }}
-                      />
-                      <RadioComponent
-                        text="반려"
-                        disabled={goodsInfo.LogItemDisable}
-                        checked={isCheck == 3 ? true : false}
-                        onClick={() => {
-                          setIsCheck(3);
-                        }}
-                      />
-                    </Flex>
-                    {isCheck == 3 && (
-                      <InputBox
-                        w={'100%'}
-                        mt={'10px'}
-                        value={deniedReason}
-                        placeholder="반려 사유를 입력해주세요."
-                        // value={list?.title}
-                        onChange={(e) => setDeniedReason(e.target.value)}
-                        disabled={goodsInfo.LogItemDisable}
-                        // register={register('title')}
-                      />
-                    )}
+
+                {/* {info.level != 1 && ( */}
+                <Flex flexDirection={'column'} w={'100%'}>
+                  <Flex flexDirection={'row'} gap={'20px'}>
+                    {info.level == 1 && <Text>승인</Text>}
+                    <RadioComponent
+                      text="승인"
+                      disabled={goodsInfo.LogItemDisable}
+                      checked={isCheck == 1 ? true : false}
+                      onClick={() => {
+                        setIsCheck(1);
+                      }}
+                    />
+                    <RadioComponent
+                      text="반려"
+                      disabled={goodsInfo.LogItemDisable}
+                      checked={isCheck == 3 ? true : false}
+                      onClick={() => {
+                        setIsCheck(3);
+                      }}
+                    />
                   </Flex>
-                )}
+                  {isCheck == 3 && (
+                    <InputBox
+                      w={'100%'}
+                      mt={'10px'}
+                      value={deniedReason}
+                      placeholder="반려 사유를 입력해주세요."
+                      // value={list?.title}
+                      onChange={(e) => setDeniedReason(e.target.value)}
+                      disabled={goodsInfo.LogItemDisable}
+                      // register={register('title')}
+                    />
+                  )}
+                </Flex>
+                {/* )} */}
               </Flex>
               {/* <Flex flexDirection={'row'} pb={'20px'} alignItems={'center'}>
               <Text
@@ -325,21 +333,21 @@ function Partner({ itemCode, itemId, info }: Props) {
               </Flex>
             </Flex> */}
             </Flex>
-            {info.level != 1 && (
-              <Flex justifyContent={'center'} pt={'20px'}>
-                <CustomButton
-                  text="저장"
-                  bgColor={ColorRed}
-                  borderColor={ColorRed}
-                  color={ColorWhite}
-                  fontSize={ColorWhite}
-                  fontWeight={500}
-                  py="12px"
-                  px="67px"
-                  onClick={() => handleSubmit()}
-                />
-              </Flex>
-            )}
+            {/* {info.level != 1 && ( */}
+            <Flex justifyContent={'center'} pt={'20px'}>
+              <CustomButton
+                text="저장"
+                bgColor={ColorRed}
+                borderColor={ColorRed}
+                color={ColorWhite}
+                fontSize={ColorWhite}
+                fontWeight={500}
+                py="12px"
+                px="67px"
+                onClick={() => handleSubmit()}
+              />
+            </Flex>
+            {/* )} */}
           </Flex>
         </>
       )}
