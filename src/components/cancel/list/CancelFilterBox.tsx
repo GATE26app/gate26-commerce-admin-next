@@ -30,18 +30,19 @@ interface Props {
 function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
   const [select, setSelect] = useState('');
-  const SelectList = [
-    '취소요청일',
-    '취소승인일',
-    '결제일',
-    '예약일',
-    '주문번호',
+  const SelectList = ['취소요청일', '취소승인일', '취소반려일'];
+  const searchSelectList = [
+    '상품코드',
+    '상품명',
+    '상품카테고리',
+    '이륙살롱명칭',
     '상품주문번호',
+    '주문번호',
   ];
-  const searchSelectList = ['상품코드', '상품명', '상품카테고리'];
   const { cancelFilterInfo, setCancelFilterInfo } = useCancelFilterZuInfo(
     (state) => state,
   );
+
   const [startDay, setStartDay] = useState<dayjs.Dayjs>(() =>
     dayjs(request.periodStartDate),
   );
@@ -107,6 +108,7 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
       });
     }
   }, [select]);
+
   useEffect(() => {
     if (searchSelect != '') {
       setRequest({
@@ -120,6 +122,8 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
             ? 'merchantId'
             : searchSelect == '상품주문번호'
             ? 'orderId'
+            : searchSelect == '이륙살롱명칭'
+            ? 'meetingTitle'
             : 'title',
       });
     }
@@ -355,7 +359,7 @@ function CancelFilterBox({ request, setRequest, search, setSearch }: Props) {
             />
           </Box>
           <SearchInput
-            text={String(request.searchKeyword)}
+            value={request.searchKeyword}
             onChange={(e) =>
               setRequest({ ...request, searchKeyword: e.target.value })
             }

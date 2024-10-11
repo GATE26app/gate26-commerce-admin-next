@@ -202,6 +202,7 @@ function CancelComponent({ list, setList }: Props) {
           });
           return false;
         }
+        
         // 이미 존재하고 있는 일일 경우
         let findDay: any = list.find((res) => res.days === day);
         if (findDay) {

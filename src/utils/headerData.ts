@@ -267,3 +267,109 @@ export const couponGoodsListheader = [
     width: '15%',
   },
 ];
+
+export const settlelistheader = [
+  {
+    id: 'id',
+    name: '정산번호',
+    width: 9,
+  },
+  {
+    id: 'management',
+    name: '파트너사',
+    width: 9,
+  },
+  {
+    id: 'management',
+    name: '판매금액',
+    width: 9,
+  },
+  {
+    id: 'code',
+    name: '결제수수료',
+    width: 9,
+  },
+  {
+    id: 'country',
+    name: `서비스이용\n수수료`,
+    width: 9,
+  },
+  {
+    id: 'catagory',
+    name: `쿠폰부담비\n본사 | 상점`,
+    width: 9,
+  },
+  {
+    id: 'goods',
+    name: '정산예정금액',
+    width: 9,
+  },
+  {
+    id: 'date',
+    name: '정산기준일',
+    width: 9,
+  },
+  {
+    id: 'req',
+    name: '정산예정일',
+    width: 9,
+  },
+  {
+    id: 'reqDate',
+    name: '정산완료일',
+    width: 9,
+  },
+  {
+    id: 'state',
+    name: '정산상태',
+    width: 9,
+  },
+  {
+    id: 'goodsDate',
+    name: '상세',
+    width: 9,
+  },
+];
+
+export const settleDetailListHeader = [
+  {
+    id: 'id',
+    name: '상태값',
+    width: 12,
+  },
+  {
+    id: 'management',
+    name: '상품주문번호',
+    width: 12,
+  },
+  {
+    id: 'code',
+    name: '결제금액',
+    width: 12,
+  },
+  {
+    id: 'date',
+    name: '결제수단',
+    width: 12,
+  },
+  {
+    id: 'req',
+    name: '결제수수료',
+    width: 12,
+  },
+  {
+    id: 'country',
+    name: `서비스이용\n수수료`,
+    width: 12,
+  },
+  {
+    id: 'catagory',
+    name: `쿠폰부담비\n본사 | 상점`,
+    width: 16,
+  },
+  {
+    id: 'goods',
+    name: '정산예정금액',
+    width: 12,
+  },
+];

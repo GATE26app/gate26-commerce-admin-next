@@ -12,6 +12,7 @@ interface Props {
   setSelect: React.Dispatch<React.SetStateAction<string>>;
   onClick?: (data: string) => void;
   disable?: boolean;
+  className?: string;
 }
 function SelectBox({
   placeholder,
@@ -21,6 +22,7 @@ function SelectBox({
   setSelect,
   onClick,
   disable = false,
+  className = '',
 }: Props) {
   const [open, setOpen] = useState(false);
 
@@ -40,6 +42,7 @@ function SelectBox({
       boxSizing={'border-box'}
       position={'relative'}
       // zIndex={1}
+      className={className}
     >
       <Text
         color={ColorGray700}

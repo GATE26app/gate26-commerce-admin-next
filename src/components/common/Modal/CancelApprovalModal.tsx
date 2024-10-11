@@ -475,11 +475,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   placeholder="숫자로만 입력"
                   type="text"
                   maxLength={15}
-                  value={
-                    info?.paymentAmount == 0
-                      ? ''
-                      : intComma(info?.paymentAmount)
-                  }
+                  value={intComma(info?.paymentAmount)}
                   disable={false}
                 />
                 <Text
@@ -505,7 +501,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   placeholder="숫자로만 입력"
                   type="text"
                   maxLength={15}
-                  value={cancelAmount == 0 ? '' : intComma(cancelAmount)}
+                  value={intComma(cancelAmount)}
                   onChange={(e: any) =>
                     setCancelAmount(
                       Number(e.target.value.replace(/[^0-9]/g, '')),

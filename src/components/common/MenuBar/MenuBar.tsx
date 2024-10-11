@@ -85,6 +85,9 @@ function MenuBar() {
     } else if (pathname == '/cancelList' || pathname == '/cancelDetail') {
       setMenu(3);
       setOrdreMenu(2);
+    } else if (pathname.includes('/banner')) {
+      setMenu(7);
+      setOrdreMenu(1);
     }
   }, [pathname]);
   //필터 초기화
@@ -545,7 +548,7 @@ function MenuBar() {
             fontSize={'18px'}
             ml={'15px'}
           >
-            주문관리
+            정산관리
           </Text>
         </Flex>
         {menu == 6 ? (
@@ -566,7 +569,7 @@ function MenuBar() {
       </Flex>
       {menu == 6 && (
         <Flex mb={'30px'} ml={'57px'} flexDirection={'column'}>
-          <Link href={'/orderlist'}>
+          <Link href={'/settlementList'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -580,7 +583,7 @@ function MenuBar() {
               정산내역
             </Text>
           </Link>
-          <Link href={'/cancellist'}>
+          {/* <Link href={'/cancellist'}>
             <Text
               fontWeight={700}
               fontSize={'16px'}
@@ -593,41 +596,43 @@ function MenuBar() {
             </Text>
           </Link>
         </Flex>
-      )} */}
-      {/* <Flex
-        alignItems={'center'}
-        cursor={'pointer'}
-        mb={'30px'}
-        onClick={() => {
-          setMenu(7);
-          setOrdreMenu(1);
-        }}
-      >
-        {menu == 7 ? (
-          <Image
-            src={'/images/Menu/leftmenu07_on.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        ) : (
-          <Image
-            src={'/images/Menu/leftmenu07_off.png'}
-            width={40}
-            height={40}
-            alt="로고"
-          />
-        )}
-
-        <Text
-          color={menu == 7 ? ColorRed : ColorGrayMenu}
-          fontWeight={800}
-          fontSize={'18px'}
-          ml={'15px'}
+      )}*/}
+      <Link href={'/banner'}>
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(7);
+            setOrdreMenu(1);
+          }}
         >
-          배너관리
-        </Text>
-      </Flex> */}
+          {menu == 7 ? (
+            <Image
+              src={'/images/Menu/leftmenu07_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu07_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 7 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            배너관리
+          </Text>
+        </Flex>
+      </Link>
       {/* <Flex
         alignItems={'center'}
         cursor={'pointer'}
