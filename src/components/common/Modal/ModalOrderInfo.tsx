@@ -24,6 +24,7 @@ interface Props {
     orderTitle: string;
     orderType: number;
     orderDateTimeOfUse: string;
+    siteOrigin?: string;
   };
 }
 function ModalOrderInfo({ info }: Props) {

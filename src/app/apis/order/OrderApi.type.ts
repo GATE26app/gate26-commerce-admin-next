@@ -244,6 +244,7 @@ export type OrderDetailItemType = {
   partner: partnerType;
   shipping: Shippingtype;
   groupOrders: Array<GroupOrderListType>;
+  siteOrigin?: string;
 };
 
 export type policiesType = {
