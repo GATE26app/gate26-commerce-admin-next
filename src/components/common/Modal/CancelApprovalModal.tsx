@@ -39,6 +39,7 @@ import {
 import {
   usePostOrderCancelMutation,
   usePutOrderCancelMutation,
+  usePostOrderCancelRequestForAgentMutation,
 } from '@/app/apis/order/OrderApi.mutation';
 import {
   CancelFeeType,
@@ -68,6 +69,7 @@ interface InfoProps {
   cancelRequestDate: string;
   meetingId?: string;
   cancelFaultId?: string;
+  siteOrigin?: string;
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
@@ -132,6 +134,50 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
       }
     }
   }, [cancelFaultType, openDay]);
+
+  //주문 취소 요청 - 에이전트 상품
+  const { mutate: RequestCancelForAgentMutate} =
+    usePostOrderCancelRequestForAgentMutation({
+      options: {
+        onSuccess: (res, req) => {
+          console.log("에이전트 상품 취소 요청~");
+          if (res.success) {
+            setGoodsInfo({
+              cancelState: false,
+            });
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`에이전트 상품 주문 취소 요청 완료했습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문번호 [${req?.orderId}] : ${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
 
   //주문 취소
   const { mutate: CancelMutate, isLoading: isCancelLoading } =
@@ -246,7 +292,19 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         ),
       });
     } else {
-      if (info?.orderType == 1) {
+      if (info?.siteOrigin) {
+        // 에이전트 상품 - 취소 요청
+        let obj: OrderCancelParamsType = {
+          orderId: info?.orderId,
+          body: {
+            cancelRequestType: cancelFaultType,
+            cancelFaultType: cancelFaultType,
+            cancelReason: cancelReason,
+          },
+        };
+        console.log("취소 요청!!")
+        RequestCancelForAgentMutate(obj);
+      } else if (info?.orderType == 1) {
         // 전체취소
         let obj: OrderCancelParamsType = {
           orderId: info?.orderId,

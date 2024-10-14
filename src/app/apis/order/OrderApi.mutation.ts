@@ -53,6 +53,14 @@ export const usePutOrderCancelRequestMutation = (
     ...params?.options,
   });
 };
+//주문 취소 요청 - 에이전트 상품 취소 요청
+export const usePostOrderCancelRequestForAgentMutation = (
+  params?: MutationHookParams<typeof orderApi.postOrderCancelRequestForAgent>,
+) => {
+  return useMutation(orderApi.postOrderCancelRequestForAgent, {
+    ...params?.options,
+  });
+};
 //주문 취소
 export const usePutOrderCancelMutation = (
   params?: MutationHookParams<typeof orderApi.postOrderCancel>,
