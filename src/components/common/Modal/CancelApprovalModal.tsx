@@ -517,7 +517,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               </Text>
             </Flex>
           )}
-          {info?.orderType !== 1 && (
+          {info?.orderType !== 1 && !info?.siteOrigin && (
             <>
               <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
                 <Text
@@ -634,6 +634,12 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             borderRadius={'10px'}
           />
         </Flex>
+        {info?.siteOrigin && (
+          <Text fontSize={'15px'} color={ColorRed} fontWeight={400} mb={'10px'}>
+            * 해당 상품은 에이전트 연계 상품으로, 취소 및 환불 규정에 따라 환불금액은 상이하며
+            취소가 불가할 수도 있습니다.
+          </Text>
+        )}
         {info?.orderType == 1 && (
           <Text fontSize={'15px'} color={ColorRed} fontWeight={400} mb={'10px'}>
             * 해당 상품은 판매자 직배송 상품으로, 취소 시 함께 주문한 동일한
@@ -672,7 +678,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         </ModalBody>
         <Flex mx={'30px'} flexDirection={'column'}>
           <CustomButton
-            text="취소하기"
+            text={info?.siteOrigin ? "취소요청" :"취소하기"}
             bgColor={ColorGray900}
             borderColor={ColorGray900}
             fontSize="16px"
