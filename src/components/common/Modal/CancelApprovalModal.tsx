@@ -302,7 +302,6 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             cancelReason: cancelReason,
           },
         };
-        console.log("취소 요청!!")
         RequestCancelForAgentMutate(obj);
       } else if (info?.orderType == 1) {
         // 전체취소
