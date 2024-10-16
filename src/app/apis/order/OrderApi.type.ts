@@ -245,6 +245,8 @@ export type OrderDetailItemType = {
   shipping: Shippingtype;
   groupOrders: Array<GroupOrderListType>;
   siteOrigin?: string;
+  requiredPartnerCancelConfirm: number;
+  partnerCancelConfirm: number;
 };
 
 export type policiesType = {

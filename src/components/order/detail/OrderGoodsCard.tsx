@@ -65,9 +65,25 @@ function OrderGoodsCard({ header, item }: Props) {
   });
 
   useEffect(() => {
-    if (item.orderStatus !== 0 && item.orderStatus !== 100) {
-      setStateList([item.orderStatusName, '주문 취소']);
-      // if()
+    if (item.cancelStatusName == '' || item.cancelStatusName == null) {
+      if (item.orderStatus !== 0 && item.orderStatus !== 100) {
+        setStateList([item.orderStatusName, '주문 취소']);
+        // if()
+      }
+    } else {
+      if (item.cancelStatusName == '취소요청') {
+        setSelectState(item.cancelStatusName);
+        if (
+          item.requiredPartnerCancelConfirm == 1 &&
+          item.partnerCancelConfirm == 2
+        ) {
+          setStateList(['주문 취소']);
+        } else if (item.requiredPartnerCancelConfirm == 0) {
+          setStateList(['주문 취소']);
+        } else {
+          setStateList([item.cancelStatusName]);
+        }
+      }
     }
     // if()
     // if (item.cancelStatusName == '' || item.cancelStatusName == null) {

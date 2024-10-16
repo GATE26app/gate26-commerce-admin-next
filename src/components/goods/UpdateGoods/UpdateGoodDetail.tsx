@@ -154,6 +154,7 @@ function UpdateGoodDetail() {
     deniedReason: '', //반려사유
     approvalId: '', //승인처리자
     deniedId: '', //승인거절처리자
+    requiredPartnerCancelConfirm: 0,
   });
   const [partnerInfo, setPartnerInfo] = useState<PartnerType>();
   const [imageList, setImageList] = useState<GoodsListItemImageProps[]>([]);
@@ -272,6 +273,8 @@ function UpdateGoodDetail() {
         deniedDate: detailData?.data.deniedDate, //상품반려일
         approvalId: detailData?.data.approvalId, //승인처리자
         deniedId: detailData?.data.deniedId, //승인거절처리자
+        requiredPartnerCancelConfirm:
+          detailData?.data.requiredPartnerCancelConfirm,
       });
       setPlanList(detailData?.data.schedules);
       setPolicyList(detailData?.data.policies);
@@ -435,6 +438,7 @@ function UpdateGoodDetail() {
             deniedDate: res.data.deniedDate, //상품반려일
             approvalId: res.data.approvalId, //승인처리자
             deniedId: res.data.deniedId, //승인거절처리자
+            requiredPartnerCancelConfirm: res.data.requiredPartnerCancelConfirm,
           });
           setPlanList(res.data.schedules);
           setPolicyList(res.data.policies);
@@ -526,6 +530,8 @@ function UpdateGoodDetail() {
             policies: policyList,
             optionInputs: optionInputList,
             options: optionList,
+            requiredPartnerCancelConfirm:
+              BasicInfo.requiredPartnerCancelConfirm,
           },
         };
 
@@ -586,6 +592,7 @@ function UpdateGoodDetail() {
     optionInputs: optionInputList,
     options: optionList,
     autoConfirm: BasicInfo.autoConfirm,
+    requiredPartnerCancelConfirm: BasicInfo.requiredPartnerCancelConfirm,
   };
   return (
     <>
