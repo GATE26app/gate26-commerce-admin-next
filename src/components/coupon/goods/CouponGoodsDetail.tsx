@@ -102,6 +102,8 @@ function CouponGoodsDetail() {
       },
     },
   );
+
+  console.log('CouponData', CouponData);
   useEffect(() => {
     if (detailData?.data?.stockCnt == null) {
       setCouponCntState(false);

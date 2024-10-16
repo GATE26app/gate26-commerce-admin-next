@@ -52,7 +52,7 @@ function CouponGoodsCard({ header, item, index, pageNo, totalCount }: Props) {
         setLoadingModal(false);
         if (res.success == true) {
           setGoodsInfo({
-            gate26CouponState: true,
+            goodsCouponState: true,
           });
           // router.back();
           ToastComponent('쿠폰이 삭제되었습니다.');

@@ -109,7 +109,7 @@ function CouponCate26Create() {
           </Box>
         ),
       });
-    } else if (CouponData.priceDc == 0) {
+    } else if (CouponData?.dcType == 1 && CouponData.priceDc == 0) {
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -171,7 +171,7 @@ function CouponCate26Create() {
         if (CouponData.dcType == 1) {
           const obj = {
             access: CouponData.access,
-            level: 1,
+            level: CouponData.level,
             type: CouponData.type,
             title: CouponData.title,
             startDate: CouponData.startDate,
@@ -185,7 +185,7 @@ function CouponCate26Create() {
         } else {
           const obj = {
             access: CouponData.access,
-            level: 1,
+            level: CouponData.level,
             type: CouponData.type,
             title: CouponData.title,
             startDate: CouponData.startDate,
@@ -201,7 +201,7 @@ function CouponCate26Create() {
         if (CouponData.dcType == 1) {
           const obj = {
             access: CouponData.access,
-            level: 1,
+            level: CouponData.level,
             type: CouponData.type,
             title: CouponData.title,
             startDate: CouponData.startDate,
@@ -216,7 +216,7 @@ function CouponCate26Create() {
         } else {
           const obj = {
             access: CouponData.access,
-            level: 1,
+            level: CouponData.level,
             type: CouponData.type,
             title: CouponData.title,
             startDate: CouponData.startDate,
@@ -232,6 +232,7 @@ function CouponCate26Create() {
       }
     }
   };
+  console.log('CouponData', CouponData);
   useEffect(() => {
     setLoadingModal(isLoading);
   }, [isLoading]);

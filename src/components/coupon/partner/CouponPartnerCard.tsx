@@ -51,7 +51,7 @@ function CouponPartnerCard({ header, item, index, pageNo, totalCount }: Props) {
         setLoadingModal(false);
         if (res.success == true) {
           setGoodsInfo({
-            gate26CouponState: true,
+            partnerCouponState: true,
           });
           // router.back();
           ToastComponent('쿠폰이 삭제되었습니다.');
@@ -110,7 +110,7 @@ function CouponPartnerCard({ header, item, index, pageNo, totalCount }: Props) {
           flexDirection={'column'}
         >
           <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
-            {item.typeName}
+            {item.partner.title}
           </Text>
         </Flex>
         <Flex
@@ -142,7 +142,9 @@ function CouponPartnerCard({ header, item, index, pageNo, totalCount }: Props) {
           flexDirection={'column'}
         >
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {intComma(item.partnerChargeAmount)}원
+            {item.dcType == 1
+              ? `${intComma(item.partnerChargeAmount)}원`
+              : `${item.partnerChargePercent}%`}
           </Text>
         </Flex>
         <Flex

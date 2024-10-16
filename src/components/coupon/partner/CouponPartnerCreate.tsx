@@ -296,7 +296,19 @@ function CouponPartnerCreate() {
             },
           });
         } else {
-          ToastComponent('등록에 실패하였습니다.');
+          setOpenAlertModal(true);
+          setModalState({
+            ...ModalState,
+            title: 'GATE 26 쿠폰 등록',
+            message: `${res.message}`,
+            type: 'alert',
+            okButtonName: '확인',
+            cbOk: () => {
+              setOpenAlertModal(false);
+              // window.history.back();
+            },
+          });
+          // ToastComponent('등록에 실패하였습니다.');
           console.log('error GATE 26 쿠폰 등록 에러', res.code);
         }
       },
