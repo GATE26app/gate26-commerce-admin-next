@@ -50,6 +50,26 @@ function ImageComponent({ list, setList }: Props) {
 
   const [indexList, setIndexList] = useState<string[]>([]);
 
+  // image
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const sortedList = list.sort((itemA, itemB) => itemA.sort - itemB.sort);
+    const imagePaths = [];
+
+    for(const image of sortedList){
+      if(image.imagePath) {
+        imagePaths.push(getImagePath(image.imagePath))
+      } else if(image.thumbnailImagePath){
+        imagePaths.push(image.thumbnailImagePath)
+      } else {
+        imagePaths.push('/images/no_img.png')
+      }
+    }
+
+    setImages(imagePaths);
+  }, [list])
+
   const { mutate: ItemCodeMutate, isLoading } = usePostImageMutation({
     options: {
       onSuccess: (resImg) => {
@@ -302,10 +322,10 @@ function ImageComponent({ list, setList }: Props) {
                           overflow={'hidden'}
                         >
                           <img
-                            src={getImagePath(
-                              list.filter((item) => item.sort == 1)[0]
-                                .imagePath,
-                            )}
+                            src={
+                              // getImagePath(list.filter((item) => item.sort == 1)[0].imagePath)
+                              images[0]
+                            }
                             style={{
                               width: '100%',
                               height: '100%',
@@ -458,10 +478,10 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 2)[0]
-                                    .imagePath,
-                                )}
+                                src={
+                                  // getImagePath(list.filter((item) => item.sort == 2)[0].imagePath)
+                                  images[1]
+                                }
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -566,10 +586,10 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 3)[0]
-                                    .imagePath,
-                                )}
+                                src={
+                                  // getImagePath(list.filter((item) => item.sort == 3)[0].imagePath)
+                                  images[2]
+                                }
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -674,10 +694,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 4)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 4)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[3]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -787,10 +808,11 @@ function ImageComponent({ list, setList }: Props) {
                                   height: '100%',
                                   objectFit: 'contain',
                                 }}
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 5)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 5)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[4]}
                                 alt="이미지 업로드"
                               />
                             </Flex>
@@ -890,10 +912,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 6)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 6)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[5]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -998,10 +1021,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 7)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 7)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[6]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -1106,10 +1130,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 8)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 8)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[7]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -1214,10 +1239,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 9)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 9)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[8]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -1322,10 +1348,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 10)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 10)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[9]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
@@ -1430,10 +1457,11 @@ function ImageComponent({ list, setList }: Props) {
                               overflow={'hidden'}
                             >
                               <img
-                                src={getImagePath(
-                                  list.filter((item) => item.sort == 11)[0]
-                                    .imagePath,
-                                )}
+                                // src={getImagePath(
+                                //   list.filter((item) => item.sort == 11)[0]
+                                //     .imagePath,
+                                // )}
+                                src={images[10]}
                                 style={{
                                   width: '100%',
                                   height: '100%',
