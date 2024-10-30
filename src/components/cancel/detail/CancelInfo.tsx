@@ -283,7 +283,7 @@ function CancelInfo({ info }: Props) {
                     ) : (
                       <>
                         {info?.cancelStatus == 1 &&
-                        info?.partnerCancelConfirm == 2 ? (
+                        info?.partnerCancelConfirm == 3 ? (
                           <>
                             <RadioComponent
                               text="승인"
@@ -305,7 +305,7 @@ function CancelInfo({ info }: Props) {
                             />
                           </>
                         ) : info?.cancelStatus == 1 &&
-                          info?.partnerCancelConfirm == 3 ? (
+                          info?.partnerCancelConfirm == 2 ? (
                           <Text
                             fontSize={'15px'}
                             fontWeight={500}
