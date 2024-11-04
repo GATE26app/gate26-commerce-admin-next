@@ -65,6 +65,7 @@ import PartnerFileComponent from '../add/PartnerFileComponents';
 import PartnerFileComponent1 from '../add/PartnerFileComponents1';
 import PartnerFileComponent2 from '../add/PartnerFileComponents2';
 import PartnerImageComponent from '../add/PartnerImageComponents';
+import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 
 function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const searchParams = useSearchParams();
@@ -75,6 +76,7 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const toast = useToast();
   const [check, setCheck] = useState(1);
   const [modal, setModal] = useState(false);
+  const [isGoogleModal, setGoogleModal] = useState(false);
   const [error, setError] = useState({
     loginId: '',
     password: '',
@@ -543,6 +545,15 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
     setLoadingModal(true);
   };
 
+  //구글 주소 modal
+  const handleComplete = (location: {
+    lat: string;
+    lng: string;
+    address: string;
+  }) => {
+    setValue('address', `${location.address} ()`);
+  };
+
   return (
     <>
       <ButtonModal
@@ -564,6 +575,14 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
         isOpen={modal}
         onClose={() => setModal(false)}
       />
+
+      {isGoogleModal && 
+        <GoogleMapModal
+          isOpen={isGoogleModal}
+          onClose={() => setGoogleModal(false)}
+          onComplete={handleComplete}
+        />
+      }
       <Flex mt={'30px'} flexDirection={'column'}>
         <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>
           기본정보
@@ -1363,7 +1382,10 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                     ml={'10px'}
                     width={'150px'}
                     cursor={'pointer'}
-                    onClick={() => setModal(!modal)}
+                    onClick={() => {
+                      if(watch('type') == 1) setModal(!modal)
+                      else setGoogleModal(!isGoogleModal)
+                    }}
                   >
                     <Text color={ColorRed} fontSize={'15px'}>
                       주소검색

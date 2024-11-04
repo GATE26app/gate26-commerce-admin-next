@@ -59,6 +59,7 @@ import PartnerFileComponent from './PartnerFileComponents';
 import PartnerFileComponent1 from './PartnerFileComponents1';
 import PartnerFileComponent2 from './PartnerFileComponents2';
 import AddressModal from '../AddressModal';
+import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 
 function PartnerBasicInfo() {
   const [isLoadingModal, setLoadingModal] = useState(false);
@@ -68,6 +69,7 @@ function PartnerBasicInfo() {
   const searchParams = useSearchParams();
   const [check, setCheck] = useState(1);
   const [modal, setModal] = useState(false);
+  const [isGoogleModal, setGoogleModal] = useState(false);
   const [error, setError] = useState({
     loginId: '',
     password: '',
@@ -523,6 +525,15 @@ function PartnerBasicInfo() {
     setLoadingModal(true);
   };
 
+  //구글 주소 modal
+  const handleComplete = (location: {
+    lat: string;
+    lng: string;
+    address: string;
+  }) => {
+    setValue('address', `${location.address} ()`);
+  };
+
   return (
     <>
       <ButtonModal
@@ -543,6 +554,12 @@ function PartnerBasicInfo() {
         }}
         isOpen={modal}
         onClose={() => setModal(false)}
+      />
+
+      <GoogleMapModal
+        isOpen={isGoogleModal}
+        onClose={() => setGoogleModal(false)}
+        onComplete={handleComplete}
       />
       <Flex mt={'30px'} flexDirection={'column'}>
         <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>
@@ -1305,7 +1322,10 @@ function PartnerBasicInfo() {
                     ml={'10px'}
                     width={'150px'}
                     cursor={'pointer'}
-                    onClick={() => setModal(!modal)}
+                    onClick={() => {
+                      if(watch('type') == 1) setModal(!modal)
+                      else setGoogleModal(!isGoogleModal)
+                    }}
                   >
                     <Text color={ColorRed} fontSize={'15px'}>
                       주소검색
