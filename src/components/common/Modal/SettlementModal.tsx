@@ -168,7 +168,7 @@ function SettlementModal({
             mt={'30px'}
           >
             <Text fontWeight={600} fontSize={'18px'} color={ColorBlack}>
-              미정산 내역
+              미확정 내역
             </Text>
             <Image
               src={'/images/Page/ico_modal_close.png'}
