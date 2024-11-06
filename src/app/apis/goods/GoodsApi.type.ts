@@ -5,7 +5,7 @@ export type GoodsResListType = {
   pageCount: number;
   pageNo: number;
   pageSize: number;
-  partners: GoodsResListItemType[];
+  data: GoodsResListItemType[];
 };
 export type GoodsResListItemType = {
   itemCode: string;
