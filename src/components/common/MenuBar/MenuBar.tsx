@@ -514,7 +514,7 @@ function MenuBar() {
           </Link>
         </Flex>
       )}
-      {/* <Flex
+      <Flex
         alignItems={'center'}
         cursor={'pointer'}
         justifyContent={'space-between'}
@@ -594,44 +594,44 @@ function MenuBar() {
             >
               세금계산서
             </Text>
-          </Link>
+          </Link> */}
         </Flex>
-      )}*/}
+      )}
       <Link href={'/banner'}>
-        <Flex
-          alignItems={'center'}
-          cursor={'pointer'}
-          mb={'30px'}
-          onClick={() => {
-            setMenu(7);
-            setOrdreMenu(1);
-          }}
-        >
-          {menu == 7 ? (
-            <Image
-              src={'/images/Menu/leftmenu07_on.png'}
-              width={40}
-              height={40}
-              alt="로고"
-            />
-          ) : (
-            <Image
-              src={'/images/Menu/leftmenu07_off.png'}
-              width={40}
-              height={40}
-              alt="로고"
-            />
-          )}
+      <Flex
+        alignItems={'center'}
+        cursor={'pointer'}
+        mb={'30px'}
+        onClick={() => {
+          setMenu(7);
+          setOrdreMenu(1);
+        }}
+      >
+        {menu == 7 ? (
+          <Image
+            src={'/images/Menu/leftmenu07_on.png'}
+            width={40}
+            height={40}
+            alt="로고"
+          />
+        ) : (
+          <Image
+            src={'/images/Menu/leftmenu07_off.png'}
+            width={40}
+            height={40}
+            alt="로고"
+          />
+        )}
 
-          <Text
-            color={menu == 7 ? ColorRed : ColorGrayMenu}
-            fontWeight={800}
-            fontSize={'18px'}
-            ml={'15px'}
-          >
-            배너관리
-          </Text>
-        </Flex>
+        <Text
+          color={menu == 7 ? ColorRed : ColorGrayMenu}
+          fontWeight={800}
+          fontSize={'18px'}
+          ml={'15px'}
+        >
+          배너관리
+        </Text>
+      </Flex>
       </Link>
       {/* <Flex
         alignItems={'center'}

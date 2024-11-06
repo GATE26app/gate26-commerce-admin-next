@@ -20,7 +20,7 @@ function Pagination({
   onPageNumberClicked,
   onPreviousPageClicked,
   onNextPageClicked,
-}: PaginationProps) {
+}: PaginationProps|any) {
   const handlePreviousClicked = (page: number) => {
     if (page < 0) return;
     onPreviousPageClicked(page);

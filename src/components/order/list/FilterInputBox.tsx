@@ -191,12 +191,13 @@ function FilterInputBox({ request, setRequest, search, setSearch }: Props) {
           placeholder="검색어를 입력해주세요."
         /> */}
         <SearchInput
-          text={String(request.searchKeyword)}
+          value={String(request.searchKeyword)}
           onChange={(e) => {
             setRequest({ ...request, searchKeyword: e.target.value });
           }}
           placeholder="검색어를 입력해주세요."
         />
+        
       </Flex>
     </Box>
   );

@@ -1,12 +1,12 @@
 import Image from 'next/image';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useRef, useState } from 'react';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import {
-  OrderListItemType,
-  OrderListResType,
-} from '@/app/apis/order/OrderApi.type';
+  GodsListItemDataListProps,
+  GoodsListResponseProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 import {
   ColorBlack,
@@ -15,89 +15,20 @@ import {
   ColorGrayBorder,
 } from '@/utils/_Palette';
 
-import OrderCard from './OrderCard';
+import { settlelistheader } from '@/utils/headerData';
+import SettleCard from './SettleCard';
+import { SettleListDtoType, SettleListItemType, SettleListResType } from '@/app/apis/settlement/SettlementApi.type';
 
-// import GoodsCard from './GoodsCard';
-
-export const orderlistheader = [
-  {
-    id: 'id',
-    name: '주문일\n(주문번호)',
-    width: '9%',
-  },
-  {
-    id: 'GoodOrderNum',
-    name: '상품주문번호',
-    width: '7%',
-  },
-  {
-    id: 'GoodOrderNum',
-    name: '파트너사',
-    width: '7%',
-  },
-  {
-    id: 'info',
-    name: '상품정보',
-    width: '25%',
-  },
-  {
-    id: 'payment',
-    name: '결제정보',
-    width: '7%',
-  },
-  {
-    id: 'rest',
-    name: '예약/이용자 정보',
-    width: '12%',
-  },
-  {
-    id: 'reves',
-    name: '예약/이용일',
-    width: '7%',
-  },
-  {
-    id: 'state',
-    name: '주문상태',
-    width: '10%',
-  },
-  {
-    id: 'delivery',
-    name: '배송지정보',
-    width: '15%',
-  },
-];
-
-interface HeaderListProp {}
 interface DataTableHeaderProps {
   name: string;
-  width: string;
+  width: number;
 }
-interface ItemProps {
-  id: number;
-  orderDate: string;
-  orderNum: string;
-  GoodOrderNum: string;
-  image: string;
-  category1: string;
-  goodsName: string;
-  option: string;
-  price: number;
-  payment: string;
-  orderPrice: number;
-  orderemail: string;
-  ordername: string;
-  orderphone: string;
-  useDate: string;
-  state: string;
-  delivery: string;
-}
-export type { ItemProps, DataTableHeaderProps };
 interface Props {
-  list: OrderListResType;
-  CheckList: string[];
+  data: SettleListResType;
   setChekcList: React.Dispatch<React.SetStateAction<string[]>>;
+  CheckList: string[];
 }
-function OrderDataTable({ list, setChekcList, CheckList }: Props) {
+function SettleDataTable({ data, setChekcList, CheckList }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
@@ -123,17 +54,17 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
   const onClickAllCheck = () => {
     if (CheckList.length == 0) {
       const checkdata: string[] = [];
-      list?.orders.forEach((item) => {
-        checkdata.push(item.orderId);
+      data?.settlements.forEach((item) => {
+        checkdata.push(String(item.settlementId));
         setChekcList(checkdata);
       });
     } else if (
-      list?.orders.length !== CheckList.length &&
+      data?.settlements.length !== CheckList.length &&
       CheckList.length !== 0
     ) {
       const checkdata: string[] = [];
-      list?.orders.forEach((item) => {
-        checkdata.push(item.orderId);
+      data?.settlements.forEach((item) => {
+        checkdata.push(String(item.settlementId));
         setChekcList(checkdata);
       });
     } else {
@@ -167,7 +98,7 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
           h={'64px'}
           onClick={() => onClickAllCheck()}
         >
-          {list?.orders.length == CheckList.length ? (
+          {data?.settlements.length == CheckList.length ? (
             <Image
               width={21}
               height={21}
@@ -183,10 +114,10 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
             />
           )}
         </Flex>
-        {orderlistheader.map((item: DataTableHeaderProps, index: number) => {
+        {settlelistheader.map((item: DataTableHeaderProps, index: number) => {
           return (
             <Flex
-              w={item.width}
+              w={`${item.width}%`}
               alignItems={'center'}
               justifyContent={'center'}
               h={'64px'}
@@ -205,21 +136,26 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
           );
         })}
       </Flex>
-
-      {list && list?.totalCount !== undefined && list?.totalCount !== 0 ? (
+      {data && data?.totalCount !== undefined && data?.totalCount !== 0 ? (
         <>
-          {list &&
-            list?.orders.map((item: OrderListItemType, index: number) => {
-              return (
-                <OrderCard
-                  key={index}
-                  item={item}
-                  header={orderlistheader}
-                  CheckList={CheckList}
-                  setChekcList={setChekcList}
-                />
-              );
-            })}
+          {data &&
+            data?.settlements !== undefined &&
+            data?.settlements.map(
+              (itemData: SettleListItemType, index: number) => {
+                return (
+                  <SettleCard
+                    key={index}
+                    item={itemData}
+                    header={settlelistheader}
+                    index={index}
+                    totalCount={data.totalCount}
+                    pageNo={data.pageNo}
+                    CheckList={CheckList}
+                    setChekcList={setChekcList}
+                  />
+                );
+              },
+            )}
         </>
       ) : (
         <Flex
@@ -238,7 +174,7 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
             alt="데이터 없음"
           />
           <Text fontSize={'14px'} fontWeight={'400'} color={ColorBlack}>
-            조회한 내용이 없습니다.
+            데이터가 없습니다.
           </Text>
         </Flex>
       )}
@@ -246,4 +182,4 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
   );
 }
 
-export default OrderDataTable;
+export default SettleDataTable;

@@ -281,7 +281,12 @@ export const settlelistheader = [
   },
   {
     id: 'management',
-    name: '판매금액',
+    name: '주문금액',
+    width: 9,
+  },
+  {
+    id: 'management',
+    name: '결제금액',
     width: 9,
   },
   {
@@ -310,11 +315,6 @@ export const settlelistheader = [
     width: 9,
   },
   {
-    id: 'req',
-    name: '정산예정일',
-    width: 9,
-  },
-  {
     id: 'reqDate',
     name: '정산완료일',
     width: 9,
@@ -334,12 +334,17 @@ export const settlelistheader = [
 export const settleDetailListHeader = [
   {
     id: 'id',
-    name: '상태값',
+    name: '정산유형',
     width: 12,
   },
   {
     id: 'management',
-    name: '상품주문번호',
+    name: '상품주문번호\n결제번호',
+    width: 12,
+  },
+  {
+    id: 'code',
+    name: '주문금액',
     width: 12,
   },
   {
