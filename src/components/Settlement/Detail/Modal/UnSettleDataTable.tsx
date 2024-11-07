@@ -15,7 +15,7 @@ import {
   ColorGrayBorder,
 } from '@/utils/_Palette';
 
-import { settleDetailListHeader } from '@/utils/headerData';
+import { settleDetailListHeader, unSettleDetailListHeader } from '@/utils/headerData';
 import UnSettlementCard from './UnSettlementCard';
 import { SettleUnListItemDtoType } from '@/app/apis/settlement/SettlementApi.type';
 interface DataTableHeaderProps {
@@ -68,7 +68,7 @@ function UnSettleDataTable({ data }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
-        {settleDetailListHeader.map(
+        {unSettleDetailListHeader.map(
           (item: DataTableHeaderProps, index: number) => {
             return (
               <Flex
