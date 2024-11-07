@@ -88,6 +88,9 @@ function MenuBar() {
     } else if (pathname.includes('/banner')) {
       setMenu(7);
       setOrdreMenu(1);
+    } else if (pathname.includes('/settlementList')) {
+      setMenu(6);
+      setOrdreMenu(1);
     }
   }, [pathname]);
   //필터 초기화
@@ -577,6 +580,7 @@ function MenuBar() {
               color={orderMenu == 1 ? ColorRed : ColorGrayMenu}
               cursor={'pointer'}
               onClick={() => {
+                setMenu(6);
                 setOrdreMenu(1);
               }}
             >

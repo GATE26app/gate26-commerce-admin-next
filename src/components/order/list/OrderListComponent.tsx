@@ -85,8 +85,11 @@ function OrderListComponent({ list, request, setRequest }: Props) {
       newRequest.pageNo = 0;
     } else if (key === 'page') {
       // setPage(value as number);
-      newRequest.pageNo = Number(value);
-
+      newRequest.pageNo = Number(value) + 1;
+      setOrderFilterInfo({
+        ...orderFilterInfo,
+        pageNo: Number(value),
+      });
       router.push(`/orderList?page=${Number(value) + 1}`);
     }
     //페이지가 0보다 작은 경우 0으로 세팅

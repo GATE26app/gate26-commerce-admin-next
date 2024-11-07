@@ -30,7 +30,7 @@ import {
 import InputBox from '@/components/common/Input';
 import { intComma } from '@/utils/format';
 import SelectBox from '@/components/common/SelectBox';
-import { usePostAddEctMutation } from '@/app/apis/settlement/SettlementApi.mutation';
+import { usePostAddEctMutation, useUpdateSettleEtcMutation } from '@/app/apis/settlement/SettlementApi.mutation';
 import { useSearchParams } from '../../../../../node_modules/next/navigation';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 
@@ -112,16 +112,25 @@ function AddSettleItem({
         if(type == '차감(-)'){
             isPrice = -Math.abs(isPrice);
         }
-        OrderCancelFeeMutate({
+        if(props.type == 'add'){
+          SettleAddMutation({
             settlementId: Number(getSettleId),
             amount: isPrice,
             title: name,
-        });
+          });
+        } else {
+          SettleMentUpdateMutation({
+            settleId: Number(getSettleId),
+            itemId: Number(props.data.itemId),
+            amount: isPrice,
+            title: name,
+          });
+        }
     }
   };
 
   //주문 취소 수수료
-    const { mutate: OrderCancelFeeMutate, isLoading: isConfrimLoading } =
+    const { mutate: SettleAddMutation, isLoading: isConfrimLoading } =
       usePostAddEctMutation({
         options: {
           onSuccess: (res, req) => {
@@ -155,6 +164,56 @@ function AddSettleItem({
         },
       });
 
+      //주문 취소 수수료
+    const { mutate: SettleMentUpdateMutation } =
+    useUpdateSettleEtcMutation({
+      options: {
+        onSuccess: (res, req) => {
+          console.log(res);
+          if (res.success) {
+              toast({
+                  position: 'top',
+                  duration: 2000,
+                  render: () => (
+                    <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                      {'정산 항목이 추가되었습니다.'}
+                    </Box>
+                  ),
+                });
+              onClose();
+            setIsLoading(false);
+            queryClient.refetchQueries(`settleItem`);
+          } else {
+              toast({
+                  position: 'top',
+                  duration: 2000,
+                  render: () => (
+                      <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+                      {'정산 항목 추가에 실패했습니다.'}
+                      </Box>
+                  ),
+              });
+              setIsLoading(false);
+          }
+        },
+      },
+    });
+
+  // 수정 정보 등록
+  useEffect(() => {
+    if(props.data != undefined){
+      if(props.type != 'add'){
+        console.log('수정정보', props.data);
+        if(props.data.settlementAmount > 0){
+          // + 
+          setType('추가(+)');
+        } else {
+          setType('차감(-)');
+        }
+        setPrice(props.data.settlementAmount);
+      }
+    }
+  }, [props.data]);
   const renderContent = () => {
     return (
       <Flex flexDirection={'column'}>
@@ -263,14 +322,16 @@ function AddSettleItem({
         </ModalBody>
         <Flex mx={'30px'} flexDirection={'column'}>
           <CustomButton
-            text={'추가하기'}
+            text={props.type == 'add' ? '추가하기' : '수정하기'}
             bgColor={ColorGray900}
             borderColor={ColorGray900}
             fontSize="16px"
             color={ColorWhite}
             py="15px"
             fontWeight={700}
-            onClick={ClickAddSettle}
+            onClick={() => {
+              ClickAddSettle();
+            }}
           />
         </Flex>
       </Content>

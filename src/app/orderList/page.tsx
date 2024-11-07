@@ -62,12 +62,13 @@ function OrderListPage() {
 
   useEffect(() => {
     if (orderFilterInfo.pageNo) {
-      setRequest({ ...request, pageNo: Number(orderFilterInfo.pageNo) - 1 });
+      setRequest({ ...request, pageNo: Number(orderFilterInfo.pageNo) });
       setGoodsInfo({
         orderState: true,
       });
     }
   }, [orderFilterInfo.pageNo]);
+  
   const { mutate: refreshList, isLoading } = usePostOrderListMutation({
     options: {
       onSuccess: (res) => {
@@ -82,6 +83,7 @@ function OrderListPage() {
   useEffect(() => {
     refreshList(request);
   }, []);
+
   useEffect(() => {
     if (goodsInfo.orderState) refreshList(request);
   }, [goodsInfo.orderState]);

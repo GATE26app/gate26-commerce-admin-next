@@ -2,7 +2,13 @@ import { useSettleFilterZuInfo } from '@/_store/SettleFilterInfo';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import CustomButton from '@/components/common/CustomButton';
 import Pagination from '@/components/common/Pagination';
-import { ColorBlack, ColorGray700, ColorGrayBorder, ColorRed, ColorWhite } from '@/utils/_Palette';
+import {
+  ColorBlack,
+  ColorGray700,
+  ColorGrayBorder,
+  ColorRed,
+  ColorWhite,
+} from '@/utils/_Palette';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -11,6 +17,7 @@ import ImageButton from '@/components/common/ImageButton';
 import SettlementModal from '@/components/common/Modal/SettlementModal';
 import { getToken } from '@/utils/localStorage/token/index';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
+import ButtonModal from '@/components/common/Modal/ButtonModal';
 
 interface Props {
   data: any;
@@ -35,6 +42,15 @@ function SettleMentList({ data, request, setRequest }: Props) {
     onPreviousPageClicked: (page: number) => handleChangeInput('page', page),
     onNextPageClicked: (page: number) => handleChangeInput('page', page),
   };
+  const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [ModalState, setModalState] = useState({
+    title: '',
+    message: '',
+    type: 'alert',
+    okButtonName: '',
+    cbOk: () => {},
+    cbCancel: () => {},
+  });
 
   function handleChangeInput(key: string, value: string | number, id?: string) {
     const newRequest = { ...request, [key]: value };
@@ -85,15 +101,13 @@ function SettleMentList({ data, request, setRequest }: Props) {
         : '';
     let fromDate =
       request.fromDate != '' ? '&fromDate=' + request.fromDate : '';
-    let toDate =
-      request.toDate != '' ? '&toDate=' + request.toDate : '';
-    let status =
-      request.status != null
-        ? '&status=' + request.status
-        : '';
+    let toDate = request.toDate != '' ? '&toDate=' + request.toDate : '';
+    let status = request.status != null ? '&status=' + request.status : '';
     let settleId = CheckList.length > 0 ? '&settlementIds=' + CheckList : '';
     const addUrl = `${searchKeyword}${fromDate}${toDate}${status}${settleId}`;
-    const url = `/backoffice/admin/download-settlements${and}${addUrl.slice(1)}`;
+    const url = `/backoffice/admin/download-settlements${and}${addUrl.slice(
+      1,
+    )}`;
     console.log('yrl', url);
 
     try {
@@ -114,18 +128,18 @@ function SettleMentList({ data, request, setRequest }: Props) {
       a.href = downloadUrl;
       let fileName = '알수없는파일';
       try {
-          const contentDisposition = response.headers.get('Content-Disposition');
+        const contentDisposition = response.headers.get('Content-Disposition');
 
-          if (contentDisposition && contentDisposition.includes('filename*=')) {
-            fileName = contentDisposition
-              .split(`filename*=UTF-8''`)[1]
-              .split(';')[0]
-              .replace(/"/g, '');
-          }
-          a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
-        } catch (error) {
-          fileName = '알수없는파일';
+        if (contentDisposition && contentDisposition.includes('filename*=')) {
+          fileName = contentDisposition
+            .split(`filename*=UTF-8''`)[1]
+            .split(';')[0]
+            .replace(/"/g, '');
         }
+        a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
+      } catch (error) {
+        fileName = '알수없는파일';
+      }
 
       document.body.appendChild(a);
       a.click();
@@ -146,7 +160,12 @@ function SettleMentList({ data, request, setRequest }: Props) {
           onClose={() => setOpenModal(false)}
         />
       )} */}
-       <LoadingModal
+      <ButtonModal
+        isOpen={isOpenAlertModal}
+        ModalState={ModalState}
+        onClose={() => setOpenAlertModal(false)}
+      />
+      <LoadingModal
         children={isLoading}
         isOpen={isLoading}
         onClose={() => !isLoading}
@@ -171,7 +190,7 @@ function SettleMentList({ data, request, setRequest }: Props) {
           </Text>
         </Flex>
         <Flex gap={'10px'}>
-        {/* <CustomButton
+          {/* <CustomButton
           text="정산미확정 확인"
           fontSize="15px"
           color={ColorWhite}
@@ -181,26 +200,45 @@ function SettleMentList({ data, request, setRequest }: Props) {
           px="48px"
           onClick={() => setOpenModal(true)}
         /> */}
-        <ImageButton
-        img="/images/Page/excel_icon.png"
-        backgroundColor={ColorWhite}
-        borderColor={ColorGrayBorder}
-        text="엑셀 다운로드"
-        TextColor={ColorGray700}
-        fontSize="14px"
-        imgHeight="20px"
-        imgWidth="20px"
-        px="14px"
-        py="10px"
-        onClick={() => f_excel_down()}
-      />
+          <ImageButton
+            img="/images/Page/excel_icon.png"
+            backgroundColor={ColorWhite}
+            borderColor={ColorGrayBorder}
+            text="엑셀 다운로드"
+            TextColor={ColorGray700}
+            fontSize="14px"
+            imgHeight="20px"
+            imgWidth="20px"
+            px="14px"
+            py="10px"
+            onClick={() => {
+              if (
+                (CheckList.length <= 0 && data?.totalCount >= 100) ||
+                CheckList.length >= 100
+              ) {
+                setOpenAlertModal(true);
+                setModalState({
+                  ...ModalState,
+                  title: '엑셀 다운로드',
+                  message: `100개 이상의 상품을 다운로드하면 시간이 오래 걸립니다.\n그래도 하시겠습니까?`,
+                  type: 'confirm',
+                  okButtonName: '확인',
+                  cbOk: () => {
+                    f_excel_down();
+                  },
+                });
+              } else {
+                f_excel_down();
+              }
+            }}
+          />
         </Flex>
       </Flex>
       {/* {data && data?.totalCount !== undefined && data?.totalCount !== 0 ? ( */}
-      <SettleDataTable 
-      data={data}
-      setChekcList={setChekcList}
-      CheckList={CheckList}
+      <SettleDataTable
+        data={data}
+        setChekcList={setChekcList}
+        CheckList={CheckList}
       />
       {/* ) : (
     <Flex

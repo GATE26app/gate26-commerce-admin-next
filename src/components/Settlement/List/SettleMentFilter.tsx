@@ -52,11 +52,12 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
       });
       // ToastComponent('기간조회 유형을 선택해주세요.');
     } else {
+      router.push(`/settlementList?page=1`);
       setSettleFilterInfo({
         ...settleFilterInfo,
         fromDate: request.fromDate,
         endDate: request.endDate,
-        pageNo: 0,
+        // pageNo: 1,
         searchType: request.searchType !== undefined ? request.searchType : '',
         searchKeyword:
           request.searchKeyword !== undefined ? request.searchKeyword : '',

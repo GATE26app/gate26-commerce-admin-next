@@ -71,7 +71,6 @@ function SettleDetailDataTable({ data, status }: Props) {
         {settleDetailListHeader.map(
           (item: DataTableHeaderProps, index: number) => {
             // 미정산
-            console.log(item.name, status, 'data');
             if(status == 0){
               return (
                 <Flex
@@ -141,7 +140,7 @@ function SettleDetailDataTable({ data, status }: Props) {
           bgColor={ColorGray100}
           mt={'20px'}
           py={'42px'}
-          minW={'1000px'}
+          minW={'1120px'}
           flexDirection={'column'}
           justifyContent={'center'}
           alignItems={'center'}

@@ -81,6 +81,7 @@ function SettleDetailComponent() {
           </Box>
         ),
       });
+      setIsLoading(false);
     } else {
       const url = `/backoffice/admin/download-settlements/${getSettleId}${
         search != '' ? `?searchKeyword=${search}` : ''
@@ -140,6 +141,8 @@ function SettleDetailComponent() {
         <AddSettleItem
           isOpen={openModal}
           onClose={() => setOpenModal(false)}
+          type={'add'}
+          data={undefined}
         />
       )}
       <Box w={'100%'} pt={'60px'}>
