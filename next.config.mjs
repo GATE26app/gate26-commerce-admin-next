@@ -9,6 +9,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  env: {
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: 'AIzaSyBLx620AeBQnveLI0c7kflx282CNVlJQU8',
+    SECRET_KEY: 'IDT-ReGate26',
+    URL_API: 'https://web.gate26.co.kr',
+  },
   reactStrictMode: false,
   // async rewrites() {
   //   return [

@@ -25,8 +25,9 @@ interface DataTableHeaderProps {
 }
 interface Props {
   data: Array<SettleItemDtoType>;
+  status: number;
 }
-function SettleDetailDataTable({ data }: Props) {
+function SettleDetailDataTable({ data, status }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
@@ -59,7 +60,7 @@ function SettleDetailDataTable({ data }: Props) {
     >
       <Flex
         flexDirection={'row'}
-        minW={'1000px'}
+        minW={'1120px'}
         borderTopColor={ColorDataTableBorderTop}
         borderBottomColor={ColorGrayBorder}
         borderBottomWidth={1}
@@ -69,25 +70,51 @@ function SettleDetailDataTable({ data }: Props) {
       >
         {settleDetailListHeader.map(
           (item: DataTableHeaderProps, index: number) => {
-            return (
-              <Flex
-                w={`${item.width}%`}
-                alignItems={'center'}
-                justifyContent={'center'}
-                h={'64px'}
-                key={index}
-              >
-                <Text
-                  color={ColorBlack}
-                  fontSize={'15px'}
-                  fontWeight={700}
-                  textAlign={'center'}
-                  whiteSpace={'pre-wrap'}
+            // 미정산
+            console.log(item.name, status, 'data');
+            if(status == 0){
+              return (
+                <Flex
+                  w={`${item.width}%`}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+                  h={'64px'}
+                  key={index}
                 >
-                  {item.name}
-                </Text>
-              </Flex>
-            );
+                  <Text
+                    color={ColorBlack}
+                    fontSize={'15px'}
+                    fontWeight={700}
+                    textAlign={'center'}
+                    whiteSpace={'pre-wrap'}
+                  >
+                    {item.name}
+                  </Text>
+                </Flex>
+              );
+            } else {
+              if(item.name != '관리'){
+                return (
+                  <Flex
+                    w={`${item.width}%`}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    h={'64px'}
+                    key={index}
+                  >
+                    <Text
+                      color={ColorBlack}
+                      fontSize={'15px'}
+                      fontWeight={700}
+                      textAlign={'center'}
+                      whiteSpace={'pre-wrap'}
+                    >
+                      {item.name}
+                    </Text>
+                  </Flex>
+                );
+              }
+            } 
           },
         )}
       </Flex>
@@ -101,6 +128,7 @@ function SettleDetailDataTable({ data }: Props) {
                     item={itemData}
                     header={settleDetailListHeader}
                     index={index}
+                    status={status}
                     // totalCount={data.totalCount}
                     // pageNo={data.pageNo}
                   />

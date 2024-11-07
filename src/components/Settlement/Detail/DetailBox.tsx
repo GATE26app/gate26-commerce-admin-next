@@ -214,7 +214,8 @@ function DetailBox({ data }: Props) {
               </Text>
             </Flex>
           </Flex>
-          <Flex w={'50%'} alignItems={'center'}>
+          {data.status == 0 && (
+            <Flex w={'50%'} alignItems={'center'}>
             <Text
               fontWeight={600}
               color={ColorBlack}
@@ -248,6 +249,7 @@ function DetailBox({ data }: Props) {
               </Box>
             </Flex>
           </Flex>
+          )}
         </Flex>
         <hr />
         <Flex w={'100%'} pb={'30px'} mt={'30px'}>

@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useUserZuInfo } from '@/_store/UserZuInfo';
 import { deleteToken } from '@/utils/localStorage/token';
+import { deleteSendBirdToken } from '@/utils/localStorage/token/index';
 
 function MainHeader() {
   const router = useRouter();
@@ -22,6 +23,7 @@ function MainHeader() {
   const onLogout = () => {
     deleteUserZuInfo();
     deleteToken();
+    deleteSendBirdToken();
     document.cookie = `auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     router.push('/login');
   };

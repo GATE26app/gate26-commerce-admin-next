@@ -85,7 +85,7 @@ export class SettlementApi {
 
     const { data } = await this.axios({
       method: 'PUT',
-      url: `/admin/settlements/${body.settlementId}/add`,
+      url: `/admin/settlements/${body.settlementId}/item`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
@@ -93,7 +93,7 @@ export class SettlementApi {
     });
     return data;
   };
-
+ 
  //주문 메모 입력
  putSettleMemo = async (
   req: SettleMemoParamsType,

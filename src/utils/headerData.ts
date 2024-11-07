@@ -377,4 +377,9 @@ export const settleDetailListHeader = [
     name: '정산예정금액',
     width: 12,
   },
+  {
+    id: 'goods',
+    name: '관리',
+    width: 20,
+  },
 ];

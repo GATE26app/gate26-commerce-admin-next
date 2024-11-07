@@ -49,7 +49,7 @@ function SettleDetailList({ request, setRequest, data }: Props) {
   }
   return (
     <Flex flexDirection={'column'}>
-      <SettleDetailDataTable data={data.items} />
+      <SettleDetailDataTable data={data.items} status={data.status} />
       {/* {data?.totalCount !== undefined &&
         data?.totalCount !== 0 &&
         paginationProps && (
