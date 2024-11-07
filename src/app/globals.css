@@ -17,6 +17,7 @@
     #0071ff33 160deg,
     transparent 360deg
   );
+  
   --secondary-glow: radial-gradient(
     rgba(255, 255, 255, 1),
     rgba(255, 255, 255, 0)
@@ -118,6 +119,10 @@ h5 {
 }
 h6 {
   font-size: 1rem; /* h6 태그의 폰트 크기를 설정합니다 */
+}
+
+.custom_select{
+  position: absolute;
 }
 /* :where(h1, h2, h3, h4, h5, h6) {
   font-size: revert;

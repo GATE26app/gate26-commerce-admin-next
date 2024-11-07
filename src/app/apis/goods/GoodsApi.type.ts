@@ -5,7 +5,7 @@ export type GoodsResListType = {
   pageCount: number;
   pageNo: number;
   pageSize: number;
-  partners: GoodsResListItemType[];
+  data: GoodsResListItemType[];
 };
 export type GoodsResListItemType = {
   itemCode: string;
@@ -388,6 +388,7 @@ export type GoodsBasicProps = {
   approvalId?: string;
   deniedId?: string;
   partnerId?: string;
+  requiredPartnerCancelConfirm: number;
 };
 
 //상품 상세시 basic body type
@@ -455,6 +456,7 @@ export type GoodsReqProps = {
   policies: GoodsPoliciesListProps[];
   optionInputs: optionInputsProps[];
   options: OptionProps[];
+  requiredPartnerCancelConfirm: number;
 };
 
 export type OptionStockType = {

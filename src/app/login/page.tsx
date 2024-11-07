@@ -31,6 +31,7 @@ import { useUserZuInfo } from '@/_store/UserZuInfo';
 import { useRouter } from 'next/navigation';
 import { useQuery } from 'react-query';
 import sendBirdApi from '../apis/sendbird/SendBirdApi';
+import moment from 'moment';
 // import BottomLayout from 'layout/BottomLayout';
 
 interface LoginModel {
@@ -90,14 +91,18 @@ function page() {
             accessToken: data?.accessToken ? data?.accessToken : '',
             refreshToken: data?.refreshToken ? data?.refreshToken : '',
           });
-          if (getSendBirdToken().expiresAt < Date.now()) {
-            console.log('샌드버드 토큰 재발급');
-            // ReTokenFun();
+          localStorage.setItem('loginId', request.loginId);
+          if (localStorage.getItem('loginId') !== request.loginId) {
             setSendBirdTokenState(true);
           } else {
-            setSendBirdTokenState(false);
-            router.push('/');
-            // ReTokenFun();
+            if (getSendBirdToken().expiresAt / 1000 < moment().unix()) {
+              console.log('샌드버드 토큰 재발급');
+              // ReTokenFun();
+              setSendBirdTokenState(true);
+            } else {
+              setSendBirdTokenState(false);
+              router.push('/');
+            }
           }
           setErrorMsg('');
         } else {

@@ -22,6 +22,9 @@ import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
+import ButtonModal from '../common/Modal/ButtonModal';
+import LoadingModal from '../common/Modal/LoadingModal';
+import { getToken } from '@/utils/localStorage/token';
 
 // import { useCustomModalHandlerContext } from 'contexts/modal/useCustomModalHandler.context';
 
@@ -58,6 +61,17 @@ function GoodsListComponet({
     onPreviousPageClicked: (page: number) => handleChangeInput('page', page),
     onNextPageClicked: (page: number) => handleChangeInput('page', page),
   };
+  const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [ModalState, setModalState] = useState({
+    title: '',
+    message: '',
+    type: 'confirm',
+    okButtonName: '',
+    cbOk: () => {},
+    cbCancel: () => {},
+  });
+  const [CheckList, setCheckList] = useState<string[]>([]);
+  const [isAlertLoading, setIsLoading] = useState(false);
   function handleChangeInput(key: string, value: string | number, id?: string) {
     const newRequest = { ...request, [key]: value };
 
@@ -91,8 +105,107 @@ function GoodsListComponet({
     });
     setRequest(newRequest);
   }
+  const onClickExcel = () => {
+    if (CheckList.length == 0 && data?.totalCount >= 100) {
+      setOpenAlertModal(true);
+      setModalState({
+        ...ModalState,
+        title: '엑셀 다운로드',
+        message:
+          '100개 이상의 상품을 다운로드하면 시간이 오래 걸립니다. 그래도 하시겠습니까?',
+        type: 'confirm',
+        okButtonName: '확인',
+        cbOk: () => {
+          f_excel_down();
+          // window.history.back();
+        },
+      });
+    } else {
+      f_excel_down();
+    }
+  };
+
+  const f_excel_down = async () => {
+    setIsLoading(true);
+
+    let and =
+      request.searchKeyword != '' ||
+      request.type != 0 ||
+      request.status != null ||
+      request.level !== 0 ||
+      request.forSale != 0 ||
+      request.partnerId != '' ||
+      CheckList.length != 0
+        ? '?'
+        : '';
+    let type = request.type != 0 ? '&type=' + request.type : '';
+    let status = request.status != null ? '&status=' + request.status : '';
+    let level = request.level != 0 ? '&level=' + request.level : '';
+    let forSale = request.forSale != 0 ? '&forSale=' + request.forSale : '';
+    let searchKeyword =
+      request.searchKeyword != ''
+        ? '&searchType=' +
+          request.searchType +
+          '&searchKeyword=' +
+          request.searchKeyword
+        : '';
+    let partnerId =
+      request.partnerId !== '' ? '&partnerId=' + request.partnerId : '';
+    let itemCodes = CheckList.length > 0 ? '&itemCodes=' + CheckList : '';
+    const addUrl = `${forSale}${type}${status}${level}${searchKeyword}${partnerId}${itemCodes}`;
+    const url = `/backoffice/admin/download-items${and}${addUrl.slice(1)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-AUTH-TOKEN': `${getToken().access}`,
+        },
+      });
+      if (!response.ok) {
+        setIsLoading(false);
+        throw new Error('Network response was not ok');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let fileName = '첨부파일';
+      console.log('contentDisposition', contentDisposition);
+
+      if (contentDisposition && contentDisposition.includes('filename*=')) {
+        fileName = decodeURIComponent(
+          contentDisposition.split("filename*=UTF-8''")[1],
+        );
+      }
+
+      a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error downloading the file:', error);
+    }
+  };
   return (
     <Box mt={'40px'}>
+      <ButtonModal
+        isOpen={isOpenAlertModal}
+        ModalState={ModalState}
+        onClose={() => setOpenAlertModal(false)}
+      />
+      <LoadingModal
+        children={isAlertLoading}
+        isOpen={isAlertLoading}
+        onClose={() => !isAlertLoading}
+      />
       <Flex justifyContent={'space-between'}>
         <Flex flexDirection={'row'} alignItems={'center'} gap={'6px'}>
           <Text
@@ -144,7 +257,7 @@ function GoodsListComponet({
             borderColor={ColorRed}
           />
 
-          {/* <ImageButton
+          <ImageButton
             img="/images/Page/excel_icon.png"
             backgroundColor={ColorWhite}
             borderColor={ColorGrayBorder}
@@ -155,11 +268,16 @@ function GoodsListComponet({
             imgWidth="20px"
             px="14px"
             py="10px"
-            onClick={() => console.log('엑셀다운로드')}
-          /> */}
+            onClick={() => onClickExcel()}
+          />
         </Flex>
       </Flex>
-      <GoodsDataTable data={data} setOnSubmit={setOnSubmit} />
+      <GoodsDataTable
+        data={data}
+        setOnSubmit={setOnSubmit}
+        CheckList={CheckList}
+        setCheckList={setCheckList}
+      />
       {/* {data?.totalCount !== undefined && data?.totalCount !== 0 ? (
         <GoodsDataTable data={data} setOnSubmit={setOnSubmit} />
       ) : (

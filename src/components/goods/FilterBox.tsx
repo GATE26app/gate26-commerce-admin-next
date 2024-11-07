@@ -22,7 +22,7 @@ interface Props {
 }
 function FilterBox({ request, setRequest }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
-  const searchSelectList = ['상품코드', '상품명', '상품카테고리'];
+  const searchSelectList = ['상품코드', '상품명', '상품카테고리', '파트너사명'];
   useEffect(() => {
     if (request.searchType == '') {
       setSearchSelect('');
@@ -362,10 +362,12 @@ function FilterBox({ request, setRequest }: Props) {
                   searchType:
                     item == '상품코드'
                       ? 'itemCode'
-                      : '상품명'
+                      : item == '상품명'
                       ? 'title'
-                      : '상품카테고리'
+                      : item == '상품카테고리'
                       ? 'category'
+                      : item == '파트너사명'
+                      ? 'partnerTitle'
                       : '',
                 });
               }}

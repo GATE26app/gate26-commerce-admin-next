@@ -196,6 +196,7 @@ function CancelInfo({ info }: Props) {
         },
       },
     });
+  console.log('info', info);
   return (
     <>
       {cancelApproModal && (
@@ -269,7 +270,56 @@ function CancelInfo({ info }: Props) {
                 <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
                   {info.cancelStatusName}
                 </Text>
-                {info?.cancelStatus == 1 ? (
+                {info?.requiredPartnerCancelConfirm == 1 ? (
+                  <>
+                    {info?.partnerCancelConfirm == 1 ? (
+                      <Text
+                        fontSize={'15px'}
+                        fontWeight={500}
+                        color={ColorBlack}
+                      >
+                        파트너취소승인 필요한 취소요청건입니다.
+                      </Text>
+                    ) : (
+                      <>
+                        {info?.cancelStatus == 1 &&
+                        info?.partnerCancelConfirm == 3 ? (
+                          <>
+                            <RadioComponent
+                              text="승인"
+                              // disabled={info.cancelStatus}
+                              checked={state == 3 ? true : false}
+                              onClick={() => {
+                                setState(3);
+                                setCancelApproModal(true);
+                              }}
+                            />
+                            <RadioComponent
+                              text="반려"
+                              // disabled={info.cancelStatus}
+                              checked={state == 2 ? true : false}
+                              onClick={() => {
+                                setState(2);
+                                setCancelModal(true);
+                              }}
+                            />
+                          </>
+                        ) : info?.cancelStatus == 1 &&
+                          info?.partnerCancelConfirm == 2 ? (
+                          <Text
+                            fontSize={'15px'}
+                            fontWeight={500}
+                            color={ColorBlack}
+                          >
+                            파트너가 반려한 취소요청건입니다.
+                          </Text>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    )}
+                  </>
+                ) : (
                   <>
                     <RadioComponent
                       text="승인"
@@ -290,8 +340,6 @@ function CancelInfo({ info }: Props) {
                       }}
                     />
                   </>
-                ) : (
-                  <></>
                 )}
               </Flex>
               {state == 2 && deniedReason && (

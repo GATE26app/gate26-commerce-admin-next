@@ -39,6 +39,7 @@ import {
 import {
   usePostOrderCancelMutation,
   usePutOrderCancelMutation,
+  usePostOrderCancelRequestForAgentMutation,
 } from '@/app/apis/order/OrderApi.mutation';
 import {
   CancelFeeType,
@@ -68,6 +69,7 @@ interface InfoProps {
   cancelRequestDate: string;
   meetingId?: string;
   cancelFaultId?: string;
+  siteOrigin?: string;
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
@@ -132,6 +134,50 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
       }
     }
   }, [cancelFaultType, openDay]);
+
+  //주문 취소 요청 - 에이전트 상품
+  const { mutate: RequestCancelForAgentMutate} =
+    usePostOrderCancelRequestForAgentMutation({
+      options: {
+        onSuccess: (res, req) => {
+          console.log("에이전트 상품 취소 요청~");
+          if (res.success) {
+            setGoodsInfo({
+              cancelState: false,
+            });
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`에이전트 상품 주문 취소 요청 완료했습니다.`}
+                </Box>
+              ),
+            });
+          } else {
+            toast({
+              position: 'top',
+              duration: 2000,
+              render: () => (
+                <Box
+                  style={{ borderRadius: 8 }}
+                  p={3}
+                  color="white"
+                  bg="#ff6955"
+                >
+                  {`주문번호 [${req?.orderId}] : ${res.message}`}
+                </Box>
+              ),
+            });
+          }
+        },
+      },
+    });
 
   //주문 취소
   const { mutate: CancelMutate, isLoading: isCancelLoading } =
@@ -246,7 +292,18 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         ),
       });
     } else {
-      if (info?.orderType == 1) {
+      if (info?.siteOrigin) {
+        // 에이전트 상품 - 취소 요청
+        let obj: OrderCancelParamsType = {
+          orderId: info?.orderId,
+          body: {
+            cancelRequestType: cancelFaultType,
+            cancelFaultType: cancelFaultType,
+            cancelReason: cancelReason,
+          },
+        };
+        RequestCancelForAgentMutate(obj);
+      } else if (info?.orderType == 1) {
         // 전체취소
         let obj: OrderCancelParamsType = {
           orderId: info?.orderId,
@@ -459,7 +516,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
               </Text>
             </Flex>
           )}
-          {info?.orderType !== 1 && (
+          {info?.orderType !== 1 && !info?.siteOrigin && (
             <>
               <Flex flexDirection={'row'} alignItems={'center'} mb={'25px'}>
                 <Text
@@ -475,11 +532,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   placeholder="숫자로만 입력"
                   type="text"
                   maxLength={15}
-                  value={
-                    info?.paymentAmount == 0
-                      ? ''
-                      : intComma(info?.paymentAmount)
-                  }
+                  value={intComma(info?.paymentAmount)}
                   disable={false}
                 />
                 <Text
@@ -505,7 +558,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
                   placeholder="숫자로만 입력"
                   type="text"
                   maxLength={15}
-                  value={cancelAmount == 0 ? '' : intComma(cancelAmount)}
+                  value={intComma(cancelAmount)}
                   onChange={(e: any) =>
                     setCancelAmount(
                       Number(e.target.value.replace(/[^0-9]/g, '')),
@@ -580,6 +633,12 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             borderRadius={'10px'}
           />
         </Flex>
+        {info?.siteOrigin && (
+          <Text fontSize={'15px'} color={ColorRed} fontWeight={400} mb={'10px'}>
+            * 해당 상품은 에이전트 연계 상품으로, 취소 및 환불 규정에 따라 환불금액은 상이하며
+            취소가 불가할 수도 있습니다.
+          </Text>
+        )}
         {info?.orderType == 1 && (
           <Text fontSize={'15px'} color={ColorRed} fontWeight={400} mb={'10px'}>
             * 해당 상품은 판매자 직배송 상품으로, 취소 시 함께 주문한 동일한
@@ -618,7 +677,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
         </ModalBody>
         <Flex mx={'30px'} flexDirection={'column'}>
           <CustomButton
-            text="취소하기"
+            text={info?.siteOrigin ? "취소요청" :"취소하기"}
             bgColor={ColorGray900}
             borderColor={ColorGray900}
             fontSize="16px"

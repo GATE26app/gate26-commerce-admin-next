@@ -77,7 +77,8 @@ function OrderAmount({ info }: Props) {
               info.coupons.map((item) => {
                 return (
                   <Text color={ColorGray700} fontWeight={400} fontSize={'15px'}>
-                    {item.title} {intComma(item.priceDc)}원
+                    {item.couponDownload?.coupon?.title}{' '}
+                    {intComma(item.couponDownload?.coupon?.priceDc)}원
                   </Text>
                 );
               })}

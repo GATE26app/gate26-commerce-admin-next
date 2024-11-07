@@ -91,6 +91,7 @@ function SaveGoodsPageComponent() {
     optionInputStartDate: '', //상품 옵션입력 이용일시 생성구간 시작일
     optionInputEndDate: '', //상품 옵션입력 이용일시 생성구간 종료일
     autoConfirm: 0, //자동예약확정: 활성화 비활성화
+    requiredPartnerCancelConfirm: 0, //0=>미해당, 1=>해당
   });
   const [attributeList, setAttributeList] = useState<GoodsAttributeListProps[]>(
     [],
@@ -194,6 +195,7 @@ function SaveGoodsPageComponent() {
             optionInputStartDate: data.optionInputStartDate, //상품 옵션입력 이용일시 생성구간 시작일
             optionInputEndDate: data.optionInputEndDate, //상품 옵션입력 이용일시 생성구간 종료일
             autoConfirm: data.autoConfirm,
+            requiredPartnerCancelConfirm: data.requiredPartnerCancelConfirm, //0=>미해당, 1=>해당
           });
           setPlanList(data.schedules);
           setPolicyList(data.policies);
@@ -344,6 +346,7 @@ function SaveGoodsPageComponent() {
         policies: policyList,
         optionInputs: optionInputList,
         options: optionList,
+        requiredPartnerCancelConfirm: BasicInfo.requiredPartnerCancelConfirm,
       },
     };
 
@@ -588,9 +591,15 @@ function SaveGoodsPageComponent() {
             <>
               <PlanComponent list={planList} setList={setPlanList} />
               <BookingCheckComponent list={BasicInfo} setList={setBasicInfo} />
-              <CancelComponent list={policyList} setList={setPolicyList} />
             </>
           )}
+          <CancelComponent
+            list={policyList}
+            setList={setPolicyList}
+            type={getType}
+            BasicInfo={BasicInfo}
+            setBasicInfo={setBasicInfo}
+          />
           <EditorDetailComponent
             list={EditorContent}
             setList={setEditorContent}

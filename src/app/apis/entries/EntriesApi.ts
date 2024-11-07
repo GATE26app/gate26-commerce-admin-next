@@ -42,6 +42,7 @@ export class EntriesApi {
     });
     return data;
   };
+  
   // 응모 이미지
   postEntriesImage = async (body: FormData): Promise<ListDtoType> => {
     const { data } = await this.axios({
@@ -55,6 +56,7 @@ export class EntriesApi {
     });
     return data;
   };
+
   //응모등록
   putCreateEntries = async (
     body: EntriesResType,
@@ -69,6 +71,7 @@ export class EntriesApi {
     });
     return data;
   };
+
   //응모상세
   getEntriesDetail = async (entryId: string): Promise<ListDtoType> => {
     //type : code 또는 parentCode

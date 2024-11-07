@@ -111,6 +111,7 @@ function CouponGate26Content() {
       // if(e.keyCode === 13) 도 사용가능하다.
     }
   };
+  console.log('gate26CouponState', goodsInfo.gate26CouponState);
   return (
     <Box mt={'40px'}>
       <Flex flexDirection={'row'} justifyContent={'space-between'}>
@@ -142,7 +143,7 @@ function CouponGate26Content() {
               });
               // router.push(`/entries/first?search=${search}`);
               setGoodsInfo({
-                entryState: true,
+                gate26CouponState: true,
               });
             }}
             // py="14px"

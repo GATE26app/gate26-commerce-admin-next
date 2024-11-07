@@ -10,7 +10,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import { GoodsPoliciesListProps } from '@/app/apis/goods/GoodsApi.type';
+import {
+  GoodsBasicProps,
+  GoodsPoliciesListProps,
+} from '@/app/apis/goods/GoodsApi.type';
 
 import CustomButton from '@/components/common/CustomButton';
 import InputBox from '@/components/common/Input';
@@ -28,10 +31,14 @@ import {
 } from '@/utils/_Palette';
 
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
+import RadioComponent from '../common/CustomRadioButton/RadioComponent';
 
 interface Props {
   list: Array<GoodsPoliciesListProps>;
   setList: React.Dispatch<React.SetStateAction<GoodsPoliciesListProps[]>>;
+  type: string | null;
+  BasicInfo: GoodsBasicProps;
+  setBasicInfo: React.Dispatch<React.SetStateAction<GoodsBasicProps>>;
 }
 
 interface cancelType {
@@ -41,7 +48,13 @@ interface cancelType {
   title: string;
   feePer?: number;
 }
-function CancelComponent({ list, setList }: Props) {
+function CancelComponent({
+  list,
+  setList,
+  type,
+  BasicInfo,
+  setBasicInfo,
+}: Props) {
   const { goodsInfo } = useGoodsStateZuInfo((state) => state);
   const toast = useToast();
   const [open, setOpen] = useState(true);
@@ -231,7 +244,6 @@ function CancelComponent({ list, setList }: Props) {
           if (lowFilter.length > 0) {
             min = lowFilter[0].feePer;
           }
-          console.log(max, min);
           if (per > max || per < min) {
             toast({
               position: 'top',
@@ -358,232 +370,254 @@ function CancelComponent({ list, setList }: Props) {
           flexDirection={'column'}
           borderBottomRadius={'12px'}
         >
-          <Flex flexDirection={'column'}>
-            <Flex flexDirection={'row'} mb={'10px'}>
-              <Text color={ColorBlack} fontWeight={700} fontSize={'16px'}>
-                기본
-              </Text>
-              <Text
-                color={ColorRed}
-                fontWeight={700}
-                ml={'3px'}
-                lineHeight={'12px'}
-              >
-                *
-              </Text>
-            </Flex>
-            <Flex
-              flexDirection={'row'}
-              alignItems={'center'}
-              flexWrap={'wrap'}
-              gap={'10px'}
-              mb={'15px'}
-            >
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  mr={'10px'}
-                >
-                  이용일 당일 취소시
-                </Text>
-                <InputBox
-                  placeholder="숫자로만 입력"
-                  w={'154px'}
-                  disabled={goodsInfo.LogItemDisable}
-                  value={notCancelDay}
-                  onChange={(e) => setNotCancel(Number(e.target.value))}
-                />
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  ml={'10px'}
-                >
-                  % 공제후 환불
-                </Text>
-              </Flex>
-              <CustomButton
-                text="적용하기"
-                bgColor={ColorGray900}
-                borderColor={ColorGray900}
-                color={ColorWhite}
-                fontSize="15px"
-                px="24px"
-                py="12px"
-                onClick={() => onHandleBasic()}
-              />
-            </Flex>
-            <Text
-              color={ColorBlack}
-              fontWeight={700}
-              fontSize={'16px'}
-              mb={'10px'}
-            >
-              추가
+          <Flex flexDirection={'row'} mb={'10px'}>
+            <Text color={ColorBlack} fontWeight={700} fontSize={'16px'}>
+              파트너취소승인해당여부
             </Text>
-            <Flex alignItems={'center'} gap={'20px'}>
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <InputBox
-                  placeholder="숫자로만 입력"
-                  w={'154px'}
-                  type="number"
-                  disabled={goodsInfo.LogItemDisable}
-                  value={day == 0 ? '' : day}
-                  onChange={(e) => setDay(Number(e.target.value))}
-                />
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  ml={'10px'}
-                >
-                  일전
-                </Text>
-              </Flex>
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <InputBox
-                  placeholder="숫자로만 입력"
-                  w={'154px'}
-                  type="number"
-                  disabled={goodsInfo.LogItemDisable}
-                  value={per}
-                  onChange={(e) => setPer(Number(e.target.value))}
-                />
-                <Text
-                  fontWeight={400}
-                  fontSize={'16px'}
-                  color={ColorBlack}
-                  ml={'10px'}
-                >
-                  % 공제후 환불
-                </Text>
-              </Flex>
-              <CustomButton
-                text="+ 추가하기"
-                bgColor={ColorGray900}
-                borderColor={ColorGray900}
-                color={ColorWhite}
-                fontSize="15px"
-                px="24px"
-                py="12px"
-                onClick={() => onHandlePlus()}
-              />
-            </Flex>
             <Text
-              color={ColorBlack}
+              color={ColorRed}
               fontWeight={700}
-              fontSize={'16px'}
-              mb={'10px'}
-              mt="20px"
+              ml={'3px'}
+              lineHeight={'12px'}
             >
-              기타
-            </Text>
-            <Flex mb={'10px'} w={'100%'}>
-              <InputBox
-                placeholder="직접 입력"
-                mr={'10px'}
-                value={etc}
-                disabled={goodsInfo.LogItemDisable}
-                onChange={(e) => setEtc(e.target.value)}
-              />
-              {/* <Input
-                value={etc}
-                onChange={(e) => setEtc(e.target.value)}
-                h="45px"
-                placeholder="직접 입력"
-                mr={'10px'}
-                // {...props.register}
-                errorBorderColor="warning.500"
-                variant="outline"
-                // onBlur={(e) => setEtc(e.target.value)}
-                // borderColor={ColorInputBorder}
-                backgroundColor={ColorWhite}
-                color="black"
-                _disabled={{ backgroundColor: 'gray.100', color: ColorGray700 }}
-                _placeholder={{ color: ColorGray700 }}
-                borderRadius={'10px'}
-                fontSize={'15px'}
-                outline={'none'}
-              /> */}
-              <Flex flexShrink={0}>
-                <CustomButton
-                  text="적용하기"
-                  bgColor={ColorGray900}
-                  borderColor={ColorGray900}
-                  color={ColorWhite}
-                  fontSize="15px"
-                  px="24px"
-                  py="12px"
-                  onClick={() => onHandleEtc()}
-                />
-              </Flex>
-            </Flex>
-            <Text color={ColorGray700} fontSize={'13px'} fontWeight={400}>
-              *기타 정책은 환불 수수료를 계산할 수 없는 예외 사항이며, 선택
-              항목입니다.
+              *
             </Text>
           </Flex>
-          <Flex justifyContent={'center'} mt={'32px'} mb={'30px'}>
-            {/* <CustomButton
-              text="+ 추가하기"
-              bgColor={ColorGray900}
-              borderColor={ColorGray900}
-              color={ColorWhite}
-              fontSize="15px"
-              px="54px"
-              py="19px"
-            /> */}
-          </Flex>
-          <Flex
-            bgColor={ColorMainBackBule}
-            p={'30px'}
-            borderRadius={'12px'}
-            flexDirection={'column'}
-          >
-            <Flex
-              flexDirection={'row'}
-              gap={'11px'}
-              mb={'30px'}
-              alignItems={'center'}
-            >
-              <Text color={ColorBlack} fontSize={'18px'} fontWeight={800}>
-                취소/환불 정책
-              </Text>
-              <Text color={ColorGray700} fontSize={'13px'} fontWeight={400}>
-                *정책/기타 추가 순으로 정책 반영됩니다.
-              </Text>
+          <Flex>
+            <Flex w={'200px'}>
+              <RadioComponent
+                text="미해당"
+                checked={
+                  BasicInfo.requiredPartnerCancelConfirm == 0 ? true : false
+                }
+                onClick={() => {
+                  setBasicInfo({
+                    ...BasicInfo,
+                    requiredPartnerCancelConfirm: 0,
+                  });
+                }}
+              />
             </Flex>
-            {list?.length > 0 &&
-              list?.map((item, index: number) => {
-                return (
-                  <Flex
-                    key={index}
-                    alignItems={'center'}
-                    gap={'30px'}
-                    mb={'20px'}
+            <Flex w={'200px'}>
+              <RadioComponent
+                text="해당"
+                checked={
+                  BasicInfo.requiredPartnerCancelConfirm == 1 ? true : false
+                }
+                onClick={() => {
+                  setBasicInfo({
+                    ...BasicInfo,
+                    requiredPartnerCancelConfirm: 1,
+                  });
+                }}
+              />
+            </Flex>
+          </Flex>
+          {type == '3' && (
+            <>
+              <Flex flexDirection={'column'} mt={'20px'}>
+                <Flex flexDirection={'row'} mb={'10px'}>
+                  <Text color={ColorBlack} fontWeight={700} fontSize={'16px'}>
+                    기본
+                  </Text>
+                  <Text
+                    color={ColorRed}
+                    fontWeight={700}
+                    ml={'3px'}
+                    lineHeight={'12px'}
                   >
-                    <Text color={ColorBlack} fontSize={'15px'} fontWeight={500}>
-                      {item.title}
+                    *
+                  </Text>
+                </Flex>
+                <Flex
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  flexWrap={'wrap'}
+                  gap={'10px'}
+                  mb={'15px'}
+                >
+                  <Flex flexDirection={'row'} alignItems={'center'}>
+                    <Text
+                      fontWeight={400}
+                      fontSize={'16px'}
+                      color={ColorBlack}
+                      mr={'10px'}
+                    >
+                      이용일 당일 취소시
                     </Text>
-                    {index != 0 && (
-                      <CustomButton
-                        text="삭제하기"
-                        fontSize="12px"
-                        px="15px"
-                        py="7.5px"
-                        color={ColorWhite}
-                        bgColor={ColorGray900}
-                        borderColor={ColorGray900}
-                        borderRadius={'6px'}
-                        onClick={() => handelDelete(index)}
-                      />
-                    )}
+                    <InputBox
+                      placeholder="숫자로만 입력"
+                      w={'154px'}
+                      disabled={goodsInfo.LogItemDisable}
+                      value={notCancelDay}
+                      onChange={(e) => setNotCancel(Number(e.target.value))}
+                    />
+                    <Text
+                      fontWeight={400}
+                      fontSize={'16px'}
+                      color={ColorBlack}
+                      ml={'10px'}
+                    >
+                      % 공제후 환불
+                    </Text>
                   </Flex>
-                );
-              })}
-          </Flex>
+                  <CustomButton
+                    text="적용하기"
+                    bgColor={ColorGray900}
+                    borderColor={ColorGray900}
+                    color={ColorWhite}
+                    fontSize="15px"
+                    px="24px"
+                    py="12px"
+                    onClick={() => onHandleBasic()}
+                  />
+                </Flex>
+                <Text
+                  color={ColorBlack}
+                  fontWeight={700}
+                  fontSize={'16px'}
+                  mb={'10px'}
+                >
+                  추가
+                </Text>
+                <Flex alignItems={'center'} gap={'20px'}>
+                  <Flex flexDirection={'row'} alignItems={'center'}>
+                    <InputBox
+                      placeholder="숫자로만 입력"
+                      w={'154px'}
+                      type="number"
+                      disabled={goodsInfo.LogItemDisable}
+                      value={day == 0 ? '' : day}
+                      onChange={(e) => setDay(Number(e.target.value))}
+                    />
+                    <Text
+                      fontWeight={400}
+                      fontSize={'16px'}
+                      color={ColorBlack}
+                      ml={'10px'}
+                    >
+                      일전
+                    </Text>
+                  </Flex>
+                  <Flex flexDirection={'row'} alignItems={'center'}>
+                    <InputBox
+                      placeholder="숫자로만 입력"
+                      w={'154px'}
+                      type="number"
+                      disabled={goodsInfo.LogItemDisable}
+                      value={per}
+                      onChange={(e) => setPer(Number(e.target.value))}
+                    />
+                    <Text
+                      fontWeight={400}
+                      fontSize={'16px'}
+                      color={ColorBlack}
+                      ml={'10px'}
+                    >
+                      % 공제후 환불
+                    </Text>
+                  </Flex>
+                  <CustomButton
+                    text="+ 추가하기"
+                    bgColor={ColorGray900}
+                    borderColor={ColorGray900}
+                    color={ColorWhite}
+                    fontSize="15px"
+                    px="24px"
+                    py="12px"
+                    onClick={() => onHandlePlus()}
+                  />
+                </Flex>
+                <Text
+                  color={ColorBlack}
+                  fontWeight={700}
+                  fontSize={'16px'}
+                  mb={'10px'}
+                  mt="20px"
+                >
+                  기타
+                </Text>
+                <Flex mb={'10px'} w={'100%'}>
+                  <InputBox
+                    placeholder="직접 입력"
+                    mr={'10px'}
+                    value={etc}
+                    disabled={goodsInfo.LogItemDisable}
+                    onChange={(e) => setEtc(e.target.value)}
+                  />
+                  <Flex flexShrink={0}>
+                    <CustomButton
+                      text="적용하기"
+                      bgColor={ColorGray900}
+                      borderColor={ColorGray900}
+                      color={ColorWhite}
+                      fontSize="15px"
+                      px="24px"
+                      py="12px"
+                      onClick={() => onHandleEtc()}
+                    />
+                  </Flex>
+                </Flex>
+                <Text color={ColorGray700} fontSize={'13px'} fontWeight={400}>
+                  *기타 정책은 환불 수수료를 계산할 수 없는 예외 사항이며, 선택
+                  항목입니다.
+                </Text>
+              </Flex>
+              <Flex justifyContent={'center'} mt={'32px'} mb={'30px'}></Flex>
+              <Flex
+                bgColor={ColorMainBackBule}
+                p={'30px'}
+                borderRadius={'12px'}
+                flexDirection={'column'}
+              >
+                <Flex
+                  flexDirection={'row'}
+                  gap={'11px'}
+                  mb={'30px'}
+                  alignItems={'center'}
+                >
+                  <Text color={ColorBlack} fontSize={'18px'} fontWeight={800}>
+                    취소/환불 정책
+                  </Text>
+                  <Text color={ColorGray700} fontSize={'13px'} fontWeight={400}>
+                    *정책/기타 추가 순으로 정책 반영됩니다.
+                  </Text>
+                </Flex>
+                {list?.length > 0 &&
+                  list?.map((item, index: number) => {
+                    return (
+                      <Flex
+                        key={index}
+                        alignItems={'center'}
+                        gap={'30px'}
+                        mb={'20px'}
+                      >
+                        <Text
+                          color={ColorBlack}
+                          fontSize={'15px'}
+                          fontWeight={500}
+                        >
+                          {item.title}
+                        </Text>
+                        {index != 0 && (
+                          <CustomButton
+                            text="삭제하기"
+                            fontSize="12px"
+                            px="15px"
+                            py="7.5px"
+                            color={ColorWhite}
+                            bgColor={ColorGray900}
+                            borderColor={ColorGray900}
+                            borderRadius={'6px'}
+                            onClick={() => handelDelete(index)}
+                          />
+                        )}
+                      </Flex>
+                    );
+                  })}
+              </Flex>
+            </>
+          )}
         </Flex>
       )}
     </Flex>

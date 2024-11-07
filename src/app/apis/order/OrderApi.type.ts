@@ -111,8 +111,33 @@ export type partnerType = {
   title: string;
 };
 export type couponListType = {
-  title: string;
-  priceDc: number;
+  // title: string;
+  // priceDc: number;
+  amountDc: number;
+  orderCouponId: number;
+  couponDownload: {
+    coupon: {
+      couponId: number;
+      access: number;
+      accessName: string;
+      level: number;
+      levelName: string;
+      type: number;
+      typeName: string;
+      stockCnt: number;
+      title: string;
+      startDate: string;
+      endDate: string;
+      minOrderAmount: number;
+      dcType: number;
+      dcTypeName: string;
+      priceDc: number;
+      partnerChargeAmount: number;
+      percentDc: number;
+      partnerChargePercent: number;
+    };
+    downloadId: number;
+  };
 };
 
 export type ImageListType = {
@@ -219,6 +244,9 @@ export type OrderDetailItemType = {
   partner: partnerType;
   shipping: Shippingtype;
   groupOrders: Array<GroupOrderListType>;
+  siteOrigin?: string;
+  requiredPartnerCancelConfirm: number;
+  partnerCancelConfirm: number;
   meetingId?: string;
 };
 

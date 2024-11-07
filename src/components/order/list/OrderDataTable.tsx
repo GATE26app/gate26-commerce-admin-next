@@ -160,6 +160,29 @@ function OrderDataTable({ list, setChekcList, CheckList }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
+        <Flex
+          w={'5%'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          h={'64px'}
+          onClick={() => onClickAllCheck()}
+        >
+          {list?.orders.length == CheckList.length ? (
+            <Image
+              width={21}
+              height={21}
+              src={'/images/icon_check_on.png'}
+              alt="체크"
+            />
+          ) : (
+            <Image
+              width={21}
+              height={21}
+              src={'/images/icon_check_off.png'}
+              alt="체크"
+            />
+          )}
+        </Flex>
         {orderlistheader.map((item: DataTableHeaderProps, index: number) => {
           return (
             <Flex

@@ -54,7 +54,8 @@ function CouponPermissionGoods({
   useEffect(() => {
     if (CouponData.partner !== undefined) {
       setClickData(CouponData.itemRef);
-      setClickGood(CouponData.partner?.partnerId);
+      setClickGood(CouponData.itemRef?.itemCode);
+      // setClickGood(CouponData.partner?.partnerId);
     }
   }, [CouponData.partner]);
 

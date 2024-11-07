@@ -127,6 +127,22 @@ export class OrderApi {
     return data;
   };
 
+  //주문 취소 요청
+  postOrderCancelRequestForAgent = async (
+    req: OrderCancelRequestParamsType,
+  ): Promise<OrderDetailItemResType> => {
+    //type : code 또는 parentCode
+    const { data } = await this.axios({
+      method: 'POST',
+      url: `/admin/agent/orders/${req.orderId}/request-cancel`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: req.body,
+    });
+    return data;
+  };
+
   //주문 취소
   postOrderCancel = async (
     req: OrderCancelParamsType,

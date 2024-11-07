@@ -43,6 +43,7 @@ function ImageButton({
       justifyContent={'center'}
       alignItems={'center'}
       onClick={onClick}
+      cursor={'pointer'}
       boxSizing="border-box"
     >
       <Image src={img} width={imgWidth} height={imgHeight} alt="상품관리" />

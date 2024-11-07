@@ -58,6 +58,28 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
       borderBottomWidth={1}
     >
       <Flex
+        w={'5%'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        onClick={() => onCheckClick(item.orderId)}
+      >
+        {CheckList.includes(item.orderId) ? (
+          <Image
+            width={21}
+            height={21}
+            src={'/images/icon_check_on.png'}
+            alt="체크"
+          />
+        ) : (
+          <Image
+            width={21}
+            height={21}
+            src={'/images/icon_check_off.png'}
+            alt="체크"
+          />
+        )}
+      </Flex>
+      <Flex
         w={header[0]?.width}
         alignItems={'center'}
         justifyContent={'center'}

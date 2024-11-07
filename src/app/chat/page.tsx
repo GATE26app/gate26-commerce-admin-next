@@ -19,6 +19,7 @@ import { useChatAllListMutation } from '../apis/sendbird/SendBirdApi.mutation';
 import MessageComponent from '@/components/chat/MessageComponent';
 import { getSendBirdToken } from '@/utils/localStorage/token';
 import GroupChannelPreviewAction from '@sendbird/uikit-react/GroupChannelList/components/GroupChannelPreviewAction';
+import moment from 'moment';
 
 const myColorSet = {
   '--sendbird-light-primary-500': ColorRedOpa,
@@ -92,7 +93,7 @@ function page() {
     MENTION_COUNT__OVER_LIMIT: '한 번에 최대 %d번 멘션할 수 있습니다.',
     UI__FILE_VIEWER__UNSUPPORT: '지원되지 않는 메시지',
     // 기능 - 음성 메시지
-    VOICE_RECORDING_PERMISSION_DENIED: `음성 녹음이 불가능합니다. 
+    VOICE_RECORDING_PERMISSION_DENIED: `음성 녹음이 불가능합니다.
       장치 시스템 설정에서 음성 녹음이 허용되지 않았습니다.`,
     VOICE_MESSAGE: '음성 메시지',
     // 채널 미리보기 마지막 메시지 파일 유형 표시 문자열
@@ -269,11 +270,18 @@ function page() {
   const [nextToken, setNextToken] = useState('');
   const [title, setTitle] = useState('');
   const [img, setImg] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const handleSetCurrentChannel = (channel) => {
     if (channel?.url) {
       setCurrentChannelUrl(channel.url);
     }
   };
+
   const { mutate: AllListMutation, isLoading } = useChatAllListMutation({
     options: {
       onSuccess: (res) => {
@@ -293,150 +301,123 @@ function page() {
 
   return (
     <Box w={'100%'} h={'calc(100vh - 402px)'} pt={'60px'}>
-      {/* <Box
+      <Box
         h={'calc(100vh - 462px)'}
         borderWidth={1}
         borderColor={ColorInputBorder}
         borderRadius={'10px'}
         overflow={'hidden'}
       >
-        <SendbirdProvider
-          appId={'78B8D84A-E617-493C-98CA-2D15F647923B'}
-          userId={getSendBirdToken().user_id}
-          accessToken={getSendBirdToken().sendBird}
-          theme="light"
-          // dateLocale={kr}
-          stringSet={stringSet}
-          colorSet={myColorSet}
-        >
-          <Flex flexDirection={'row'} h={'100%'}>
-            <GroupChannelList
-              renderChannelPreview={() => {
-                return (
-                  <Flex flexDirection={'column'}>
-                    {ChatListData?.map((item, index: number) => {
-                      var date = new Date(item.created_at * 1000);
-                      var month = ('0' + (date.getMonth() + 1)).slice(-2);
-                      var day = ('0' + date.getDate()).slice(-2);
-                      return (
-                        <Flex
-                          px={'12px'}
-                          py={'10px'}
-                          borderBottomColor={ColorInputBorder}
-                          borderBottomWidth={1}
-                          alignItems={'flex-start'}
-                          onClick={() => {
-                            setPageChange(true);
-                            setCurrentChannelUrl(item.channel_url);
-                            setTitle(item.name);
-                            setImg(item.cover_url);
-                          }}
-                        >
-                          <Box
-                            overflow={'hidden'}
-                            borderRadius={'50%'}
-                            w={'56px'}
-                            h={'56px'}
-                            flexShrink={0}
-                          >
-                            <Img src={item.cover_url} w={'56px'} h={'56px'} />
-                          </Box>
+        {isClient && (
+          <SendbirdProvider
+            appId={'78B8D84A-E617-493C-98CA-2D15F647923B'}
+            userId={getSendBirdToken().user_id}
+            accessToken={getSendBirdToken().sendBird}
+            theme="light"
+            // dateLocale={kr}
+            stringSet={stringSet}
+            colorSet={myColorSet}
+            // key={moment().format('YYMMDD HH:mm:ss')}
+          >
+            <Flex flexDirection={'row'} h={'100%'}>
+              <GroupChannelList
+                renderChannelPreview={() => {
+                  return (
+                    <Flex
+                      flexDirection={'column'}
+                      borderRightColor={ColorInputBorder}
+                      borderRightWidth={1}
+                    >
+                      {ChatListData?.map((item, index: number) => {
+                        var date = new Date(item.created_at * 1000);
+                        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        return (
                           <Flex
-                            justifyContent={'space-between'}
-                            w={'100%'}
-                            alignItems={'center'}
+                            key={index}
+                            px={'12px'}
+                            py={'10px'}
+                            borderBottomColor={ColorInputBorder}
+                            borderBottomWidth={1}
+                            alignItems={'flex-start'}
+                            onClick={() => {
+                              setPageChange(true);
+                              setCurrentChannelUrl(item.channel_url);
+                              setTitle(item.name);
+                              setImg(item.cover_url);
+                            }}
                           >
-                            <Flex ml={'16px'} alignItems={'center'}>
+                            <Box
+                              overflow={'hidden'}
+                              borderRadius={'50%'}
+                              w={'56px'}
+                              h={'56px'}
+                              flexShrink={0}
+                            >
+                              <Img src={item.cover_url} w={'56px'} h={'56px'} />
+                            </Box>
+                            <Flex
+                              justifyContent={'space-between'}
+                              w={'100%'}
+                              alignItems={'center'}
+                            >
+                              <Flex ml={'16px'} alignItems={'center'}>
+                                <Text
+                                  fontWeight={600}
+                                  color={ColorBlack}
+                                  fontSize={'14px'}
+                                  textOverflow={'ellipsis'}
+                                  wordBreak={'break-all'}
+                                  whiteSpace={'nowrap'}
+                                  maxWidth={'135px'}
+                                  overflow={'hidden'}
+                                >
+                                  {item.name}
+                                </Text>
+                                <Text
+                                  color={ColorGray700}
+                                  fontWeight={400}
+                                  fontSize={'12px'}
+                                  ml={'4px'}
+                                >
+                                  {item.member_count}
+                                </Text>
+                              </Flex>
                               <Text
-                                fontWeight={600}
-                                color={ColorBlack}
-                                fontSize={'14px'}
-                                textOverflow={'ellipsis'}
-                                wordBreak={'break-all'}
-                                whiteSpace={'nowrap'}
-                                maxWidth={'135px'}
-                                overflow={'hidden'}
-                              >
-                                {item.name}
-                              </Text>
-                              <Text
-                                color={ColorGray700}
                                 fontWeight={400}
                                 fontSize={'12px'}
-                                ml={'4px'}
+                                color={ColorGray700}
                               >
-                                {item.member_count}
+                                {month + '월' + ' ' + day + '일'}
                               </Text>
                             </Flex>
-                            <Text
-                              fontWeight={400}
-                              fontSize={'12px'}
-                              color={ColorGray700}
-                            >
-                              {month + '월' + ' ' + day + '일'}
-                            </Text>
                           </Flex>
-                        </Flex>
-                        // <GroupChannelListItem
-                        //   key={index}
-                        //   channel={item}
-                        //   tabIndex={index}
-                        //   renderChannelAction={
-                        //     // (props) => <GroupChannelPreviewAction {...props} />
-                        //     () => {
-                        //       var date = new Date(item.created_at * 1000);
-                        //       var month = ('0' + (date.getMonth() + 1)).slice(
-                        //         -2,
-                        //       );
-                        //       var day = ('0' + date.getDate()).slice(-2);
-                        //       return (
-                        //         <Text
-                        //           fontWeight={400}
-                        //           fontSize={'12px'}
-                        //           color={ColorGray700}
-                        //         >
-                        //           {month + '월' + ' ' + day + '일'}
-                        //         </Text>
-                        //       );
-                        //     }
-                        //   }
-                        //   onClick={() => {
-                        //     setPageChange(true);
-                        //     setCurrentChannelUrl(item.channel_url);
-                        //     setTitle(item.name);
-                        //     // setImg(item.)
-                        //   }}
-                        //   isTyping={true}
-                        //   isSelected={
-                        //     item.channel_url == currentChannelUrl ? true : false
-                        //   }
-                        // />
-                      );
-                    })}
-                  </Flex>
-                );
-              }}
-              renderHeader={(props) => <GroupChannelListHeader />}
-              onChannelSelect={() => {
-                console.log('2222');
-              }}
-              onChannelCreated={() => {
-                console.log('2222');
-              }}
-            ></GroupChannelList>
-            {/* 채팅 컴포넌트 */}
-      {/* {currentChannelUrl !== '' && (
-              <MessageComponent
-                channelrUrl={currentChannelUrl}
-                pageChange={pageChange}
-                setPageChange={setPageChange}
-                title={title}
-                img={img}
-              />
-            )}
-          </Flex> */}
-      {/* </SendbirdProvider> */}
-      {/* </Box>  */}
+                        );
+                      })}
+                    </Flex>
+                  );
+                }}
+                renderHeader={(props) => <GroupChannelListHeader />}
+                onChannelSelect={() => {
+                  console.log('2222');
+                }}
+                onChannelCreated={() => {
+                  console.log('2222');
+                }}
+              ></GroupChannelList>
+              {currentChannelUrl !== '' && (
+                <MessageComponent
+                  channelrUrl={currentChannelUrl}
+                  pageChange={pageChange}
+                  setPageChange={setPageChange}
+                  title={title}
+                  img={img}
+                />
+              )}
+            </Flex>
+          </SendbirdProvider>
+        )}
+      </Box>
     </Box>
   );
 }

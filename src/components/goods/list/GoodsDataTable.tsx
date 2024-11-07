@@ -102,9 +102,11 @@ interface ListProps {
 interface Props {
   data: GoodsResListType;
   setOnSubmit: React.Dispatch<React.SetStateAction<boolean>>;
+  CheckList: string[];
+  setCheckList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 export type { DataTableHeaderProps, ListProps };
-function GoodsDataTable({ data, setOnSubmit }: Props) {
+function GoodsDataTable({ data, setOnSubmit, setCheckList, CheckList }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
@@ -126,7 +128,26 @@ function GoodsDataTable({ data, setOnSubmit }: Props) {
       scrollRef.current.scrollLeft = scrollLeft - walk;
     }
   };
-
+  const onClickAllCheck = () => {
+    if (CheckList.length == 0) {
+      const checkdata: string[] = [];
+      data?.data.forEach((item) => {
+        checkdata.push(item.itemCode);
+        setCheckList(checkdata);
+      });
+    } else if (
+      data?.data.length !== CheckList.length &&
+      CheckList.length !== 0
+    ) {
+      const checkdata: string[] = [];
+      data?.data.forEach((item) => {
+        checkdata.push(item.itemCode);
+        setCheckList(checkdata);
+      });
+    } else {
+      setCheckList([]);
+    }
+  };
   return (
     <Box
       overflowX={'auto'}
@@ -146,6 +167,29 @@ function GoodsDataTable({ data, setOnSubmit }: Props) {
         mt={'15px'}
         justifyContent={'center'}
       >
+        <Flex
+          w={'5%'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          h={'64px'}
+          onClick={() => onClickAllCheck()}
+        >
+          {data?.data.length == CheckList.length ? (
+            <Image
+              width={21}
+              height={21}
+              src={'/images/icon_check_on.png'}
+              alt="체크"
+            />
+          ) : (
+            <Image
+              width={21}
+              height={21}
+              src={'/images/icon_check_off.png'}
+              alt="체크"
+            />
+          )}
+        </Flex>
         {listheader.map((item: DataTableHeaderProps, index: number) => {
           return (
             <Flex
@@ -209,6 +253,8 @@ function GoodsDataTable({ data, setOnSubmit }: Props) {
                     totalCount={data.totalCount}
                     pageNo={data.pageNo}
                     setOnSubmit={setOnSubmit}
+                    CheckList={CheckList}
+                    setCheckList={setCheckList}
                   />
                 );
               })}

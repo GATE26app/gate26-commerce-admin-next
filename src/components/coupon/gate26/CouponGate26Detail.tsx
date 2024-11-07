@@ -145,7 +145,7 @@ function CouponGate26Detail() {
           </Box>
         ),
       });
-    } else if (CouponData.priceDc == 0) {
+    } else if (CouponData?.dcType == 1 && CouponData.priceDc == 0) {
       setOpenAlertModal(false);
       toast({
         position: 'top',
@@ -209,7 +209,7 @@ function CouponGate26Detail() {
             CouponId: String(getCouponId),
             data: {
               access: 0,
-              level: 1,
+              level: CouponData.level,
               type: CouponData.type,
               title: CouponData.title,
               startDate: CouponData.startDate,
@@ -227,7 +227,7 @@ function CouponGate26Detail() {
             CouponId: String(getCouponId),
             data: {
               access: 0,
-              level: 1,
+              level: CouponData.level,
               type: CouponData.type,
               title: CouponData.title,
               startDate: CouponData.startDate,
@@ -247,7 +247,7 @@ function CouponGate26Detail() {
             CouponId: String(getCouponId),
             data: {
               access: 1,
-              level: 1,
+              level: CouponData.level,
               type: CouponData.type,
               title: CouponData.title,
               startDate: CouponData.startDate,
@@ -266,7 +266,7 @@ function CouponGate26Detail() {
             CouponId: String(getCouponId),
             data: {
               access: 1,
-              level: 1,
+              level: CouponData.level,
               type: CouponData.type,
               title: CouponData.title,
               startDate: CouponData.startDate,
