@@ -242,57 +242,68 @@ function SettleDetailCard({ header, item, index, pageNo, totalCount, status }: P
           {intComma(item.settlementAmount)}원
         </Text>
       </Flex>
-      {status == 0 && (
+      {(status == 0) && (
         <Flex
         w={`${header[9]?.width}%`}
         alignItems={'center'}
         justifyContent={'center'}
         flexDirection={'column'}
       >
-        <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'}>
-            <Flex
-              borderRadius={'6px'}
-              borderColor={ColorGray400}
-              borderWidth={1}
-              px={'15px'}
-              py={'7px'}
-              cursor={'pointer'}
-              onClick={() => setOpenModal(true)}
-            >
-              <Text fontSize={'12px'} fontWeight={500} color={ColorGray700}>
-                수정하기
-              </Text>
-            </Flex>
-            <Flex
-              borderRadius={'6px'}
-              borderColor={ColorGray400}
-              borderWidth={1}
-              px={'15px'}
-              py={'7px'}
-              cursor={'pointer'}
-              onClick={() => {
-                setOpenAlertModal(true);
-                setModalState({
-                  ...ModalState,
-                  title: '정산내역 삭제',
-                  message: `정산 내역을 삭제하시겠습니까?`,
-                  type: 'confirm',
-                  okButtonName: '확인',
-                  cbOk: () => {
-                    InputCompeleteMutate({
-                      settleId: Number(getSettleId),
-                      itemId: Number(item.itemId),
-                    });
-                    setLoadingModal(true);
-                  },
-                });
-              }}
-            >
-              <Text fontSize={'12px'} fontWeight={500} color={ColorGray700}>
-                삭제하기
-              </Text>
-            </Flex>
+        {item.type == 10 ? (
+          <Flex flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+          <Flex
+            borderRadius={'6px'}
+            borderColor={ColorGray400}
+            borderWidth={1}
+            px={'15px'}
+            py={'7px'}
+            cursor={'pointer'}
+            onClick={() => setOpenModal(true)}
+          >
+            <Text fontSize={'12px'} fontWeight={500} color={ColorGray700}>
+              수정하기
+            </Text>
           </Flex>
+          <Flex
+            borderRadius={'6px'}
+            borderColor={ColorGray400}
+            borderWidth={1}
+            px={'15px'}
+            py={'7px'}
+            cursor={'pointer'}
+            onClick={() => {
+              setOpenAlertModal(true);
+              setModalState({
+                ...ModalState,
+                title: '정산내역 삭제',
+                message: `정산 내역을 삭제하시겠습니까?`,
+                type: 'confirm',
+                okButtonName: '확인',
+                cbOk: () => {
+                  InputCompeleteMutate({
+                    settleId: Number(getSettleId),
+                    itemId: Number(item.itemId),
+                  });
+                  setLoadingModal(true);
+                },
+              });
+            }}
+          >
+            <Text fontSize={'12px'} fontWeight={500} color={ColorGray700}>
+              삭제하기
+            </Text>
+          </Flex>
+        </Flex>
+        ) : (
+          <Text
+          fontSize={'14px'}
+          fontWeight={400}
+          color={ColorBlack}
+          textAlign={'center'}
+        >
+          -
+        </Text>
+        )}
       </Flex>
       )}
     </Flex>
