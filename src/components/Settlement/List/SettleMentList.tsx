@@ -67,7 +67,7 @@ function SettleMentList({ data, request, setRequest }: Props) {
       router.push(`/settlementList?page=${Number(value) + 1}`);
       setSettleFilterInfo({
         ...settleFilterInfo,
-        pageNo: Number(value),
+        pageNo: Number(value) + 1,
       });
     }
 
