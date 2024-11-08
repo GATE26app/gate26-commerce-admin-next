@@ -174,7 +174,7 @@ function GoodsDataTable({ data, setOnSubmit, setCheckList, CheckList }: Props) {
           h={'64px'}
           onClick={() => onClickAllCheck()}
         >
-          {data?.data.length == CheckList.length ? (
+          {(data?.data.length == CheckList.length && data?.data.length > 0) ? (
             <Image
               width={21}
               height={21}
