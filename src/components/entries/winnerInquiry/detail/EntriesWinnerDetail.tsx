@@ -49,11 +49,12 @@ function EntriesWinnerDetail() {
     {
       staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
       refetchInterval: false, // 자동 새로 고침 비활성화
-      onSuccess: ({ data }) => {
-        setGetEntriesData(data);
-      },
+      // onSuccess: ({ data }) => {
+      //   setGetEntriesData(data);
+      // },
     },
   );
+  
   return (
     <>
       <Flex
@@ -96,7 +97,7 @@ function EntriesWinnerDetail() {
             bgColor={ColorWhite}
             borderBottomRadius={'16px'}
           >
-            <EntreisWinnerDetailComponent data={getEntriesData} />
+            {detailData && detailData.content != '' && <EntreisWinnerDetailComponent data={detailData.data} />}
           </Box>
         )}
       </Flex>

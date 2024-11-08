@@ -65,7 +65,6 @@ function page() {
 
   useEffect(() => {
     refreshList(request);
-    console.log('request ::??', refreshList);
   }, []);
   
   useEffect(() => {
