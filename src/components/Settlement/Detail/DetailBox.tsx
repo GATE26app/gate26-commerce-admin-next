@@ -61,28 +61,13 @@ function DetailBox({ data }: Props) {
   }, [data]);
 
   const onSubmitMemo = () => {
-    console.log(memo);
-    if (memo == '') {
-      toast({
-        position: 'top',
-        duration: 2000,
-        render: () => (
-          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'메모를 입력해주세요.'}
-          </Box>
-        ),
-      });
-      setIsLoading(false);
-      // ToastComponent('메모를 입력해주세요.');
-    } else {
-      const obj = {
-        settlementId: String(getSettleId),
-        body: {
-          adminMemo: memo,
-        },
-      };
-      InputMemoMutate(obj);
-    }
+    const obj = {
+      settlementId: String(getSettleId),
+      body: {
+        adminMemo: memo,
+      },
+    };
+    InputMemoMutate(obj);
   };
 
   const { mutate: InputMemoMutate, isLoading: isLoadingMemo } =

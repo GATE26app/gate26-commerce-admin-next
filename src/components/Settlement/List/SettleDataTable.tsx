@@ -98,7 +98,7 @@ function SettleDataTable({ data, setChekcList, CheckList }: Props) {
           h={'64px'}
           onClick={() => onClickAllCheck()}
         >
-          {data?.settlements.length == CheckList.length ? (
+          {(data?.settlements.length == CheckList.length && data?.settlements.length > 0) ? (
             <Image
               width={21}
               height={21}

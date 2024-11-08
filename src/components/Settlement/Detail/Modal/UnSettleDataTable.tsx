@@ -116,7 +116,7 @@ function UnSettleDataTable({ data }: Props) {
           bgColor={ColorGray100}
           mt={'20px'}
           py={'42px'}
-          minW={'1550px'}
+          minW={'1000px'}
           flexDirection={'column'}
           justifyContent={'center'}
           alignItems={'center'}

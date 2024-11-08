@@ -121,13 +121,13 @@ function UnSettlementCard({ header, item, index, pageNo, totalCount }: Props) {
       >
         <Flex flexDirection={'row'} alignItems={'center'}>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {intComma(item.discountChargeAmount)}원
+          {intComma(item.discountSettlementAmount)}원
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             ㅣ
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-          {intComma(item.discountSettlementAmount)}원
+          {intComma(item.discountChargeAmount)}원
           </Text>
         </Flex>
       </Flex>

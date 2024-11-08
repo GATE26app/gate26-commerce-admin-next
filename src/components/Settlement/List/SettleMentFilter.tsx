@@ -84,6 +84,31 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
     console.log(request.searchKeyword, 'feaw', request.fromDate);
   }, [request]);
 
+  useEffect(() => {
+    if (sState) {
+      setRequest({
+        ...request,
+        fromDate: `${dayjs(startDay).format('YYYY-MM-DD')}`,
+      });
+      setSettleFilterInfo({
+        ...settleFilterInfo,
+        fromDate: `${dayjs(startDay).format('YYYY-MM-DD')}`,
+      });
+      setSState(false);
+    }
+    if (eState) {
+      setRequest({
+        ...request,
+        toDate: `${dayjs(endDay).format('YYYY-MM-DD')}`,
+      });
+      setSettleFilterInfo({
+        ...settleFilterInfo,
+        toDate: `${dayjs(endDay).format('YYYY-MM-DD')}`,
+      });
+      setEState(false);
+    }
+  }, [sState, eState]);
+
   // useEffect(() => {
   //   if (EntriesData?.openDate !== '' && EntriesData?.openDate !== null) {
   //     setOpenDay(dayjs(EntriesData.openDate));
@@ -124,6 +149,7 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
             onApply={(date) => {
               setStartDay(date);
               setSState(true);
+              console.log(date);
             }}
           />
           <Text color={ColorBlack} fontSize={'15px'} fontWeight={500}>
