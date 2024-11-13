@@ -28,7 +28,7 @@ function EntriesWinnerFilterBox({
   setRequest,
 }: Props) {
   const [searchSelect, setSearchSelect] = useState('');
-  const searchSelectList = ['아이디', '응모명'];
+  const searchSelectList = ['당첨자 이메일', '응모명'];
   //status 0=>오픈예정, 1=>진행중, 2=>종료 3 => 전체
   //level 1=>노출, 2=>미노출
   //type  0=> 전체 1=>선착순, 2 => 경매
@@ -42,7 +42,7 @@ function EntriesWinnerFilterBox({
     if (searchSelect != '') {
       setRequest({
         ...request,
-        searchType: searchSelect == '아이디' ? 'emailAddress' : 'title',
+        searchType: searchSelect == '당첨자 이메일' ? 'emailAddress' : 'title',
       });
     }
   }, [searchSelect]);
