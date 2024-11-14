@@ -408,6 +408,7 @@ function EntriesFirstDetail() {
             <EntriesStatusComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
+              entryId={Number(getEntryId)}
             />
 
             <Flex justifyContent={'flex-end'}>

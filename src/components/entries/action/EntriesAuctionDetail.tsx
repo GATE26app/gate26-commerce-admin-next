@@ -375,6 +375,7 @@ function EntriesAuctionDetail() {
             <EntriesStatusComponent
               EntriesData={EntriesData}
               setEntriesData={setEntriesData}
+              entryId={Number(getEntryId)}
             />
             <EntriesImageComponent
               EntriesData={EntriesData}

@@ -209,7 +209,7 @@ function EntriesAucionCard({ header, item, index, pageNo, totalCount }: Props) {
                 setModalState({
                   ...ModalState,
                   title: '선착순 응모 삭제',
-                  message: `응모를 삭제 하시겠습니까?`,
+                  message: item.status == 1 ? `아직 진행중인 응모입니다!\n 해당 응모를 삭제 하시겠습니까?` : `응모를 삭제 하시겠습니까?`,
                   type: 'confirm',
                   okButtonName: '확인',
                   cbOk: () => {
