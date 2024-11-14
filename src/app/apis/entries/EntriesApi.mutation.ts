@@ -43,6 +43,14 @@ export const usePatchEntryModifyMutation = (
     ...params?.options,
   });
 };
+//응모 노출 여부 수정
+export const usePatchEntryLevelModifyMutation = (
+  params?: MutationHookParams<typeof entriesApi.patchEntriesLevelModify>,
+) => {
+  return useMutation(entriesApi.patchEntriesLevelModify, {
+    ...params?.options,
+  });
+};
 //응모 삭제
 export const useEntryDeleteMutation = (
   params?: MutationHookParams<typeof entriesApi.deleteEntry>,

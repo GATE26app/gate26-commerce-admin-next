@@ -8,6 +8,7 @@ import {
   EntriesResType,
   GetEntryParticipantParams,
   ListDtoType,
+  PatchEntryLevelModifyParamReqType,
   PatchEntryModifyParamReqType,
 } from './EntriesApi.type';
 
@@ -96,6 +97,21 @@ export class EntriesApi {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
       data: req.data,
+    });
+    return data;
+  };
+  //응모노출여부수정
+  patchEntriesLevelModify = async (
+    req: PatchEntryLevelModifyParamReqType,
+  ): Promise<ListDtoType> => {
+    //type : code 또는 parentCode
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: `/admin/entries/${req.entryId}/level`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
+      data: req.level,
     });
     return data;
   };
