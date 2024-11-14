@@ -103,6 +103,7 @@ function OptionPlus({
   useEffect(() => {
     if (list.optionType) {
       setOptionType(list.optionType);
+      setOptionInputType(list.optionInputType);
     }
   }, [list]);
   // useEffect(() => {

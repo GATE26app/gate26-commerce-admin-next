@@ -104,9 +104,10 @@ interface Props {
   setOnSubmit: React.Dispatch<React.SetStateAction<boolean>>;
   CheckList: string[];
   setCheckList: React.Dispatch<React.SetStateAction<string[]>>;
+  isLoading: boolean;
 }
 export type { DataTableHeaderProps, ListProps };
-function GoodsDataTable({ data, setOnSubmit, setCheckList, CheckList }: Props) {
+function GoodsDataTable({ data, setOnSubmit, setCheckList, CheckList, isLoading }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState(false);
   const [clickPoint, setClickPoint] = useState(0);
@@ -211,7 +212,7 @@ function GoodsDataTable({ data, setOnSubmit, setCheckList, CheckList }: Props) {
           );
         })}
       </Flex>
-      {!data ? (
+      {(!data || isLoading) ? (
         <>
           {Array(7)
             .fill(0)
