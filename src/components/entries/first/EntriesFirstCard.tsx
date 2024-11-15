@@ -137,7 +137,7 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {formatDateMinTimeDash(item.openDate)}
           </Text>
-        </Flex>
+        </Flex>55555555555555555555555
         <Flex
           w={header[5]?.width}
           alignItems={'center'}
@@ -201,8 +201,8 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
                 setOpenAlertModal(true);
                 setModalState({
                   ...ModalState,
-                  title: '선착순 응모 삭제',
-                  message: item.status == 1 ? `아직 진행중인 응모입니다!\n 해당 응모를 삭제 하시겠습니까?` : `응모를 삭제 하시겠습니까?`,
+                  title: item.status == 1 ? '주의! 진행중인 응모입니다!' : '선착순 응모 삭제',
+                  message: item.status == 1 ? `해당 응모를 삭제 하시겠습니까?` : `응모를 삭제 하시겠습니까?`,
                   type: 'confirm',
                   okButtonName: '확인',
                   cbOk: () => {
