@@ -19,6 +19,7 @@ import {
   ColorWhite,
 } from '@/utils/_Palette';
 import {
+  deleteToken,
   getSendBirdToken,
   getToken,
   setSendBirdToken,
@@ -53,6 +54,9 @@ function page() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [sendBirdTokenState, setSendBirdTokenState] = useState(false);
 
+  useEffect(() => {
+    deleteToken();
+  }, []);
   //샌드버드 토큰 발급
   const { data: SendBirdTokenData, error } = useQuery(
     ['GET_GOODSDETAIL'],
@@ -63,7 +67,8 @@ function page() {
       enabled: !!sendBirdTokenState,
     },
   );
-  console.log('sendBirdTokenState', sendBirdTokenState);
+  // console.log('getToken()', getToken());
+  // console.log('sendBirdTokenState', sendBirdTokenState);
   useEffect(() => {
     if (SendBirdTokenData !== undefined) {
       console.log('SendBirdTokenData', SendBirdTokenData);
@@ -86,24 +91,35 @@ function page() {
             access: data?.accessToken ? data?.accessToken : '',
             refresh: data?.refreshToken ? data?.refreshToken : '',
           };
+          // console.log('data?.accessToken', data?.accessToken);
           setToken(param);
           setUserZuInfo({
             accessToken: data?.accessToken ? data?.accessToken : '',
             refreshToken: data?.refreshToken ? data?.refreshToken : '',
           });
           localStorage.setItem('loginId', request.loginId);
-          if (localStorage.getItem('loginId') !== request.loginId) {
+          setTimeout(() => {
             setSendBirdTokenState(true);
-          } else {
-            if (getSendBirdToken().expiresAt / 1000 < moment().unix()) {
-              console.log('샌드버드 토큰 재발급');
-              // ReTokenFun();
-              setSendBirdTokenState(true);
-            } else {
-              setSendBirdTokenState(false);
-              router.push('/');
-            }
-          }
+          }, 1000);
+
+          // console.log(
+          //   "localStorage.getItem('loginId')",
+          //   localStorage.getItem('loginId'),
+          // );
+          // console.log('request.loginId', request.loginId);
+          // if (localStorage.getItem('loginId') !== request.loginId) {
+
+          //   setSendBirdTokenState(true);
+          // } else {
+          //   if (getSendBirdToken().expiresAt / 1000 < moment().unix()) {
+          //     console.log('샌드버드 토큰 재발급');
+          //     // ReTokenFun();
+          //     setSendBirdTokenState(true);
+          //   } else {
+          //     setSendBirdTokenState(false);
+          //     // router.push('/');
+          //   }
+          // }
           setErrorMsg('');
         } else {
           setErrorMsg(String(res.message));

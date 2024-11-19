@@ -53,7 +53,7 @@ export class SendBirdApi {
 
     const { data } = await this.axios({
       method: 'GET',
-      url: `/admin/chat/channels?show_member=false${
+      url: `/admin/chat/channels?show_member=true${
         token !== '' ? '&token=' + token : ''
       }`,
       headers: {
