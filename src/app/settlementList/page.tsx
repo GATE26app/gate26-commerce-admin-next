@@ -51,6 +51,7 @@ function page() {
   //     });
   //   }
   // }, [settleFilterInfo.pageNo]);
+  
   const { mutate: refreshList, isLoading } = useGetSettleListMutation({
     options: {
       onSuccess: (res) => {
@@ -64,13 +65,20 @@ function page() {
 
   useEffect(() => {
     refreshList(request);
-    console.log('request ::??', refreshList);
   }, []);
   
   useEffect(() => {
-    console.log(request, 'rjator??');
     if (goodsInfo.settlementState) refreshList(request);
   }, [goodsInfo.settlementState]);
+
+  useEffect(() => {
+    if (settleFilterInfo.pageNo) {
+      setRequest({ ...request, pageNo: Number(settleFilterInfo.pageNo) - 1 });
+      setGoodsInfo({
+        settlementState: true,
+      });
+    }
+  }, [settleFilterInfo.pageNo]);
   
   return (
     <Box w={'100%'}>

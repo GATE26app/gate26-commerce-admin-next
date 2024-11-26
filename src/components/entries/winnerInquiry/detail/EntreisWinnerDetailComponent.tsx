@@ -10,10 +10,11 @@ interface Props {
   data: EntriesDetailType;
 }
 function EntreisWinnerDetailComponent({ data }: Props) {
+  console.log('....???', data);
   return (
     <Flex gap={'40px'}>
       <Box w={'50%'}>
-        {data !== undefined && <EntriesLeftComponent data={data} />}
+        {data !== undefined && data.content != '' && <EntriesLeftComponent data={data} />}
       </Box>
       <Box w={'50%'}>
         <EntriesRightComponent />

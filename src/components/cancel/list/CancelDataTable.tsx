@@ -121,7 +121,7 @@ function CancelDataTable({ list, setChekcList, CheckList }: Props) {
           h={'64px'}
           onClick={() => onClickAllCheck()}
         >
-          {list?.orders.length == CheckList.length ? (
+          {(list?.orders.length == CheckList.length && list?.orders.length > 0) ? (
             <Image
               width={21}
               height={21}

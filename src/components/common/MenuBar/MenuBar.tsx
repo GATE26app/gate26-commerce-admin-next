@@ -15,6 +15,7 @@ import { useFirstFilterZuInfo } from '@/_store/FirstFilterInfo';
 import { useAuctionFilterZuInfo } from '@/_store/AuctionFilterInfo';
 import { useOrderFilterZuInfo } from '@/_store/OrderFilterInfo';
 import { useCancelFilterZuInfo } from '@/_store/CancelStateInfo';
+import { useSettleFilterZuInfo } from '@/_store/SettleFilterInfo';
 
 function MenuBar() {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ function MenuBar() {
   const { deleteAuctionFilterInfo } = useAuctionFilterZuInfo((state) => state);
   const { deleteOrderFilterInfo } = useOrderFilterZuInfo((state) => state);
   const { deleteCancelFilterInfo } = useCancelFilterZuInfo((state) => state);
+  const { deleteSettleFilterInfo } = useSettleFilterZuInfo((state) => state);
   useEffect(() => {
     if (
       pathname == '/goodsSetting' ||
@@ -88,6 +90,9 @@ function MenuBar() {
     } else if (pathname.includes('/banner')) {
       setMenu(7);
       setOrdreMenu(1);
+    } else if (pathname.includes('/settlementList')) {
+      setMenu(6);
+      setOrdreMenu(1);
     }
   }, [pathname]);
   //필터 초기화
@@ -123,6 +128,9 @@ function MenuBar() {
     }
     if (pathname !== '/cancelList' && pathname !== '/cancelDetail') {
       deleteCancelFilterInfo();
+    }
+    if (pathname !== '/settlementList' && pathname !== '/settlementList') {
+      deleteSettleFilterInfo();
     }
   }, [pathname]);
   return (
@@ -577,6 +585,7 @@ function MenuBar() {
               color={orderMenu == 1 ? ColorRed : ColorGrayMenu}
               cursor={'pointer'}
               onClick={() => {
+                setMenu(6);
                 setOrdreMenu(1);
               }}
             >

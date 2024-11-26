@@ -255,6 +255,20 @@ function CancelInfo({ info }: Props) {
             </Text>
             <CancelInfoCard info={info} />
           </Flex>
+          <Flex mt={'15px'} alignItems={'center'}>
+            <Text
+              w={'160px'}
+              fontSize={'15px'}
+              fontWeight={700}
+              flexShrink={0}
+              color={ColorBlack}
+            >
+              구매확정여부
+            </Text>
+            <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+              {info.orderConfirmName}
+            </Text>
+          </Flex>
           <Flex mt={'15px'}>
             <Text
               w={'160px'}

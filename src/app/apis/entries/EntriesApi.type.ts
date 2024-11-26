@@ -101,6 +101,12 @@ export type PatchEntryModifyParamReqType = {
   data: EntriesResType;
 };
 
+//응모 노출 여부 수정
+export type PatchEntryLevelModifyParamReqType = {
+  entryId: number;
+  level: number;
+};
+
 //응모 참여자 목록 params
 export type GetEntryParticipantParams = {
   pageNo: number;

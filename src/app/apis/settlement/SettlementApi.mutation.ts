@@ -59,3 +59,21 @@ export const usePostSettleCompleteMutation = (
     ...params?.options,
   });
 };
+
+//기타사항 삭제
+export const useDelSettleEtcMutation = (
+  params?: MutationHookParams<typeof settlementApi.DelSettleEtc>,
+) => {
+  return useMutation(settlementApi.DelSettleEtc, {
+    ...params?.options,
+  });
+};
+
+//기타사항 수정
+export const useUpdateSettleEtcMutation = (
+  params?: MutationHookParams<typeof settlementApi.EditSettleEtc>,
+) => {
+  return useMutation(settlementApi.EditSettleEtc, {
+    ...params?.options,
+  });
+};

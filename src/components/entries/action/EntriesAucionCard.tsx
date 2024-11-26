@@ -208,8 +208,8 @@ function EntriesAucionCard({ header, item, index, pageNo, totalCount }: Props) {
                 setOpenAlertModal(true);
                 setModalState({
                   ...ModalState,
-                  title: '선착순 응모 삭제',
-                  message: `응모를 삭제 하시겠습니까?`,
+                  title: item.status == 1 ? '주의! 진행중인 응모입니다!' : '선착순 응모 삭제',
+                  message: item.status == 1 ? `해당 응모를 삭제 하시겠습니까?` : `응모를 삭제 하시겠습니까?`,
                   type: 'confirm',
                   okButtonName: '확인',
                   cbOk: () => {

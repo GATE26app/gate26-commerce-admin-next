@@ -277,6 +277,7 @@ function GoodsListComponet({
         setOnSubmit={setOnSubmit}
         CheckList={CheckList}
         setCheckList={setCheckList}
+        isLoading={isLoading}
       />
       {/* {data?.totalCount !== undefined && data?.totalCount !== 0 ? (
         <GoodsDataTable data={data} setOnSubmit={setOnSubmit} />

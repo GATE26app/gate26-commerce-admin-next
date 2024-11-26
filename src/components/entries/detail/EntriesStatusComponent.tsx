@@ -15,11 +15,17 @@ import {
   ColorWhite,
 } from '@/utils/_Palette';
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
+import CustomButton from '@/components/common/CustomButton';
+import { usePatchEntryLevelModifyMutation } from '@/app/apis/entries/EntriesApi.mutation';
+import { useRouter } from 'next/navigation';
+import ToastComponent from '@/components/common/Toast/ToastComponent';
 interface Props {
   EntriesData: EntriesResType;
   setEntriesData: React.Dispatch<React.SetStateAction<EntriesResType>>;
+  entryId?: number;
 }
-function EntriesStatusComponent({ EntriesData, setEntriesData }: Props) {
+function EntriesStatusComponent({ EntriesData, setEntriesData, entryId }: Props) {
+  const router = useRouter();
   const selectlist = ['노출함', '노출안함']; //1=>노출, 2=>미노출
   const [select, setSelect] = useState('노출함');
 
@@ -28,6 +34,21 @@ function EntriesStatusComponent({ EntriesData, setEntriesData }: Props) {
       setSelect(EntriesData.level == 1 ? '노출함' : '노출안함');
     }
   }, [EntriesData]);
+
+  const { mutate: optionModifyMutate, isLoading } = usePatchEntryLevelModifyMutation(
+    {
+      options: {
+        onSuccess: (res) => {
+          if (res.success == true) {
+            ToastComponent('응모 노출 여부가 변경되었습니다.')
+          } else {
+            router.back();
+          }
+        },
+      },
+    },
+  );
+
   return (
     <Flex w={'100%'} flexDirection={'column'} mb={'30px'}>
       <Flex
@@ -48,7 +69,8 @@ function EntriesStatusComponent({ EntriesData, setEntriesData }: Props) {
         px={'30px'}
         py={'20px'}
         w={'100%'}
-        flexDirection={'column'}
+        gap={'10px'}
+        flexDirection={'row'}
         borderWidth={1}
         borderColor={ColorGray400}
         borderBottomRadius={'12px'}
@@ -63,6 +85,24 @@ function EntriesStatusComponent({ EntriesData, setEntriesData }: Props) {
             setEntriesData({ ...EntriesData, level: data == '노출함' ? 1 : 2 });
           }}
         />
+        {entryId && 
+          <CustomButton
+            text="변경"
+            borderColor={ColorRed}
+            color={ColorWhite}
+            px="44px"
+            py="13px"
+            bgColor={ColorRed}
+            fontSize="15px"
+            onClick={() => {
+              optionModifyMutate({
+                entryId: Number(entryId),
+                level: EntriesData.level
+              });
+              router.back();
+            }}
+          />
+        }
       </Flex>
     </Flex>
   );

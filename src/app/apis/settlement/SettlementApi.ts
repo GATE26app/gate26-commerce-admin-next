@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import instance from '../_axios/instance';
 
 import { getToken } from '@/utils/localStorage/token';
-import { SettleDetailDtoType, SettleEctParamsType, SettleListDtoType, SettleMemoParamsType, SettleMemoResType, SettlementDetailParamsType, SettlementListParamsType, SettlementUnListParamsType, SettleUnListDtoType } from './SettlementApi.type';
+import { SettleDetailDtoType, SettleEctParamsType, SettleEtcEditType, SettleEtcRemoveType, SettleListDtoType, SettleMemoParamsType, SettleMemoResType, SettlementDetailParamsType, SettlementListParamsType, SettlementUnListParamsType, SettleUnListDtoType } from './SettlementApi.type';
 
 export class SettlementApi {
   axios: AxiosInstance = instance;
@@ -106,6 +106,35 @@ export class SettlementApi {
       'X-AUTH-TOKEN': `${getToken().access}`,
     },
     data: req.body,
+  });
+  return data;
+};
+
+
+//기타 사항 삭제
+DelSettleEtc = async (body: SettleEtcRemoveType): Promise<SettleMemoResType> => {
+  //type : code 또는 parentCode
+  const { data } = await this.axios({
+    method: 'DELETE',
+    url: `/admin/settlements/${body.settleId}/item`,
+    headers: {
+      'X-AUTH-TOKEN': `${getToken().access}`,
+    },
+    data: body,
+  });
+  return data;
+};
+
+//기타 사항 수정
+EditSettleEtc = async (body: SettleEtcEditType): Promise<SettleMemoResType> => {
+  //type : code 또는 parentCode
+  const { data } = await this.axios({
+    method: 'PATCH',
+    url: `/admin/settlements/${body.settleId}/item`,
+    headers: {
+      'X-AUTH-TOKEN': `${getToken().access}`,
+    },
+    data: body,
   });
   return data;
 };

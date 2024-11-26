@@ -52,11 +52,12 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
       });
       // ToastComponent('기간조회 유형을 선택해주세요.');
     } else {
+      router.push(`/settlementList?page=1`);
       setSettleFilterInfo({
         ...settleFilterInfo,
         fromDate: request.fromDate,
         endDate: request.endDate,
-        pageNo: 0,
+        // pageNo: 1,
         searchType: request.searchType !== undefined ? request.searchType : '',
         searchKeyword:
           request.searchKeyword !== undefined ? request.searchKeyword : '',
@@ -82,6 +83,31 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
     // }
     console.log(request.searchKeyword, 'feaw', request.fromDate);
   }, [request]);
+
+  useEffect(() => {
+    if (sState) {
+      setRequest({
+        ...request,
+        fromDate: `${dayjs(startDay).format('YYYY-MM-DD')}`,
+      });
+      setSettleFilterInfo({
+        ...settleFilterInfo,
+        fromDate: `${dayjs(startDay).format('YYYY-MM-DD')}`,
+      });
+      setSState(false);
+    }
+    if (eState) {
+      setRequest({
+        ...request,
+        toDate: `${dayjs(endDay).format('YYYY-MM-DD')}`,
+      });
+      setSettleFilterInfo({
+        ...settleFilterInfo,
+        toDate: `${dayjs(endDay).format('YYYY-MM-DD')}`,
+      });
+      setEState(false);
+    }
+  }, [sState, eState]);
 
   // useEffect(() => {
   //   if (EntriesData?.openDate !== '' && EntriesData?.openDate !== null) {
@@ -123,6 +149,7 @@ function SettleMentFilter({ request, setRequest, setOnSubmit }: Props) {
             onApply={(date) => {
               setStartDay(date);
               setSState(true);
+              console.log(date);
             }}
           />
           <Text color={ColorBlack} fontSize={'15px'} fontWeight={500}>

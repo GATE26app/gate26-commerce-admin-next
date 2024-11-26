@@ -168,6 +168,7 @@ export type SettleItemDtoType = {
     serviceChargePercent: number;
     paymentChargePercent: number;
     adminMemo: string;
+    title: string;
 };
 
 //리뷰상세 request type
@@ -206,4 +207,15 @@ export type SettleEctParamsType = {
 
 export type SettleUnsetParamsType = {
     pageNo: number;
+};
+
+export type SettleEtcRemoveType = {
+    settleId: number;
+    itemId: number;
+};
+export type SettleEtcEditType = {
+    settleId: number;
+    itemId: number;
+    title: string;
+    amount: number;
 };

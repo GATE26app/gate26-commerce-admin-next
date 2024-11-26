@@ -299,6 +299,10 @@ function page() {
     }
   }, [nextToken]);
 
+  console.log('ChatListData', ChatListData);
+  console.log('getSendBirdToken().user_id', getSendBirdToken().user_id);
+  console.log('getSendBirdToken()', getSendBirdToken());
+  console.log('getSendBirdToken()', getSendBirdToken());
   return (
     <Box w={'100%'} h={'calc(100vh - 402px)'} pt={'60px'}>
       <Box
@@ -321,6 +325,82 @@ function page() {
           >
             <Flex flexDirection={'row'} h={'100%'}>
               <GroupChannelList
+                renderPlaceHolderEmptyList={() => {
+                  return (
+                    <Flex
+                      flexDirection={'column'}
+                      borderRightColor={ColorInputBorder}
+                      borderRightWidth={1}
+                    >
+                      {ChatListData?.map((item, index: number) => {
+                        var date = new Date(item.created_at * 1000);
+                        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        return (
+                          <Flex
+                            key={index}
+                            px={'12px'}
+                            py={'10px'}
+                            borderBottomColor={ColorInputBorder}
+                            borderBottomWidth={1}
+                            alignItems={'flex-start'}
+                            onClick={() => {
+                              setPageChange(true);
+                              setCurrentChannelUrl(item.channel_url);
+                              setTitle(item.name);
+                              setImg(item.cover_url);
+                            }}
+                          >
+                            <Box
+                              overflow={'hidden'}
+                              borderRadius={'50%'}
+                              w={'56px'}
+                              h={'56px'}
+                              flexShrink={0}
+                            >
+                              <Img src={item.cover_url} w={'56px'} h={'56px'} />
+                            </Box>
+                            <Flex
+                              justifyContent={'space-between'}
+                              w={'100%'}
+                              alignItems={'center'}
+                            >
+                              <Flex ml={'16px'} alignItems={'center'}>
+                                <Text
+                                  fontWeight={600}
+                                  color={ColorBlack}
+                                  fontSize={'14px'}
+                                  textOverflow={'ellipsis'}
+                                  wordBreak={'break-all'}
+                                  whiteSpace={'nowrap'}
+                                  maxWidth={'135px'}
+                                  overflow={'hidden'}
+                                >
+                                  {item.name}
+                                </Text>
+                                <Text
+                                  color={ColorGray700}
+                                  fontWeight={400}
+                                  fontSize={'12px'}
+                                  ml={'4px'}
+                                >
+                                  {item.member_count}
+                                </Text>
+                              </Flex>
+                              <Text
+                                fontWeight={400}
+                                fontSize={'12px'}
+                                color={ColorGray700}
+                              >
+                                {month + '월' + ' ' + day + '일'}
+                              </Text>
+                            </Flex>
+                          </Flex>
+                        );
+                      })}
+                    </Flex>
+                  );
+                }}
                 renderChannelPreview={() => {
                   return (
                     <Flex

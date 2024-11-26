@@ -27,6 +27,7 @@ import {
 import { useGetUnSettleListMutation, usePostSettleCompleteMutation, usePutSettleMemoMutation } from '@/app/apis/settlement/SettlementApi.mutation';
 import { useSearchParams } from '../../../../node_modules/next/navigation';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
+import ButtonModal from '@/components/common/Modal/ButtonModal';
 
 interface Props {
   data: SettleDetailItemType;
@@ -37,22 +38,20 @@ function DetailBox({ data }: Props) {
   const toast = useToast();
   const searchParams = useSearchParams();
   const selectList = ['미정산', '정산완료'];
-  const [price, setPrice] = useState(0);
   const [memo, setMemo] = useState<string | null>('');
   const [select, setSelect] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const getSettleId = searchParams.get('getSettleId');
-  const [sState, setSState] = useState(false);
-  const [eState, setEState] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [startDay, setStartDay] = useState<dayjs.Dayjs>(
-    () => dayjs(new Date()),
-    // dayjs(request.periodStartDate),
-  ); //정산예정일
-  const [endDay, setEndDay] = useState<dayjs.Dayjs>(
-    () => dayjs(new Date()),
-    // dayjs(request.periodEndDate),
-  ); //정산완료일
+  const [isOpenAlertModal, setOpenAlertModal] = useState(false);
+  const [ModalState, setModalState] = useState({
+    title: '',
+    message: '',
+    type: 'alert',
+    okButtonName: '',
+    cbOk: () => {},
+    cbCancel: () => {},
+  });
 
   useEffect(() => {
     if (data) {
@@ -62,28 +61,13 @@ function DetailBox({ data }: Props) {
   }, [data]);
 
   const onSubmitMemo = () => {
-    console.log(memo);
-    if (memo == '') {
-      toast({
-        position: 'top',
-        duration: 2000,
-        render: () => (
-          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'메모를 입력해주세요.'}
-          </Box>
-        ),
-      });
-      setIsLoading(false);
-      // ToastComponent('메모를 입력해주세요.');
-    } else {
-      const obj = {
-        settlementId: String(getSettleId),
-        body: {
-          adminMemo: memo,
-        },
-      };
-      InputMemoMutate(obj);
-    }
+    const obj = {
+      settlementId: String(getSettleId),
+      body: {
+        adminMemo: memo,
+      },
+    };
+    InputMemoMutate(obj);
   };
 
   const { mutate: InputMemoMutate, isLoading: isLoadingMemo } =
@@ -183,6 +167,11 @@ function DetailBox({ data }: Props) {
         children={isLoading}
         isOpen={isLoading}
         onClose={() => !isLoading}
+      />
+      <ButtonModal
+        isOpen={isOpenAlertModal}
+        ModalState={ModalState}
+        onClose={() => setOpenAlertModal(false)}
       />
       <Flex
         bgColor={ColorGray50}
@@ -349,28 +338,39 @@ function DetailBox({ data }: Props) {
               select={select}
               setSelect={(e) => {
                 if(e === '정산완료'){
-                  if(data.partner.bank == null || data.partner.accountNumber == null || data.partner.accountHolder == null){
-                    console.log(data.partner.bank, data.partner.accountNumber, data.partner.accountHolder);
-                    toast({
-                      position: 'top',
-                      duration: 2000,
-                      render: () => (
-                        <Box
-                          style={{ borderRadius: 8 }}
-                          p={3}
-                          color="white"
-                          bg="#ff6955"
-                        >
-                          {'은행 정보가 없습니다.'}
-                        </Box>
-                      ),
-                    });
-                  } else {
-                    InputCompeleteMutate({
-                      settlementId: Number(getSettleId),
-                    });
-                    setIsLoading(true);
-                  }
+                  setOpenAlertModal(true);
+                  setModalState({
+                    ...ModalState,
+                    title: '정산완료',
+                    message: `정산을 완료 처리하시겠습니까?`,
+                    type: 'confirm',
+                    okButtonName: '확인',
+                    cbOk: () => {
+                      if(data.partner.bank == null || data.partner.accountNumber == null || data.partner.accountHolder == null){
+                        console.log(data.partner.bank, data.partner.accountNumber, data.partner.accountHolder);
+                        toast({
+                          position: 'top',
+                          duration: 2000,
+                          render: () => (
+                            <Box
+                              style={{ borderRadius: 8 }}
+                              p={3}
+                              color="white"
+                              bg="#ff6955"
+                            >
+                              {'은행 정보가 없습니다.'}
+                            </Box>
+                          ),
+                        });
+                      } else {
+                        InputCompeleteMutate({
+                          settlementId: Number(getSettleId),
+                        });
+                        setIsLoading(true);
+                      }
+                    },
+                  });
+                  
                 }
                 // setSelect
               }}
