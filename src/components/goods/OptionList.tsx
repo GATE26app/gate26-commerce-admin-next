@@ -31,6 +31,7 @@ import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import EditableInputBox from './CreateGoods/EditableInputBox';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'
+import InputBox from '@/components/common/Input';
 
 dayjs.locale('ko')
 
@@ -54,6 +55,8 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   };
   const stockRef = useRef(null);
   const [indexCnt, setIndexCnt] = useState(0);
+  const [bulkOptionPrice, setBulkOptionPrice] = useState(0);
+  const [bulkStockCnt, setBulkStockCnt] = useState(0);
 
   const handleInputChange = (index: number, key: string, value: string) => {
     if (key == 'useDateTime') {
@@ -93,6 +96,22 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
     }
   };
 
+  const handleBulkOptionPriceChange = () => {
+    if(bulkOptionPrice > -1) {
+      console.log(optionList)
+      let updatedOptionList = optionList.map(option => ({...option, price: +bulkOptionPrice}))
+      setOptionList(updatedOptionList)
+    }
+  }
+
+  const handleBulkStockCntChange = () => {
+    if(bulkStockCnt > -1) {
+      console.log(optionList)
+      let updatedOptionList = optionList.map(option => ({...option, stockCnt: +bulkStockCnt}))
+      setOptionList(updatedOptionList)
+    }
+  }
+
   useEffect(() => {
     if (stockState) {
       let updateItem = optionList.map((item) =>
@@ -126,7 +145,7 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
         <Flex
           bgColor={ColorMainBackBule}
           flexDirection={'row'}
-          h={'60px'}
+          h={'100px'}
           w="100%"
         >
           {optionList[0].useDateTime !== '' &&
@@ -224,10 +243,35 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               borderRightColor={ColorGray400}
               borderRightWidth={1}
               py={'20px'}
+              flexDir="column"
             >
               <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
                 옵션가
               </Text>
+              <Flex w="90%">
+                <InputBox
+                  placeholder="숫자입력"
+                  type="text"
+                  maxLength={8}
+                  value={bulkOptionPrice}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setBulkOptionPrice(+e.target.value)
+                  }}
+                  textAlign="center"
+                  w="60%"
+                />
+                <CustomButton
+                  text="일괄적용"
+                  fontSize="14px"
+                  color={ColorGray700}
+                  bgColor={ColorGray100}
+                  borderColor={ColorInputBorder}
+                  borderRadius="6px"
+                  w="40%"
+                  textAlign="center"
+                  onClick={() => handleBulkOptionPriceChange()}
+                />
+              </Flex>
             </Flex>
             <Flex
             w={'300px'}
@@ -251,10 +295,35 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               borderRightColor={ColorGray400}
               borderRightWidth={1}
               py={'20px'}
+              flexDir="column"
             >
               <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
                 재고
               </Text>
+              <Flex w="90%">
+                <InputBox
+                  placeholder="숫자입력"
+                  type="text"
+                  maxLength={4}
+                  value={bulkStockCnt}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setBulkStockCnt(+e.target.value)
+                  }}
+                  textAlign="center"
+                  w="60%"
+                />
+                <CustomButton
+                  text="일괄적용"
+                  fontSize="14px"
+                  color={ColorGray700}
+                  bgColor={ColorGray100}
+                  borderColor={ColorInputBorder}
+                  borderRadius="6px"
+                  w="40%"
+                  textAlign="center"
+                  onClick={() => handleBulkStockCntChange()}
+                />
+              </Flex>
             </Flex>
           )}
 

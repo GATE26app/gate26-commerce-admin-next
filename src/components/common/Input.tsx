@@ -10,6 +10,7 @@ import {
 export interface Props extends InputProps {
   error?: string;
   disabled?: boolean;
+  textAlign?: string;
 }
 
 const InputBox = ({ error, disabled = false, ...props }: any) => {
@@ -30,6 +31,7 @@ const InputBox = ({ error, disabled = false, ...props }: any) => {
         fontSize={'15px'}
         outline={'none'}
         disabled={disabled}
+        textAlign={props.textAlign}
       />
       {error !== '' && (
         <Text color={ColorRed} fontWeight={400} fontSize={'12px'} mt={'6px'}>
