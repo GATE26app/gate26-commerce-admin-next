@@ -117,7 +117,7 @@ const [count, setCount] = useState<number>(0);
             >
               <Flex gap={'10px'} alignItems={'center'}>
                 <Image
-                  src={item.profile_url?.includes('https') ? item.profile_url : `${imgUserPath()}${item.profile_url}`}
+                  src={item.profile_url?.includes('http') ? item.profile_url : `${imgUserPath()}${item.profile_url}`}
                   width={'20px'}
                   height={'20px'}
                   borderRadius={'80px'}

@@ -48,12 +48,10 @@ export class SendBirdApi {
     return data;
   };
 
-  //전체채널조회
+  // 전체채널조회
   getSendBirdAllChannelList = async (
     token: string,
   ): Promise<SendBirdAllChannelListDtoType> => {
-    //type : code 또는 parentCode
-
     const { data } = await this.axios({
       method: 'GET',
       url: `/admin/chat/channels?show_member=true${
