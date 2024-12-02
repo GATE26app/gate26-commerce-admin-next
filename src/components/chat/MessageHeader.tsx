@@ -6,6 +6,7 @@ import {
   ColorGray3,
   ColorInputBack,
   ColorLineGray,
+  ColorTextBlack,
   ColorTextGray,
 } from '@/utils/_Palette';
 import { SendbirdUserMembers } from '@/app/apis/sendbird/SendBirdApi.type';
@@ -100,34 +101,38 @@ const [count, setCount] = useState<number>(0);
           bg={ColorGray3}
           borderRadius={'50%'}
         >
-          <Text color={'black'} fontSize={'13px'}>
+          <Text color={ColorTextBlack} fontSize={'12px'} fontWeight={400}>
             {count}
           </Text>
         </Flex>
       </Flex>
-      {list &&
+      <Flex flexDirection={'column'} overflowY={'auto'} pb={'15px'} h={'100%'}>
+        {list &&
         list.length > 0 &&
         list.map((item: SendbirdUserMembers, index: number) => {
           return (
-            <Flex
-              px={'15px'}
-              pt={'15px'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-            >
-              <Flex gap={'10px'} alignItems={'center'}>
-                <Image
-                  src={item.profile_url?.includes('http') ? item.profile_url : `${imgUserPath()}${item.profile_url}`}
-                  width={'20px'}
-                  height={'20px'}
-                  borderRadius={'80px'}
-                  alt="멤버"
-                />
-                <Text fontSize={'14px'}>{item.nickname}</Text>
+            <>
+              <Flex
+                px={'15px'}
+                pt={'15px'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+              >
+                <Flex gap={'10px'} alignItems={'center'}>
+                  <Image
+                    src={item.profile_url?.includes('http') ? item.profile_url : `${imgUserPath()}${item.profile_url}`}
+                    width={'20px'}
+                    height={'20px'}
+                    borderRadius={'80px'}
+                    alt="프로필"
+                  />
+                  <Text fontSize={'14px'}>{item.nickname}</Text>
+                </Flex>
               </Flex>
-            </Flex>
+            </>
           );
         })}
+      </Flex>
     </Flex>
   );
 }
