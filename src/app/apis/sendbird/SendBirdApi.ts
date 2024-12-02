@@ -32,11 +32,11 @@ export class SendBirdApi {
     return data;
   };
 
-  //이미지presignedUrl
+  //이미지 presignedUrl
   getSendBirdImage = async (
     res: SendBirdImageType,
   ): Promise<SendBirdImageDtoType> => {
-    //type : code 또는 parentCode
+    // type : code 또는 parentCode
 
     const { data } = await this.axios({
       method: 'GET',

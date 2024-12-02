@@ -20,7 +20,7 @@ export default function MessageHeader({
   onMenu: any;
   channelUrl: string;
 }) {
-const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [list, setList] = useState<Array<SendbirdUserMembers>>([]);
 
   //최고관리자 메세지 전송
@@ -102,7 +102,7 @@ const [count, setCount] = useState<number>(0);
           borderRadius={'50%'}
         >
           <Text color={ColorTextBlack} fontSize={'12px'} fontWeight={400}>
-            {count}
+            {list && list?.length}
           </Text>
         </Flex>
       </Flex>
