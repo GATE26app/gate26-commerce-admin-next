@@ -44,6 +44,7 @@ export type SendBirdChannelMessageType = {
   nextLimit: number;
   messageId?: string;
 };
+
 //샌드버드 전체 채널 리스트 request type
 export type SendBirdMessageDtoType = {
   code: string;
@@ -61,3 +62,28 @@ export type SendMessageType = {
     message: string;
   };
 };
+
+export type SendbirdUserListParams = {
+  channelUrl: string;
+  next: number;
+  limit: number;
+};
+
+export type SendbirdUserListResponse = {
+  code: string;
+  count: number;
+  data: {
+    next: string;
+    members: Array<SendbirdUserMembers>;
+  };
+  success: boolean;
+}
+
+export type SendbirdUserMembers = {
+  user_id: string;
+  nickname: string;
+  profile_url: string;
+  is_online: string;
+  is_active: string;
+  last_seen_at: number;
+}

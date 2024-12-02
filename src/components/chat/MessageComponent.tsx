@@ -6,8 +6,10 @@ import {
   useGetBackUpChatListQuery,
   useGetChatListQuery,
 } from '@/app/apis/sendbird/SendBirdApi.query';
+import Icon from '@sendbird/uikit-react/ui/Icon';
 import useIntersectionObserver from '@/app/apis/useIntersectionObserver';
 import MessageChat from './MessageChat';
+import MessageHeader from './MessageHeader';
 interface Props {
   channelrUrl: string;
   pageChange: boolean;
@@ -29,6 +31,7 @@ function MessageComponent({
   const [firstScroll, setFirstScroll] = useState(false);
   const [backUpStart, setBackUpStart] = useState(false); //백업 데이터 사용 유무 확인
   const [timeState, setTimeState] = useState(false); // 백업 time 체크
+  const [menu, setMenu] = useState(false);
 
   const [obj, setObj] = useState({
     prevLimit: 30,
@@ -193,7 +196,7 @@ function MessageComponent({
     }
   }, [BackUpChatListData]);
 
-  let lastDate = null; // 마지막으로 출력된 날짜를 저장하는 변수
+  let lastDate: any = null; // 마지막으로 출력된 날짜를 저장하는 변수
 
   //최고관리자 메세지 전송
   const { mutate: SendMessageMutate } = useSendMessageMutation({
@@ -233,10 +236,11 @@ function MessageComponent({
   };
 
   return (
-    <Flex flexDirection={'column'} w={'100%'}>
+    <Flex flexDirection={'column'} w={'100%'} position={'relative'}>
       <Flex
         px={'16px'}
         height={'64px'}
+        minH={'64px'}
         alignItems={'center'}
         borderColor={'#E2E8F0'}
         borderWidth={1}
@@ -254,13 +258,24 @@ function MessageComponent({
         <Text fontSize={'18px'} color={ColorBlack} fontWeight={600}>
           {title}
         </Text>
+        <Flex
+          position="absolute"
+          right={'20px'}
+          cursor="pointer"
+          w="24px"
+          h="24px"
+          // onClick={openModal}
+          onClick={() => setMenu(!menu)}
+        >
+          <Icon fillColor="DEFAULT" height={26} type="INFO" width={26} />
+        </Flex>
       </Flex>
       <Flex
         overflowY={'auto'}
         px={'24px'}
         ref={scrollRef}
         flexDirection={'column-reverse'}
-        h={'calc(100vh - 600px)'}
+        h={'800px'}
         justifyContent={chatList.length < 10 ? 'flex-end' : 'normal'}
       >
         {chatList.length > 0 &&
@@ -349,6 +364,10 @@ function MessageComponent({
           onKeyDown={handleSendMessage}
         />
       </div>
+
+      {menu && (
+        <MessageHeader onMenu={(e:boolean) => setMenu(e)} channelUrl={channelrUrl}/>
+      )}
     </Flex>
   );
 }

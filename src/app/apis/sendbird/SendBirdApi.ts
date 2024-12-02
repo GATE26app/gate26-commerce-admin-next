@@ -9,6 +9,8 @@ import {
   SendBirdImageType,
   SendBirdMessageDtoType,
   SendBirdTokenDtoType,
+  SendbirdUserListParams,
+  SendbirdUserListResponse,
   SendMessageType,
 } from './SendBirdApi.type';
 import instance from '../_axios/instance';
@@ -18,6 +20,7 @@ export class SendBirdApi {
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
+  
   //알림리스트
   getSendBirdToken = async (): Promise<SendBirdTokenDtoType> => {
     //type : code 또는 parentCode
@@ -75,6 +78,7 @@ export class SendBirdApi {
     });
     return data;
   };
+
   //관리자 메세지 전송
   getMessageSend = async (
     res: SendMessageType,
@@ -86,6 +90,7 @@ export class SendBirdApi {
     });
     return data;
   };
+
   //백업 메세지 조회
   getSendBirdBackUpMessage = async (
     res: SendBirdChannelMessageType,
@@ -98,6 +103,17 @@ export class SendBirdApi {
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
+    });
+    return data;
+  };
+
+  // 사용자 조회
+  getChannelUserList = async (
+    res: SendbirdUserListParams,
+  ): Promise<SendbirdUserListResponse> => {
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `/admin/chat/channels/${res.channelUrl}/members?${res.next ? `next=${res.next}` : ''}${res.limit ? `limit=${res.limit}` : ''}`,
     });
     return data;
   };
