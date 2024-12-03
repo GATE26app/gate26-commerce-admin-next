@@ -4,6 +4,8 @@ import {
   SendBirdAllChannelListDtoType,
   SendBirdChannelMessageType,
   SendBirdMessageDtoType,
+  SendbirdUserListParams,
+  SendbirdUserListResponse,
 } from './SendBirdApi.type';
 import { AxiosError } from 'axios';
 
@@ -82,3 +84,34 @@ export const useGetBackUpChatListQuery = (
       }
     },
   });
+
+
+  export const useGetChatMemberListQuery = (
+    params: SendbirdUserListParams,
+    options?: UseInfiniteQueryOptions<
+    SendbirdUserListResponse,
+      AxiosError<{ message: string }>,
+      SendbirdUserListResponse,
+      SendbirdUserListResponse,
+      ['chatUserList', SendbirdUserListParams]
+    >,
+  ) =>
+    useInfiniteQuery({
+      ...options,
+      queryKey: ['chatUserList', params], //query key 설정
+      queryFn: async ({ pageParam: pageNum = 1 }: { pageParam?: number }) =>
+      sendBirdApi.getChannelUserList(params),
+      // enabled: params.token == '',
+      getNextPageParam: (nextInfo, allPages) => {
+        // console.log('nextInfo', nextInfo.data);
+        // console.log('nextInfo?.data.pageNo', nextInfo?.data.pageNo);
+        // console.log('nextInfo?.data.pageCount', nextInfo?.data.pageCount);
+        if (
+          nextInfo?.data.next == ''
+        ) {
+          return undefined;
+        } else {
+          return nextInfo?.data.next;
+        }
+      },
+    });

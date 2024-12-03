@@ -111,7 +111,7 @@ export class SendBirdApi {
   ): Promise<SendbirdUserListResponse> => {
     const { data } = await this.axios({
       method: 'GET',
-      url: `/admin/chat/channels/${res.channelUrl}/members?${res.next ? `next=${res.next}` : ''}${res.limit ? `limit=${res.limit}` : ''}`,
+      url: `/admin/chat/channels/${res.channelUrl}/members?${res.token ? `token=${res.token}` : ''}${res.limit ? `&limit=${res.limit}` : ''}`,
     });
     return data;
   };

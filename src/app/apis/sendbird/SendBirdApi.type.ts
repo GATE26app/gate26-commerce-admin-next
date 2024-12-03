@@ -14,6 +14,7 @@ export type SendBirdImageType = {
   ChannelUrl: string;
   imageId: string;
 };
+
 //샌드버드 토큰 request type
 export type SendBirdImageDtoType = {
   code: string;
@@ -65,7 +66,7 @@ export type SendMessageType = {
 
 export type SendbirdUserListParams = {
   channelUrl: string;
-  next: number;
+  token: string;
   limit: number;
 };
 
