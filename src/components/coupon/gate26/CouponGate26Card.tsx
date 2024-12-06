@@ -136,6 +136,18 @@ function CouponGate26Card({ header, item, index, pageNo, totalCount }: Props) {
           flexDirection={'column'}
         >
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
+            {item.stockCnt
+              ? `${item.stockCnt}개`
+              : `무제한`}
+          </Text>
+        </Flex>
+        <Flex
+          w={header[5]?.width}
+          alignItems={'center'}
+          justifyContent={'center'}
+          flexDirection={'column'}
+        >
+          <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {DashDate(item.startDate)}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
@@ -144,7 +156,7 @@ function CouponGate26Card({ header, item, index, pageNo, totalCount }: Props) {
         </Flex>
 
         <Flex
-          w={header[5]?.width}
+          w={header[6]?.width}
           alignItems={'center'}
           justifyContent={'center'}
         >
