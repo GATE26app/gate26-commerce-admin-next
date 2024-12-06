@@ -6,6 +6,8 @@ import { getToken } from '@/utils/localStorage/token';
 import {
   DeniedPartnerType,
   ListDtoType,
+  ParterServiceReqType,
+  ParterServiceResType,
   PartnerAddFormType,
   PartnerListDTO,
   PartnerListParamGetType,
@@ -213,6 +215,20 @@ export class PartnersApi {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
       data: body.shipping,
+    });
+    return data;
+  };
+
+  // 서비스수수료 등록
+  patchParnterService = async (
+    body: ParterServiceReqType,
+  ): Promise<ParterServiceResType> => {
+    const { data } = await this.axios({
+      method: 'PATCH',
+      url: `/admin/partners/${body.partnerId}/service/${body.serviceChargePercent}`,
+      headers: {
+        'X-AUTH-TOKEN': `${getToken().access}`,
+      },
     });
     return data;
   };

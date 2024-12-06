@@ -103,3 +103,11 @@ export const useProfileShippingMutation = (
     ...params?.options,
   });
 };
+//프로필 - 서비스수수료
+export const useProfileServiceMutation = (
+  params?: MutationHookParams<typeof partnersApi.patchParnterService>,
+) => {
+  return useMutation(partnersApi.patchParnterService, {
+    ...params?.options,
+  });
+};

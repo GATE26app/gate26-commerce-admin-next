@@ -25,7 +25,7 @@ export default function PartnerDetailTab({
     <Flex
       bgColor={ColorGray50}
       borderRadius={'12px'}
-      width={'438px'}
+      width={'500px'}
       flexDirection={'row'}
       alignItems={'center'}
       py={'10px'}
@@ -82,6 +82,23 @@ export default function PartnerDetailTab({
           color={tab == 3 ? ColorRed : ColorGray700}
         >
           배송비정책
+        </Text>
+      </Flex>
+      <Flex
+        width={'33.3%'}
+        bgColor={tab == 4 ? ColorRed50 : 'transparent'}
+        borderRadius={'12px'}
+        h={'100%'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        onClick={() => onTab(4)}
+      >
+        <Text
+          fontSize={'16px'}
+          fontWeight={'semibold'}
+          color={tab == 4 ? ColorRed : ColorGray700}
+        >
+          서비스수수료
         </Text>
       </Flex>
     </Flex>
