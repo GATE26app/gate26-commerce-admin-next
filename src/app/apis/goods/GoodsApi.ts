@@ -43,23 +43,20 @@ export class GoodsApi {
     //type : code 또는 parentCode
     const { data } = await this.axios({
       method: 'GET',
-      url: `/admin/items?pageNo=${request.pageNo + 1}&pageSize=${
-        request.pageSize
-      }${request.type != 0 ? '&type=' + request.type : ''}${
-        request.status != null ? '&status=' + request.status : ''
-      }${request.level != 0 ? '&level=' + request.level : ''}${
-        request.forSale != 0 ? '&forSale=' + request.forSale : ''
-      }${
-        request.searchKeyword != ''
+      url: `/admin/items?pageNo=${request.pageNo + 1}&pageSize=${request.pageSize
+        }${request.type != 0 ? '&type=' + request.type : ''}${request.status != null ? '&status=' + request.status : ''
+        }${request.level != 0 ? '&level=' + request.level : ''}${request.forSale != 0 ? '&forSale=' + request.forSale : ''
+        }${request.searchKeyword != ''
           ? '&searchType=' +
-            request.searchType +
-            '&searchKeyword=' +
-            request.searchKeyword
+          request.searchType +
+          '&searchKeyword=' +
+          request.searchKeyword
           : ''
-      }${request.partnerId !== '' ? '&partnerId=' + request.partnerId : ''}`,
+        }${request.partnerId !== '' ? '&partnerId=' + request.partnerId : ''}`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
+      timeout: 30000,
     });
     return data;
   };
@@ -268,11 +265,9 @@ export class GoodsApi {
   getPartnersList = async (
     request: PartnerListParamGetType,
   ): Promise<PartnerListDTO> => {
-    const url = `/admin/partners2?&level=1&status=1&pageNo=${
-      request.pageNo + 1
-    }&pageSize=${request.pageSize}${
-      request.searchKeyword !== '' && '&searchType=title'
-    }${request.searchKeyword ? `&searchKeyword=${request.searchKeyword}` : ''}`;
+    const url = `/admin/partners2?&level=1&status=1&pageNo=${request.pageNo + 1
+      }&pageSize=${request.pageSize}${request.searchKeyword !== '' && '&searchType=title'
+      }${request.searchKeyword ? `&searchKeyword=${request.searchKeyword}` : ''}`;
 
     const { data } = await this.axios({
       method: 'GET',
