@@ -62,6 +62,7 @@ import PartnerConnectInfo from './PartnerConnectInfo';
 import PartnerPayDataTable from './PartnerPayDataTable';
 import partnersApi from '@/app/apis/partners/PartnersApi';
 import PartnerShippingInfo from './PartnerShippingInfo';
+import PartnerServiceInfo from './PartnerServiceInfo';
 
 interface CategoryListProps {
   categoryId: number;
@@ -139,6 +140,7 @@ function UpdatePartnerDetail() {
     data: info,
     isLoading: isLoading,
     error,
+    refetch
   } = useQuery(['commerce_detail', getPertnerId], () =>
     partnersApi.GetPartnersDetail(String(getPertnerId)),
   );
@@ -187,6 +189,7 @@ function UpdatePartnerDetail() {
           {tab == 1 && <PartnerBasicInfo info={info && info.data} />}
           {tab == 2 && <PartnerConnectInfo info={info?.data} />}
           {tab == 3 && <PartnerShippingInfo info={info?.data} />}
+          {tab == 4 && <PartnerServiceInfo info={info?.data} refresh={() => refetch()}/>}
         </Box>
       </Flex>
     </>

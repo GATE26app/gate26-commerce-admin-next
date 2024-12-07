@@ -174,6 +174,11 @@ export const couponGate26Listheader = [
     width: '17%',
   },
   {
+    id: 'stockcnt',
+    name: '재고',
+    width: '17%',
+  },
+  {
     id: 'rest',
     name: '유효기간',
     width: '17%',
@@ -254,6 +259,11 @@ export const couponGoodsListheader = [
     id: 'payment',
     name: '할인금액/율',
     width: '11%',
+  },
+  {
+    id: 'stockcnt',
+    name: '재고',
+    width: '17%',
   },
   {
     id: 'rest',

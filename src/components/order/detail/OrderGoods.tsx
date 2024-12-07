@@ -118,6 +118,11 @@ function OrderGoods({ info }: Props) {
           justifyContent={'center'}
         >
           {orderGoodheader.map((item: DataTableHeaderProps, index: number) => {
+            // 주문 상품 유형, 1=>일반형, 2=>바우처형, 3=>예약형, 4=>이륙살롱
+            if (info.orderType !== 1 && item.name === '배송정보') {
+              return null;
+            }
+
             return (
               <Flex
                 key={index}

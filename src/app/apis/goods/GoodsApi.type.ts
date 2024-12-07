@@ -622,6 +622,7 @@ export type PartnersParamsType = {
   shippingMinAmount: number;
   shippingType: number;
   shippingTypeName: string;
+  serviceChargePercent?: number;
 };
 
 export type attributeType = {

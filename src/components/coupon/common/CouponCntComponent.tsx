@@ -49,14 +49,14 @@ function CouponCntComponent({
       >
         <Flex gap={'30px'}>
           <RadioComponent
-            text="유"
+            text="유한"
             checked={state}
             onClick={() => {
               setState(true);
             }}
           />
           <RadioComponent
-            text="무"
+            text="무제한"
             checked={!state}
             onClick={() => {
               setState(false);

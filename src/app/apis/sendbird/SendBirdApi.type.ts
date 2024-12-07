@@ -14,6 +14,7 @@ export type SendBirdImageType = {
   ChannelUrl: string;
   imageId: string;
 };
+
 //샌드버드 토큰 request type
 export type SendBirdImageDtoType = {
   code: string;
@@ -44,6 +45,7 @@ export type SendBirdChannelMessageType = {
   nextLimit: number;
   messageId?: string;
 };
+
 //샌드버드 전체 채널 리스트 request type
 export type SendBirdMessageDtoType = {
   code: string;
@@ -61,3 +63,28 @@ export type SendMessageType = {
     message: string;
   };
 };
+
+export type SendbirdUserListParams = {
+  channelUrl: string;
+  token: string;
+  limit: number;
+};
+
+export type SendbirdUserListResponse = {
+  code: string;
+  count: number;
+  data: {
+    next: string;
+    members: Array<SendbirdUserMembers>;
+  };
+  success: boolean;
+}
+
+export type SendbirdUserMembers = {
+  user_id: string;
+  nickname: string;
+  profile_url: string;
+  is_online: string;
+  is_active: string;
+  last_seen_at: number;
+}

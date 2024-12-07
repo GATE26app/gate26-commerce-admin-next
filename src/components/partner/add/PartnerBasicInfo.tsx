@@ -556,11 +556,13 @@ function PartnerBasicInfo() {
         onClose={() => setModal(false)}
       />
 
-      <GoogleMapModal
-        isOpen={isGoogleModal}
-        onClose={() => setGoogleModal(false)}
-        onComplete={handleComplete}
-      />
+      {isGoogleModal && 
+        <GoogleMapModal
+          isOpen={isGoogleModal}
+          onClose={() => setGoogleModal(false)}
+          onComplete={handleComplete}
+        />
+      }
       <Flex mt={'30px'} flexDirection={'column'}>
         <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>
           기본정보
