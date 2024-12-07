@@ -304,9 +304,9 @@ function page() {
   console.log('getSendBirdToken()', getSendBirdToken());
   console.log('getSendBirdToken()', getSendBirdToken());
   return (
-    <Box w={'100%'} h={'calc(100vh - 402px)'} pt={'60px'}>
+    <Box w={'100%'} h={'600px'} pt={'60px'}>
       <Box
-        h={'calc(100vh - 462px)'}
+        h={'540px'}
         borderWidth={1}
         borderColor={ColorInputBorder}
         borderRadius={'10px'}

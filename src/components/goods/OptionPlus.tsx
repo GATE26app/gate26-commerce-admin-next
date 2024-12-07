@@ -81,6 +81,7 @@ function OptionPlus({
 
   const [price, setPrice] = useState<number>(0);
   const [stock, setStock] = useState<number>(0);
+  
   const toast = useToast();
   const ToastComponent = (message: string) => {
     return toast({

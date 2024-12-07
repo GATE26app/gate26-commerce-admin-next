@@ -22,6 +22,7 @@ export const useChatMessageMutation = (
     ...params?.options,
   });
 };
+
 export const useSendMessageMutation = (
   params?: MutationHookParams<typeof sendBirdApi.getMessageSend>,
 ) => {
@@ -34,6 +35,14 @@ export const useSendImageMutation = (
   params?: MutationHookParams<typeof sendBirdApi.getSendBirdImage>,
 ) => {
   return useMutation(sendBirdApi.getSendBirdImage, {
+    ...params?.options,
+  });
+};
+
+export const useGetSendbirdMembers = (
+  params?: MutationHookParams<typeof sendBirdApi.getChannelUserList>,
+) => {
+  return useMutation(sendBirdApi.getChannelUserList, {
     ...params?.options,
   });
 };

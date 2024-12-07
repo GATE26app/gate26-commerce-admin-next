@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
 
 import {
+  Checkbox,
   Editable,
   EditableInput,
   EditablePreview,
@@ -22,7 +23,7 @@ import {
   ColorMainBackBule,
   ColorWhite,
   ColorRedOpa,
-  ColorBackBlue
+  ColorBackBlue,
 } from '@/utils/_Palette';
 
 import { Option } from './OptionPlus';
@@ -30,9 +31,10 @@ import { Option } from './OptionPlus';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import EditableInputBox from './CreateGoods/EditableInputBox';
 import dayjs from 'dayjs';
-import 'dayjs/locale/ko'
+import 'dayjs/locale/ko';
+import InputBox from '@/components/common/Input';
 
-dayjs.locale('ko')
+dayjs.locale('ko');
 
 interface Props {
   list: GoodsBasicProps;
@@ -54,6 +56,9 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
   };
   const stockRef = useRef(null);
   const [indexCnt, setIndexCnt] = useState(0);
+  const [bulkOptionPrice, setBulkOptionPrice] = useState(0);
+  const [bulkStockCnt, setBulkStockCnt] = useState(0);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   const handleInputChange = (index: number, key: string, value: string) => {
     if (key == 'useDateTime') {
@@ -93,6 +98,47 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
     }
   };
 
+  const handleBulkOptionPriceChange = () => {
+    if (bulkOptionPrice > -1) {
+      console.log(optionList);
+      let updatedOptionList = optionList.map((option, index) => ({
+        ...option,
+        price: selectedRows.includes(index)
+          ? Number(bulkOptionPrice)
+          : option.price,
+      }));
+
+      setOptionList(updatedOptionList);
+    }
+  };
+
+  const handleBulkStockCntChange = () => {
+    if (bulkStockCnt > -1) {
+      console.log(optionList);
+      let updatedOptionList = optionList.map((option, index) => ({
+        ...option,
+        stockCnt: selectedRows.includes(index)
+          ? Number(bulkStockCnt)
+          : option.stockCnt,
+      }));
+      setOptionList(updatedOptionList);
+    }
+  };
+
+  const handleSelectRow = (index: number) => {
+    setSelectedRows((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+    );
+  };
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectedRows(optionList.map((_, index) => index));
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
   useEffect(() => {
     if (stockState) {
       let updateItem = optionList.map((item) =>
@@ -126,9 +172,17 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
         <Flex
           bgColor={ColorMainBackBule}
           flexDirection={'row'}
-          h={'60px'}
+          h={'100px'}
           w="100%"
         >
+          <Checkbox
+            mx="2"
+            onChange={handleSelectAll}
+            isChecked={selectedRows.length === optionList.length}
+            isIndeterminate={
+              selectedRows.length > 0 && selectedRows.length < optionList.length
+            }
+          />
           {optionList[0].useDateTime !== '' &&
             optionList[0].useDateTime !== null && (
               <Flex
@@ -217,31 +271,56 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
 
           {optionList[0].price !== null && (
             <>
-            <Flex
-              w={'300px'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              borderRightColor={ColorGray400}
-              borderRightWidth={1}
-              py={'20px'}
-            >
-              <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-                옵션가
-              </Text>
-            </Flex>
-            <Flex
-            w={'300px'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            borderRightColor={ColorGray400}
-            borderRightWidth={1}
-            py={'20px'}
-          >
-            <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
-              판매가격 (기본가 + 옵션가)
-            </Text>
-          </Flex>
-          </>
+              <Flex
+                w={'300px'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRightColor={ColorGray400}
+                borderRightWidth={1}
+                py={'20px'}
+                flexDir="column"
+              >
+                <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                  옵션가
+                </Text>
+                <Flex w="90%">
+                  <InputBox
+                    placeholder="숫자입력"
+                    type="text"
+                    maxLength={8}
+                    value={bulkOptionPrice}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setBulkOptionPrice(+e.target.value);
+                    }}
+                    textAlign="center"
+                    w="60%"
+                  />
+                  <CustomButton
+                    text="일괄적용"
+                    fontSize="14px"
+                    color={ColorGray700}
+                    bgColor={ColorGray100}
+                    borderColor={ColorInputBorder}
+                    borderRadius="6px"
+                    w="40%"
+                    textAlign="center"
+                    onClick={() => handleBulkOptionPriceChange()}
+                  />
+                </Flex>
+              </Flex>
+              <Flex
+                w={'300px'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                borderRightColor={ColorGray400}
+                borderRightWidth={1}
+                py={'20px'}
+              >
+                <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
+                  판매가격 (기본가 + 옵션가)
+                </Text>
+              </Flex>
+            </>
           )}
           {optionList[0].stockCnt !== null && (
             <Flex
@@ -251,10 +330,35 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
               borderRightColor={ColorGray400}
               borderRightWidth={1}
               py={'20px'}
+              flexDir="column"
             >
               <Text fontSize={'16px'} fontWeight={700} color={ColorBlack}>
                 재고
               </Text>
+              <Flex w="90%">
+                <InputBox
+                  placeholder="숫자입력"
+                  type="text"
+                  maxLength={4}
+                  value={bulkStockCnt}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setBulkStockCnt(+e.target.value);
+                  }}
+                  textAlign="center"
+                  w="60%"
+                />
+                <CustomButton
+                  text="일괄적용"
+                  fontSize="14px"
+                  color={ColorGray700}
+                  bgColor={ColorGray100}
+                  borderColor={ColorInputBorder}
+                  borderRadius="6px"
+                  w="40%"
+                  textAlign="center"
+                  onClick={() => handleBulkStockCntChange()}
+                />
+              </Flex>
             </Flex>
           )}
 
@@ -283,8 +387,19 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                 borderTopColor={ColorGray400}
                 borderTopWidth={1}
                 key={index}
-                backgroundColor={dayjs(item.useDateTime).get('d') === 0 ? ColorRedOpa : dayjs(item.useDateTime).get('d') === 6 ? ColorBackBlue : 'transparent'}
+                backgroundColor={
+                  dayjs(item.useDateTime).get('d') === 0
+                    ? ColorRedOpa
+                    : dayjs(item.useDateTime).get('d') === 6
+                    ? ColorBackBlue
+                    : 'transparent'
+                }
               >
+                <Checkbox
+                  mx="2"
+                  isChecked={selectedRows.includes(index)}
+                  onChange={() => handleSelectRow(index)}
+                />
                 {optionList[0].useDateTime !== '' &&
                   optionList[0].useDateTime !== null && (
                     <Flex
@@ -298,7 +413,9 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
                         w={'100%'}
                         key={item.useDateTime.split(' ')[0]}
                         // value={item.useDateTime.split(' ')[0]}
-                        value={dayjs(item.useDateTime).format('YYYY-MM-DD (ddd)')}
+                        value={dayjs(item.useDateTime).format(
+                          'YYYY-MM-DD (ddd)',
+                        )}
                         textAlign={'center'}
                         fontSize={'15px'}
                         fontWeight={500}
@@ -472,62 +589,60 @@ function OptionList({ list, setList, optionList, setOptionList }: Props) {
 
                 {item.price !== null && (
                   <>
-                  <Flex
-                    w={'300px'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRightWidth={1}
-                    borderRightColor={ColorGray400}
-                  >
-                    <Editable
-                      w={'100%'}
-                      key={item.price}
-                      defaultValue={String(item.price)}
-                      textAlign={'center'}
-                      fontSize={'15px'}
-                      fontWeight={500}
-                      isPreviewFocusable={true}
-                      selectAllOnFocus={false}
-                      isDisabled={goodsInfo.LogItemDisable}
-                      // onBlur={(e) => {
-                      //   if (e) {
-                      //     handleInputChange(index, 'price', e);
-                      //   }
-                      // }}
-                      // onChange={(e) => setprice(e)}
-                      onChange={(e) => {
-                        setIndexCnt(index);
-                        setprice(e);
-                      }}
-                      onBlur={(e) => {
-                        setPriceState(true);
-                      }}
+                    <Flex
+                      w={'300px'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRightWidth={1}
+                      borderRightColor={ColorGray400}
                     >
-                      <EditablePreview
-                        py={'17px'}
-                        color={ColorGray700}
-                        width="full"
-                      />
-                      <EditableInput
-                        py={'17px'}
-                        type="number"
-                        color={ColorBlack}
-                        disabled={goodsInfo.LogItemDisable}
-                      />
-                    </Editable>
-                  </Flex>
-                  <Flex
-                    w={'300px'}
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRightWidth={1}
-                    borderRightColor={ColorGray400}
-                  >
-                    <Text>
-                      {list.price + item.price}
-                    </Text>
-                  </Flex>
-                </>
+                      <Editable
+                        w={'100%'}
+                        key={item.price}
+                        defaultValue={String(item.price)}
+                        textAlign={'center'}
+                        fontSize={'15px'}
+                        fontWeight={500}
+                        isPreviewFocusable={true}
+                        selectAllOnFocus={false}
+                        isDisabled={goodsInfo.LogItemDisable}
+                        // onBlur={(e) => {
+                        //   if (e) {
+                        //     handleInputChange(index, 'price', e);
+                        //   }
+                        // }}
+                        // onChange={(e) => setprice(e)}
+                        onChange={(e) => {
+                          setIndexCnt(index);
+                          setprice(e);
+                        }}
+                        onBlur={(e) => {
+                          setPriceState(true);
+                        }}
+                      >
+                        <EditablePreview
+                          py={'17px'}
+                          color={ColorGray700}
+                          width="full"
+                        />
+                        <EditableInput
+                          py={'17px'}
+                          type="number"
+                          color={ColorBlack}
+                          disabled={goodsInfo.LogItemDisable}
+                        />
+                      </Editable>
+                    </Flex>
+                    <Flex
+                      w={'300px'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRightWidth={1}
+                      borderRightColor={ColorGray400}
+                    >
+                      <Text>{list.price + item.price}</Text>
+                    </Flex>
+                  </>
                 )}
                 {item.stockCnt !== null && (
                   <Flex

@@ -179,3 +179,12 @@ export type PartnerShippingType = {
   shippingFee: number;
   shippingMinAmount: number;
 };
+export type ParterServiceReqType = {
+  partnerId: string;
+  serviceChargePercent: number;
+};
+export type ParterServiceResType = {
+  code: string;
+  count: number;
+  success: boolean;
+};

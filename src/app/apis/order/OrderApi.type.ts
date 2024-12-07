@@ -248,6 +248,7 @@ export type OrderDetailItemType = {
   requiredPartnerCancelConfirm: number;
   partnerCancelConfirm: number;
   meetingId?: string;
+  adminMemo: string;
 };
 
 export type policiesType = {
