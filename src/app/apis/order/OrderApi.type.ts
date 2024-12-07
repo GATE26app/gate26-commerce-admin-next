@@ -247,6 +247,7 @@ export type OrderDetailItemType = {
   siteOrigin?: string;
   requiredPartnerCancelConfirm: number;
   partnerCancelConfirm: number;
+  adminMemo: string;
 };
 
 export type policiesType = {
