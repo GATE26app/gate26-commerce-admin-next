@@ -1,7 +1,7 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
@@ -701,7 +701,7 @@ function UpdateGoodDetail() {
                 )}
 
                 <CustomButton
-                  text={selectMenu == 1 ? '승인요청' : '업데이트'}
+                  text={'수정'}
                   borderColor={ColorRed}
                   color={ColorWhite}
                   px={selectMenu == 1 ? '44px' : '31.5px'}
