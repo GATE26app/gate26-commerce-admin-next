@@ -433,6 +433,41 @@ function CancelInfo({ info }: Props) {
                 : formatDated(dayjs(info.cancelConfirmDate))}
             </Text>
           </Flex>
+          {info.cancelDeniedDate && (
+            <>
+              <Flex mt={'15px'} alignItems={'center'}>
+                <Text
+                  w={'160px'}
+                  fontSize={'15px'}
+                  fontWeight={700}
+                  // flexShrink={0}
+                  color={ColorBlack}
+                  whiteSpace={'pre-wrap'}
+                >
+                  취소거절일
+                </Text>
+                <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                  {formatDated(dayjs(info.cancelDeniedDate)) == 'Invalid Date'
+                    ? '-'
+                    : formatDated(dayjs(info.cancelDeniedDate))}
+                </Text>
+              </Flex>
+              <Flex mt={'15px'} alignItems={'center'}>
+                <Text
+                  w={'160px'}
+                  fontSize={'15px'}
+                  fontWeight={700}
+                  flexShrink={0}
+                  color={ColorBlack}
+                >
+                  취소거절 사유
+                </Text>
+                <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
+                  {info?.cancelDeniedDetail}
+                </Text>
+              </Flex>
+            </>
+          )}
 
           {/* <Flex mt={'15px'} alignItems={'flex-start'}>
             <Text
