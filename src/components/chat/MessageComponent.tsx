@@ -80,7 +80,7 @@ function MessageComponent({
     ts: obj.ts,
     messageId: obj.messageId,
   });
-  
+
   const {
     data: BackUpChatListData,
     hasNextPage: hasBackUpNextPage,
@@ -351,7 +351,7 @@ function MessageComponent({
           margin: '15px',
         }}
       >
-        <input
+        {/* <input
           type="text"
           placeholder="관리자 메세지를 입력해주세요."
           style={{
@@ -363,11 +363,14 @@ function MessageComponent({
             outline: 'none',
           }}
           onKeyDown={handleSendMessage}
-        />
+        /> */}
       </div>
 
       {menu && (
-        <MessageHeader onMenu={(e:boolean) => setMenu(e)} channelUrl={channelrUrl}/>
+        <MessageHeader
+          onMenu={(e: boolean) => setMenu(e)}
+          channelUrl={channelrUrl}
+        />
       )}
     </Flex>
   );
