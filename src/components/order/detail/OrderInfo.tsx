@@ -167,7 +167,7 @@ function OrderInfo({ info }: Props) {
             </Text>
           </Flex>
 
-          <Flex flexDirection={'row'}>
+          <Flex flexDirection={'row'} pt={'20px'}>
             <Text
               fontWeight={600}
               fontSize={'15px'}
@@ -186,11 +186,11 @@ function OrderInfo({ info }: Props) {
               height={100}
               w={'100%'}
               borderRadius={'10px'}
-              contentEditable="false"
+              disabled
             />
           </Flex>
 
-          <Flex flexDirection={'row'}>
+          <Flex flexDirection={'row'} pt={'20px'}>
             <Text
               fontWeight={600}
               fontSize={'15px'}
