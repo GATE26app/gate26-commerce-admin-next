@@ -121,7 +121,28 @@ function OrderGoodsCard({ header, item }: Props) {
     shippingInvoice: item.shippingInvoice,
     shippingMemo: item.shippingMemo,
     orderCancelRequestDetail: '',
+    partnerMemo: item.partnerMemo,
+    adminMemo: item.adminMemo,
   });
+
+  useEffect(() => {
+    setItemData({
+      orderId: item.orderId,
+      orderThumbnailImagePath: item.orderThumbnailImagePath,
+      orderCategoryTitle: item.orderCategoryTitle,
+      orderCnt: item.orderCnt,
+      orderOptionTitle: item.orderOptionTitle,
+      discountAmount: item.discountAmount,
+      orderAmount: item.orderAmount,
+      orderTitle: item.orderTitle,
+      shippingCompany: item.shippingCompany,
+      shippingInvoice: item.shippingInvoice,
+      shippingMemo: item.shippingMemo,
+      orderCancelRequestDetail: '',
+      partnerMemo: item.partnerMemo,
+      adminMemo: item.adminMemo,
+    });
+  }, [item]);
 
   const onClickSelect = (type: string) => {
     if (type == '주문 취소') {
@@ -521,25 +542,28 @@ function OrderGoodsCard({ header, item }: Props) {
             onClick={onClickSelect}
           />
         </Flex>
-        <Flex
-          w={header[5]?.width}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
+        {/* 주문 상품 유형, 1=>일반형, 2=>바우처형, 3=>예약형, 4=>이륙살롱 */}
+        {item.orderType === 1 && (
           <Flex
-            px={'11px'}
-            py={'7px'}
-            borderWidth={1}
-            borderColor={ColoLineGray}
-            borderRadius={'6px'}
-            onClick={onClickDelivery}
-            cursor={'pointer'}
+            w={header[5]?.width}
+            alignItems={'center'}
+            justifyContent={'center'}
           >
-            <Text color={ColorGray700} fontWeight={500} fontSize={'12px'}>
-              배송정보입력
-            </Text>
+            <Flex
+              px={'11px'}
+              py={'7px'}
+              borderWidth={1}
+              borderColor={ColoLineGray}
+              borderRadius={'6px'}
+              onClick={onClickDelivery}
+              cursor={'pointer'}
+            >
+              <Text color={ColorGray700} fontWeight={500} fontSize={'12px'}>
+                배송정보입력
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
+        )}
       </Flex>
     </>
   );

@@ -181,7 +181,12 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
               >
                 {item.orderCategoryTitle}
               </Text>
-              <Text color={ColorBlack} fontSize={'14px'} fontWeight={400}>
+              <Text
+                color={ColorBlack}
+                fontSize={'14px'}
+                fontWeight={400}
+                noOfLines={4}
+              >
                 {item.orderTitle}
               </Text>
             </Flex>
@@ -245,7 +250,7 @@ function ReviewCard({ header, item, index, pageNo, totalCount }: Props) {
               alt="이미지 업로드"
             />
           </Box>
-          {/* 상품정보 */}
+          {/* 상품정보 - 리뷰 */}
           <Flex flexDirection={'column'}>
             <Text
               color={ColorGray700}

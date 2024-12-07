@@ -74,9 +74,14 @@ function OrderAmount({ info }: Props) {
               (-) {intComma(info.discountAmount)}원
             </Text>
             {info.coupons.length > 0 &&
-              info.coupons.map((item) => {
+              info.coupons.map((item, idx) => {
                 return (
-                  <Text color={ColorGray700} fontWeight={400} fontSize={'15px'}>
+                  <Text
+                    color={ColorGray700}
+                    fontWeight={400}
+                    fontSize={'15px'}
+                    key={item.couponDownload?.coupon?.title + '_' + idx}
+                  >
                     {item.couponDownload?.coupon?.title}{' '}
                     {intComma(item.couponDownload?.coupon?.priceDc)}원
                   </Text>

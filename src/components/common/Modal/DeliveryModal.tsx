@@ -33,6 +33,8 @@ import {
   ColorWhite,
 } from '@/utils/_Palette';
 import ModalOrderInfo from './ModalOrderInfo';
+import { useSearchParams } from 'next/navigation';
+import { useQueryClient } from 'react-query';
 interface InfoProps {
   orderId: string;
   orderThumbnailImagePath: string;
@@ -51,6 +53,7 @@ interface AlertModalProps extends Omit<ModalProps, 'children'> {
   // onSubmit: (text: string) => void;
   title: string;
   info?: InfoProps;
+  refetch?: Function;
 }
 const ToastComponent = (message: string) => {
   const toast = useToast();
@@ -69,6 +72,7 @@ function DeliveryModal({
   title,
   info,
   // onSubmit,
+  refetch,
   ...props
 }: AlertModalProps) {
   const toast = useToast();
@@ -81,6 +85,8 @@ function DeliveryModal({
       info?.shippingInvoice == undefined ? '' : info?.shippingInvoice,
     shippingMemo: info?.shippingMemo == undefined ? '' : info?.shippingMemo,
   });
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
 
   const handleClickOK = () => {
     // if (onSubmit) {
@@ -139,6 +145,10 @@ function DeliveryModal({
                 </Box>
               ),
             });
+            queryClient.invalidateQueries([
+              'orderItem',
+              searchParams.get('orderId'),
+            ]);
             onClose();
           } else {
             ToastComponent(`${res.message}`);

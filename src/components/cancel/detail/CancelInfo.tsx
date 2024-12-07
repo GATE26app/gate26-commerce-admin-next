@@ -22,6 +22,7 @@ import {
   ColorBlue,
   ColorDataTableBorderTop,
   ColorGray50,
+  ColorGray400,
   ColorGray700,
   ColorGrayBorder,
   ColorRed,
@@ -49,21 +50,22 @@ function CancelInfo({ info }: Props) {
   const [deniedReason, setDeniedReason] = useState('');
   const [day, setDay] = useState<dayjs.Dayjs>(dayjs(new Date())); //환불기준일
 
-  const [memo, setMemo] = useState<string>(
-    info.partnerMemo == null ? '' : info.partnerMemo,
+  const [adminMemo, setAdminMemo] = useState<string>(
+    info.adminMemo == null ? '' : info.adminMemo,
   );
   const [cancelApproModal, setCancelApproModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
 
   useEffect(() => {
-    if (info.partnerMemo) {
-      setMemo(info.partnerMemo);
+    if (info.adminMemo) {
+      setAdminMemo(info.adminMemo);
     }
     if (info.cancelStatus) {
       setState(info.cancelStatus);
     }
   }, [info]);
+
   const { mutate: InputMemoMutate, isLoading: isLoading } =
     usePutOrderMemoMutation({
       options: {
@@ -104,7 +106,7 @@ function CancelInfo({ info }: Props) {
     });
 
   const onSubmitMemo = () => {
-    if (memo == '') {
+    if (adminMemo == '') {
       toast({
         position: 'top',
         duration: 2000,
@@ -119,7 +121,7 @@ function CancelInfo({ info }: Props) {
       const obj = {
         orderId: String(getOrderId),
         body: {
-          memo: memo,
+          memo: adminMemo,
         },
       };
       InputMemoMutate(obj);
@@ -196,7 +198,7 @@ function CancelInfo({ info }: Props) {
         },
       },
     });
-  console.log('info', info);
+  // console.log('info', info);
   return (
     <>
       {cancelApproModal && (
@@ -540,6 +542,30 @@ function CancelInfo({ info }: Props) {
             </Flex>
           </Flex>
         </Flex>
+
+        <Flex flexDirection={'row'} pt={'20px'}>
+          <Text
+            fontWeight={600}
+            fontSize={'15px'}
+            color={ColorBlack}
+            w={'160px'}
+            flexShrink={0}
+          >
+            파트너사메모
+          </Text>
+          <Textarea
+            value={info.partnerMemo}
+            color={ColorGray700}
+            bgColor={ColorGray50}
+            borderColor={ColorGray400}
+            maxLength={500}
+            height={100}
+            w={'100%'}
+            borderRadius={'10px'}
+            disabled
+          />
+        </Flex>
+
         <Flex flexDirection={'row'} pt={'20px'}>
           <Text
             w={'160px'}
@@ -551,12 +577,12 @@ function CancelInfo({ info }: Props) {
             관리자메모
           </Text>
           <Textarea
-            value={memo}
+            value={adminMemo}
             placeholder="내용을 입력해주세요."
             _placeholder={{ color: ColorGray700 }}
             color={ColorBlack}
             borderColor={ColorGrayBorder}
-            onChange={(e) => setMemo(e.target.value)}
+            onChange={(e) => setAdminMemo(e.target.value)}
             maxLength={500}
             height={'96px'}
             borderRadius={'10px'}
