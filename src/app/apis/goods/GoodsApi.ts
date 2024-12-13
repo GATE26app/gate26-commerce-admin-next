@@ -52,7 +52,7 @@ export class GoodsApi {
           '&searchKeyword=' +
           request.searchKeyword
           : ''
-        }${request.partnerId !== '' ? '&partnerId=' + request.partnerId : ''}`,
+        }${request.partnerId !== '' ? '&partnerId=' + request.partnerId : ''}&tripCheck=${request.tripCheck == null ? false : request.tripCheck}`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },
