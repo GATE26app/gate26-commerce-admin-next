@@ -145,6 +145,7 @@ function GoodsItemCard({ header, item }: Props) {
           ml={'10px'}
         >
           <img
+            loading='lazy'
             style={{
               width: '80px',
               height: '80px',
