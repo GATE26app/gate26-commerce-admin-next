@@ -1,14 +1,13 @@
-import React, { ReactElement, Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 import { ColorBlack00, ColorGray700, ColorGrayBorder } from '@/utils/_Palette';
 import GoodsFilter from '@/components/goods/GoodsrFilter';
 import GoodsListComponet from '@/components/goods/GoodsListComponet';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
-import { getToken } from '@/utils/localStorage/token';
-import { useSearchParams } from 'next/navigation';
 import { GoodsListParamGetType } from '@/app/apis/goods/GoodsApi.type';
 import { usePostListMutation } from '@/app/apis/goods/GoodsApi.mutation';
 import { useGoodsSettingFilterZuInfo } from '@/_store/GoodsSetFIlterInfo';
+import CheckBox from '../common/CheckBox';
 function GoodsMainList() {
   const { GoodsSettingFilterInfo, setGoodsSettingFilterInfo } =
     useGoodsSettingFilterZuInfo((state) => state);
@@ -17,6 +16,11 @@ function GoodsMainList() {
   const [filter, setFilter] = useState(true);
   const [list, setList] = useState();
   const [onSubmit, setOnSubmit] = useState(true);
+  
+  // 트립 상품 체크 여부
+  const [checkbox, setCheckbox] = useState<boolean>(false);
+  const toggleCheckbox = () => setCheckbox(!checkbox);
+
   const [request, setRequest] = useState<GoodsListParamGetType>({
     pageNo: GoodsSettingFilterInfo.pageNo,
     pageSize: GoodsSettingFilterInfo.pageSize,
@@ -27,6 +31,7 @@ function GoodsMainList() {
     searchKeyword: GoodsSettingFilterInfo.searchKeyword,
     partnerId: '',
     type: GoodsSettingFilterInfo.type, //1=>일반, 2=>바우처, 0 =>예약형
+    tripCheck: checkbox,
     // partnerId: '1d43a226-8432-402a-ab95-313b6b8019d4',
   });
   const { mutate: refreshList, isLoading } = usePostListMutation({
@@ -64,6 +69,13 @@ function GoodsMainList() {
   }, []);
 
   useEffect(() => {
+    setRequest({
+      ...request,
+      tripCheck : checkbox
+    });
+  }, [checkbox])
+
+  useEffect(() => {
     if (goodsInfo.goodState) getGoodsMainList();
   }, [goodsInfo.goodState]);
   return (
@@ -84,6 +96,17 @@ function GoodsMainList() {
           >
             상품관리
           </Text>
+          <Flex
+            pl={'15px'}
+            // visibility={'hidden'}
+          >
+            <CheckBox
+              children={'trip.com 제외'}
+              onClick={() => toggleCheckbox()}
+              checked={checkbox}
+            />
+          </Flex>
+            
         </Flex>
         <Flex
           flexDirection={'row'}

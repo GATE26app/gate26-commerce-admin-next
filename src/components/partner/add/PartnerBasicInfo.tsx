@@ -60,6 +60,7 @@ import PartnerFileComponent1 from './PartnerFileComponents1';
 import PartnerFileComponent2 from './PartnerFileComponents2';
 import AddressModal from '../AddressModal';
 import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
+import PartnerFileComponent3 from '@/components/partner/add/PartnerFileComponents3';
 
 function PartnerBasicInfo() {
   const [isLoadingModal, setLoadingModal] = useState(false);
@@ -81,6 +82,7 @@ function PartnerBasicInfo() {
     files1: [],
     files2: [],
     files3: [],
+    files4: [],
   });
 
   const { register, handleSubmit, watch, errors, setValue, getValue } =
@@ -357,20 +359,20 @@ function PartnerBasicInfo() {
         ),
       });
       return false;
-    } else if (
-      watch('mailOrderSalesRegistrationNo') == '' ||
-      watch('mailOrderSalesRegistrationNo') == undefined
-    ) {
-      toast({
-        position: 'top',
-        duration: 2000,
-        render: () => (
-          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'통신판매업신고번호를 입력해주세요.'}
-          </Box>
-        ),
-      });
-      return false;
+      // } else if (
+      //   watch('mailOrderSalesRegistrationNo') == '' ||
+      //   watch('mailOrderSalesRegistrationNo') == undefined
+      // ) {
+      //   toast({
+      //     position: 'top',
+      //     duration: 2000,
+      //     render: () => (
+      //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+      //         {'통신판매업신고번호를 입력해주세요.'}
+      //       </Box>
+      //     ),
+      //   });
+      //   return false;
     } else if (
       watch('nameOfRepresentative') == '' ||
       watch('nameOfRepresentative') == undefined
@@ -385,20 +387,20 @@ function PartnerBasicInfo() {
         ),
       });
       return false;
-    } else if (
-      watch('registrationNumber') == '' ||
-      watch('registrationNumber') == undefined
-    ) {
-      toast({
-        position: 'top',
-        duration: 2000,
-        render: () => (
-          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'사업자 주민번호를 입력해주세요.'}
-          </Box>
-        ),
-      });
-      return false;
+      // } else if (
+      //   watch('registrationNumber') == '' ||
+      //   watch('registrationNumber') == undefined
+      // ) {
+      //   toast({
+      //     position: 'top',
+      //     duration: 2000,
+      //     render: () => (
+      //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+      //         {'사업자 주민번호를 입력해주세요.'}
+      //       </Box>
+      //     ),
+      //   });
+      //   return false;
     } else if (watch('tel') == '' || watch('tel') == undefined) {
       toast({
         position: 'top',
@@ -446,17 +448,17 @@ function PartnerBasicInfo() {
         ),
       });
       return false;
-    } else if (watch('files2')?.length <= 0 || watch('files2') == undefined) {
-      toast({
-        position: 'top',
-        duration: 2000,
-        render: () => (
-          <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
-            {'통신판매업신고증을 첨부해주세요.'}
-          </Box>
-        ),
-      });
-      return false;
+      // } else if (watch('files2')?.length <= 0 || watch('files2') == undefined) {
+      //   toast({
+      //     position: 'top',
+      //     duration: 2000,
+      //     render: () => (
+      //       <Box style={{ borderRadius: 8 }} p={3} color="white" bg="#ff6955">
+      //         {'통신판매업신고증을 첨부해주세요.'}
+      //       </Box>
+      //     ),
+      //   });
+      //   return false;
     } else if (watch('bank') == '' || watch('bank') == undefined) {
       toast({
         position: 'top',
@@ -519,6 +521,9 @@ function PartnerBasicInfo() {
     if (watch('files3')?.length > 0) {
       array.push(...watch('files3'));
     }
+    if (watch('files4')?.length > 0) {
+      array.push(...watch('files4'));
+    }
     setValue('files', array);
     let json: PartnerAddFormType = watch();
     addPartner(json);
@@ -556,13 +561,13 @@ function PartnerBasicInfo() {
         onClose={() => setModal(false)}
       />
 
-      {isGoogleModal && 
+      {isGoogleModal && (
         <GoogleMapModal
           isOpen={isGoogleModal}
           onClose={() => setGoogleModal(false)}
           onComplete={handleComplete}
         />
-      }
+      )}
       <Flex mt={'30px'} flexDirection={'column'}>
         <Text fontWeight={'semibold'} fontSize={'18px'} color={ColorBlack}>
           기본정보
@@ -980,6 +985,31 @@ function PartnerBasicInfo() {
             </Flex>
           </Flex>
         </Flex>
+        {/* 카카오톡 ID */}
+        <Flex
+          flexDirection={'row'}
+          pb={'20px'}
+          width={'50%'}
+          alignItems={'center'}
+        >
+          <Text
+            w={'165px'}
+            flexShrink={0}
+            color={ColorBlack}
+            fontWeight={600}
+            fontSize={'15px'}
+            display={'inline'}
+          >
+            카카오톡 ID
+          </Text>
+          <InputBox
+            w={'100%'}
+            placeholder="카카오톡 ID 입력"
+            {...register('kakaoId')}
+            value={watch('kakaoId')}
+            onChange={(e) => setValue('kakaoId', e.target.value)}
+          />
+        </Flex>
 
         {/* 사업자 정보 */}
         <Text
@@ -1115,9 +1145,9 @@ function PartnerBasicInfo() {
                 display={'inline'}
               >
                 통신판매업신고번호
-                <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
+                {/* <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
                   *
-                </Text>
+                </Text> */}
               </Text>
               <InputBox
                 w={'100%'}
@@ -1178,9 +1208,9 @@ function PartnerBasicInfo() {
                 display={'inline'}
               >
                 사업자 주민번호
-                <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
+                {/* <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
                   *
-                </Text>
+                </Text> */}
               </Text>
               <InputBox
                 w={'100%'}
@@ -1325,8 +1355,8 @@ function PartnerBasicInfo() {
                     width={'150px'}
                     cursor={'pointer'}
                     onClick={() => {
-                      if(watch('type') == 1) setModal(!modal)
-                      else setGoogleModal(!isGoogleModal)
+                      if (watch('type') == 1) setModal(!modal);
+                      else setGoogleModal(!isGoogleModal);
                     }}
                   >
                     <Text color={ColorRed} fontSize={'15px'}>
@@ -1403,13 +1433,13 @@ function PartnerBasicInfo() {
                         whiteSpace={'pre'}
                       >
                         {`통신판매업신고증\n파일첨부`}
-                        <Text
+                        {/* <Text
                           color={ColorRequireRed}
                           ml={'2px'}
                           display={'inline'}
                         >
                           *
-                        </Text>
+                        </Text> */}
                       </Text>
                     </Flex>
                     <Text
@@ -1440,7 +1470,7 @@ function PartnerBasicInfo() {
                 display={'inline'}
                 mt={'13px'}
               >
-                정산 받을 계좌
+                정산 계좌
                 <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
                   *
                 </Text>
@@ -1514,6 +1544,45 @@ function PartnerBasicInfo() {
                     EntriesData={watch('files3')}
                     setEntriesData={(data) => setValue('files3', data)}
                     idx={3}
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+          </GridItem>
+
+          <GridItem>
+            <Flex w={'100%'} mb={'30px'}>
+              <Flex w={'100%'} flexDirection={'column'}>
+                <Flex flexDirection={'row'} pb="20px" flexWrap={'wrap'}>
+                  <Flex
+                    flexDirection={'column'}
+                    w={165}
+                    // ml={'50px'}
+                    w={'100px'}
+                    mr={'40px'}
+                  >
+                    <Flex>
+                      <Text
+                        fontWeight={600}
+                        color={ColorBlack}
+                        fontSize={'15px'}
+                        whiteSpace={'pre'}
+                      >
+                        {`체류증명서 파일첨부`}
+                      </Text>
+                    </Flex>
+                    <Text
+                      fontWeight={600}
+                      color={ColorGray700}
+                      fontSize={'15px'}
+                    >
+                      {`(${watch('files4') ? watch('files4')?.length : '0'}/1)`}
+                    </Text>
+                  </Flex>
+                  <PartnerFileComponent3
+                    EntriesData={watch('files4')}
+                    setEntriesData={(data) => setValue('files4', data)}
+                    idx={4}
                   />
                 </Flex>
               </Flex>
