@@ -45,7 +45,7 @@ function CouponCate26Create() {
   const [ClickUserList, setClickUserList] = useState<string[]>([]);
   const [CouponData, setCouponData] = useState<CouponDataResType>({
     access: 0,
-    level: 0,
+    level: 2,
     type: 1,
     stockCnt: 0,
     title: '',
