@@ -57,6 +57,7 @@ export type PartnersParamsType = {
   statusName: string;
   mailOrderSalesRegistrationNo?: string;
   adminMemo: string;
+  kakaoId?: string;
 };
 
 export type PartnerListParamGetType = {
@@ -128,7 +129,7 @@ export type PartnerAddFormType = {
   nameOfCompany: string;
   businessRegistrationNumber: string;
   nameOfRepresentative: string;
-  registrationNumber: string;
+  registrationNumber?: string;
   address: string;
   addressDetail: string;
   businessType: string;
@@ -138,9 +139,11 @@ export type PartnerAddFormType = {
   images: Array<ImageListType>;
   files: Array<FileListType>;
   files1: Array<FileListType>;
-  files2: Array<FileListType>;
+  files2?: Array<FileListType>;
   files3: Array<FileListType>;
+  files4?: Array<FileListType>;
   status: number;
+  kakaoId?: string;
 };
 
 export type PartnerFileResponseType = {
