@@ -65,7 +65,6 @@ const Picker = ({
       today.clone().endOf('month').week() === 1
         ? 53
         : today.clone().endOf('month').week();
-
     const calendar = [];
 
     // 시작 주부터 마지막 주까지 +1 씩 증가시킴
@@ -83,11 +82,13 @@ const Picker = ({
             .fill(0)
             .map((n, i) => {
               // 오늘 => 주어진 주의 시작 => n + i일 만큼 더해서 각 주의 '일'을 표기한다.
-              const current = today
-                .clone()
+              const lastDayOfYear = today.clone().endOf('year');
+              const current = week <= 52 ?
+                today.clone()
                 .week(week)
                 .startOf('week')
-                .add(n + i, 'day');
+                .add(n + i, 'day') 
+                : lastDayOfYear.startOf('week').add(n + i, 'day') ;
               // 오늘이 current와 같다면 우선 '선택'으로 두자
               const isSelected =
                 daily.format('YYYYMMDD') === current.format('YYYYMMDD')
@@ -115,7 +116,7 @@ const Picker = ({
                 <Flex
                   key={current.format('YYYYMMDD')}
                   onClick={() => {
-                    if (minDateTime != '' && minDateTime !== undefined) {
+                    if ( minDateTime !== undefined && minDateTime != '') {
                       if (dayjs(current).format('YYYY-MM-DD') < minDateTime) {
                         toast({
                           position: 'top',
@@ -136,7 +137,7 @@ const Picker = ({
                         _handleDayClick(current);
                         setNewSelected(true);
                       }
-                    } else if (maxDateTime != '' && maxDateTime !== undefined) {
+                    } else if (maxDateTime !== undefined && maxDateTime != '') {
                       if (dayjs(current).format('YYYY-MM-DD') > maxDateTime) {
                         toast({
                           position: 'top',
