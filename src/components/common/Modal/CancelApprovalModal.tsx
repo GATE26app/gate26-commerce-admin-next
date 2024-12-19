@@ -213,7 +213,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, refresh, ...props }: Pro
 
               memberDecideMutate(body);
             }
-            location.reload();
+            // location.reload();
           } else {
             toast({
               position: 'top',
