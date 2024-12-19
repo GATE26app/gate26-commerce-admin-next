@@ -76,8 +76,9 @@ interface Props extends Omit<ModalProps, 'children'> {
   onClose: () => void;
   info?: InfoProps;
   onSubmit: (text: string) => void;
+  refresh: () => void;
 }
-function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
+function CancelApprovalModal({ onClose, onSubmit, info, refresh, ...props }: Props) {
   const toast = useToast();
   const [cancelFaultType, setCancelFaultType] = useState(0); //1=>구매자, 2=>판매자, 3=>운영자
   const [cancelAmount, setCancelAmount] = useState(
@@ -145,6 +146,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             setGoodsInfo({
               cancelState: false,
             });
+            refresh();
             toast({
               position: 'top',
               duration: 2000,
@@ -188,6 +190,7 @@ function CancelApprovalModal({ onClose, onSubmit, info, ...props }: Props) {
             setGoodsInfo({
               cancelState: false,
             });
+            refresh();
             toast({
               position: 'top',
               duration: 2000,

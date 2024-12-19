@@ -48,6 +48,10 @@ function CancelDetailComponentPage() {
     },
   );
 
+  const refreshCancelInfo = () => {
+    refetch();
+  }
+
   useEffect(() => {
     if (goodsInfo.cancelState) {
       refetch();
@@ -86,7 +90,7 @@ function CancelDetailComponentPage() {
               <PartnerInfo info={CancelData?.data?.partner} />
             )}
 
-            <CancelInfo info={CancelData?.data} />
+            <CancelInfo info={CancelData?.data} refresh={refreshCancelInfo} />
             <OrderInfo info={CancelData?.data} />
             {/* <OrderGoods /> */}
             {CancelData?.data?.orderType !== 1 && (
