@@ -61,7 +61,7 @@ function CancelCompaionModal({ onClose, onSubmit, info, refresh, ...props }: Pro
     orderCancelRequestDetail: '',
   });
   const handleClickOK = () => {
-    onSubmit(data.orderCancelRequestDetail);
+    // onSubmit(data.orderCancelRequestDetail);
     if (data.orderCancelRequestDetail == '') {
       toast({
         position: 'top',
@@ -76,6 +76,7 @@ function CancelCompaionModal({ onClose, onSubmit, info, refresh, ...props }: Pro
       setOrderStateInfo({
         orderCancelRequestDetail: data.orderCancelRequestDetail,
       });
+      onSubmit(data.orderCancelRequestDetail);
       onClose();
     }
   };

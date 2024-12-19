@@ -154,7 +154,6 @@ function CancelInfo({ info , refresh}: Props) {
       },
     };
     CancelDeniedMutate(obj);
-    refresh();
     // }
   };
   //주문 취소 반려
@@ -167,6 +166,7 @@ function CancelInfo({ info , refresh}: Props) {
             setGoodsInfo({
               cancelState: false,
             });
+            refresh(); // 취소 상태 업데이트
             toast({
               position: 'top',
               duration: 2000,
@@ -288,7 +288,7 @@ function CancelInfo({ info , refresh}: Props) {
             <Flex gap={'10px'} flexDirection={'column'} w={'100%'}>
               <Flex flexDirection={'row'} gap={'40px'}>
                 <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-                  {info.cancelStatusName + 'zz'}
+                  {info.cancelStatusName}
                 </Text>
                 {info?.cancelStatus === 2 || info?.cancelStatus === 3 ? null 
                   : info?.requiredPartnerCancelConfirm == 1 ? (
