@@ -48,9 +48,10 @@ interface Props extends Omit<ModalProps, 'children'> {
   onClose: () => void;
   info?: InfoProps;
   onSubmit: (text: string) => void;
+  refresh: () => void;
 }
 
-function CancelCompaionModal({ onClose, onSubmit, info, ...props }: Props) {
+function CancelCompaionModal({ onClose, onSubmit, info, refresh, ...props }: Props) {
   const toast = useToast();
   const { orderStateInfo, setOrderStateInfo } = useOrderStateZuInfo(
     (state) => state,
