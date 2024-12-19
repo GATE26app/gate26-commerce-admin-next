@@ -69,8 +69,8 @@ function ReviewModal({
     message: '',
     type: 'confirm',
     okButtonName: '',
-    cbOk: () => {},
-    cbCancel: () => {},
+    cbOk: () => { },
+    cbCancel: () => { },
   });
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
   const StateArr = ['노출', '노출안함', '블라인드'];
@@ -305,14 +305,19 @@ function ReviewModal({
             >
               {ReviewData?.data?.review?.images !== undefined &&
                 ReviewData?.data?.review?.images.length > 0 &&
-                ReviewData?.data?.review?.images.map((item) => {
+                ReviewData?.data?.review?.images.map((item, idx) => {
                   return (
-                    <SwiperSlide>
-                      <Box borderRadius={'12px'} overflow={'hidden'}>
-                        <Image
-                          width={'100%'}
-                          src={getImagePath(item.imagePath)}
-                        />
+                    <SwiperSlide key={idx}>
+                      <Box borderRadius={'12px'} overflow={'hidden'} placeItems={'center'} textAlign={'-webkit-center'}>
+                        <a href={getImagePath(item.imagePath)} target='_blank'>
+                          <Image
+                            alt={`review-image-${idx}`}
+                            // width={'400px'}
+                            height={'400px'}
+                            objectFit={'cover'}
+                            src={getImagePath(item.imagePath)}
+                          />
+                        </a>
                       </Box>
                     </SwiperSlide>
                   );
@@ -406,7 +411,7 @@ function ReviewModal({
             color={ColorWhite}
             py="15px"
             fontWeight={700}
-            // onClick={handleClickOK}
+          // onClick={handleClickOK}
           />
         </Flex>
       </Content>
