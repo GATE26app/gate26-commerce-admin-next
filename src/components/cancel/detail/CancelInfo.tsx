@@ -40,8 +40,9 @@ import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 
 interface Props {
   info: OrderDetailItemType;
+  refresh: () => void;
 }
-function CancelInfo({ info }: Props) {
+function CancelInfo({ info , refresh}: Props) {
   const [state, setState] = useState(1); //1=>취소요청, 2=>취소거절, 3=>취소완료
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -165,6 +166,7 @@ function CancelInfo({ info }: Props) {
             setGoodsInfo({
               cancelState: false,
             });
+            refresh(); // 취소 상태 업데이트
             toast({
               position: 'top',
               duration: 2000,
@@ -205,6 +207,7 @@ function CancelInfo({ info }: Props) {
         <CancelApprovalModal
           isOpen={cancelApproModal}
           onClose={() => setCancelApproModal(false)}
+          refresh={refresh}
           onSubmit={onSubmitCancel}
           info={info}
         />
@@ -213,6 +216,7 @@ function CancelInfo({ info }: Props) {
         <CancelCompaionModal
           isOpen={cancelModal}
           onClose={() => setCancelModal(false)}
+          refresh={refresh}
           onSubmit={onSubmitCancel}
           info={info}
         />
@@ -286,7 +290,8 @@ function CancelInfo({ info }: Props) {
                 <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
                   {info.cancelStatusName}
                 </Text>
-                {info?.requiredPartnerCancelConfirm == 1 ? (
+                {info?.cancelStatus === 2 || info?.cancelStatus === 3 ? null 
+                  : info?.requiredPartnerCancelConfirm == 1 ? (
                   <>
                     {info?.partnerCancelConfirm == 1 ? (
                       <Text
@@ -294,7 +299,7 @@ function CancelInfo({ info }: Props) {
                         fontWeight={500}
                         color={ColorBlack}
                       >
-                        파트너취소승인 필요한 취소요청건입니다.
+                        파트너취소승인 필요한 취소요청건입니다.(취소승인 대기중)
                       </Text>
                     ) : (
                       <>

@@ -48,9 +48,10 @@ interface Props extends Omit<ModalProps, 'children'> {
   onClose: () => void;
   info?: InfoProps;
   onSubmit: (text: string) => void;
+  refresh: () => void;
 }
 
-function CancelCompaionModal({ onClose, onSubmit, info, ...props }: Props) {
+function CancelCompaionModal({ onClose, onSubmit, info, refresh, ...props }: Props) {
   const toast = useToast();
   const { orderStateInfo, setOrderStateInfo } = useOrderStateZuInfo(
     (state) => state,
@@ -60,7 +61,7 @@ function CancelCompaionModal({ onClose, onSubmit, info, ...props }: Props) {
     orderCancelRequestDetail: '',
   });
   const handleClickOK = () => {
-    onSubmit(data.orderCancelRequestDetail);
+    // onSubmit(data.orderCancelRequestDetail);
     if (data.orderCancelRequestDetail == '') {
       toast({
         position: 'top',
@@ -75,6 +76,7 @@ function CancelCompaionModal({ onClose, onSubmit, info, ...props }: Props) {
       setOrderStateInfo({
         orderCancelRequestDetail: data.orderCancelRequestDetail,
       });
+      onSubmit(data.orderCancelRequestDetail);
       onClose();
     }
   };
