@@ -11,6 +11,7 @@ interface GoodsSettingFilterInfoType {
   searchType: string;
   searchKeyword: string;
   type: null | number;
+  tripCheck: null | boolean;
 }
 
 interface GoodsSettingFiterInfoState {
@@ -30,6 +31,7 @@ const defaultState = {
   searchType: '',
   searchKeyword: '',
   type: 0,
+  tripCheck: false,
 };
 
 export const useGoodsSettingFilterZuInfo = create(
