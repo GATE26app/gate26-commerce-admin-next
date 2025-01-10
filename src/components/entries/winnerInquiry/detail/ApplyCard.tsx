@@ -83,6 +83,16 @@ function ApplyCard({ header, item, index, pageNo, totalCount }: Props) {
           {item.createdDate !== null && DashDate(item.createdDate)}
         </Text>
       </Flex>
+      <Flex
+        w={header[5]?.width}
+        alignItems={'center'}
+        justifyContent={'center'}
+        flexDirection={'column'}
+      >
+        <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
+          {item.participationCount !== null && item.participationCount}
+        </Text>
+      </Flex>
     </Flex>
   );
 }

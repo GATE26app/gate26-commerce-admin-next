@@ -120,6 +120,7 @@ export type PartUserType = {
   name: string;
   phone: string;
   createdDate: string;
+  participationCount: number;
 };
 //응모 참여자 목록 type
 export type ParticipantListType = {
