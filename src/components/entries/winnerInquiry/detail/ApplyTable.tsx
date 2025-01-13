@@ -27,6 +27,8 @@ import {
   useGetEntryWinnerListMutation,
 } from '@/app/apis/entries/EntriesApi.mutation';
 import Image from 'next/image';
+import { getToken } from '@/utils/localStorage/token';
+import LoadingModal from '@/components/common/Modal/LoadingModal';
 
 export const Applyrheader = [
   {
@@ -35,7 +37,7 @@ export const Applyrheader = [
   },
   {
     name: '아이디',
-    width: '21%',
+    width: '25%',
   },
   {
     name: '이름',
@@ -43,11 +45,15 @@ export const Applyrheader = [
   },
   {
     name: '휴대폰번호',
-    width: '25%',
+    width: '20%',
   },
   {
     name: '응모일',
-    width: '30%',
+    width: '20%',
+  },
+  {
+    name: '응모횟수',
+    width: '10%',
   },
 ];
 const data = [
@@ -110,6 +116,8 @@ function ApplyTable() {
     pageNo: 0,
     pageSize: 5,
   });
+  const [Loading, setIsLoading] = useState(false);
+
   const paginationProps = {
     currentPage: request.pageNo,
     limit: request.pageSize,
@@ -158,8 +166,60 @@ function ApplyTable() {
     }
   }, [getEntryId]);
 
+  const f_excel_down = async () => {
+    setIsLoading(true);
+
+    const url = `/backoffice/admin/entries/download-participants/${getEntryId}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'X-AUTH-TOKEN': `${getToken().access}`,
+        },
+      });
+      if (!response.ok) {
+        setIsLoading(false);
+        throw new Error('Network response was not ok');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+
+      let fileName = '알수없는파일';
+      try {
+        const contentDisposition = response.headers.get('Content-Disposition');
+
+        if (contentDisposition && contentDisposition.includes('filename*=')) {
+          fileName = contentDisposition
+            .split(`filename*=UTF-8''`)[1]
+            .split(';')[0]
+            .replace(/"/g, '');
+        }
+        a.download = decodeURIComponent(fileName); // 다운로드할 파일의 이름
+      } catch (error) {
+        fileName = '알수없는파일';
+      }
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error downloading the file:', error);
+    }
+  };
   return (
     <Suspense>
+      <LoadingModal
+        children={Loading}
+        isOpen={Loading}
+        onClose={() => !isLoading}
+      />
       <Box>
         <Flex
           flexDirection={'row'}
@@ -178,7 +238,7 @@ function ApplyTable() {
               {list !== undefined && list.totalCount}
             </Text>
           </Flex>
-          {/* {list !== undefined && list.totalCount !== 0 && (
+          {list !== undefined && list.totalCount !== 0 && (
             <ImageButton
               img="/images/Page/excel_icon.png"
               backgroundColor={ColorWhite}
@@ -190,9 +250,9 @@ function ApplyTable() {
               imgWidth="20px"
               px="14px"
               py="10px"
-              onClick={() => console.log('엑셀다운로드')}
+              onClick={() => f_excel_down()}
             />
-          )} */}
+          )}
         </Flex>
         {list !== undefined && list.totalCount !== 0 ? (
           <Box mb={'20px'}>
