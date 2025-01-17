@@ -81,7 +81,7 @@ function OptionPlus({
 
   const [price, setPrice] = useState<number>(0);
   const [stock, setStock] = useState<number>(0);
-  
+
   const toast = useToast();
   const ToastComponent = (message: string) => {
     return toast({
@@ -239,8 +239,8 @@ function OptionPlus({
               }
             });
           });
-          if (resultArray.length > 500) {
-            ToastComponent('500개 이하의 옵션을 선택해주세요.');
+          if (resultArray.length > 5000) {
+            ToastComponent('5000개 이하의 옵션을 선택해주세요.');
           } else {
             setOptionList(resultArray);
             setOptions(resultArray);
@@ -269,8 +269,8 @@ function OptionPlus({
               });
             }
           });
-          if (resultArray.length > 500) {
-            ToastComponent('500개 이하의 옵션을 선택해주세요.');
+          if (resultArray.length > 5000) {
+            ToastComponent('5000개 이하의 옵션을 선택해주세요.');
           } else {
             setOptionList(resultArray);
             setOptions(resultArray);
@@ -313,8 +313,8 @@ function OptionPlus({
           });
         }
       });
-      if (resultArray.length > 500) {
-        ToastComponent('500개 이하의 옵션을 선택해주세요.');
+      if (resultArray.length > 5000) {
+        ToastComponent('5000개 이하의 옵션을 선택해주세요.');
       } else {
         setOptionList(resultArray);
         setOptions(resultArray);
@@ -340,8 +340,8 @@ function OptionPlus({
           });
         });
       }
-      if (resultArray.length > 500) {
-        ToastComponent('500개 이하의 옵션을 선택해주세요.');
+      if (resultArray.length > 5000) {
+        ToastComponent('5000개 이하의 옵션을 선택해주세요.');
       } else {
         setOptionList(resultArray);
         setOptions(resultArray);
@@ -383,8 +383,8 @@ function OptionPlus({
           });
         }
       });
-      if (resultArray.length > 500) {
-        ToastComponent('500개 이하의 옵션을 선택해주세요.');
+      if (resultArray.length > 5000) {
+        ToastComponent('5000개 이하의 옵션을 선택해주세요.');
       } else {
         setOptionList(resultArray);
         setOptions(resultArray);
@@ -417,8 +417,8 @@ function OptionPlus({
           });
         });
 
-        if (resultArray.length > 500) {
-          ToastComponent('500개 이하의 옵션을 선택해주세요.');
+        if (resultArray.length > 5000) {
+          ToastComponent('5000개 이하의 옵션을 선택해주세요.');
         } else {
           setOptionList(resultArray);
           setOptions(resultArray);
@@ -466,8 +466,8 @@ function OptionPlus({
           });
         }
       });
-      if (resultArray.length > 500) {
-        ToastComponent('500개 이하의 옵션을 선택해주세요.');
+      if (resultArray.length > 5000) {
+        ToastComponent('5000개 이하의 옵션을 선택해주세요.');
       } else {
         setOptionList(resultArray);
         setOptions(resultArray);
@@ -504,7 +504,7 @@ function OptionPlus({
           });
         });
       }
-      if (resultArray.length > 500) {
+      if (resultArray.length > 5000) {
         ToastComponent('500 이하의 옵션을 선택해주세요.');
       } else {
         setOptionList(resultArray);
@@ -606,8 +606,8 @@ function OptionPlus({
                   getType == '3' && optionType == 2
                     ? true
                     : optionType == 2 && getType !== '3'
-                    ? true
-                    : false
+                      ? true
+                      : false
                 }
                 onClick={() => {
                   setOptionType(2);
@@ -844,8 +844,6 @@ function OptionPlus({
                   onChange={(e: any) =>
                     handleOptionNameChange(index, e.target.value)
                   }
-                  // value={item.optionName}
-                  // onChange={(e) => handleOptionValueChange(index, e.target.value)}
                 />
               </Flex>
               <Flex w={'300px'} flexDirection={'column'}>
@@ -864,7 +862,6 @@ function OptionPlus({
                   onChange={(e: any) =>
                     handleOptionValueChange(index, e.target.value)
                   }
-                  // onChange={(e) => onChangeData('value', index, e)}
                 />
               </Flex>
             </Flex>
@@ -900,7 +897,6 @@ function OptionPlus({
                 maxLength={15}
                 value={intComma(String(price))}
                 disabled={goodsInfo.LogItemDisable}
-                // onChange={handlePriceChange}
                 onChange={(e: any) => {
                   handlePriceChange(
                     Number(e.target.value.replace(/[^0-9]/g, '')),
