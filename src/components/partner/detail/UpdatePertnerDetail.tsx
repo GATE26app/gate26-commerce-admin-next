@@ -1,68 +1,33 @@
-import React, { ReactElement, Suspense, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
 
 // import StatusComponent from '@/components/Goods/_fragments/StatusComponent';
-import CustomButton from '@/components/common/CustomButton';
 // import LogSelectBox from '@/components/common/LogSelectBox';
 
 import {
-  ColorBlack,
   ColorBlack00,
-  ColorGray50,
-  ColorGray400,
-  ColorGray700,
-  ColorRed,
-  ColorRed50,
-  ColorWhite,
+  ColorWhite
 } from '@/utils/_Palette';
-import { DashDate } from '@/utils/format';
 
 // import { useGoodsStateZuInfo } from '_store/StateZuInfo';
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
-import StatusComponent from '@/components/goods/StatusComponent';
-import GoodsModify from '@/components/goods/GoodsModify';
-import ModifyOptionComponent from '@/components/goods/ModifyOptionComponent';
-import { useRouter, useSearchParams } from 'next/navigation';
-import GoodsPartner from '@/components/goods/UpdateGoods/GoodsPartner';
-import CatagoryComponent from '@/components/goods/CatagoryComponent';
-import CountryComponent from '@/components/goods/CountryComponent';
-import GoodNameComponent from '@/components/goods/GoodNameComponent';
-import PriceComponent from '@/components/goods/PriceComponent';
-import ImageComponent from '@/components/goods/ImageComponent';
-import DivisionComponent from '@/components/goods/DivisionComponent';
-import InfoComponent from '@/components/goods/InfoComponent';
-import DetailComponent from '@/components/goods/DetailComponent';
-import PlanComponent from '@/components/goods/PlanComponent';
-import BookingCheckComponent from '@/components/goods/BookingCheckComponent';
-import CancelComponent from '@/components/goods/CancelComponent';
-import EditorDetailComponent from '@/components/goods/EditorDetailComponent';
-import OptionComponent from '@/components/goods/OptionComponent';
-import ButtonModal from '@/components/common/Modal/ButtonModal';
 import {
-  CategoryResProps,
-  GoodsAttributeListProps,
   GoodsBasicProps,
-  GoodsItemProps,
   GoodsListItemImageProps,
-  GoodsOptionStockModifyType,
   GoodsPoliciesListProps,
-  GoodsSchedulesListProps,
-  LocationResProps,
-  OptionItemProps,
-  StatusProps,
-  optionInputsProps,
+  GoodsSchedulesListProps
 } from '@/app/apis/goods/GoodsApi.type';
-import goodsApi from '@/app/apis/goods/GoodsApi';
+import partnersApi from '@/app/apis/partners/PartnersApi';
+import ButtonModal from '@/components/common/Modal/ButtonModal';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Partner from './Partner';
-import PartnerDetailTab from './PartnerDetailTab';
 import PartnerBasicInfo from './PartnerBasicInfo';
 import PartnerConnectInfo from './PartnerConnectInfo';
-import PartnerPayDataTable from './PartnerPayDataTable';
-import partnersApi from '@/app/apis/partners/PartnersApi';
-import PartnerShippingInfo from './PartnerShippingInfo';
+import PartnerDetailTab from './PartnerDetailTab';
 import PartnerServiceInfo from './PartnerServiceInfo';
+import PartnerShippingInfo from './PartnerShippingInfo';
 
 interface CategoryListProps {
   categoryId: number;
@@ -80,8 +45,8 @@ function UpdatePartnerDetail() {
     message: '',
     type: 'alert',
     okButtonName: '',
-    cbOk: () => {},
-    cbCancel: () => {},
+    cbOk: () => { },
+    cbCancel: () => { },
   });
   const searchParams = useSearchParams();
   const getPertnerId = searchParams.get('partnerId');
@@ -189,7 +154,7 @@ function UpdatePartnerDetail() {
           {tab == 1 && <PartnerBasicInfo info={info && info.data} />}
           {tab == 2 && <PartnerConnectInfo info={info?.data} />}
           {tab == 3 && <PartnerShippingInfo info={info?.data} />}
-          {tab == 4 && <PartnerServiceInfo info={info?.data} refresh={() => refetch()}/>}
+          {tab == 4 && <PartnerServiceInfo info={info?.data} refresh={() => refetch()} />}
         </Box>
       </Flex>
     </>
