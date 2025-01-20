@@ -295,8 +295,9 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       });
       return false;
     } else if (
-      watch('businessType') == '' ||
-      watch('businessType') == undefined
+      (watch('businessType') == '' ||
+      watch('businessType') == undefined)
+      && watch('type') == 1
     ) {
       toast({
         position: 'top',
@@ -309,8 +310,9 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       });
       return false;
     } else if (
-      watch('businessItem') == '' ||
-      watch('businessItem') == undefined
+      (watch('businessItem') == '' ||
+      watch('businessItem') == undefined)
+      && watch('type') == 1
     ) {
       toast({
         position: 'top',
@@ -323,8 +325,9 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       });
       return false;
     } else if (
-      watch('businessRegistrationNumber') == '' ||
-      watch('businessRegistrationNumber') == undefined
+      (watch('businessRegistrationNumber') == '' ||
+      watch('businessRegistrationNumber') == undefined)
+      && watch('type') == 1
     ) {
       toast({
         position: 'top',
@@ -414,7 +417,7 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
         ),
       });
       return false;
-    } else if (watch('files1')?.length <= 0 || watch('files1') == undefined) {
+    } else if ((watch('files1')?.length <= 0 || watch('files1') == undefined) && watch('type') == 1) {
       toast({
         position: 'top',
         duration: 2000,
@@ -1118,9 +1121,11 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 display={'inline'}
               >
                 업태/업종
-                <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
-                  *
-                </Text>
+                {watch('type') == 1 && (
+                  <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
+                    *
+                  </Text>
+                )}
               </Text>
               <Flex alignItems={'center'} justifyContent={'space-between'}>
                 <InputBox
@@ -1157,9 +1162,11 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                 display={'inline'}
               >
                 사업자번호
-                <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
-                  *
-                </Text>
+                {watch('type') == 1 && (
+                  <Text color={ColorRequireRed} ml={'2px'} display={'inline'}>
+                    *
+                  </Text>
+                )}
               </Text>
               <InputBox
                 w={'100%'}
@@ -1403,34 +1410,38 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                     value={watch('address')}
                     onChange={(e) => setValue('address', e.target.value)}
                   />
-                  <Flex
-                    alignItems={'center'}
-                    justifyContent={'center'}
-                    borderRadius={'12px'}
-                    borderColor={ColorRed}
-                    borderWidth={1}
-                    height={'45px'}
-                    ml={'10px'}
-                    width={'150px'}
-                    cursor={'pointer'}
-                    onClick={() => {
-                      if (watch('type') == 1) setModal(!modal);
-                      else setGoogleModal(!isGoogleModal);
-                    }}
-                  >
-                    <Text color={ColorRed} fontSize={'15px'}>
-                      주소검색
-                    </Text>
-                  </Flex>
+                  {watch('type') == 1 && (
+                    <Flex
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                      borderRadius={'12px'}
+                      borderColor={ColorRed}
+                      borderWidth={1}
+                      height={'45px'}
+                      ml={'10px'}
+                      width={'150px'}
+                      cursor={'pointer'}
+                      onClick={() => {
+                        if (watch('type') == 1) setModal(!modal);
+                        else setGoogleModal(!isGoogleModal);
+                      }}
+                    >
+                      <Text color={ColorRed} fontSize={'15px'}>
+                        주소검색
+                      </Text>
+                    </Flex>
+                  )}
                 </Flex>
-                <InputBox
-                  mt={'10px'}
-                  w={'100%'}
-                  placeholder="상세 주소 입력"
-                  {...register('addressDetail')}
-                  value={watch('addressDetail')}
-                  onChange={(e) => setValue('addressDetail', e.target.value)}
-                />
+                {watch('type') == 1 && (
+                  <InputBox
+                    mt={'10px'}
+                    w={'100%'}
+                    placeholder="상세 주소 입력"
+                    {...register('addressDetail')}
+                    value={watch('addressDetail')}
+                    onChange={(e) => setValue('addressDetail', e.target.value)}
+                  />
+                )}
               </Flex>
             </Flex>
           </GridItem>
@@ -1447,13 +1458,15 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
                         whiteSpace={'pre'}
                       >
                         {`사업자등록증 첨부`}
-                        <Text
-                          color={ColorRequireRed}
-                          ml={'2px'}
-                          display={'inline'}
-                        >
-                          *
-                        </Text>
+                        {watch('type') == 1 && (
+                          <Text
+                            color={ColorRequireRed}
+                            ml={'2px'}
+                            display={'inline'}
+                          >
+                            *
+                          </Text>
+                        )}
                       </Text>
                     </Flex>
                     <Text
