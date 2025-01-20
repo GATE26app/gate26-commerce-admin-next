@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
-interface GoodsType {
+export interface GoodsType {
   goodState?: boolean;
   LogItemDisable?: boolean;
   winnerState?: boolean;

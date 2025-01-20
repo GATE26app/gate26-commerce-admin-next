@@ -14,7 +14,6 @@ import {
 } from '@/app/apis/goods/GoodsApi.mutation';
 
 import CustomButton from '@/components/common/CustomButton';
-// import LogSelectBox from '@/components/common/LogSelectBox';
 
 import {
   ColorBlack,
@@ -78,8 +77,8 @@ function UpdateGoodDetail() {
     message: '',
     type: 'alert',
     okButtonName: '',
-    cbOk: () => {},
-    cbCancel: () => {},
+    cbOk: () => { },
+    cbCancel: () => { },
   });
   const searchParams = useSearchParams();
   const getType = searchParams.get('type');
@@ -90,7 +89,7 @@ function UpdateGoodDetail() {
     itemCode: '',
     itemId: '',
   }); //로그 상세 선택
-  // const selectlist = ['2024.05.07'];
+
   const [logList, setLogList] = useState([]);
   const [logDisable, setLogDisable] = useState(false);
   const [optionList, setOptionList] = useState<OptionItemProps[]>([]);
@@ -182,6 +181,10 @@ function UpdateGoodDetail() {
   >([]);
   const itemCode = getItemCode as string;
 
+  // 계속해서 refetch 되는 현상을 컨트롤하기 위한 변수
+  const [shouldFetch, setShouldFetch] = useState(true);
+
+
   const ToastComponent = (message: string) => {
     return toast({
       position: 'top',
@@ -200,7 +203,7 @@ function UpdateGoodDetail() {
     {
       // staleTime: Infinity, // 데이터가 절대 오래되었다고 간주되지 않음
       // refetchInterval: false, // 자동 새로 고침 비활성화
-      enabled: !!itemCode,
+      enabled: shouldFetch && !!itemCode,
       onSuccess: ({ data }) => {
         if (data == undefined) {
           toast({
@@ -387,7 +390,6 @@ function UpdateGoodDetail() {
     options: {
       onSuccess: (res) => {
         if (res.success == true) {
-          // setLogDisable(true);
           setGoodsInfo({
             LogItemDisable: true,
           });
@@ -562,6 +564,7 @@ function UpdateGoodDetail() {
   };
   useEffect(() => {
     setLoadingModal(isLoading);
+    setShouldFetch(false);
   }, [isLoading]);
   const previewData = {
     type: getType,
@@ -713,9 +716,8 @@ function UpdateGoodDetail() {
                     setModalState({
                       ...ModalState,
                       title: '상품 수정',
-                      message: `상품을 ${
-                        selectMenu == 1 ? '저장' : '업데이트'
-                      }하시겠습니까?`,
+                      message: `상품을 ${selectMenu == 1 ? '저장' : '업데이트'
+                        }하시겠습니까?`,
                       type: 'confirm',
                       okButtonName: '확인',
                       cbOk: () => {
@@ -807,12 +809,10 @@ function UpdateGoodDetail() {
               BasicInfo={BasicInfo}
               partnerInfo={partnerInfo}
               setSelectLog={setSelectLog}
-              // title={BasicInfo?.partnerTitle}
             />
 
             {selectMenu == 1 && (
               <GoodsModify
-                // watch={watch}
                 CatePreList={CatePreList}
                 setCatePreList={setCatePreList}
                 CateGetList={CateGetList}
@@ -841,8 +841,6 @@ function UpdateGoodDetail() {
                 setOptionInputList={setOptionInputList}
                 EditorContent={EditorContent}
                 setEditorContent={setEditorContent}
-                // goodsItemList={goodsItemList}
-                // setGoodsItemList={setGoodsItemList}
               />
             )}
             {selectMenu == 2 && (
