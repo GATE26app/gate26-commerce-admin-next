@@ -75,8 +75,8 @@ function OrderListComponent({ list, request, setRequest }: Props) {
     message: '',
     type: 'confirm',
     okButtonName: '',
-    cbOk: () => {},
-    cbCancel: () => {},
+    cbOk: () => { },
+    cbCancel: () => { },
   });
   function handleChangeInput(key: string, value: string | number, id?: string) {
     const newRequest = { ...request, [key]: value };
@@ -85,7 +85,7 @@ function OrderListComponent({ list, request, setRequest }: Props) {
       newRequest.pageNo = 0;
     } else if (key === 'page') {
       // setPage(value as number);
-      newRequest.pageNo = Number(value) + 1;
+      newRequest.pageNo = Number(value);
       setOrderFilterInfo({
         ...orderFilterInfo,
         pageNo: Number(value),
@@ -226,19 +226,19 @@ function OrderListComponent({ list, request, setRequest }: Props) {
     let searchKeyword =
       request.searchKeyword != ''
         ? 'searchType=' +
-          request.searchType +
-          '&searchKeyword=' +
-          request.searchKeyword
+        request.searchType +
+        '&searchKeyword=' +
+        request.searchKeyword
         : '';
     let and =
       request.searchKeyword != '' ||
-      request.orderType != 0 ||
-      request.orderStatus != 0 ||
-      request.cancelStatus?.length !== 0 ||
-      request.periodType != '' ||
-      request.periodStartDate != '' ||
-      request.periodEndDate != '' ||
-      CheckList.length != 0
+        request.orderType != 0 ||
+        request.orderStatus != 0 ||
+        request.cancelStatus?.length !== 0 ||
+        request.periodType != '' ||
+        request.periodStartDate != '' ||
+        request.periodEndDate != '' ||
+        CheckList.length != 0
         ? '?'
         : '';
     let orderType =
@@ -378,6 +378,7 @@ function OrderListComponent({ list, request, setRequest }: Props) {
         setChekcList={setChekcList}
         CheckList={CheckList}
       />
+
       {list?.totalCount !== undefined &&
         list?.totalCount !== 0 &&
         paginationProps && (
