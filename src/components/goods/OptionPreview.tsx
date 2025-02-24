@@ -2,8 +2,8 @@ import { GoodsBasicProps, OptionProps } from '@/app/apis/goods/GoodsApi.type';
 import CustomButton from '@/components/common/CustomButton';
 import { Option } from '@/components/goods/OptionPlus';
 import { ColorBlack, ColorGray100, ColorGray400, ColorGray700, ColorInputBorder, ColorMainBackBule } from "@/utils/_Palette";
-import { Input, Editable, EditableInput, EditablePreview, Flex, Text } from "@chakra-ui/react";
-import { Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Editable, EditableInput, EditablePreview, Flex, Text } from "@chakra-ui/react";
+import { useCallback, useMemo, useState } from 'react';
 
 interface Props {
   list: GoodsBasicProps;
@@ -27,41 +27,14 @@ const validateNumberInput = (value: string, min: number = 0): number => {
 };
 
 export default function OptionPreview({ list, optionList, optionPreviews, setOptionPreviews }: Props) {
-  const [priceState, setPriceState] = useState(false);
-  const [indexCnt, setIndexCnt] = useState(0);
-  const [price, setPrice] = useState('');
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-
-  useEffect(() => {
-    if (priceState) {
-      setOptionPreviews(prev => prev.map((option, idx) => {
-        if (idx !== indexCnt) return option;
-
-        let validatedPrice = Number(price);
-        if (isNaN(validatedPrice)) {
-          validatedPrice = 0;
-        }
-        validatedPrice =  Math.floor(validatedPrice);
-
-        if (inputRefs.current[indexCnt]) {
-          inputRefs.current[indexCnt]!.value = validatedPrice;  // input의 value를 변경
-        }
-
-        return { ...option, price: validatedPrice };
-      }));
-      setPriceState(false);
-    }
-  }, [priceState]);
-
   // Memoize handlers to prevent unnecessary re-renders
-const handleUpdateOption = useCallback((index: number, field: keyof Option, value: string | number) => {
+  const handleUpdateOption = useCallback((index: number, field: keyof Option, value: string | number) => {
     setOptionPreviews(prev => prev.map((option, idx) => {
       if (idx !== index) return option;
 
       // 숫자 필드에 대한 특별 처리
-      if (field === 'stockCnt') {
-        const validatedValue = validateNumberInput(value.toString());
+      if (field === 'price' || field === 'stockCnt') {
+        const validatedValue = validateNumberInput(value.toString(), field === 'price' ? true : false);
         return { ...option, [field]: validatedValue };
       }
 
@@ -78,6 +51,8 @@ const handleUpdateOption = useCallback((index: number, field: keyof Option, valu
     setOptionPreviews(prev => prev.filter((_, idx) => idx !== index));
   }, [setOptionPreviews]);
 
+
+
   const CommonOptionFields = useCallback(({ optionPreview, index, onUpdateOption, onDeleteOption, basePrice }: OptionPreviewProps) => {
     return (
       <>
@@ -90,22 +65,32 @@ const handleUpdateOption = useCallback((index: number, field: keyof Option, valu
               borderRightWidth={1}
               borderRightColor={ColorGray400}
             >
-              <Input
+              <Editable
+                w={'100%'}
+                defaultValue={String(optionPreview.price)}
+                value={String(optionPreview.price)}
                 textAlign={'center'}
                 fontSize={'15px'}
                 fontWeight={500}
                 isPreviewFocusable={true}
                 selectAllOnFocus={false}
-                defaultValue={String(optionPreview.price)}
-                onChange={(e) => {
-                  setPrice(e.target.value);
-                  setIndexCnt(index);
+                onChange={(value) => onUpdateOption(index, 'price', value)}
+                onKeyUp={(e) => {
+                  if (!/[-\d\b\t]/.test(e.key)) {
+                    e.preventDefault();
+                  }
                 }}
-                onBlur={() => setPriceState(true)}
-                ref={el => (inputRefs.current[index] = el)}
-              />
+              >
+                <EditablePreview py={'17px'} color={ColorGray700} width="full" />
+                <EditableInput
+                  py={'17px'}
+                  type="number"
+                  color={ColorBlack}
+                  min="0"
+                  step="1"
+                />
+              </Editable>
             </Flex>
-            {/* <input ref={inputRefs} defaultValue={String(optionPreview.price)} /> */}
             <Flex
               w={'300px'}
               alignItems={'center'}
