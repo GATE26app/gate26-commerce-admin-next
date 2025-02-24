@@ -34,7 +34,7 @@ export default function OptionPreview({ list, optionList, optionPreviews, setOpt
 
       // 숫자 필드에 대한 특별 처리
       if (field === 'price' || field === 'stockCnt') {
-        const validatedValue = validateNumberInput(value.toString(), field === 'price' ? true : false);
+        const validatedValue = validateNumberInput(value.toString());
         return { ...option, [field]: validatedValue };
       }
 
