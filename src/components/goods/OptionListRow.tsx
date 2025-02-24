@@ -271,7 +271,7 @@ const Row = React.memo(({ index, style, data }: RowType) => {
             borderRightWidth={1}
             borderRightColor={ColorGray400}
           >
-            <Text>{list.price + item.price}</Text>
+            <Text>{list.price + (+item.price)}</Text>
           </Flex>
         </>
       )}
