@@ -74,7 +74,6 @@ function OptionPlus({
   const [optionType, setOptionType] = useState<number>(list.optionType); //옵션형, 날짜지정형
   const [optionInputType, setOptionInputType] = useState<number>(0); //상품 옵션유형 단독형, 조합형
   const [optionCnt, setOptionCnt] = useState<string>('1');
-  const [options, setOptions] = useState<Option[]>([]);
   const [optionNames, setOptionNames] = useState<string[]>([]);
   const [optionValues, setOptionValues] = useState<string[]>(
     Array(optionCnt).fill(''),
@@ -414,7 +413,6 @@ function OptionPlus({
 
     setList({ ...list, optionInputType: optionInputType });
     setOptionList(resultArray);
-    setOptions(resultArray);
   }
 
   return (
@@ -564,7 +562,6 @@ function OptionPlus({
                 setOptionInputType(0);
                 // if (list.optionInputType == 1) {
                 setOptionList([]);
-                setOptions([]);
                 setOptionCnt('1');
                 setOptionInputList([
                   {
@@ -592,7 +589,6 @@ function OptionPlus({
                 setOptionInputType(1);
                 // if (list.optionInputType == 0) {
                 setOptionList([]);
-                setOptions([]);
                 setOptionCnt('1');
                 setOptionInputList([
                   {
