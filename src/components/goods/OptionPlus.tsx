@@ -289,7 +289,7 @@ function OptionPlus({
         sort: 1,
         type: optionType,
         depth: optionInputType == 0 ? 1 : Number(optionCnt),
-        useDateTime: `${date} 12:00:00`,
+        useDateTime: `${DateList[0]} 12:00:00`,
         firstKey: optionNames[0],
         firstValue: firstValue.trim(),
         secondKey: '',
