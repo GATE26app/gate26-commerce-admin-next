@@ -336,8 +336,6 @@ function OptionPlus({
         });
       }
     }
-    console.log('firstOptions', firstOptions);
-    console.log('secondOptions', secondOptions);
 
     setOptionPreviews(optionPreviews);
   };
@@ -560,23 +558,25 @@ function OptionPlus({
               disabled={goodsInfo.LogItemDisable}
               onClick={() => {
                 setOptionInputType(0);
-                // if (list.optionInputType == 1) {
-                setOptionList([]);
-                setOptionCnt('1');
-                setOptionInputList([
-                  {
-                    sort: 1,
-                    inputKey: '',
-                    inputValue: '',
-                  },
-                ]);
-                setOptionNames(['']);
-                setOptionValues(['']);
-                setPrice(0);
-                setStock(0);
-                // }
 
-                // setList({ ...list, optionInputType: 0 });
+                if (list.optionInputType == 1) {
+                  setOptionList([]);
+                  setOptionCnt('1');
+                  setOptionInputList([
+                    {
+                      sort: 1,
+                      inputKey: '',
+                      inputValue: '',
+                    },
+                  ]);
+                  setOptionNames(['']);
+                  setOptionValues(['']);
+                  setPrice(0);
+                  setStock(0);
+                  setOptionPreviews([]);
+                }
+
+                setList({ ...list, optionInputType: 0 });
               }}
             />
           </Flex>
@@ -587,23 +587,25 @@ function OptionPlus({
               checked={optionInputType == 1 ? true : false}
               onClick={() => {
                 setOptionInputType(1);
-                // if (list.optionInputType == 0) {
-                setOptionList([]);
-                setOptionCnt('1');
-                setOptionInputList([
-                  {
-                    sort: 1,
-                    inputKey: '',
-                    inputValue: '',
-                  },
-                ]);
-                setOptionNames(['']);
-                setOptionValues(['']);
-                setPrice(0);
-                setStock(0);
-                // }
 
-                // setList({ ...list, optionInputType: 1 });
+                if (list.optionInputType == 0) {
+                  setOptionList([]);
+                  setOptionCnt('1');
+                  setOptionInputList([
+                    {
+                      sort: 1,
+                      inputKey: '',
+                      inputValue: '',
+                    },
+                  ]);
+                  setOptionNames(['']);
+                  setOptionValues(['']);
+                  setPrice(0);
+                  setStock(0);
+                  setOptionPreviews([]);
+                }
+
+                setList({ ...list, optionInputType: 1 });
               }}
             />
           </Flex>
