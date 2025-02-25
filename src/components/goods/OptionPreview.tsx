@@ -307,7 +307,8 @@ export default function OptionPreview({ list, optionList, optionPreviews, setOpt
 
   // Memoize the header to prevent unnecessary re-renders
   const HeaderSection = useMemo(() => {
-    if (optionList.length === 0) return null;
+    // if (optionList.length === 0) return null;
+    if (optionPreviews.length === 0) return null;
 
     return (
       <Flex
@@ -382,7 +383,7 @@ export default function OptionPreview({ list, optionList, optionPreviews, setOpt
             </Flex>
           </>
         )}
-        {optionList[0].price !== null && (
+        {optionList[0]?.price !== null && (
           <>
             <Flex
               w={'300px'}
@@ -411,7 +412,7 @@ export default function OptionPreview({ list, optionList, optionPreviews, setOpt
             </Flex>
           </>
         )}
-        {optionList[0].stockCnt !== null && (
+        {optionList[0]?.stockCnt !== null && (
           <Flex
             w={'300px'}
             alignItems={'center'}
