@@ -44,8 +44,8 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
     message: '',
     type: 'alert',
     okButtonName: '',
-    cbOk: () => {},
-    cbCancel: () => {},
+    cbOk: () => { },
+    cbCancel: () => { },
   });
   //응모삭제
   const { mutate: deleteMutate } = useEntryDeleteMutation({
@@ -137,7 +137,7 @@ function EntriesFirstCard({ header, item, index, pageNo, totalCount }: Props) {
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {formatDateMinTimeDash(item.openDate)}
           </Text>
-        </Flex>55555555555555555555555
+        </Flex>
         <Flex
           w={header[5]?.width}
           alignItems={'center'}
