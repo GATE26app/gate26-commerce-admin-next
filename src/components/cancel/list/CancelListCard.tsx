@@ -23,7 +23,6 @@ import {
 } from '@/utils/format';
 import SelectBox from '@/components/common/SelectBox';
 import OrderStateSelectBox from '@/components/order/detail/OrderStateSelectBox';
-import { crypto } from '@/utils/crypto';
 
 // import { ItemProps } from './OrderataTable';
 
@@ -319,15 +318,15 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
             {item.orderName == null
               ? item.buyerName === null
                 ? '-'
-                : crypto.decrypt(item.buyerName)
-              : crypto.decrypt(item.orderName)}
+                : item.buyerName
+              : item.orderName}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {item.orderHp == null
               ? item.buyerHp === null
                 ? '-'
-                : crypto.decrypt(item.buyerHp)
-              : crypto.decrypt(item.orderHp)}
+                : item.buyerHp
+              : item.orderHp}
           </Text>
         </Flex>
       </Flex>
