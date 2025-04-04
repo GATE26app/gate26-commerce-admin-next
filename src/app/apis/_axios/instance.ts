@@ -41,8 +41,8 @@ const unsetAuthHeader = () => {
 
 function refreshToken() {
   return axios({
-    method: 'post',
-    url: `/api/auth/jwt/refresh`,
+    method: 'PATCH',
+    url: '/backoffice/admin/member/refresh-access-token',
     headers: {
       'Content-Type': 'application/json',
       'X-AUTH-TOKEN': `${getToken().refresh}`,
@@ -192,8 +192,9 @@ instance.interceptors.response.use(
       });
     }
 
+    // console.log('isUnAuthError', isUnAuthError)
     if (isUnAuthError) {
-      console.log(!getToken().refresh);
+      // console.log('getToken().refresh', getToken().refresh);
       if (!getToken().refresh) {
         Sentry.captureMessage(
           `리프레쉬 토큰 발급 중 refresh Token ${getToken().refresh}`,
