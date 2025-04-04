@@ -6,7 +6,6 @@ import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
 
 import { ColorBlack, ColorDataTableBorderTop } from '@/utils/_Palette';
 import { formatPhone } from '@/utils/format';
-import { crypto } from '@/utils/crypto';
 
 interface Props {
   info: OrderDetailItemType;
@@ -35,11 +34,11 @@ function OrderResevationInfo({ info }: Props) {
             주문자 이름
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderName !== null && crypto.decrypt(info.orderName) !== ''
-              ? crypto.decrypt(info.orderName)
+            {info.orderName !== null && info.orderName !== ''
+              ? info.orderName
               : info.buyerName === null
               ? '-'
-              : crypto.decrypt(info.buyerName)}
+              : info.buyerName}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -53,11 +52,11 @@ function OrderResevationInfo({ info }: Props) {
             주문자 ID
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderName !== null && crypto.decrypt(info.orderName) !== ''
-              ? crypto.decrypt(info.orderName)
+            {info.orderName !== null && info.orderName !== ''
+              ? info.orderName
               : info.buyerName === null
               ? '-'
-              : crypto.decrypt(info.buyerName)}
+              : info.buyerName}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -72,11 +71,11 @@ function OrderResevationInfo({ info }: Props) {
             {'주문자\n휴대폰번호'}
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderHp !== null && crypto.decrypt(info.orderHp) !== ''
-              ? formatPhone(crypto.decrypt(info.orderHp))
+            {info.orderHp !== null && info.orderHp !== ''
+              ? formatPhone(info.orderHp)
               : info.buyerHp === null
               ? '-'
-              : formatPhone(crypto.decrypt(info.buyerHp))}
+              : formatPhone(info.buyerHp)}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
