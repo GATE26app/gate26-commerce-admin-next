@@ -26,6 +26,7 @@
     "axios": "^1.7.2",
     "chakra-react-select": "^4.7.6",
     "constate": "^3.3.2",
+    "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.10",
@@ -45,6 +46,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
