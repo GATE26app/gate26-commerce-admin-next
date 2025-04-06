@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
 import he from 'he';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
