@@ -6,7 +6,7 @@ import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
 
 import { ColorBlack, ColorDataTableBorderTop } from '@/utils/_Palette';
 import { formatPhone } from '@/utils/format';
-import { crypto } from '@/utils/crypto';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 interface Props {
   info: OrderDetailItemType;
@@ -35,7 +35,7 @@ function OrderDelivery({ info }: Props) {
             수령인
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.recieverName !== null ? crypto.decrypt(info.recieverName) : '-'}
+            {info.recieverName !== null ? safeDecryptAndParse(info.recieverName) : '-'}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -49,7 +49,7 @@ function OrderDelivery({ info }: Props) {
             휴대폰번호
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.recieverHp !== null ? formatPhone(crypto.decrypt(info.recieverHp)) : '-'}
+            {info.recieverHp !== null ? formatPhone(safeDecryptAndParse(info.recieverHp)) : '-'}
           </Text>
         </Flex>
 
@@ -65,8 +65,8 @@ function OrderDelivery({ info }: Props) {
           </Text>
 
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.address !== null && crypto.decrypt(info.address) !== ''
-              ? `[${crypto.decrypt(info.postcode)}] ${crypto.decrypt(info.address)} ${crypto.decrypt(info.addressDetail)} `
+            {info.address !== null && safeDecryptAndParse(info.address) !== ''
+              ? `[${safeDecryptAndParse(info.postcode)}] ${safeDecryptAndParse(info.address)} ${safeDecryptAndParse(info.addressDetail)} `
               : '-'}
           </Text>
         </Flex>

@@ -19,3 +19,32 @@ export const crypto: any = {
     }).toString(cryptoJs.enc.Utf8);
   },
 };
+
+export const safeDecryptAndParse = (data :any) => {
+  try {
+    if (!data) return null;
+ 
+    const decrypted = crypto.decrypt(data);
+ 
+    // 숫자인지 체크 (정수 + 소수)
+    if (!isNaN(decrypted)) {
+      return Number(decrypted);
+    }
+ 
+    try {
+      return JSON.parse(decrypted);
+    } catch {
+      return decrypted;
+    }
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+export const safeEncrypt = (value :any) => {
+  if (value && value !== '') {
+    return crypto.encrypt(JSON.stringify(value));
+  }
+  return value;
+};

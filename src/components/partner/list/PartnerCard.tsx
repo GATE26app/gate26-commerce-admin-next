@@ -36,7 +36,7 @@ import {
   useItemStopPartner,
   useRejectPartner,
 } from '@/app/apis/partners/PartnersApi.mutation';
-import { crypto } from '@/utils/crypto';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 // import { useGoodsStateZuInfo } from '_store/StateZuInfo';
 // import { useCustomModalHandlerContext } from 'contexts/modal/useCustomModalHandler.context';
@@ -293,7 +293,7 @@ function PartnerCard({
           justifyContent={'center'}
         >
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
-            {crypto.decrypt(item.nameOfRepresentative)}
+            {safeDecryptAndParse(item.nameOfRepresentative)}
           </Text>
         </Flex>
         <Flex
@@ -307,7 +307,7 @@ function PartnerCard({
             color={ColorBlack}
             textAlign={'center'}
           >
-            {item.type == 1 ? crypto.decrypt(item.hp) : item.authEmail}
+            {item.type == 1 ? safeDecryptAndParse(item.hp) : item.authEmail}
           </Text>
         </Flex>
         <Flex
