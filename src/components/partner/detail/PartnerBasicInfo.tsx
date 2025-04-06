@@ -67,7 +67,7 @@ import PartnerFileComponent2 from '../add/PartnerFileComponents2';
 import PartnerImageComponent from '../add/PartnerImageComponents';
 import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 import PartnerFileComponent3 from '@/components/partner/add/PartnerFileComponents3';
-import { safeDecryptAndParse } from '@/utils/crypto';
+import { safeDecryptAndParse, safeEncrypt } from '@/utils/crypto';
 
 function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const searchParams = useSearchParams();
@@ -548,6 +548,14 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
     }
     setValue('files', array);
     let json: PartnerAddFormType = watch();
+    json.bank = safeEncrypt(watch('bank'))
+    json.accountHolder = safeEncrypt(watch('accountHolder'))
+    json.accountNumber = safeEncrypt(watch('accountNumber'))
+    json.hp = safeEncrypt(watch('hp'))
+    json.nameOfRepresentative = safeEncrypt(watch('nameOfRepresentative'))
+    json.businessRegistrationNumber = safeEncrypt(watch('businessRegistrationNumber'))
+    json.nameOfCompany = safeEncrypt(watch('nameOfCompany'))
+    json.registrationNumber = safeEncrypt(watch('registrationNumber'))
     updatePartner(json);
     setLoadingModal(true);
   };
