@@ -3,6 +3,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 import { Box, Flex, Image, Text, Textarea } from '@chakra-ui/react';
+import he from 'he';
+import DOMPurify from 'dompurify';
 
 import { ColorBlack, ColorGray50, ColorGray400 } from '@/utils/_Palette';
 import { EntriesResType } from '@/app/apis/entries/EntriesApi.type';
@@ -171,7 +173,8 @@ function EditorDetailComponent({ EntriesData, setEntriesData }: Props) {
               theme="snow"
               modules={modules}
               formats={formats}
-              value={EntriesData.content}
+              // value={EntriesData.content}
+              value={DOMPurify.sanitize(he.decode(EntriesData.content))} // 디코딩 → XSS 제거 → 표시
               onChange={(e: any) =>
                 setEntriesData({ ...EntriesData, content: e })
               }
