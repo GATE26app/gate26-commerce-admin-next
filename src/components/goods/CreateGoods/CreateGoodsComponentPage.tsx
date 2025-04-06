@@ -293,9 +293,9 @@ function CreateGoodsComponentPage() {
       } else if (optionList.length == 0) {
         setDiableBtn(false);
         ToastComponent('옵션을 선택해 입력해주세요.');
-      } else if (optionList.length >= 1000) {
+      } else if (optionList.length >= 5000) {
         setDiableBtn(false);
-        ToastComponent('옵션은 1000개까지 등록 가능합니다.');
+        ToastComponent('옵션은 5000개까지 등록 가능합니다.');
       } else {
         CreateItemMutate(PostData);
       }

@@ -495,8 +495,8 @@ function UpdateGoodDetail() {
         ToastComponent('취소/환불 기본 규정을 입력해주세요.');
       } else if (optionList.length == 0) {
         ToastComponent('옵션을 선택해 입력해주세요.');
-      } else if (optionList.length >= 1000) {
-        ToastComponent('옵션은 1000개까지 등록 가능합니다.');
+      } else if (optionList.length >= 5000) {
+        ToastComponent('옵션은 5000개까지 등록 가능합니다.');
       } else {
         const body: PatchUpdateGoodsStatusParmaType = {
           itemCode: itemCode,

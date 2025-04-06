@@ -3,6 +3,9 @@ import React, { useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 import { Flex, Image, Text } from '@chakra-ui/react';
+import he from 'he';
+import DOMPurify from 'dompurify';
+
 
 import { usePostImageMutation } from '@/app/apis/goods/GoodsApi.mutation';
 import {
@@ -114,6 +117,11 @@ function EditorDetailComponent({ list, setList }: Props) {
   ];
 
   const hanleChange = (e: string) => {
+    // const sanitized = DOMPurify.sanitize(e, {
+    //   ALLOWED_TAGS: ['b', 'i', 'u', 'p', 'br', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'strong', 'em', 'span'],
+    //   ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'style'],
+    // });
+    // setList(sanitized);
     setList(e);
   };
   return (
@@ -173,7 +181,8 @@ function EditorDetailComponent({ list, setList }: Props) {
               theme="snow"
               modules={modules}
               formats={formats}
-              value={list}
+              // value={list}
+              value={DOMPurify.sanitize(he.decode(list))} // 디코딩 → XSS 제거 → 표시
               onChange={hanleChange}
               readOnly={goodsInfo.LogItemDisable}
               style={{ height: '480px' }}
