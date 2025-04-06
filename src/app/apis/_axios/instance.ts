@@ -103,6 +103,11 @@ const Logout = async () => {
 
 // 객체의 모든 문자열 값에 대해 sanitize를 수행하는 함수
 const sanitizeObject = (obj: any): any => {
+  // FormData나 Blob 객체는 sanitize하지 않음
+  if (obj instanceof FormData || obj instanceof Blob) {
+    return obj;
+  }
+
   if (typeof obj === 'string') {
     return sanitizeInput(obj);
   }
