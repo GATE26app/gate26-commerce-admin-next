@@ -93,6 +93,9 @@ function MenuBar() {
     } else if (pathname.includes('/settlementList')) {
       setMenu(6);
       setOrdreMenu(1);
+    } else if (pathname.includes('/sendbirdChat')) {
+      setMenu(11);
+      setOrdreMenu(1);
     }
   }, [pathname]);
   //필터 초기화
@@ -318,18 +321,6 @@ function MenuBar() {
               취소관리
             </Text>
           </Link>
-          {/* <Link href={'/cancellist'}>
-            <Text
-              fontWeight={700}
-              fontSize={'16px'}
-              mb={'15px'}
-              color={orderMenu == 3 ? ColorRed : ColorGrayMenu}
-              cursor={'pointer'}
-              onClick={() => setOrdreMenu(3)}
-            >
-              마일충전내역
-            </Text>
-          </Link> */}
         </Flex>
       )}
       <Flex
@@ -745,6 +736,42 @@ function MenuBar() {
             ml={'15px'}
           >
             채팅
+          </Text>
+        </Flex>
+      </Link>
+      <Link href={'/sendbirdChat'}>
+        <Flex
+          alignItems={'center'}
+          cursor={'pointer'}
+          mb={'30px'}
+          onClick={() => {
+            setMenu(11);
+            setOrdreMenu(1);
+          }}
+        >
+          {menu == 11 ? (
+            <Image
+              src={'/images/Menu/leftmenu10_on.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          ) : (
+            <Image
+              src={'/images/Menu/leftmenu10_off.png'}
+              width={40}
+              height={40}
+              alt="로고"
+            />
+          )}
+
+          <Text
+            color={menu == 11 ? ColorRed : ColorGrayMenu}
+            fontWeight={800}
+            fontSize={'18px'}
+            ml={'15px'}
+          >
+            샌드버드 채팅
           </Text>
         </Flex>
       </Link>
