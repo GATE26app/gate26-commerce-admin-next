@@ -67,6 +67,7 @@ import PartnerFileComponent2 from '../add/PartnerFileComponents2';
 import PartnerImageComponent from '../add/PartnerImageComponents';
 import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 import PartnerFileComponent3 from '@/components/partner/add/PartnerFileComponents3';
+import { crypto } from '@/utils/crypto';
 
 function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const searchParams = useSearchParams();
@@ -106,18 +107,18 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       setValue('status', info.status);
       setValue('type', Number(info.type));
       setCheck(Number(info.type));
-      setValue('hp', info.hp);
+      setValue('hp', info.type == 2 ? info.hp : crypto.decrypt(info.hp));
       setValue('title', info.title);
       setValue('tel', info.tel);
       setValue('info', info.info);
-      setValue('bank', info.bank);
+      setValue('bank', crypto.decrypt(info.bank));
       setValue('authEmail', info.authEmail);
-      setValue('accountNumber', info.accountNumber);
-      setValue('accountHolder', info.accountHolder);
-      setValue('nameOfCompany', info.nameOfCompany);
-      setValue('businessRegistrationNumber', info.businessRegistrationNumber);
-      setValue('nameOfRepresentative', info.nameOfRepresentative);
-      setValue('registrationNumber', info.registrationNumber);
+      setValue('accountNumber', crypto.decrypt(info.accountNumber));
+      setValue('accountHolder', crypto.decrypt(info.accountHolder));
+      setValue('nameOfCompany', crypto.decrypt(info.nameOfCompany));
+      setValue('businessRegistrationNumber', crypto.decrypt(info.businessRegistrationNumber));
+      setValue('nameOfRepresentative',crypto.decrypt(info.nameOfRepresentative));
+      setValue('registrationNumber', crypto.decrypt(info.registrationNumber));
       setValue('address', info.address);
       setValue('addressDetail', info.addressDetail);
       setValue('businessType', info.businessType);
