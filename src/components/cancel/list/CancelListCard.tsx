@@ -23,6 +23,7 @@ import {
 } from '@/utils/format';
 import SelectBox from '@/components/common/SelectBox';
 import OrderStateSelectBox from '@/components/order/detail/OrderStateSelectBox';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 // import { ItemProps } from './OrderataTable';
 
@@ -318,15 +319,15 @@ function CancelListCard({ header, item, CheckList, setChekcList }: Props) {
             {item.orderName == null
               ? item.buyerName === null
                 ? '-'
-                : item.buyerName
-              : item.orderName}
+                : safeDecryptAndParse(item.buyerName)
+              : safeDecryptAndParse(item.orderName)}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {item.orderHp == null
               ? item.buyerHp === null
                 ? '-'
-                : item.buyerHp
-              : item.orderHp}
+                : safeDecryptAndParse(item.buyerHp)
+              : safeDecryptAndParse(item.orderHp)}
           </Text>
         </Flex>
       </Flex>

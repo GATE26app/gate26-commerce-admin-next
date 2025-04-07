@@ -17,6 +17,7 @@ import {
   setErrorCode,
   // setPassCheck,
 } from '../../../utils/localStorage/token';
+import { sanitizeInput } from '@/utils/sanitizeInput';
 
 const isDev = CONFIG.ENV === 'development';
 
@@ -40,8 +41,8 @@ const unsetAuthHeader = () => {
 
 function refreshToken() {
   return axios({
-    method: 'post',
-    url: `/api/auth/jwt/refresh`,
+    method: 'PATCH',
+    url: '/backoffice/admin/member/refresh-access-token',
     headers: {
       'Content-Type': 'application/json',
       'X-AUTH-TOKEN': `${getToken().refresh}`,
@@ -100,6 +101,32 @@ const Logout = async () => {
   }
 };
 
+// 객체의 모든 문자열 값에 대해 sanitize를 수행하는 함수
+const sanitizeObject = (obj: any): any => {
+  // FormData나 Blob 객체는 sanitize하지 않음
+  if (obj instanceof FormData || obj instanceof Blob) {
+    return obj;
+  }
+
+  if (typeof obj === 'string') {
+    return sanitizeInput(obj);
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeObject(item));
+  }
+
+  if (typeof obj === 'object' && obj !== null) {
+    const sanitized: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      sanitized[key] = sanitizeObject(value);
+    }
+    return sanitized;
+  }
+
+  return obj;
+};
+
 instance.interceptors.request.use(
   (config) => {
     const token = getToken().access;
@@ -108,6 +135,15 @@ instance.interceptors.request.use(
     if (apiType === 'auth') {
       unsetAuthHeader();
     }
+
+    // 요청 데이터 sanitize 처리
+    if (config.data) {
+      config.data = sanitizeObject(config.data);
+    }
+    if (config.params) {
+      config.params = sanitizeObject(config.params);
+    }
+
     return config;
   },
   (error) => Promise.reject(error),
@@ -161,8 +197,9 @@ instance.interceptors.response.use(
       });
     }
 
+    // console.log('isUnAuthError', isUnAuthError)
     if (isUnAuthError) {
-      console.log(!getToken().refresh);
+      // console.log('getToken().refresh', getToken().refresh);
       if (!getToken().refresh) {
         Sentry.captureMessage(
           `리프레쉬 토큰 발급 중 refresh Token ${getToken().refresh}`,

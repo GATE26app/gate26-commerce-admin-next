@@ -67,6 +67,7 @@ import PartnerFileComponent2 from '../add/PartnerFileComponents2';
 import PartnerImageComponent from '../add/PartnerImageComponents';
 import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 import PartnerFileComponent3 from '@/components/partner/add/PartnerFileComponents3';
+import { safeDecryptAndParse, safeEncrypt } from '@/utils/crypto';
 
 function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
   const searchParams = useSearchParams();
@@ -106,18 +107,18 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
       setValue('status', info.status);
       setValue('type', Number(info.type));
       setCheck(Number(info.type));
-      setValue('hp', info.hp);
+      setValue('hp', info.type == 2 ? info.hp : safeDecryptAndParse(info.hp));
       setValue('title', info.title);
       setValue('tel', info.tel);
       setValue('info', info.info);
-      setValue('bank', info.bank);
+      setValue('bank', safeDecryptAndParse(info.bank));
       setValue('authEmail', info.authEmail);
-      setValue('accountNumber', info.accountNumber);
-      setValue('accountHolder', info.accountHolder);
-      setValue('nameOfCompany', info.nameOfCompany);
-      setValue('businessRegistrationNumber', info.businessRegistrationNumber);
-      setValue('nameOfRepresentative', info.nameOfRepresentative);
-      setValue('registrationNumber', info.registrationNumber);
+      setValue('accountNumber', safeDecryptAndParse(info.accountNumber));
+      setValue('accountHolder', safeDecryptAndParse(info.accountHolder));
+      setValue('nameOfCompany', safeDecryptAndParse(info.nameOfCompany));
+      setValue('businessRegistrationNumber', safeDecryptAndParse(info.businessRegistrationNumber));
+      setValue('nameOfRepresentative', safeDecryptAndParse(info.nameOfRepresentative));
+      setValue('registrationNumber', safeDecryptAndParse(info.registrationNumber));
       setValue('address', info.address);
       setValue('addressDetail', info.addressDetail);
       setValue('businessType', info.businessType);
@@ -547,6 +548,14 @@ function PartnerBasicInfo({ info }: { info: PartnersParamsType }) {
     }
     setValue('files', array);
     let json: PartnerAddFormType = watch();
+    json.bank = safeEncrypt(watch('bank'))
+    json.accountHolder = safeEncrypt(watch('accountHolder'))
+    json.accountNumber = safeEncrypt(watch('accountNumber'))
+    json.hp = safeEncrypt(watch('hp'))
+    json.nameOfRepresentative = safeEncrypt(watch('nameOfRepresentative'))
+    json.businessRegistrationNumber = safeEncrypt(watch('businessRegistrationNumber'))
+    json.nameOfCompany = safeEncrypt(watch('nameOfCompany'))
+    json.registrationNumber = safeEncrypt(watch('registrationNumber'))
     updatePartner(json);
     setLoadingModal(true);
   };

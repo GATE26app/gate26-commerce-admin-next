@@ -61,6 +61,7 @@ import PartnerFileComponent2 from './PartnerFileComponents2';
 import AddressModal from '../AddressModal';
 import GoogleMapModal from '@/components/common/Modal/GoogleMapModal';
 import PartnerFileComponent3 from '@/components/partner/add/PartnerFileComponents3';
+import { safeEncrypt } from '@/utils/crypto';
 
 function PartnerBasicInfo() {
   const [isLoadingModal, setLoadingModal] = useState(false);
@@ -526,6 +527,14 @@ function PartnerBasicInfo() {
     }
     setValue('files', array);
     let json: PartnerAddFormType = watch();
+    json.bank = safeEncrypt(watch('bank'))
+    json.accountHolder = safeEncrypt(watch('accountHolder'))
+    json.accountNumber = safeEncrypt(watch('accountNumber'))
+    json.hp = safeEncrypt(watch('hp'))
+    json.nameOfRepresentative = safeEncrypt(watch('nameOfRepresentative'))
+    json.businessRegistrationNumber = safeEncrypt(watch('businessRegistrationNumber'))
+    json.nameOfCompany = safeEncrypt(watch('nameOfCompany'))
+    json.registrationNumber = safeEncrypt(watch('registrationNumber'))
     addPartner(json);
     setLoadingModal(true);
   };

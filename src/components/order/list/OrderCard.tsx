@@ -22,6 +22,7 @@ import {
   intComma,
   getImagePath,
 } from '@/utils/format';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 interface headerProps {
   id: string;
@@ -253,15 +254,15 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
             {item.orderName == null
               ? item.buyerName === null
                 ? '-'
-                : item.buyerName
-              : item.orderName}
+                : safeDecryptAndParse(item.buyerName)
+              : safeDecryptAndParse(item.orderName)}
           </Text>
           <Text fontSize={'14px'} fontWeight={400} color={ColorBlack}>
             {item.orderHp == null
               ? item.buyerHp === null
                 ? '-'
-                : item.buyerHp
-              : formatPhone(item.orderHp)}
+                : safeDecryptAndParse(item.buyerHp)
+              : formatPhone(safeDecryptAndParse(item.orderHp))}
           </Text>
         </Flex>
       </Flex>
@@ -306,7 +307,7 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.address == null ? '-' : item.address}
+          {item.address == null ? '-' : safeDecryptAndParse(item.address)}
         </Text>
         <Text
           fontSize={'14px'}
@@ -314,7 +315,7 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.recieverName == null ? '-' : item.recieverName}
+          {item.recieverName == null ? '-' : safeDecryptAndParse(item.recieverName)}
         </Text>
         <Text
           fontSize={'14px'}
@@ -322,7 +323,7 @@ function OrderCard({ header, item, CheckList, setChekcList }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.recieverHp == null ? '-' : formatPhone(item.recieverHp)}
+          {item.recieverHp == null ? '-' : formatPhone(safeDecryptAndParse(item.recieverHp))}
         </Text>
       </Flex>
     </Flex>

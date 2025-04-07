@@ -6,6 +6,7 @@ import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
 
 import { ColorBlack, ColorDataTableBorderTop } from '@/utils/_Palette';
 import { formatPhone } from '@/utils/format';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 interface Props {
   info: OrderDetailItemType;
@@ -34,11 +35,11 @@ function OrderResevationInfo({ info }: Props) {
             주문자 이름
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderName !== null && info.orderName !== ''
-              ? info.orderName
+            {info.orderName !== null && safeDecryptAndParse(info.orderName) !== ''
+              ? safeDecryptAndParse(info.orderName)
               : info.buyerName === null
               ? '-'
-              : info.buyerName}
+              : safeDecryptAndParse(info.buyerName)}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -52,11 +53,11 @@ function OrderResevationInfo({ info }: Props) {
             주문자 ID
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderName !== null && info.orderName !== ''
-              ? info.orderName
+            {info.orderName !== null && safeDecryptAndParse(info.orderName) !== ''
+              ? safeDecryptAndParse(info.orderName)
               : info.buyerName === null
               ? '-'
-              : info.buyerName}
+              : safeDecryptAndParse(info.buyerName)}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>
@@ -71,11 +72,11 @@ function OrderResevationInfo({ info }: Props) {
             {'주문자\n휴대폰번호'}
           </Text>
           <Text color={ColorBlack} fontWeight={400} fontSize={'15px'}>
-            {info.orderHp !== null && info.orderHp !== ''
-              ? formatPhone(info.orderHp)
+            {info.orderHp !== null && safeDecryptAndParse(info.orderHp) !== ''
+              ? formatPhone(safeDecryptAndParse(info.orderHp))
               : info.buyerHp === null
               ? '-'
-              : formatPhone(info.buyerHp)}
+              : formatPhone(safeDecryptAndParse(info.buyerHp))}
           </Text>
         </Flex>
         <Flex mt={'15px'} alignItems={'center'}>

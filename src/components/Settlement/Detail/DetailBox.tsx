@@ -28,6 +28,7 @@ import { useGetUnSettleListMutation, usePostSettleCompleteMutation, usePutSettle
 import { useSearchParams } from '../../../../node_modules/next/navigation';
 import LoadingModal from '@/components/common/Modal/LoadingModal';
 import ButtonModal from '@/components/common/Modal/ButtonModal';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 interface Props {
   data: SettleDetailItemType;
@@ -198,7 +199,7 @@ function DetailBox({ data }: Props) {
               </Text>
               <Text fontWeight={400} fontSize={'15px'} color={ColorBlack}>
                 {data.partner.businessRegistrationNumber
-                  ? data.partner.businessRegistrationNumber
+                  ? safeDecryptAndParse(data.partner.businessRegistrationNumber)
                   : '-'}
               </Text>
             </Flex>
@@ -267,7 +268,7 @@ function DetailBox({ data }: Props) {
             <Text fontWeight={400} fontSize={'15px'} color={ColorBlack}>
               {/* 신한은행 012345678901 (계좌주) */}
               {data.bank != null
-                ? `${data.bank} ${data.accountNumber} (${data.accountHolder})`
+                ? `${safeDecryptAndParse(data.bank)} ${safeDecryptAndParse(data.accountNumber)} (${safeDecryptAndParse(data.accountHolder)})`
                 : '-'}
             </Text>
           </Flex>

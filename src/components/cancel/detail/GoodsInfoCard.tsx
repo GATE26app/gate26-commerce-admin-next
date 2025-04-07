@@ -15,6 +15,7 @@ import {
   intComma,
 } from '@/utils/format';
 import { OrderDetailItemType } from '@/app/apis/order/OrderApi.type';
+import { safeDecryptAndParse } from '@/utils/crypto';
 
 interface headerProps {
   id: string;
@@ -173,7 +174,7 @@ function GoodsInfoCard({ header, item }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.address == null ? '-' : item.address}
+          {item.address == null ? '-' : safeDecryptAndParse(item.address)}
         </Text>
         <Text
           fontSize={'14px'}
@@ -181,7 +182,7 @@ function GoodsInfoCard({ header, item }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.recieverName == null ? '-' : item.recieverName}
+          {item.recieverName == null ? '-' : safeDecryptAndParse(item.recieverName)}
         </Text>
         <Text
           fontSize={'14px'}
@@ -189,7 +190,7 @@ function GoodsInfoCard({ header, item }: Props) {
           color={ColorBlack}
           textAlign={'center'}
         >
-          {item.recieverHp == null ? '-' : formatPhone(item.recieverHp)}
+          {item.recieverHp == null ? '-' : formatPhone(safeDecryptAndParse(item.recieverHp))}
         </Text>
       </Flex>
     </Flex>

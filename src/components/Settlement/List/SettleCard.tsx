@@ -27,6 +27,7 @@ import {
 import { useGoodsStateZuInfo } from '@/_store/StateZuInfo';
 import { SettleListItemType } from '@/app/apis/settlement/SettlementApi.type';
 import { formatDated, intComma } from '@/utils/format';
+import { safeDecryptAndParse } from '@/utils/crypto';
 interface DataTableHeaderProps {
   id: string;
   name: string;
@@ -112,7 +113,7 @@ function SettleCard({ header, item, index, pageNo, totalCount, CheckList, setChe
           {item.partner.title}
         </Text>
         <Text fontSize={'14px'} fontWeight={400} color={ColorGray700}>
-          {item.partner.businessRegistrationNumber == null ? '-' : item.partner.businessRegistrationNumber}
+          {item.partner.businessRegistrationNumber == null ? '-' : safeDecryptAndParse(item.partner.businessRegistrationNumber)}
         </Text>
       </Flex>
       <Flex
