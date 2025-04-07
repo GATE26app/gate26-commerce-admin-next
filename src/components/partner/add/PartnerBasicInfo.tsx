@@ -535,7 +535,8 @@ function PartnerBasicInfo() {
     json.businessRegistrationNumber = safeEncrypt(watch('businessRegistrationNumber'))
     json.nameOfCompany = safeEncrypt(watch('nameOfCompany'))
     json.registrationNumber = safeEncrypt(watch('registrationNumber'))
-    addPartner(json);
+    console.log(json);
+    // addPartner(json);
     setLoadingModal(true);
   };
 

@@ -44,7 +44,7 @@ export const safeDecryptAndParse = (data :any) => {
 
 export const safeEncrypt = (value :any) => {
   if (value && value !== '') {
-    return crypto.encrypt(JSON.stringify(value));
+    return crypto.encrypt(value);
   }
   return value;
 };
