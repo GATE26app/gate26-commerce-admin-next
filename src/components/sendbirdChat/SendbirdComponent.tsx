@@ -1,5 +1,5 @@
 'use client';
-import { Box, Flex, Img, Text } from '@chakra-ui/react';
+import { Box, Flex, Img, Text, Tabs  } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import '@sendbird/uikit-react/dist/index.css';
 import SendbirdProvider from '@sendbird/uikit-react/SendbirdProvider';
@@ -15,8 +15,9 @@ import {
   ColorRed50,
   ColorRedOpa,
 } from '@/utils/_Palette';
-import { useChatAllListMutation } from '../apis/sendbird/SendBirdApi.mutation';
+import { useChatAllListMutation } from '@/app/apis/sendbird/SendBirdApi.mutation';
 import MessageComponent from '@/components/chat/MessageComponent';
+import ChatComponent from '@/components/sendbirdChat/ChatComponent';
 import { getSendBirdToken } from '@/utils/localStorage/token';
 import GroupChannelPreviewAction from '@sendbird/uikit-react/GroupChannelList/components/GroupChannelPreviewAction';
 import moment from 'moment';
@@ -26,6 +27,7 @@ interface Props {
   
 }
 
+
 const myColorSet = {
   '--sendbird-light-primary-500': ColorRedOpa,
   '--sendbird-light-primary-400': ColorRed50,
@@ -33,7 +35,7 @@ const myColorSet = {
   '--sendbird-light-primary-200': ColorRed50,
   '--sendbird-light-primary-100': ColorBackRed,
 };
-function page({ chatGroupType }: Props) {
+function SendbirdComponent({ chatGroupType }: Props) {
   const [stringSet] = useState({
     MESSAGE_INPUT__PLACE_HOLDER__SUGGESTED_REPLIES: '위에서 선택해주세요',
     MESSAGE_INPUT__PLACE_HOLDER__MESSAGE_FORM: '메시지 양식을 작성해주세요.',
@@ -145,7 +147,7 @@ function page({ chatGroupType }: Props) {
     // 그룹 채널 - 설정
     CHANNEL_SETTING__HEADER__TITLE: '채널 정보',
     CHANNEL_SETTING__PROFILE__EDIT: '편집',
-    CHANNEL_SETTING__MEMBERS__TITLE: '멤버',
+    CHANNEL_SETTING__MEMBERS__TITLE: '참가자',
     CHANNEL_SETTING__MEMBERS__SEE_ALL_MEMBERS: '모든 멤버',
     CHANNEL_SETTING__MEMBERS__INVITE_MEMBER: '사용자 초대',
     CHANNEL_SETTING__MEMBERS__YOU: ' (당신)',
@@ -296,12 +298,12 @@ function page({ chatGroupType }: Props) {
       },
     },
   });
-  // useEffect(() => {
-  //   AllListMutation('', '');
-  // }, []);
+  useEffect(() => {
+    AllListMutation({'token': '', 'customType': chatGroupType});
+  }, []);
   useEffect(() => {
     if (nextToken !== '') {
-      AllListMutation({'token': nextToken, 'customType': 'MEETING'});
+      AllListMutation({'token': nextToken, 'customType': chatGroupType});
     }
   }, [nextToken]);
 
@@ -310,7 +312,7 @@ function page({ chatGroupType }: Props) {
   console.log('getSendBirdToken()', getSendBirdToken());
   console.log('getSendBirdToken()', getSendBirdToken());
   return (
-    <Box w={'100%'} h={'600px'} pt={'60px'}>
+    <Box w={'100%'} h={'600px'}>
       <Box
         h={'540px'}
         borderWidth={1}
@@ -508,4 +510,4 @@ function page({ chatGroupType }: Props) {
   );
 }
 
-export default page;
+export default SendbirdComponent;

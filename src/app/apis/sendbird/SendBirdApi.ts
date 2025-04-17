@@ -12,6 +12,7 @@ import {
   SendbirdUserListParams,
   SendbirdUserListResponse,
   SendMessageType,
+  SendBirdChannelType,
 } from './SendBirdApi.type';
 import instance from '../_axios/instance';
 
@@ -49,14 +50,14 @@ export class SendBirdApi {
   };
 
   // 전체채널조회
-  getSendBirdAllChannelList = async (
-    token: string,
+  getSendBirdChannelListByType = async (
+    params: SendBirdChannelType,
   ): Promise<SendBirdAllChannelListDtoType> => {
     const { data } = await this.axios({
       method: 'GET',
       url: `/admin/chat/channels?show_member=true${
-        token !== '' ? '&token=' + token : ''
-      }`,
+        params.token !== '' ? '&token=' + params.token : ''
+      }&custom_types=${params.customType}`,
       headers: {
         'X-AUTH-TOKEN': `${getToken().access}`,
       },

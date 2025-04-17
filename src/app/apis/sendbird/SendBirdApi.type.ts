@@ -37,6 +37,12 @@ export type SendBirdAllChannelListDtoType = {
   success: boolean;
 };
 
+//샌드버드 채널 리스트 request type
+export type SendBirdChannelType = {
+  token: string;
+  customType: string;
+};
+
 //샌드버드 전체 채널 리스트 request type
 export type SendBirdChannelMessageType = {
   channelUrl: string;

@@ -65,7 +65,6 @@ export default function MessageHeader({
   }, [channelUrl]);
 
   useEffect(() => {
-    console.log("멤버: ", memberList);
     if(memberList && memberList.pages?.length > 0){
       if(memberList.pages[0].data.members?.length > 0){
         setList(prev => [
@@ -135,7 +134,7 @@ export default function MessageHeader({
             width={22}
           />
           <Text fontSize={'14px'} fontWeight={500}>
-            참가자
+            멤버
           </Text>
         </Flex>
         <Flex

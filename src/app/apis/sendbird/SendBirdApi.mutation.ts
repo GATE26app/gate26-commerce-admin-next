@@ -8,9 +8,9 @@ export const EXAMPLE_API_MUTATION_KEY = {
 };
 
 export const useChatAllListMutation = (
-  params?: MutationHookParams<typeof sendBirdApi.getSendBirdAllChannelList>,
+  params?: MutationHookParams<typeof sendBirdApi.getSendBirdChannelListByType>,
 ) => {
-  return useMutation(sendBirdApi.getSendBirdAllChannelList, {
+  return useMutation(sendBirdApi.getSendBirdChannelListByType, {
     ...params?.options,
   });
 };
