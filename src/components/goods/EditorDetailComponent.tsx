@@ -182,12 +182,12 @@ function EditorDetailComponent({ list, setList }: Props) {
               modules={modules}
               formats={formats}
               // value={list}
-              value={DOMPurify.sanitize(he.decode(list))} // 디코딩 → XSS 제거 → 표시
+              value={DOMPurify.sanitize(he.decode(list || ""))} // 디코딩 → XSS 제거 → 표시
               onChange={hanleChange}
               readOnly={goodsInfo.LogItemDisable}
               style={{ height: '480px' }}
-              // onBlur={(e) => console.log('onblur', e)}
-              // register={..}
+            // onBlur={(e) => console.log('onblur', e)}
+            // register={..}
             />
           </Flex>
         </Flex>

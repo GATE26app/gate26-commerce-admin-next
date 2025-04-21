@@ -25,7 +25,9 @@ const sanitizeObject = (obj: any): any => {
   if (typeof obj === 'object' && obj !== null) {
     const sanitized: any = {};
     for (const [key, value] of Object.entries(obj)) {
-      if (key !== 'content') {
+      if (key === 'content') {
+        sanitized[key] = value;
+      } else {
         sanitized[key] = sanitizeObject(value);
       }
     }
