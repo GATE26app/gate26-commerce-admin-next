@@ -119,7 +119,11 @@ const sanitizeObject = (obj: any): any => {
   if (typeof obj === 'object' && obj !== null) {
     const sanitized: any = {};
     for (const [key, value] of Object.entries(obj)) {
-      sanitized[key] = sanitizeObject(value);
+      if (key === 'content') {
+        sanitized[key] = value;
+      } else {
+        sanitized[key] = sanitizeObject(value);
+      }
     }
     return sanitized;
   }
