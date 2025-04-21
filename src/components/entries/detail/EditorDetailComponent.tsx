@@ -174,7 +174,7 @@ function EditorDetailComponent({ EntriesData, setEntriesData }: Props) {
               modules={modules}
               formats={formats}
               // value={EntriesData.content}
-              value={DOMPurify.sanitize(he.decode(EntriesData.content))} // 디코딩 → XSS 제거 → 표시
+              value={DOMPurify.sanitize(he.decode(EntriesData.content || ""))} // 디코딩 → XSS 제거 → 표시
               onChange={(e: any) =>
                 setEntriesData({ ...EntriesData, content: e })
               }
