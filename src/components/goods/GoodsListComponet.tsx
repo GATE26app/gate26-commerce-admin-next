@@ -152,7 +152,10 @@ function GoodsListComponet({
     let partnerId =
       request.partnerId !== '' ? '&partnerId=' + request.partnerId : '';
     let itemCodes = CheckList.length > 0 ? '&itemCodes=' + CheckList : '';
-    const addUrl = `${forSale}${type}${status}${level}${searchKeyword}${partnerId}${itemCodes}`;
+    let tripCheck = request.tripCheck
+      ? '&tripCheck=' + true
+      : '&tripCheck=' + false;
+    const addUrl = `${forSale}${type}${status}${level}${searchKeyword}${partnerId}${itemCodes}${tripCheck}`;
     const url = `/backoffice/admin/download-items${and}${addUrl.slice(1)}`;
 
     try {
@@ -278,7 +281,6 @@ function GoodsListComponet({
         CheckList={CheckList}
         setCheckList={setCheckList}
         isLoading={isLoading}
-        
       />
       {/* {data?.totalCount !== undefined && data?.totalCount !== 0 ? (
         <GoodsDataTable data={data} setOnSubmit={setOnSubmit} />
