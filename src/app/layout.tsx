@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: 'GATE26 | 최고 관리자',
   // ✅ 구글 소유권 확인용 메타태그 추가
   other: {
-    'google-site-verification': 'k0_FRmOg2qCZ',
+    'google-site-verification': 'k0_FRmOg2qCZnKU1DkXD7_Wkur6Tps26iO7OfcQVPWc',
   },
   icons: {
     icon: '/favicon.ico',
