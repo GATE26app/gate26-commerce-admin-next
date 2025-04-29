@@ -15,6 +15,10 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: 'GATE26 | 최고 관리자',
   description: 'GATE26 | 최고 관리자',
+  // ✅ 구글 소유권 확인용 메타태그 추가
+  other: {
+    'google-site-verification': 'k0_FRmOg2qCZ',
+  },
   icons: {
     icon: '/favicon.ico',
   },
