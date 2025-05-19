@@ -57,18 +57,18 @@ function ImageComponent({ list, setList }: Props) {
     const sortedList = list.sort((itemA, itemB) => itemA.sort - itemB.sort);
     const imagePaths = [];
 
-    for(const image of sortedList){
-      if(image.imagePath) {
-        imagePaths.push(getImagePath(image.imagePath))
-      } else if(image.thumbnailImagePath){
-        imagePaths.push(image.thumbnailImagePath)
+    for (const image of sortedList) {
+      if (image.imagePath) {
+        imagePaths.push(getImagePath(image.imagePath));
+      } else if (image.thumbnailImagePath) {
+        imagePaths.push(image.thumbnailImagePath);
       } else {
-        imagePaths.push('/images/no_img.png')
+        imagePaths.push('/images/no_img.png');
       }
     }
 
     setImages(imagePaths);
-  }, [list])
+  }, [list]);
 
   const { mutate: ItemCodeMutate, isLoading } = usePostImageMutation({
     options: {
@@ -128,19 +128,21 @@ function ImageComponent({ list, setList }: Props) {
     };
   };
   const handleUploadImage = (e: any) => {
-    //이미지 미리보기 기능
+    const filename = e.target.files[0].name;
+    const extension = filename.split('.').pop().toLowerCase();
+
     const reader = new FileReader();
     if (
-      e.target.files[0].name.split('.')[1] !== 'jpg' &&
-      e.target.files[0].name.split('.')[1] !== 'JPG' &&
-      e.target.files[0].name.split('.')[1] !== 'jpeg' &&
-      e.target.files[0].name.split('.')[1] !== 'JPEG' &&
-      e.target.files[0].name.split('.')[1] !== 'png' &&
-      e.target.files[0].name.split('.')[1] !== 'PNG' &&
-      e.target.files[0].name.split('.')[1] !== 'gif' &&
-      e.target.files[0].name.split('.')[1] !== 'GIF' &&
-      e.target.files[0].name.split('.')[1] !== 'bmp' &&
-      e.target.files[0].name.split('.')[1] !== 'BMP'
+      extension !== 'jpg' &&
+      extension !== 'JPG' &&
+      extension !== 'jpeg' &&
+      extension !== 'JPEG' &&
+      extension !== 'png' &&
+      extension !== 'PNG' &&
+      extension !== 'gif' &&
+      extension !== 'GIF' &&
+      extension !== 'bmp' &&
+      extension !== 'BMP'
     ) {
       toast({
         position: 'top',
