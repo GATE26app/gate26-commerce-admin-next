@@ -268,8 +268,8 @@ export function getImagePath(imagePath) {
   return `${imgPath()}${imagePath}`;
 }
 export const DEV = () => {
-  return '';
-  // return 'dev';
+  // return '';
+  return 'dev';
 };
 
 // yyyy-mm-dd형식에 맞춰서 유효한 날짜인지 체크해주는 코드

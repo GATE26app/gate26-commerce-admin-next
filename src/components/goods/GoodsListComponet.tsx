@@ -26,14 +26,6 @@ import ButtonModal from '../common/Modal/ButtonModal';
 import LoadingModal from '../common/Modal/LoadingModal';
 import { getToken } from '@/utils/localStorage/token';
 
-// import { useCustomModalHandlerContext } from 'contexts/modal/useCustomModalHandler.context';
-
-interface ReqLoungeProps {
-  keyword?: string;
-  searchType?: number;
-  page: number;
-  limit: number;
-}
 
 interface Props {
   data: any;
@@ -80,7 +72,9 @@ function GoodsListComponet({
       newRequest.pageNo = 0;
     } else if (key === 'page') {
       // setPage(value as number);
+      
       newRequest.pageNo = Number(value);
+      console.log("page: ", Number(value));
       router.push(`/goodsSetting?page=${Number(value) + 1}`);
       setGoodsSettingFilterInfo({
         ...GoodsSettingFilterInfo,
@@ -103,6 +97,7 @@ function GoodsListComponet({
     setGoodsInfo({
       goodState: true,
     });
+    console.log("요청: ", newRequest);
     setRequest(newRequest);
   }
   const onClickExcel = () => {
