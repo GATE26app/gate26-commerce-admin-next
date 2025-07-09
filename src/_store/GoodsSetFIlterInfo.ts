@@ -11,7 +11,7 @@ interface GoodsSettingFilterInfoType {
   searchType: string;
   searchKeyword: string;
   type: null | number;
-  tripCheck: null | boolean;
+  tripCheck: boolean;
 }
 
 interface GoodsSettingFiterInfoState {
@@ -22,7 +22,7 @@ interface GoodsSettingFiterInfoState {
   deleteGoodsSettingFilterInfo: () => void;
 }
 
-const defaultState = {
+export const defaultState :GoodsSettingFilterInfoType  = {
   pageNo: 0,
   pageSize: 10,
   status: null, //0=>임시저장, 1=>승인, 2=>대기, 3=> 반려
@@ -34,15 +34,47 @@ const defaultState = {
   tripCheck: false,
 };
 
+// export const useGoodsSettingFilterZuInfo = create(
+//   persist<GoodsSettingFiterInfoState>(
+//     (set) => ({
+//       GoodsSettingFilterInfo: defaultState,
+//       setGoodsSettingFilterInfo: (
+//         GoodsSettingFilterInfo: GoodsSettingFilterInfoType,
+//       ) => {
+//         set({ GoodsSettingFilterInfo });
+//       },
+//       deleteGoodsSettingFilterInfo: () => {
+//         console.log('deleteGoodsSettingFilterInfo 호출됨');
+//       console.log('초기화 값:', defaultState);
+//         set({ GoodsSettingFilterInfo: defaultState });
+//       },
+//     }),
+//     {
+//       name: 'gate26',
+//       storage: createJSONStorage(() => sessionStorage),
+//       // storage: typeof window !== "undefined" ? window.localStorage : dummyStorageApi,
+//     },
+//   ),
+// );
+
 export const useGoodsSettingFilterZuInfo = create(
   persist<GoodsSettingFiterInfoState>(
     (set) => ({
       GoodsSettingFilterInfo: defaultState,
-      setGoodsSettingFilterInfo: (
-        GoodsSettingFilterInfo: GoodsSettingFilterInfoType,
-      ) => {
-        set({ GoodsSettingFilterInfo });
+
+      setGoodsSettingFilterInfo: (info) => {
+        set({ GoodsSettingFilterInfo: info });
       },
+
+      updatePartialFilter: (partial) => {
+        set((state) => ({
+          GoodsSettingFilterInfo: {
+            ...state.GoodsSettingFilterInfo,
+            ...partial,
+          },
+        }));
+      },
+
       deleteGoodsSettingFilterInfo: () => {
         set({ GoodsSettingFilterInfo: defaultState });
       },
@@ -50,7 +82,6 @@ export const useGoodsSettingFilterZuInfo = create(
     {
       name: 'gate26',
       storage: createJSONStorage(() => sessionStorage),
-      // storage: typeof window !== "undefined" ? window.localStorage : dummyStorageApi,
-    },
-  ),
+    }
+  )
 );
