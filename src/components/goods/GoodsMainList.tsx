@@ -1,3 +1,6 @@
+// 'use client';
+
+
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Box, Flex, Image, Text, useToast } from '@chakra-ui/react';
@@ -12,7 +15,7 @@ import CheckBox from '../common/CheckBox';
 
 function GoodsMainList() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   // const { GoodsSettingFilterInfo, deleteGoodsSettingFilterInfo } = useGoodsSettingFilterZuInfo((state) => state);
   const toast = useToast();
   const { goodsInfo, setGoodsInfo } = useGoodsStateZuInfo((state) => state);
@@ -73,16 +76,16 @@ function GoodsMainList() {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    const page = searchParams.get('page'); // 문자열 반환
-    if(page == null) {
-      deleteGoodsSettingFilterInfo();
-      const resetRequest = { ...defaultState };
-      setRequest(resetRequest)
-      refreshList(resetRequest);        // ✅ 직접 호출
-    }
-  }, [searchParams]);
+  //   const page = searchParams.get('page'); // 문자열 반환
+  //   if(page == null) {
+  //     deleteGoodsSettingFilterInfo();
+  //     const resetRequest = { ...defaultState };
+  //     setRequest(resetRequest)
+  //     refreshList(resetRequest);        // ✅ 직접 호출
+  //   }
+  // }, [searchParams]);
 
   useEffect(() => {
     refreshList(request);
