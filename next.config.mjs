@@ -32,13 +32,13 @@ const nextConfig = {
     return [
       {
         source: '/backoffice/:path*',
-        destination: 'https://cdbackoffice.gate26.co.kr/:path*',
+        destination: 'https://commercebackoffice/:path*',
         permanent: false
       },
       {
         source: '/api/:path*',
         // destination: 'https://auth.gate26.co.kr/auth/:path*',
-        destination: 'https://drest.gate26.co.kr/:path*',
+        destination: 'https://rest.gate26.co.kr/:path*',
         // destination: 'http://10.254.121.143:40000/auth/:path*',
         permanent: false,
       },
