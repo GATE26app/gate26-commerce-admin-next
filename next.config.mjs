@@ -32,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: '/backoffice/:path*',
-        destination: 'https://commercebackoffice/:path*',
+        destination: 'https://commercebackoffice.gate26.co.kr/:path*',
         permanent: false
       },
       {
